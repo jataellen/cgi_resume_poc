@@ -333,7 +333,7 @@ def resume_stream(st, file_path):
 
 
 st.title('ResumeGenie')
-
+uploaded_file = None
 uploaded_file = st.file_uploader("Choose a PDF file", type="pdf")
 log_box = st.empty()
 
@@ -361,8 +361,7 @@ if uploaded_file is not None:
         st.download_button(label="Download Updated Resume", data=f, file_name=new_file_name, mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
     log("Provided download link for updated resume")
 
-    uploaded_file = None
-    st.experimental_rerun()
+    
 
 else:
     st.write("No PDF uploaded yet.")
