@@ -363,7 +363,7 @@ if uploaded_file is not None:
 
     uploaded_file = None
     os.remove("temp.pdf")
-    log(f"Deleted temporary file"
+    log(f"Deleted temporary file")
 
 else:
     st.write("No PDF uploaded yet.")
