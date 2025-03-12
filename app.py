@@ -356,10 +356,8 @@ if uploaded_file is not None:
     os.rename("updated_resume.docx", new_file_name)
     log( f"Renamed updated resume to: {new_file_name}")
 
-    uploaded_file = None
-    st.session_state["uploaded_file"] = None
-    os.remove("temp.pdf")
-    log(f"Deleted temporary file")
+    uploaded_file = st.file_uploader("Choose a PDF file", type="pdf")
+    
 
     # Provide a download link for the updated resume
     with open(new_file_name, "rb") as f:
