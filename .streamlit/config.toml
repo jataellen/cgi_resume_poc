@@ -1,0 +1,7 @@
+[theme]
+base="dark"
+primaryColor="#C084FC"  # Soft Lavender Purple
+backgroundColor="#2A0037"  # Deep Dark Purple
+secondaryBackgroundColor="#5E0F6E"  # Muted Rich Purple
+textColor="#EDE7F6"  # Light Lavender White
+font="Roboto"
