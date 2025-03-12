@@ -333,7 +333,7 @@ def resume_stream(st, file_path):
 
 
 st.title('ResumeGenie')
-
+uploaded_file = None
 uploaded_file = st.file_uploader("Choose a PDF file", type="pdf")
 log_box = st.empty()
 
@@ -355,9 +355,6 @@ if uploaded_file is not None:
         log(f"Deleted existing file: {new_file_name}")
     os.rename("updated_resume.docx", new_file_name)
     log( f"Renamed updated resume to: {new_file_name}")
-
-    uploaded_file = st.file_uploader("Choose a PDF file", type="pdf")
-    
 
     # Provide a download link for the updated resume
     with open(new_file_name, "rb") as f:
