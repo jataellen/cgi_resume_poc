@@ -340,12 +340,13 @@ log_box = st.empty()
 if uploaded_file is not None:
     # Save the uploaded file temporarily
     original_file_name = uploaded_file.name
-    with open("temp.pdf", "wb") as f:
+    temp_file_path = "temp.pdf"
+    with open(temp_file_path, "wb") as f:
         f.write(uploaded_file.read())
-    log( f"Uploaded file: {original_file_name}")
+    log(f"Uploaded file: {original_file_name}")
 
     # Process the PDF (assuming resume_stream creates updated_resume.docx)
-    resume_stream( st, "temp.pdf")
+    resume_stream(st, temp_file_path)
     log("Processed the PDF")
 
     # Rename the updated resume, and delete if it already exists
@@ -354,12 +355,16 @@ if uploaded_file is not None:
         os.remove(new_file_name)
         log(f"Deleted existing file: {new_file_name}")
     os.rename("updated_resume.docx", new_file_name)
-    log( f"Renamed updated resume to: {new_file_name}")
+    log(f"Renamed updated resume to: {new_file_name}")
 
     # Provide a download link for the updated resume
     with open(new_file_name, "rb") as f:
         st.download_button(label="Download Updated Resume", data=f, file_name=new_file_name, mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
     log("Provided download link for updated resume")
+
+    # Delete the temporary file after processing
+    os.remove(temp_file_path)
+    log(f"Deleted temporary file: {temp_file_path}")
 
 else:
     st.write("No PDF uploaded yet.")
