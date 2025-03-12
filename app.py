@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import fitz  # PyMuPDF
 import os
 from openai import AzureOpenAI
 from langchain_openai import AzureChatOpenAI
