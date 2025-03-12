@@ -332,7 +332,7 @@ def resume_stream(st, file_path):
 
 
 
-st.title('CGI Resume POC')
+st.title('ResumeGenie')
 
 uploaded_file = st.file_uploader("Choose a PDF file", type="pdf")
 log_box = st.empty()
@@ -357,9 +357,10 @@ if uploaded_file is not None:
     log( f"Renamed updated resume to: {new_file_name}")
 
     uploaded_file = None
+    st.session_state["uploaded_file"] = None
     os.remove("temp.pdf")
     log(f"Deleted temporary file")
-    
+
     # Provide a download link for the updated resume
     with open(new_file_name, "rb") as f:
         st.download_button(label="Download Updated Resume", data=f, file_name=new_file_name, mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
