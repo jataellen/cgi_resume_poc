@@ -362,7 +362,7 @@ if uploaded_file is not None:
     log("Provided download link for updated resume")
 
     if st.download_button:
-        st.experimental_rerun()  # Trigger the page refresh
+        st.rerun()  # Trigger the page refresh
 
     
 
