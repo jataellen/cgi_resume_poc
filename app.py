@@ -338,13 +338,16 @@ with st.form("my-form", clear_on_submit=True):
     uploaded_file = st.file_uploader("Choose a PDF file", type="pdf")
     submitted = st.form_submit_button("Submit")
 
+
+
+log_box = st.empty()
+
 if submitted and uploaded_file is not None:
     # Save the uploaded file temporarily
     original_file_name = uploaded_file.name
     with open("temp.pdf", "wb") as f:
         f.write(uploaded_file.read())
-    
-    st.write(f"Uploaded file: {original_file_name}")
+    log( f"Uploaded file: {original_file_name}")
 
     # Process the PDF (assuming resume_stream creates updated_resume.docx)
     resume_stream( st, "temp.pdf")
