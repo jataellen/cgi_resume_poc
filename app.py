@@ -333,23 +333,19 @@ def resume_stream(st, file_path):
 
 
 st.title('ResumeGenie')
-# Initialize session state
-if 'uploaded_file' not in st.session_state:
-    st.session_state.uploaded_file = None
 
-uploaded_file = st.file_uploader("Choose a PDF file", type="pdf", key='uploaded_file')
-log_box = st.empty()
+with st.form("my-form", clear_on_submit=True):
+    uploaded_file = st.file_uploader("Choose a PDF file", type="pdf")
+    submitted = st.form_submit_button("Submit")
 
-if st.session_state.uploaded_file is not None:
+if submitted and uploaded_file is not None:
     # Save the uploaded file temporarily
-    original_file_name = st.session_state.uploaded_file.name
+    original_file_name = uploaded_file.name
     with open("temp.pdf", "wb") as f:
-        f.write(st.session_state.uploaded_file.read())
+        f.write(uploaded_file.read())
     
-    log_box.write(f"Uploaded file: {original_file_name}")
-    
-    # Clear the file uploader
-    st.session_state.uploaded_file = None
+    st.write(f"Uploaded file: {original_file_name}")
+
     # Process the PDF (assuming resume_stream creates updated_resume.docx)
     resume_stream( st, "temp.pdf")
     log("Processed the PDF")
