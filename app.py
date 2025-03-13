@@ -361,8 +361,7 @@ if uploaded_file is not None:
         st.download_button(label="Download Updated Resume", data=f, file_name=new_file_name, mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
     log("Provided download link for updated resume")
 
-    if st.download_button:
-        st.rerun()  # Trigger the page refresh
+    st.stop()
 
     
 
