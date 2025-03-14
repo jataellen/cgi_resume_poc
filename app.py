@@ -63,7 +63,8 @@ def replace_text_in_docx(doc, replacements):
     """
     Replaces text in a DOCX file, and replicates sections based on the specified start and end tags.
     """
-    for key, value in replacements:
+    filtered_replacements = {k: v for k, v in replacements.items() if v is not None}
+    for key, value in filtered_replacements:
         log(f"Working on key: {key}")
         # st.write(f"Working on key: {key}\nValue: {value}")
         for paragraph in doc.paragraphs:
@@ -147,7 +148,9 @@ def generate_resume(structured_data, years_exp, profile, res_dict):
     full_name = structured_data['contact']['name']
     cgi_title = "Consultant"
     sector = "Health Services"
-    certs = [f"{i['name']}, {i['issuing_organization']}" for i in structured_data['certifications']]
+    certs = None
+    if 'certifications' in structured_data:
+        certs = [f"{i['name']}, {i['issuing_organization']}" for i in structured_data['certifications']]
     replacements = [
         ("{full_name}", full_name),
         ("{cgi_title}", cgi_title),
