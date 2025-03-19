@@ -28,3 +28,8 @@ python -m venv rg-venv
 .\rg-venv\Scripts\activate
 
 pip install -r requirements.txt
+
+# Run frontend on streamlit
+streamlit run app.py 
+
+# Pushing to main deploys to streamlit
