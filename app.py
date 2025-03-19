@@ -63,7 +63,9 @@ def replace_text_in_docx(doc, replacements):
     """
     Replaces text in a DOCX file, and replicates sections based on the specified start and end tags.
     """
-    filtered_replacements = {k: v for k, v in replacements.items() if v is not None}
+    filtered_replacements = [(el[0], el[1]) for el in replacements]
+
+    # {k: v for k, v in el if v is not None for el in}
     for key, value in filtered_replacements:
         log(f"Working on key: {key}")
         # st.write(f"Working on key: {key}\nValue: {value}")
@@ -186,12 +188,16 @@ def generate_resume(structured_data, years_exp, profile, res_dict):
             replacements.append( ("{" + key + "}", value) )
     times_to_repeat = len(o_exp) -1
     replicate_section(doc, "{begin_other_exp}", "{end_other_exp}", replacements, times_to_repeat)
-
+    st.write(structured_data['education'])
     # Skills summary
     table_reps = []
     for key, value in res_dict['skills_summary'].items():
         table_reps.append( ("{" + key + "}", value) )
-    ed_list = [f"{el['degree']}, {el['field_of_study']} - {el['institution']}" for el in structured_data['education']]
+    # ed_list = [f"{el['degree']}, {el['field_of_study']} - {el['institution']}" for el in structured_data['education']]
+    ed_list = [
+        ', '.join(el[k] for k in ['degree', 'field_of_study', 'institution'] if k in el)
+        for el in structured_data['education']
+    ]
     replacements.append( ("{education_entry}", ed_list) )
 
 
