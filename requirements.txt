@@ -16,3 +16,4 @@ python-docx
 pytz==2024.2
 tiktoken==0.8.0
 tinycss2==1.4.0
+streamlit
