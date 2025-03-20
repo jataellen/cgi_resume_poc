@@ -4,7 +4,7 @@
         "human_prompt": "Using the following experience section in JSON format:\n\n{text_input}\n\nReformat it into the following structured JSON format, explicitly separating CGI Experience and Other Experience:\n{json_dump}\n\nEnsure the following:\n- Experience at CGI and its clients should be placed under 'cgi_experience'.\n- All other jobs should be placed under 'other_experience'.\n- Format job titles and dates as follows: 'Senior Consultant - Data Scientist (11/24 to Present)'.\n- Rewrite responsibilities into clear, action-based bullet points.\n- Include a 'Technology' field listing relevant technologies used.\n- Ensure consistency and readability.",
         "json_schema": {
             "name": "formatted_experience",
-            "description": "Formats the experience section of a resume into structured JSON with explicit separation of 'CGI Experience' and 'Other Experience'.",
+            "description": "Formats the experience section of a resume into structured JSON with explicit separation of 'CGI Experience' and 'Other Experience'. and test!",
             "parameters": {
                 "type": "object",
                 "properties": {
