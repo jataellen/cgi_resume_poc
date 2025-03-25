@@ -352,32 +352,27 @@ with st.form("my-form", clear_on_submit=True):
 log_box = st.empty()
 
 if submitted and uploaded_file is not None:
-    # Save the uploaded file temporarily
     original_file_name = uploaded_file.name
     with open("temp.pdf", "wb") as f:
         f.write(uploaded_file.read())
-    log( f"Uploaded file: {original_file_name}")
+    log(f"Uploaded file: {original_file_name}")
 
-    # Process the PDF (assuming resume_stream creates updated_resume.docx)
-    resume_stream( st, "temp.pdf")
-    log("Processed the PDF")
+    if resume_stream(st, "temp.pdf"):
+        log("Processed the PDF")
 
-    # Rename the updated resume, and delete if it already exists
-    new_file_name = os.path.splitext(original_file_name)[0] + "_updated.docx"
-    if os.path.exists(new_file_name):
-        os.remove(new_file_name)
-        log(f"Deleted existing file: {new_file_name}")
-    os.rename("updated_resume.docx", new_file_name)
-    log( f"Renamed updated resume to: {new_file_name}")
+        new_file_name = os.path.splitext(original_file_name)[0] + "_updated.docx"
+        if os.path.exists(new_file_name):
+            os.remove(new_file_name)
+            log(f"Deleted existing file: {new_file_name}")
+        os.rename("updated_resume.docx", new_file_name)
+        log(f"Renamed updated resume to: {new_file_name}")
 
-    # Provide a download link for the updated resume
-    with open(new_file_name, "rb") as f:
-        st.download_button(label="Download Updated Resume", data=f, file_name=new_file_name, mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
-    log("Provided download link for updated resume")
-
-
-    
-
+        with open(new_file_name, "rb") as f:
+            st.download_button(label="Download Updated Resume", data=f, file_name=new_file_name, mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+        log("Provided download link for updated resume")
+        st.success("Your resume has been updated successfully! You can download it now.")
+    else:
+        st.error("There was an error processing your resume. Please try again.")
 else:
     st.write("No PDF uploaded yet.")
 
