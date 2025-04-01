@@ -1,0 +1,70 @@
+{
+    "fname": "<name of the invoice file>",
+    "expected": {
+        "customer_name": "",
+        "customer_address": {
+            "street": "",
+            "city": "",
+            "state": "",
+            "postal_code": "",
+            "country": ""
+        },
+        "customer_tax_id": "",
+        "shipping_address": "",
+        "purchase_order": "",
+        "invoice_id": "",
+        "invoice_date": "",
+        "payable_by": "",
+        "vendor_name": "",
+        "vendor_address": "",
+        "vendor_tax_id": "",
+        "remittance_address": "",
+        "subtotal": 0,
+        "total_discount": 0,
+        "total_tax": 0,
+        "invoice_total": 0,
+        "payment_terms": "",
+        "items": [
+            {
+                "product_code": "",
+                "description": "",
+                "quantity": 0,
+                "tax": 0,
+                "tax_rate": "",
+                "unit_price": 0,
+                "total": 0,
+                "reason": null
+            }
+        ],
+        "total_item_quantity": 0,
+        "items_customer_signature": {
+            "signatory": "",
+            "is_signed": true
+        },
+        "items_vendor_signature": {
+            "signatory": "",
+            "is_signed": true
+        },
+        "returns": [
+            {
+                "product_code": "",
+                "description": "",
+                "quantity": 0,
+                "tax": null,
+                "tax_rate": null,
+                "unit_price": null,
+                "total": null,
+                "reason": ""
+            }
+        ],
+        "total_return_quantity": 0,
+        "returns_customer_signature": {
+            "signatory": "",
+            "is_signed": true
+        },
+        "returns_vendor_signature": {
+            "signatory": "",
+            "is_signed": true
+        }
+    }
+}
