@@ -7,7 +7,15 @@ from src.resume_generator import generate_resume
 import os
 import json
 import datetime
+from langchain_core.caches import BaseCache
+# from langchain.chat_models import AzureChatOpenAI
 
+# Define or import BaseCache
+class MyCache(BaseCache):
+    pass
+
+# Call model_rebuild
+AzureChatOpenAI.model_rebuild()
 os.environ["AZURE_OPENAI_API_KEY"] = "EOkfcf05uMhPPi5vtu0OmXUMrpdNc4Ji65zbVs1iZZGbbdGvunPhJQQJ99BBACYeBjFXJ3w3AAABACOGejoY"
 os.environ["AZURE_OPENAI_ENDPOINT"] = "https://cgi-resume-openai.openai.azure.com/openai/deployments/gpt-4o/chat/completions?api-version=2024-10-21"
 
