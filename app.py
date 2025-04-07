@@ -152,7 +152,11 @@ def generate_resume(structured_data, years_exp, profile, res_dict):
     sector = "Health Services"
     certs = None
     if 'certifications' in structured_data:
-        certs = [f"{i['name']}, {i['issuing_organization']}" for i in structured_data['certifications']]
+       certs = [
+    f"{i.get('name', 'N/A')}, {i.get('issuing_organization', 'Unknown')}"
+    for i in structured_data.get('certifications', [])
+]
+
     replacements = [
         ("{full_name}", full_name),
         ("{cgi_title}", cgi_title),
@@ -188,7 +192,7 @@ def generate_resume(structured_data, years_exp, profile, res_dict):
             replacements.append( ("{" + key + "}", value) )
     times_to_repeat = len(o_exp) -1
     replicate_section(doc, "{begin_other_exp}", "{end_other_exp}", replacements, times_to_repeat)
-    st.write(structured_data['education'])
+    # st.write(structured_data['education'])
     # Skills summary
     table_reps = []
     for key, value in res_dict['skills_summary'].items():
@@ -198,7 +202,8 @@ def generate_resume(structured_data, years_exp, profile, res_dict):
         ', '.join(el[k] for k in ['degree', 'field_of_study', 'institution'] if k in el)
         for el in structured_data['education']
     ]
-    replacements.append( ("{education_entry}", ed_list) )
+    education_entry = "\n".join(ed_list)
+    replacements.append( ("{education_entry}", education_entry) )
 
 
     replace_text_in_docx(doc, replacements)
