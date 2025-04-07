@@ -7,33 +7,18 @@ from src.resume_generator import generate_resume
 import os
 import json
 import datetime
-from langchain_openai import AzureChatOpenAI
-from langchain_core.caches import BaseCache, RETURN_VAL_TYPE
-from typing import Dict, Any, Optional
-
-# Define a custom BaseCache implementation if needed
-class MyBaseCache(BaseCache):
-    def __init__(self):
-        pass
-        
-    def lookup(self, prompt: str, llm_string: str) -> Optional[RETURN_VAL_TYPE]:
-        return None
-        
-    def update(self, prompt: str, llm_string: str, return_val: RETURN_VAL_TYPE) -> None:
-        pass
-
 
 os.environ["AZURE_OPENAI_API_KEY"] = "EOkfcf05uMhPPi5vtu0OmXUMrpdNc4Ji65zbVs1iZZGbbdGvunPhJQQJ99BBACYeBjFXJ3w3AAABACOGejoY"
 os.environ["AZURE_OPENAI_ENDPOINT"] = "https://cgi-resume-openai.openai.azure.com/openai/deployments/gpt-4o/chat/completions?api-version=2024-10-21"
 
 def resume_stream(st, file_path):
+    
     llm = AzureChatOpenAI(
         azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
         api_key=os.environ["AZURE_OPENAI_API_KEY"],
         api_version="2024-12-01-preview",
         deployment_name="gpt-4o",
         model="gpt-4o",  # Ensure function calling support
-        cache=MyBaseCache(), 
     )
 
     # file_path = "Bila Gaite Resume - CGI Consulting  copy 1.pdf"

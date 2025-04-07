@@ -1,3 +1,4 @@
+
 azure-core==1.32.0
 azure-identity==1.20.0
 langchain==0.3.10
@@ -16,3 +17,4 @@ pytz==2024.2
 tiktoken==0.8.0
 tinycss2==1.4.0
 streamlit
+pydantic==2.8
