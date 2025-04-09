@@ -1,4 +1,40 @@
 # --------------------------------------------------------------------------------
+STRUCTURED_DATA_SP = "You are an AI that extracts structured information from plain text resumes and returns JSON output."
+
+STRUCTURED_DATA_HP = """
+Extract and structure the following text into JSON format:
+{pdf_text}
+
+Ensure the response matches this schema:
+{json_input}
+"""
+# --------------------------------------------------------------------------------
+SUMMARY_SP = "You are an AI that takes structured resumes in JSON format and writes a compelling, professional summary of the applicant."
+
+SUMMARY_HP = """
+Using the following structured resume data in JSON format:
+
+
+{structured_data}
+
+Write a well-crafted, three-paragraph professional profile of the applicant in the third person. 
+Keep a good balance of detailed and concise. Do not use AI-isms
+Incorporate their professional summary, work experience, education, skills, certifications, and any notable achievements. 
+Highlight their expertise, impact, and technical skills, ensuring the profile flows naturally and is engaging.
+"""
+# --------------------------------------------------------------------------------
+PROFILE_SP = "You are an AI that takes in a professional summary and determines the applicants years of experience."
+
+PROFILE_HP = """
+Using the following professional summary:
+
+{profile}
+
+Write a very concise header desribing their experience in the following format:
+<X> years experience in <X_category>
+ex: 5 years of experience in Software Development
+"""
+# --------------------------------------------------------------------------------
 EXPERIENCE_SP = "You are an AI that reformats and structures job experience data from resumes into a JSON format with clearly separated 'CGI Experience' and 'Other Experience' sections."
 
 EXPERIENCE_HP = """
