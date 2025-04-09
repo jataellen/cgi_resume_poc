@@ -2,7 +2,7 @@
 rg-venv/
 
 # Python cache directories
-src/__pycache__/
+__pycache__/
 
 # Temporary PDF files
 temp.pdf
