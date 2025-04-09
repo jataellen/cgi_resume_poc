@@ -1,0 +1,5 @@
+# Python virtual environment folders
+rg-venv/
+
+# Python cache directories
+__pycache__/
