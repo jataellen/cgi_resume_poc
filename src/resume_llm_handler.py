@@ -7,8 +7,10 @@ from src.resume_generator import generate_resume
 import os
 import json
 import datetime
+from dotenv import load_dotenv
 
 def resume_stream(st, file_path):
+    load_dotenv()
     
     llm = AzureChatOpenAI(
         azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
