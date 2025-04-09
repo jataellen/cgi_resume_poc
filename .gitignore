@@ -3,3 +3,6 @@ rg-venv/
 
 # Python cache directories
 __pycache__/
+
+# Temporary PDF files
+temp.pdf
