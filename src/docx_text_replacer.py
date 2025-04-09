@@ -13,6 +13,7 @@ def replace_text_in_docx(doc, replacements):
         for paragraph in doc.paragraphs:
         
             if key in paragraph.text:
+                # print(key,value)
                 if isinstance(value, list):
                     paragraph.style = 'ListBullet'
                     x_par = paragraph._p

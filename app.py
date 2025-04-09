@@ -3,10 +3,6 @@ import os
 from src.logs_manager import log, initialize_log_box  # Import initialize_log_box
 from src.resume_llm_handler import resume_stream
 
-os.environ["AZURE_OPENAI_API_KEY"] = "EOkfcf05uMhPPi5vtu0OmXUMrpdNc4Ji65zbVs1iZZGbbdGvunPhJQQJ99BBACYeBjFXJ3w3AAABACOGejoY"
-os.environ["AZURE_OPENAI_ENDPOINT"] = "https://cgi-resume-openai.openai.azure.com/openai/deployments/gpt-4o/chat/completions?api-version=2024-10-21"
-
-
 # Streamlit app frontend
 st.title('ResumeGenie')
 
