@@ -8,9 +8,6 @@ import os
 import json
 import datetime
 
-os.environ["AZURE_OPENAI_API_KEY"] = "EOkfcf05uMhPPi5vtu0OmXUMrpdNc4Ji65zbVs1iZZGbbdGvunPhJQQJ99BBACYeBjFXJ3w3AAABACOGejoY"
-os.environ["AZURE_OPENAI_ENDPOINT"] = "https://cgi-resume-openai.openai.azure.com/openai/deployments/gpt-4o/chat/completions?api-version=2024-10-21"
-
 def resume_stream(st, file_path):
     
     llm = AzureChatOpenAI(
@@ -21,7 +18,6 @@ def resume_stream(st, file_path):
         model="gpt-4o",  # Ensure function calling support
     )
 
-    # file_path = "Bila Gaite Resume - CGI Consulting  copy 1.pdf"
 
     loader = PyPDFLoader(file_path)
     pages = []
