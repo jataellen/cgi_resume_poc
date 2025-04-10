@@ -169,9 +169,6 @@ if st.session_state.processed_files:
             else:
                 st.write("N/A")
 
-        # Add a separator between rows
-        st.markdown("---")
-
     # Download All button
     successful_files = [
         file
