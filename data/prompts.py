@@ -14,11 +14,13 @@ SUMMARY_SP = "You are an AI that takes structured resumes in JSON format and wri
 SUMMARY_HP = """
 Using the following structured resume data in JSON format:
 
-
 {structured_data}
 
-Write a well-crafted, three-paragraph professional profile of the applicant in the third person. 
-Keep a good balance of detailed and concise. Do not use AI-isms
+Write a well-crafted, two-to-three paragraph professional profile of the applicant in the third person. 
+Each paragraph should be 3-4 sentences, but not too long. Avoid run-on sentences
+The length should reflect their experience level, if they have under 10 years exp, consider shortening it
+Keep a good balance of detailed and concise. Do not use AI-isms, use human-like language, do not be stuffy
+Use specific examples showing aptitude, if applicable
 Incorporate their professional summary, work experience, education, skills, certifications, and any notable achievements. 
 Highlight their expertise, impact, and technical skills, ensuring the profile flows naturally and is engaging.
 """
@@ -35,22 +37,54 @@ Write a very concise header desribing their experience in the following format:
 ex: 5 years of experience in Software Development
 """
 # --------------------------------------------------------------------------------
-EXPERIENCE_SP = "You are an AI that reformats and structures job experience data from resumes into a JSON format with clearly separated 'CGI Experience' and 'Other Experience' sections."
+GENERAL_EXPERIENCE_SP = "You are an AI that reformats and structures job experience data from resumes into a JSON format."
 
-EXPERIENCE_HP = """
-Using the following experience section in JSON format:{text_input}
+GENERAL_EXPERIENCE_HP = """
+Using the following experience section in JSON format:
+{text_input}
 
-Reformat it into the following structured JSON format, explicitly separating CGI Experience and Other Experience:
+Reformat it into the following structured JSON format:
 {json_dump}
 
-Ensure the following:
-- Experience at CGI and its clients should be placed under 'cgi_experience'.
-- All other jobs should be placed under 'other_experience'.
-- Format job titles and dates as follows: 'Senior Consultant - Data Scientist (11/24 to Present)'.
+Reformat the experience section into a structured JSON format, ensuring the following:
+- Clearly include fields for 'company', 'job_title', 'start_date', 'end_date', 'responsibilities', and 'technologies'.
+
 - Rewrite responsibilities into clear, action-based bullet points.
-- Include a 'Technology' field listing relevant technologies used.
-- Ensure consistency and readability.
+- Include a 'Technologies' field listing relevant technologies used.
+- Ensure consistency, readability, and completeness.
 """
+
+SEP_EXPERIENCE_SP = "You are an AI that reformats and structures job experience data from resumes into a JSON format with clearly separated 'CGI Experience' and 'Other Experience' sections."
+
+SEP_EXPERIENCE_HP = """
+Using the following experience section in JSON format:
+{text_input}
+
+Reformat it into the following structured JSON format, explicitly separating CGI Experience and Other Experience:
+
+Ensure the following:
+- Place a job under 'cgi_experience' only if the job clearly indicates that the work was performed at CGI or that the candidate was employed by CGI. This should be evident if the employer or client name explicitly includes 'CGI' (e.g., 'CGI', 'CGI Inc.', 'CGI Americas'). Do not classify a job as CGI Experience if the connection to CGI is merely tangential or if the job was performed for a CGI client without direct employment.
+** IMPORTANT - If no CGI-related jobs are present, leave the 'cgi_experience' section empty. **
+- All other jobs should be placed under 'other_experience'.
+
+For CGI experience format:
+- client_or_sector: Use client name if available (e.g., "Bank of America"), otherwise use sector (e.g., "Financial Services")
+- position_title (keep original job title)
+- start_date (formatted as MM/YY)
+- end_date (formatted as MM/YY or Present)
+- responsibilities (as action-based bullet points)
+- technologies (as an array of technologies used)
+
+For other experience format:
+- company (company name)
+- position_title (keep original job title)
+- start_date (formatted as MM/YY)
+- end_date (formatted as MM/YY or Present)
+- responsibilities (as action-based bullet points)
+
+Rewrite responsibilities into clear, action-based bullet points if needed.
+"""
+
 # --------------------------------------------------------------------------------
 VOLUNTEER_SP = "You are an AI that reformats and structures volunteer experience from resumes into a structured JSON format."
 
@@ -67,26 +101,33 @@ Important Notes:
 - Responsibilities should be rewritten into clear, action-based bullet points.
 """
 # --------------------------------------------------------------------------------
+OTHER_SECTIONS_SP = "You are an AI that extracts and organizes a resume into specific sections like Industry Experience, Technical Specializations, Areas of Expertise, etc."
+
 OTHER_SECTIONS_HP = """
-Please analyze the following resume content and organize it into the sections below:
+Analyze the resume content below and organize it into the following sections:
+
 Resume: {text_input}
 
 Industry Experience:
 Technical Specializations:
 Areas of Expertise:
-Languages:
+Languages (note: NATURAL languages, not programming):
 Environments:
 Tools & Software:
 
-Now, format the content into a structured JSON, following the schema below:
+- Only use information explicitly provided in the resume; do not fabricate entries.
+- Do not include too many entries, focus on the most relevant 
+
+Format the extracted information as structured JSON according to this schema:
 {json_dump}
 
-Ensure the sections are clearly organized, and the content under each section is concise and appropriately categorized.
+Ensure the sections are clearly defined and appropriately categorized.
 """
-# --------------------------------------------------------------------------------
-SKILLS_SUMMARY_SP =  "You are an AI that extracts and organizes a resume into a structured skills summary, categorizing skills into Technical Skills, Application Knowledge, IT Disciplines, Industry Knowledge, and Other Relevant Skills."
 
-SKILLS_SUMMARY_HP =  """
+# --------------------------------------------------------------------------------
+SKILLS_SUMMARY_SP = "You are an AI that extracts and organizes a resume into a structured skills summary, categorizing skills into Technical Skills, Application Knowledge, IT Disciplines, Industry Knowledge, and Other Relevant Skills."
+
+SKILLS_SUMMARY_HP = """
 Please analyze the following resume content and organize it into the sections below: 
 
 Resume: {text_input}
@@ -110,4 +151,3 @@ Provide the output in the following JSON format:
 Ensure the sections are clear, with each skill listed under the appropriate category with the number of years of experience and skill level.
 """
 # --------------------------------------------------------------------------------
-

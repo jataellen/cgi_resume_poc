@@ -1,0 +1,145 @@
+{
+    "general_experience": {
+        "json_schema": {
+            "name": "formatted_experience",
+            "description": "Formats the experience section of a resume into structured JSON without separating CGI Experience and Other Experience.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "experience": {
+                        "type": "array",
+                        "description": "List of all job experiences.",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "company": {
+                                    "type": "string",
+                                    "description": "Company name"
+                                },
+                                "sector": {
+                                    "type": "string",
+                                    "description": "Industry of the type of work (e.g., Healthcare, Financial services)"
+                                },
+                                "job_title": {
+                                    "type": "string",
+                                    "description": "Job title"
+                                },
+                                "start_date": {
+                                    "type": "string",
+                                    "description": "Start date (MM/YY)"
+                                },
+                                "end_date": {
+                                    "type": "string",
+                                    "description": "End date (MM/YY) or 'Present'"
+                                },
+                                "responsibilities": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "description": "Key responsibilities in bullet points"
+                                },
+                                "technologies": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "description": "List of relevant technologies used"
+                                }
+                            }
+                        }
+                    }
+                },
+                "required": [
+                    "experience"
+                ]
+            }
+        }
+    },
+    "sep_experience": {
+        "json_schema": {
+            "name": "formatted_experience",
+            "description": "Formats the experience section of a resume into structured JSON with explicit separation of 'CGI Experience' and 'Other Experience'.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "cgi_experience": {
+                        "type": "array",
+                        "description": "List of jobs under CGI Experience",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "client_or_sector": {
+                                    "type": "string",
+                                    "description": "Industry of the type of work (ex: Healthcare, Financial services)"
+                                },
+                                "position_title": {
+                                    "type": "string",
+                                    "description": "Job title"
+                                },
+                                "start_date": {
+                                    "type": "string",
+                                    "description": "Start date (MM/YY)"
+                                },
+                                "end_date": {
+                                    "type": "string",
+                                    "description": "End date (MM/YY) or 'Present'"
+                                },
+                                "responsibilities": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "description": "Key responsibilities in bullet points"
+                                },
+                                "technologies": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "description": "List of relevant technologies used"
+                                }
+                            }
+                        }
+                    },
+                    "other_experience": {
+                        "type": "array",
+                        "description": "List of jobs under Other Experience",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "company": {
+                                    "type": "string",
+                                    "description": "Company name"
+                                },
+                                "position_title": {
+                                    "type": "string",
+                                    "description": "Job title"
+                                },
+                                "start_date": {
+                                    "type": "string",
+                                    "description": "Start date (MM/YY)"
+                                },
+                                "end_date": {
+                                    "type": "string",
+                                    "description": "End date (MM/YY) or 'Present'"
+                                },
+                                "responsibilities": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "description": "Key responsibilities in bullet points"
+                                }
+                            }
+                        }
+                    }
+                },
+                "required": [
+                    "cgi_experience",
+                    "other_experience"
+                ]
+            }
+        }
+    }
+}

@@ -2,6 +2,7 @@ from openai import AzureOpenAI
 from langchain_openai import AzureChatOpenAI
 from langchain.schema import SystemMessage, HumanMessage
 from langchain_community.document_loaders import PyPDFLoader
+from src.experience_chain import experience_chain
 from src.logs_manager import log
 from src.resume_generator import generate_resume
 import os
@@ -22,7 +23,11 @@ def generate_llm_content(
 
     try:
         format_args = format_args or {}
-        human_content = human_prompt_template.format(**format_args)
+        current_date = datetime.datetime.now().date()
+        human_content = (
+            human_prompt_template.format(**format_args)
+            + f"\n\nCurrent Date: {current_date}"
+        )
 
         messages = [
             SystemMessage(content=system_prompt),
@@ -98,32 +103,38 @@ def resume_stream(st, progress_bar, base_progress, file_progress_weight, file_pa
         format_args={"profile": profile},
     )
 
-    def call_llm(overall, section, text_input=pdf_text):
+    def call_llm(all_schemas, section, text_input=pdf_text):
+        sp = eval(f"{section.upper()}_SP")
+        hp = eval(f"{section.upper()}_HP")
         messages = [
-            SystemMessage(content=overall[section]["system_prompt"]),
+            SystemMessage(content=sp),
             HumanMessage(
                 content=(
-                    overall[section]["human_prompt"].format(
+                    hp.format(
                         text_input=text_input,
-                        json_dump=json.dumps(overall[section]["json_schema"], indent=2),
+                        json_dump=json.dumps(
+                            all_schemas[section]["json_schema"], indent=2
+                        ),
                     )
                 )
             ),
         ]
-        response = llm.invoke(messages, functions=[overall[section]["json_schema"]])
+        response = llm.invoke(messages, functions=[all_schemas[section]["json_schema"]])
         structured_data = response.additional_kwargs["function_call"]["arguments"]
         json_structured_data = json.loads(structured_data)
 
         return json_structured_data
 
-    with open("data/overall.json", "r") as file:
-        overall = json.load(file)
+    with open("data/all_schemas.json", "r") as file:
+        all_schemas = json.load(file)
 
     res_dict = dict()
 
     log("Loading...")
-    for key in overall.keys():
-        res_dict[key] = call_llm(overall, key, pdf_text)
+    res_dict["experience"] = experience_chain(pdf_text, llm)
+    log(f"\t>> Completed key: experience")
+    for key in all_schemas.keys():
+        res_dict[key] = call_llm(all_schemas, key, pdf_text)
         log(f"\t>> Completed key: {key}")
     progress_bar.progress(base_progress + file_progress_weight * 0.4)
     generate_resume(structured_data, years_exp, profile, res_dict)
