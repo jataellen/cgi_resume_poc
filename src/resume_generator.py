@@ -16,7 +16,7 @@ def process_replacements(structured_data, res_dict, profile, cgi_title, years_ex
     # Define all field extractors
     extractors = [
         # Fields from structured_data
-        ("full_name", lambda data: data["contact"]["name"]),
+        ("full_name", lambda data: data["contact"]["name"].title()),
         # External variables
         ("professional_profile", lambda data: profile),
         ("cgi_title", lambda data: cgi_title),
@@ -77,20 +77,9 @@ def generate_resume(structured_data, years_exp, profile, res_dict):
     try:
         cgi_exp = res_dict["experience"]["cgi_experience"]
         for exp in cgi_exp:
+            exp["cgi_technologies"] = ", ".join(exp["cgi_technologies"])
             try:
-                exp_filtered = {
-                    k: v
-                    for k, v in exp.items()
-                    if k
-                    in [
-                        "sector",
-                        "job_title",
-                        "start_date",
-                        "end_date",
-                        "responsibilities",
-                    ]
-                }
-                for key, value in exp_filtered.items():
+                for key, value in exp.items():
                     replacements.append(("{" + key + "}", value))
             except Exception:
                 failures.append(f"CGI Experience entry")
@@ -99,27 +88,15 @@ def generate_resume(structured_data, years_exp, profile, res_dict):
         replicate_section(
             doc, "{begin_cgi_exp}", "{end_cgi_exp}", replacements, times_to_repeat
         )
-    except Exception:
-        failures.append("CGI Experience section")
+    except Exception as e:
+        failures.append(("CGI Experience section", e))
 
     # Process Other Experience
     try:
         o_exp = res_dict["experience"]["other_experience"]
         for exp in o_exp:
             try:
-                exp_filtered = {
-                    k: v
-                    for k, v in exp.items()
-                    if k
-                    in [
-                        "company",
-                        "job_title",
-                        "start_date",
-                        "end_date",
-                        "responsibilities",
-                    ]
-                }
-                for key, value in exp_filtered.items():
+                for key, value in exp.items():
                     replacements.append(("{" + key + "}", value))
             except Exception:
                 failures.append(f"Other Experience entry")
@@ -128,8 +105,8 @@ def generate_resume(structured_data, years_exp, profile, res_dict):
         replicate_section(
             doc, "{begin_other_exp}", "{end_other_exp}", replacements, times_to_repeat
         )
-    except Exception:
-        failures.append("Other Experience section")
+    except Exception as e:
+        failures.append(("Other Experience section", e))
 
     # Process Skills summary
     try:
@@ -154,13 +131,13 @@ def generate_resume(structured_data, years_exp, profile, res_dict):
     # Document operations with error handling
     try:
         replace_text_in_docx(doc, replacements)
-    except Exception:
-        failures.append("Document text replacement")
+    except Exception as e:
+        failures.append(("Document text replacement", e))
 
     try:
         handle_skills_summary(doc, table_reps, res_dict["skills_summary"])
-    except Exception:
-        failures.append("Skills summary handling")
+    except Exception as e:
+        failures.append(("Skills summary handling", e))
 
     # Handle skills table
     try:
