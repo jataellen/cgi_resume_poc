@@ -1,17 +1,17 @@
 {
   "cgi_experience": [
     {
-      "cgi_client_or_sector": "Consulting",
+      "cgi_client_or_sector": "Financial services",
       "cgi_position_title": "Business Analyst & Project Coordinator",
       "cgi_start_date": "07/24",
       "cgi_end_date": "Present",
       "cgi_responsibilities": [
-        "Documented current state business processes to identify and define opportunities for operational efficiency.",
-        "Applied advanced analytical skills to extract actionable insights, enhancing accuracy in data-driven decision-making for project analysis.",
-        "Drafted recommendations for future-state improvements, including streamlined processes, customer journey maps, organizational design, and operational enhancements.",
-        "Created comprehensive reports using Excel and PowerPoint to improve stakeholder communication and facilitate decision-making.",
-        "Designed future state blueprints and implementation plans, including organizational structures, roles, efforts, and cost estimates.",
-        "Managed tasks, schedules, and resources to ensure successful project delivery within defined scopes."
+        "Documented current state business processes to define operational efficiency opportunities.",
+        "Utilized advanced analytical skills to derive actionable insights, enhancing data-driven decision-making accuracy for project analysis.",
+        "Drafted future-state recommendations including streamlined processes, customer journey maps, organizational design, and operational improvements.",
+        "Produced comprehensive reports using Excel and PowerPoint, improving stakeholder communication and aiding decision-making process.",
+        "Created future state blueprints and implementation plan with organizational structure, roles, effort, and cost for implementation.",
+        "Coordinated tasks, schedules, and resources, ensuring project success within defined scopes."
       ],
       "cgi_technologies": [
         "Excel",
@@ -26,9 +26,9 @@
       "start_date": "11/23",
       "end_date": "07/24",
       "responsibilities": [
-        "Ensured accuracy in financial documents to obtain precise cash flow information.",
-        "Analyzed and interpreted financial statements using knowledge gained from finance courses.",
-        "Allocated funds to develop accurate bank deposits."
+        "Ensured financial documents obtained accurate cash flow information from the establishment.",
+        "Interpreted and analyzed financial documents using knowledge of finance and financial statements.",
+        "Allocated funds to create accurate bank deposits."
       ]
     },
     {
@@ -37,21 +37,14 @@
       "start_date": "01/23",
       "end_date": "08/23",
       "responsibilities": [
-        "Designed and implemented virtual programs, services, and trainings for over 230 participants within the Provincial Government.",
-        "Facilitated team meetings using periodic management techniques to identify and address organizational barriers.",
-        "Created standardized operating procedures for services and events to ensure consistent operations.",
-        "Managed business improvement trainings, including Lean Six Sigma certifications.",
-        "Developed visual dashboards using Power BI to enhance data analytics.",
-        "Supported government employees in achieving Lean Six Sigma Yellow Belt certification.",
-        "Collaborated with colleagues to plan and execute a major event for over 70 attendees.",
-        "Implemented an organizational system using 5S methodology to enhance team efficiency."
-      ],
-      "technologies": [
-        "MS Teams",
-        "Power Automate",
-        "Excel",
-        "Outlook",
-        "Power BI"
+        "Produced virtual programs, services, and training for over 230 participants using MS Teams, Power Automate, Excel, and Outlook.",
+        "Facilitated team meetings to identify organizational barriers through periodic management.",
+        "Created standard operating procedures to ensure consistent service delivery.",
+        "Oversaw training programs such as Lean Six Sigma Green Belt and Kaizen Belt, gaining expertise in business process improvement.",
+        "Developed Power BI dashboards to enhance team data analytics.",
+        "Supported government employees in achieving Lean Six Sigma Yellow Belt Certification by implementing Quick Wins.",
+        "Planned and coordinated a major event for more than 70 attendees.",
+        "Improved team efficiency by creating an organizational system based on the 5S methodology."
       ]
     },
     {
@@ -60,11 +53,12 @@
       "start_date": "11/15",
       "end_date": "06/22",
       "responsibilities": [
-        "Provided exceptional customer service, resolving diverse inquiries and complaints in a fast-paced environment.",
-        "Handled cash transactions responsibly and prepared registers for store opening.",
-        "Trained new employees on store policies, processes, and technology.",
-        "Organized staffing schedules, managing break times for up to eight cashiers per shift.",
-        "Enhanced problem-solving, organizational, and communication skills while working in various departments."
+        "Resolved customer inquiries and complaints, demonstrating excellent communication and conflict resolution skills.",
+        "Provided exceptional customer service in a dynamic, fast-paced environment.",
+        "Handled cash transactions and prepared registers for store operations.",
+        "Trained new employees on policies, processes, and store-specific technology.",
+        "Organized staffing schedules and break times for up to 8 cashiers per shift.",
+        "Enhanced problem-solving and organizational skills while working across various departments."
       ]
     }
   ]
