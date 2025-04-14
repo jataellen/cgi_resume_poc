@@ -14,7 +14,7 @@ def replace_text_in_docx(doc, replacements):
         for paragraph in doc.paragraphs:
 
             if key in paragraph.text:
-                # print(key,value)
+                # print(key, value)
                 if isinstance(value, list):
                     paragraph.style = "ListBullet"
                     x_par = paragraph._p
@@ -36,11 +36,17 @@ def replace_text_in_docx(doc, replacements):
                             if isinstance(value, list):
                                 paragraph.style = "ListBullet"
                                 x_par = paragraph._p
-                                paragraph.text = paragraph.text.replace(key, value[0])
-                                value = value[1:]
-                                for bp in value:
-                                    para = doc.add_paragraph(bp, style="ListBullet")
-                                    x_par.addnext(para._p)
+                                if len(value) > 0:
+                                    paragraph.text = paragraph.text.replace(
+                                        key, value[0]
+                                    )
+                                    if len(value) > 1:
+                                        value = value[1:]
+                                        for bp in value:
+                                            para = doc.add_paragraph(
+                                                bp, style="ListBullet"
+                                            )
+                                            x_par.addnext(para._p)
                             else:
                                 paragraph.text = paragraph.text.replace(key, value)
                             break

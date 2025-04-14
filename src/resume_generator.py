@@ -4,6 +4,7 @@ from src.skill_table_handler import handle_skills_summary, replace_text_in_table
 from src.docx_text_replacer import replace_text_in_docx
 import streamlit as st
 import os
+import traceback
 
 
 def process_replacements(structured_data, res_dict, profile, cgi_title, years_exp):
@@ -133,6 +134,7 @@ def generate_resume(structured_data, years_exp, profile, res_dict):
         replace_text_in_docx(doc, replacements)
     except Exception as e:
         failures.append(("Document text replacement", e))
+        traceback.print_exc()
 
     try:
         handle_skills_summary(doc, table_reps, res_dict["skills_summary"])
