@@ -111,7 +111,7 @@ Resume: {text_input}
 Industry Experience:
 Technical Specializations:
 Areas of Expertise:
-Languages (note: NATURAL languages, not programming):
+Languages (note: NATURAL languages, not programming. Always include English):
 Environments:
 Tools & Software:
 
