@@ -1,21 +1,23 @@
 {
   "cgi_experience": [
     {
-      "cgi_client_or_sector": "Financial services",
+      "cgi_client_or_sector": "IT Services",
       "cgi_position_title": "Business Analyst & Project Coordinator",
       "cgi_start_date": "07/24",
       "cgi_end_date": "Present",
       "cgi_responsibilities": [
-        "Documented current state business processes to define operational efficiency opportunities.",
-        "Utilized advanced analytical skills to derive actionable insights, enhancing data-driven decision-making accuracy for project analysis.",
-        "Drafted future-state recommendations including streamlined processes, customer journey maps, organizational design, and operational improvements.",
-        "Produced comprehensive reports using Excel and PowerPoint, improving stakeholder communication and aiding decision-making process.",
-        "Created future state blueprints and implementation plan with organizational structure, roles, effort, and cost for implementation.",
-        "Coordinated tasks, schedules, and resources, ensuring project success within defined scopes."
+        "Documented current state business processes to identify opportunities for operational efficiency.",
+        "Performed advanced data analysis to provide actionable insights for project assessments.",
+        "Drafted recommendations for future-state processes, including customer journey mapping and operational improvements.",
+        "Prepared detailed reports using Excel and PowerPoint to enhance communication with stakeholders.",
+        "Developed blueprints and implementation plans outlining organizational structure, roles, efforts, and cost.",
+        "Managed project coordination tasks, schedules, and resources to ensure adherence to scopes."
       ],
       "cgi_technologies": [
         "Excel",
-        "PowerPoint"
+        "PowerPoint",
+        "Tableau",
+        "SAP"
       ]
     }
   ],
@@ -26,9 +28,9 @@
       "start_date": "11/23",
       "end_date": "07/24",
       "responsibilities": [
-        "Ensured financial documents obtained accurate cash flow information from the establishment.",
-        "Interpreted and analyzed financial documents using knowledge of finance and financial statements.",
-        "Allocated funds to create accurate bank deposits."
+        "Validated financial documents to ensure accurate cash flow information.",
+        "Analyzed financial data using knowledge of finance and financial statements.",
+        "Prepared bank deposits by allocating funds received at the establishment."
       ]
     },
     {
@@ -37,14 +39,14 @@
       "start_date": "01/23",
       "end_date": "08/23",
       "responsibilities": [
-        "Produced virtual programs, services, and training for over 230 participants using MS Teams, Power Automate, Excel, and Outlook.",
-        "Facilitated team meetings to identify organizational barriers through periodic management.",
-        "Created standard operating procedures to ensure consistent service delivery.",
-        "Oversaw training programs such as Lean Six Sigma Green Belt and Kaizen Belt, gaining expertise in business process improvement.",
-        "Developed Power BI dashboards to enhance team data analytics.",
-        "Supported government employees in achieving Lean Six Sigma Yellow Belt Certification by implementing Quick Wins.",
-        "Planned and coordinated a major event for more than 70 attendees.",
-        "Improved team efficiency by creating an organizational system based on the 5S methodology."
+        "Designed and delivered virtual programs, services, and training for over 230 participants.",
+        "Facilitated team meetings to identify and address organizational barriers.",
+        "Developed standard operating procedures to ensure consistency in services and events.",
+        "Led business process improvement initiatives, including Lean Six Sigma training programs.",
+        "Created dashboards using Power BI for enhanced data visualization and analytics.",
+        "Supported Lean Six Sigma Yellow Belt Certification by completing Quick Win projects.",
+        "Organized and coordinated a major event for over 70 attendees.",
+        "Improved team efficiency by implementing a 5S organizational system."
       ]
     },
     {
@@ -53,12 +55,12 @@
       "start_date": "11/15",
       "end_date": "06/22",
       "responsibilities": [
-        "Resolved customer inquiries and complaints, demonstrating excellent communication and conflict resolution skills.",
-        "Provided exceptional customer service in a dynamic, fast-paced environment.",
-        "Handled cash transactions and prepared registers for store operations.",
-        "Trained new employees on policies, processes, and store-specific technology.",
-        "Organized staffing schedules and break times for up to 8 cashiers per shift.",
-        "Enhanced problem-solving and organizational skills while working across various departments."
+        "Resolved customer inquiries and complaints, enhancing communication and conflict resolution skills.",
+        "Delivered outstanding customer service in a high-pressure environment.",
+        "Managed cash transactions and prepared registers for store openings.",
+        "Trained new employees on store policies, procedures, and technology use.",
+        "Scheduled staffing and break times for up to 8 cashiers per shift.",
+        "Developed problem-solving, organizational, and communication skills across multiple departments."
       ]
     }
   ]

@@ -17,7 +17,6 @@ def replace_text_in_docx(doc, replacements):
                 # print(key,value)
                 if isinstance(value, list):
                     paragraph.style = "ListBullet"
-
                     x_par = paragraph._p
                     if len(value) > 1:
                         paragraph.text = paragraph.text.replace(key, value[0])
