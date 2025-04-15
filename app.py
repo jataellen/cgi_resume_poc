@@ -198,12 +198,14 @@ def generate_resume(structured_data, years_exp, profile, res_dict):
     for key, value in res_dict['skills_summary'].items():
         table_reps.append( ("{" + key + "}", value) )
     # ed_list = [f"{el['degree']}, {el['field_of_study']} - {el['institution']}" for el in structured_data['education']]
-    ed_list = [
-        ', '.join(el[k] for k in ['degree', 'field_of_study', 'institution'] if k in el)
-        for el in structured_data['education']
+    
+    education_list = [
+    ', '.join(el[k].strip() for k in ['degree', 'field_of_study', 'institution'] if k in el).strip()
+    for el in structured_data.get('education', [])
     ]
-    education_entry = "\n".join(ed_list)
-    replacements.append( ("{education_entry}", education_entry) )
+    
+
+    replacements.append( ("{education_entry}", education_list) )
 
 
     replace_text_in_docx(doc, replacements)
