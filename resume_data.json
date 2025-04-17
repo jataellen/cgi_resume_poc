@@ -1,162 +1,190 @@
 {
     "structured_data": {
         "contact": {
-            "name": "Veronica Hawkes",
-            "email": "vhawkes@dal.ca",
-            "phone": "902-324-1548",
-            "location": "Hilden, NS",
-            "linkedin": "linkedin.com/in/veronicahawkes"
+            "name": "Sanjaykumar Ganatra",
+            "email": "",
+            "phone": "",
+            "location": "",
+            "linkedin": "",
+            "website": ""
         },
-        "professional_summary": "A highly driven and focused individual with more than 10,000 engagements over 9 years working in client facing roles. Strong Analytical and problem-solving capabilities developed through university level courses, research, and retail experience. Excellent leadership, communication, and interpersonal skills developed through supporting client projects within CGI and the Government of Nova Scotia and leading teams in both competitive sport and retail environments. Exceptional team player with financial and technical knowledge who can adapt and function in fast-paced environments.",
+        "professional_summary": "Sanjaykumar Ganatra is an accomplished IT professional with over 17 years of experience delivering business intelligence and analytical solutions across diverse industries, including insurance, finance, telecom, HR, and energy. He is highly skilled in data engineering, data modeling, AWS cloud technologies, and data visualization tools, such as Tableau and Spotfire. Sanjaykumar has consistently demonstrated his ability to extract actionable insights for executives and teams, enhancing decision-making capabilities and driving meaningful business outcomes. Notably, he has played a pivotal role in optimizing insurance claim tracking and successfully migrating complex reporting systems to align with advanced data pipeline structures.",
         "education": [
             {
-                "degree": "Master of Business Administration",
-                "field_of_study": "Enterprise Analytics",
-                "institution": "Dalhousie University",
-                "location": "Halifax, NS",
-                "graduation_year": "2024"
+                "degree": "Master's degree",
+                "field_of_study": "Technology & Science",
+                "institution": "Birla Institute"
             },
             {
-                "degree": "Bachelor of Science in Human Kinetics",
-                "field_of_study": "Human Kinetics",
-                "institution": "St. Francis Xavier University",
-                "location": "Antigonish NS",
-                "graduation_year": "2022"
+                "degree": "Bachelor's degree",
+                "field_of_study": "Electronics & Communication",
+                "institution": "Sardar Patel University"
             }
         ],
         "experience": [
             {
-                "job_title": "Business Analyst & Project Coordinator",
+                "job_title": "Senior Big Data Analytics Engineer",
                 "company": "CGI",
-                "location": "Halifax, NS",
-                "start_date": "Jul. 2024",
+                "location": "",
+                "start_date": "01/21",
                 "end_date": "Present",
-                "responsibilities": "Documented current state business processes to define operational efficiency opportunities. Utilized advanced analytical skills to derive actionable insights, enhancing data-driven decision-making accuracy for project analysis. Drafted future-state recommendations including streamlined processes, customer journey maps, organizational design, and operational improvements. Produced comprehensive reports using Excel and PowerPoint, improving stakeholder communication and aiding decision-making process. Created future state blueprints and implementation plan with organizational structure, roles, effort, and cost for implementation. Coordinated tasks, schedules, and resources, ensuring project success within defined scopes."
+                "responsibilities": "\u2022 Developed Tableau dashboards for executives, managers, and analysts to track key insurance claim metrics.\n\u2022 Assisted in creating the data layer for reporting.\n\u2022 Automated conversion of HQL scripts to Spark format using Azure Databricks, ensuring production readiness through data comparison.\n\u2022 Successfully migrated over 500 scripts to production.\n\u2022 Transitioned 30+ Tableau reports in the HPE Phase 2 project to align with the new pipeline structure.\n\u2022 Implemented Python-based utilities to extract metadata from Tableau files for process improvement.\n\u2022 Optimized Tableau licensing and maintained a centralized metadata repository.\nTechnologies: Tableau, Azure Databricks, Python, HQL, Spark"
             },
             {
-                "job_title": "Cash Balancer",
-                "company": "Canadian Tire",
-                "location": "Truro, NS",
-                "start_date": "Nov. 2023",
-                "end_date": "Jul. 2024",
-                "responsibilities": "Ensured financial documents obtained accurate cash flow information from the establishment. Leveraged knowledge gained from finance and financial statement courses to understand and interpret documents. Responsible for allocating all funds paid to the establishment to develop a bank deposit."
+                "job_title": "Lead Data Analyst & Data Engineer",
+                "company": "Tata Consultancy Services Limited",
+                "location": "",
+                "start_date": "12/12",
+                "end_date": "12/20",
+                "responsibilities": "\u2022 Collaborated with stakeholders to address analytical challenges and documented data lineage for solutions.\n\u2022 Developed interactive Tableau dashboards for the Finance team, reducing cash collection time by 80% and maximizing revenue.\n\u2022 Integrated Adobe Analytics and Salesforce data into the data warehouse to generate decision-making insights.\n\u2022 Performed exploratory data analysis using Python and prepared data for machine learning models.\n\u2022 Created a Spotfire-based Decommission Dashboard, reducing presentation efforts by 95%.\n\u2022 Designed star schemas for OBIEE and created RPDs based on customer requirements.\n\u2022 Built data pipelines, transformations, and reporting infrastructures using Informatica, Talend, AWS Aurora, S3, Athena, Tableau, and Spotfire.\n\u2022 Integrated heterogeneous data sources into the enterprise data warehouse and applied data quality rules."
             },
             {
-                "job_title": "Operational & Service Excellence Intern",
-                "company": "Government of Nova Scotia",
-                "location": "Halifax, NS",
-                "start_date": "Jan. 2023",
-                "end_date": "Aug. 2023",
-                "responsibilities": "Produced programs, services, and trainings virtually for more than 230 participants across the Provincial Government leveraging MS Teams, Power Automate, Excel, and Outlook. Facilitated and led team meetings using periodic management to identify organizational barriers. Created standard operating procedures for services and events to ensure uniform operations. Acquired comprehensive understanding of business process improvement by overseeing proper functioning of the Foundations of Business Process Improvement Training, the Lean Six Sigma Green Belt Program, the Business Process Owner Training, and the Lean Six Sigma Kaizen Belt Training. Utilized Power BI to improve data analytics within the team by creating visual dashboards. Supported individuals across Government achieve their Lean Six Sigma Yellow Belt Certification by completing Quick Wins in their business areas. Collaborated with several colleagues to plan and coordinate a major event for more than 70 people. Developed an organizational system using 5S methodology, a Lean Six Sigma approach improving overall team efficiency."
-            },
-            {
-                "job_title": "Customer Service Representative",
-                "company": "Canadian Tire",
-                "location": "Truro, NS",
-                "start_date": "Nov. 2015",
-                "end_date": "Jun. 2022",
-                "responsibilities": "Exceptional communication, conflict resolution, and organizational skills developed through triaging customer inquiries and complaints. Provided exceptional customer service to diverse customer needs in a fast-paced environment. Demonstrated responsibility and reliability handling cash and preparing registers for store open. Trained incoming employees on store policies, processes, and store specific technology. Organized staffing allocation by determining break times for up to 8 cashiers per shift; managing time to ensure associates needs were met. Developed extensive problem-solving, organizational, and communication skills working in various departments."
+                "job_title": "Technology Analyst",
+                "company": "Infosys Limited",
+                "location": "",
+                "start_date": "04/11",
+                "end_date": "12/12",
+                "responsibilities": "\u2022 Met data ingestion and reporting requirements for a talent management platform.\n\u2022 Implemented OBIA HR analytics (version 7.9.6.3) with OBIEE 11g, Informatica, DAC, and Oracle Database.\n\u2022 Extracted PeopleSoft transactional data into OBIEE's Oracle data warehouse using Informatica.\n\u2022 Developed strategic scorecards tailored to product requirements."
             }
         ],
         "skills": [
             "Tableau",
-            "SAP",
-            "MS Teams",
-            "Power Automate",
-            "Excel",
-            "Leadership",
-            "Communication",
-            "Problem-solving",
-            "Teamwork",
-            "Financial knowledge"
+            "Power BI",
+            "Spotfire",
+            "OBIEE",
+            "SAP Business Objects",
+            "Python (Data Science and ML)",
+            "Teradata",
+            "PostgreSQL (Greenplum & AWS Aurora)",
+            "SQL",
+            "Oracle",
+            "Big Data (HDFS, Hive, Impala, Apache Spark)",
+            "Cloud (S3, AWS Aurora, Athena, Glue Catalog, Azure Data services)",
+            "Informatica PowerCenter",
+            "Talend Data Integration",
+            "Agile Development",
+            "Strategic Thinking",
+            "Problem Solving Approach",
+            "Ownership"
         ],
         "certifications": [
             {
-                "name": "Lean Six Sigma Green Belt",
-                "issuing_organization": "Six Sigma Global Institute",
-                "issue_date": "Dec. 2024"
+                "name": "Tableau Certified Desktop Associate"
             },
             {
-                "name": "Certified SAFe 6 Practitioner",
-                "issuing_organization": "Scaled Agile Inc.",
-                "issue_date": "Aug. 2024"
+                "name": "Microsoft Certified Data Analyst Associate"
             },
             {
-                "name": "SAP Student Recognition Award",
-                "issuing_organization": "SAP University Alliances, Dalhousie University",
-                "issue_date": "Jun. 2024"
+                "name": "Microsoft Certified Azure Data Fundamentals"
             },
             {
-                "name": "Lean Six Sigma Yellow Belt",
-                "issuing_organization": "Government of Nova Scotia",
-                "issue_date": "Jan. 2023"
+                "name": "Microsoft Certified Azure AI Fundamentals"
+            },
+            {
+                "name": "Microsoft Certified Azure Data Scientist Associate"
+            },
+            {
+                "name": "Databricks Certified Data Engineer Associate"
+            },
+            {
+                "name": "Python for Data Science and Machine Learning Bootcamp"
+            },
+            {
+                "name": "Big Data Analytics Bootcamp"
+            },
+            {
+                "name": "Data Architecture and Modelling Advanced"
+            },
+            {
+                "name": "AWS Data Analytics Specialty Certificate"
+            },
+            {
+                "name": "Lean Six Sigma Green Belt"
+            }
+        ],
+        "languages": [
+            "English",
+            "Gujarati",
+            "Hindi"
+        ],
+        "awards": [
+            {
+                "title": "Hall of Fame",
+                "organization": "CGI"
             }
         ]
     },
-    "years_exp": "9 years of experience in Business Analysis and Project Coordination",
-    "profile": "Veronica Hawkes is a dynamic and results-driven professional specializing in business analysis, project coordination, and operational excellence. With over nine years of experience in client-facing roles and a strong foundation in enterprise analytics, she combines analytical prowess with exceptional leadership and communication skills to deliver impactful solutions. Currently serving as a Business Analyst and Project Coordinator at CGI, Veronica excels at documenting business processes, creating actionable insights, and crafting future-state recommendations that enhance organizational efficiency. Her ability to translate complex data into comprehensive reports and implementation plans has consistently improved stakeholder communication and driven successful project outcomes.\n\nVeronica holds a Master of Business Administration in Enterprise Analytics from Dalhousie University, complemented by a Bachelor of Science in Human Kinetics from St. Francis Xavier University. Her academic achievements are reinforced by certifications such as Lean Six Sigma Green Belt and Certified SAFe 6 Practitioner, demonstrating her commitment to continuous learning and process improvement. She has also leveraged tools like Power BI, Tableau, and SAP to optimize data analytics and streamline operations within the Government of Nova Scotia, where she facilitated training programs for hundreds of participants and coordinated high-impact events.\n\nVeronica\u2019s versatile skill set spans financial knowledge, problem-solving, and technical expertise with tools like Power Automate and MS Teams. Her ability to lead teams, whether in competitive sports, retail environments, or corporate settings, sets her apart as a collaborative and adaptable professional. With a proven track record of driving operational improvements and delivering exceptional client service, Veronica is positioned to make meaningful contributions in fast-paced, results-oriented environments.",
+    "years_exp": "17 years of experience in Business Intelligence and Data Engineering",
+    "profile": "Sanjaykumar Ganatra is a seasoned IT professional with over 17 years of experience in delivering impactful business intelligence and analytics solutions across industries such as insurance, finance, telecom, HR, and energy. His expertise spans data engineering, cloud technologies, and advanced visualization tools like Tableau and Spotfire, enabling organizations to make data-driven decisions that drive tangible business outcomes. Sanjaykumar has a proven track record of optimizing complex data pipelines, including successfully transitioning 30+ Tableau reports to new pipeline structures and automating HQL script conversions to Spark format using Azure Databricks.\n\nCurrently serving as a Senior Big Data Analytics Engineer at CGI, Sanjaykumar has demonstrated his ability to create executive-level dashboards that monitor key insurance metrics and streamline claim tracking processes. His earlier roles at Tata Consultancy Services and Infosys further cement his versatility, as he developed interactive Tableau dashboards that accelerated revenue collection and implemented HR analytics platforms tailored to organizational needs. With certifications such as Tableau Certified Desktop Associate, Databricks Certified Data Engineer Associate, and AWS Data Analytics Specialty, he is well-equipped to address complex analytical challenges using cutting-edge technologies.\n\nSanjaykumar holds a Master\u2019s degree in Technology & Science from Birla Institute and a Bachelor\u2019s degree in Electronics & Communication from Sardar Patel University. Fluent in English, Gujarati, and Hindi, he combines technical mastery with strategic thinking to deliver innovative solutions. Recognized with the CGI Hall of Fame award, his dedication to excellence and problem-solving approach continue to redefine business intelligence and data engineering standards.",
     "res_dict": {
         "experience": {
             "cgi_experience": [
                 {
-                    "cgi_client_or_sector": "Information Technology",
-                    "cgi_position_title": "Business Analyst & Project Coordinator",
-                    "cgi_start_date": "07/24",
+                    "cgi_client_or_sector": "Large Canadian Bank & Insurance Company",
+                    "cgi_position_title": "Senior Big Data Analytics Engineer",
+                    "cgi_start_date": "01/21",
                     "cgi_end_date": "Present",
                     "cgi_responsibilities": [
-                        "Documented current-state business processes to identify operational efficiency opportunities.",
-                        "Performed advanced analyses to derive actionable insights for project evaluation.",
-                        "Drafted streamlined processes, customer journey maps, organizational designs, and operational enhancements.",
-                        "Produced detailed reports using Excel and PowerPoint to improve stakeholder communication.",
-                        "Designed future-state blueprints, including organizational structure, roles, and cost analysis.",
-                        "Coordinated tasks, schedules, and resources to ensure project success within scope."
+                        "Developed Tableau dashboards for executives, managers, and analysts to track key insurance claim metrics.",
+                        "Created and optimized the data layer for reporting.",
+                        "Automated script conversion from HQL to Spark using Azure Databricks and ensured production readiness through data comparisons.",
+                        "Migrated over 500 scripts to production.",
+                        "Transitioned 30+ Tableau reports to align with new pipeline structures in the HPE Phase 2 project.",
+                        "Implemented Python utilities to extract metadata from Tableau files for process improvements.",
+                        "Optimized Tableau licensing and maintained centralized metadata repositories."
                     ],
                     "cgi_technologies": [
-                        "Excel",
-                        "PowerPoint"
+                        "Tableau",
+                        "Azure Databricks",
+                        "Python",
+                        "HQL",
+                        "Spark"
                     ]
                 }
             ],
             "other_experience": [
                 {
-                    "company": "Canadian Tire",
-                    "position_title": "Cash Balancer",
-                    "start_date": "11/23",
-                    "end_date": "07/24",
+                    "company": "Tata Consultancy Services Limited",
+                    "position_title": "Lead Data Analyst & Data Engineer",
+                    "start_date": "12/12",
+                    "end_date": "12/20",
                     "responsibilities": [
-                        "Reviewed financial documents to ensure accurate cash flow.",
-                        "Interpreted financial records using finance and accounting knowledge.",
-                        "Allocated funds and organized bank deposits for the establishment."
+                        "Collaborated with stakeholders to address analytical challenges and documented data lineage for solutions.",
+                        "Designed interactive Tableau dashboards for Finance, reducing cash collection time by 80% and maximizing revenue.",
+                        "Integrated Adobe Analytics and Salesforce data into the warehouse for actionable insights.",
+                        "Performed exploratory data analysis using Python and prepared data for machine learning models.",
+                        "Created a Spotfire-based Decommission Dashboard, reducing presentation efforts by 95%.",
+                        "Designed star schemas and RPDs for OBIEE based on customer requirements.",
+                        "Built data pipelines, transformations, and reporting infrastructures using Informatica, Talend, AWS Aurora, S3, Athena, Tableau, and Spotfire.",
+                        "Integrated heterogeneous data sources into the enterprise data warehouse and applied data quality rules."
+                    ],
+                    "technologies": [
+                        "Tableau",
+                        "Spotfire",
+                        "Python",
+                        "OBIEE",
+                        "Informatica",
+                        "Talend",
+                        "AWS Aurora",
+                        "S3",
+                        "Athena"
                     ]
                 },
                 {
-                    "company": "Government of Nova Scotia",
-                    "position_title": "Operational & Service Excellence Intern",
-                    "start_date": "01/23",
-                    "end_date": "08/23",
+                    "company": "Infosys Limited",
+                    "position_title": "Technology Analyst",
+                    "start_date": "04/11",
+                    "end_date": "12/12",
                     "responsibilities": [
-                        "Created virtual programs and trainings for over 230 participants across the Provincial Government.",
-                        "Facilitated team meetings to identify and address organizational barriers.",
-                        "Developed standard operating procedures for consistent service operations.",
-                        "Oversaw Lean Six Sigma training programs, enhancing process improvement knowledge.",
-                        "Built Power BI dashboards for improved data analytics and insights.",
-                        "Supported government employees in achieving Lean Six Sigma Yellow Belt Certification.",
-                        "Planned and coordinated a major event with over 70 attendees.",
-                        "Implemented 5S methodology to enhance team efficiency."
-                    ]
-                },
-                {
-                    "company": "Canadian Tire",
-                    "position_title": "Customer Service Representative",
-                    "start_date": "11/15",
-                    "end_date": "06/22",
-                    "responsibilities": [
-                        "Resolved customer inquiries and complaints, showcasing strong communication and conflict resolution skills.",
-                        "Provided exceptional customer service in a fast-paced environment.",
-                        "Managed cash handling and prepared registers for store opening.",
-                        "Trained new employees on store policies, processes, and technology.",
-                        "Scheduled staffing and managed time for up to 8 cashiers per shift.",
-                        "Applied problem-solving, organizational, and communication skills across departments."
+                        "Met data ingestion and reporting requirements for a talent management platform.",
+                        "Implemented OBIA HR analytics with OBIEE 11g, Informatica, DAC, and Oracle Database.",
+                        "Extracted PeopleSoft transactional data into OBIEE's Oracle data warehouse using Informatica.",
+                        "Developed strategic scorecards tailored to product requirements."
+                    ],
+                    "technologies": [
+                        "OBIEE",
+                        "Informatica",
+                        "Oracle Database"
                     ]
                 }
             ]
@@ -166,71 +194,110 @@
         },
         "other_sections": {
             "industry_experience": [
-                "Information Technology and Consulting",
-                "Retail",
-                "Government"
+                "Insurance",
+                "Finance",
+                "Telecom",
+                "HR",
+                "Energy"
             ],
             "technical_specializations": [
-                "Business Process Improvement",
-                "Lean Six Sigma Methodology",
-                "Operational Efficiency",
-                "Project Coordination",
-                "Financial Analysis"
+                "Data Analytics (Tableau, Power BI, Spotfire, OBIEE, SAP Business Objects, Python - Data Science and ML)",
+                "Data Engineering/ETL (Pyspark, Databricks, Talend, Informatica PowerCenter)",
+                "Database (AWS Aurora - PostgreSQL, Greenplum, Teradata, Oracle)",
+                "Azure Data Services",
+                "AWS Cloud Data Analytics (S3, Glue Catalog, Athena)",
+                "Big Data (Hive, HDFS, Impala, Sqoop, Apache Spark)",
+                "SQL"
             ],
             "areas_of_expertise": [
-                "Leadership",
-                "Team Collaboration",
-                "Client-Facing Roles",
                 "Data Analytics",
-                "Problem Solving",
-                "Customer Service"
+                "Data Engineering",
+                "Data Science/Machine Learning"
             ],
             "languages": [
-                "English"
+                "English",
+                "Gujarati",
+                "Hindi"
             ],
             "environments": [
-                "Fast-Paced Workplaces",
-                "Retail Environments",
-                "Government Offices",
-                "Consulting Firms"
+                "On-Premise",
+                "Azure Cloud",
+                "AWS Cloud"
             ],
             "tools_and_software": [
                 "Tableau",
-                "SAP",
-                "MS Teams",
-                "Power Automate",
-                "Excel",
-                "Power BI",
-                "Outlook",
-                "PowerPoint"
+                "Talend",
+                "Informatica PowerCenter",
+                "OBIEE",
+                "Spotfire"
             ]
         },
         "skills_summary": {
             "technical_skills": [
                 {
                     "skill": "Tableau",
-                    "years_of_experience": 2,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "SAP",
-                    "years_of_experience": 2,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "MS Teams",
-                    "years_of_experience": 2,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Power Automate",
-                    "years_of_experience": 2,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Excel",
                     "years_of_experience": 6,
                     "skill_level": 4
+                },
+                {
+                    "skill": "Spotfire",
+                    "years_of_experience": 2,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "OBIEE",
+                    "years_of_experience": 6,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "SAP Business Objects",
+                    "years_of_experience": 4,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Python (Data Science and ML)",
+                    "years_of_experience": 4,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Teradata",
+                    "years_of_experience": 5,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "PostgreSQL (Greenplum & AWS Aurora)",
+                    "years_of_experience": 3,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "SQL",
+                    "years_of_experience": 14,
+                    "skill_level": 4
+                },
+                {
+                    "skill": "Oracle",
+                    "years_of_experience": 7,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Big Data: HDFS, Hive, Impala, Apache Spark",
+                    "years_of_experience": 3,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Cloud: S3, AWS Aurora, Athena, Glue Catalog, Azure Data services",
+                    "years_of_experience": 4,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Informatica PowerCenter",
+                    "years_of_experience": 4,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Talend Data Integration",
+                    "years_of_experience": 2,
+                    "skill_level": 3
                 },
                 {
                     "skill": "Power BI",
@@ -240,74 +307,84 @@
             ],
             "application_knowledge": [
                 {
-                    "skill": "Business Process Improvement",
-                    "years_of_experience": 2,
+                    "skill": "Salesforce Sales and Marketing model",
+                    "years_of_experience": 5,
                     "skill_level": 3
-                },
-                {
-                    "skill": "Lean Six Sigma Methodology",
-                    "years_of_experience": 1,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Financial Analysis",
-                    "years_of_experience": 1,
-                    "skill_level": 2
                 }
             ],
             "it_disciplines": [
                 {
-                    "skill": "Data Analytics",
-                    "years_of_experience": 2,
+                    "skill": "Data Analysis, Mining and Visualization",
+                    "years_of_experience": 13,
+                    "skill_level": 4
+                },
+                {
+                    "skill": "Data Modeling",
+                    "years_of_experience": 3,
                     "skill_level": 3
                 },
                 {
-                    "skill": "Process Automation",
-                    "years_of_experience": 2,
+                    "skill": "Data Engineering",
+                    "years_of_experience": 9,
                     "skill_level": 3
                 },
                 {
-                    "skill": "Organizational Systems",
+                    "skill": "Data Science / Machine Learning",
                     "years_of_experience": 1,
                     "skill_level": 3
                 }
             ],
             "industry_knowledge": [
                 {
-                    "skill": "Retail",
-                    "years_of_experience": 7,
-                    "skill_level": 4
+                    "skill": "Insurance",
+                    "years_of_experience": 2,
+                    "skill_level": 3
                 },
                 {
-                    "skill": "Government Operations",
-                    "years_of_experience": 1,
-                    "skill_level": 2
-                }
-            ],
-            "other_relevant_skills": [
-                {
-                    "skill": "Leadership",
-                    "years_of_experience": 6,
-                    "skill_level": 4
-                },
-                {
-                    "skill": "Communication",
-                    "years_of_experience": 6,
-                    "skill_level": 4
-                },
-                {
-                    "skill": "Problem Solving",
+                    "skill": "Sales and Marketing",
                     "years_of_experience": 5,
                     "skill_level": 3
                 },
                 {
-                    "skill": "Team Collaboration",
+                    "skill": "Telecom",
+                    "years_of_experience": 3,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Capital Finance",
+                    "years_of_experience": 3,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Talent Management",
+                    "years_of_experience": 1,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Outage Planning and Execution",
+                    "years_of_experience": 2,
+                    "skill_level": 3
+                }
+            ],
+            "other_relevant_skills": [
+                {
+                    "skill": "Agile Development",
                     "years_of_experience": 6,
                     "skill_level": 4
                 },
                 {
-                    "skill": "Training and Development",
-                    "years_of_experience": 2,
+                    "skill": "Strategic Thinking",
+                    "years_of_experience": 5,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Problem Solving Approach",
+                    "years_of_experience": 10,
+                    "skill_level": 4
+                },
+                {
+                    "skill": "Ownership",
+                    "years_of_experience": 7,
                     "skill_level": 3
                 }
             ]
