@@ -18,7 +18,7 @@ def replace_text_in_docx(doc: Document, replacements: list):
 
                         # Insert bullet points
                         for item in value:
-                            if item and item.strip():  # skip empty or whitespace-only entries
+                            if item and item.strip():  
                                 bullet_para = doc.add_paragraph(item.strip(), style="ListBullet")
                                 parent.insert(idx, bullet_para._element)
                                 idx += 1
