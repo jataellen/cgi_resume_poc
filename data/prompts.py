@@ -49,6 +49,7 @@ Reformat it into the following structured JSON format:
 Reformat the experience section into a structured JSON format, ensuring the following:
 - Clearly include fields for 'company', 'job_title', 'start_date', 'end_date', 'responsibilities', and 'technologies'.
 
+- If the entry is under a 'CGI Experience' heading, prepend CGI to the company field along with the entire detailed client descriptor
 - Rewrite responsibilities into clear, action-based bullet points.
 - Include a 'Technologies' field listing relevant technologies used.
 - Ensure consistency, readability, and completeness.
@@ -68,7 +69,7 @@ Ensure the following:
 - All other jobs should be placed under 'other_experience'.
 
 For CGI experience format:
-- client_or_sector: Use client name if available (e.g., "Bank of America"), otherwise use sector (e.g., "Financial Services")
+- client_or_sector: Use client name if available (e.g., "Bank of America"), otherwise use the entire detailed client descriptor (e.g., "Large Canadian Bank & Insurance Company")
 - position_title (keep original job title)
 - start_date (formatted as MM/YY)
 - end_date (formatted as MM/YY or Present)

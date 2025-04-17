@@ -7,6 +7,7 @@ import zipfile
 import io
 from src.logs_manager import log, initialize_log_box
 from src.resume_llm_handler import resume_stream
+from utils.document_utils import *
 
 # # Streamlit app frontend
 
@@ -41,7 +42,7 @@ if "processed_files" not in st.session_state:
 
 with st.form("my-form", clear_on_submit=True):
     uploaded_files = st.file_uploader(
-        "Choose PDF files", type="pdf", accept_multiple_files=True
+        "Upload PDF or DOCX files", type=["pdf", "docx"], accept_multiple_files=True
     )
     submitted = st.form_submit_button("Submit")
 
@@ -70,10 +71,8 @@ if submitted and uploaded_files:
 
         # Save the uploaded file temporarily
         original_file_name = uploaded_file.name
-        temp_file_path = f"temp_{file_id}.pdf"
-        with open(temp_file_path, "wb") as f:
-            f.write(uploaded_file.read())
-        log(f"Uploaded file: {original_file_name}")
+        log(f"Processing PDF: {original_file_name}")
+        temp_file_path = convert_to_pdf(uploaded_file, file_id)
 
         try:
             # Process the PDF

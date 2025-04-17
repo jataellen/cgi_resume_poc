@@ -1,64 +1,71 @@
 {
   "cgi_experience": [
     {
-      "cgi_client_or_sector": "Information Technology",
-      "cgi_position_title": "Business Analyst & Project Coordinator",
-      "cgi_start_date": "07/24",
+      "cgi_client_or_sector": "Large Canadian Bank & Insurance Company",
+      "cgi_position_title": "Senior Big Data Analytics Engineer",
+      "cgi_start_date": "01/21",
       "cgi_end_date": "Present",
       "cgi_responsibilities": [
-        "Documented current state business processes to identify operational efficiency opportunities.",
-        "Derived actionable insights using advanced analytical skills to enhance data-driven decision-making.",
-        "Drafted future-state recommendations including streamlined processes, customer journey maps, organizational design, and operational improvements.",
-        "Produced comprehensive reports using Excel and PowerPoint to improve stakeholder communication.",
-        "Created future state blueprints and implementation plans including organizational structure, roles, effort, and cost.",
-        "Coordinated tasks, schedules, and resources to ensure project success within defined scopes."
+        "Developed Tableau dashboards for executives, managers, and analysts to track key insurance claim metrics.",
+        "Created and optimized the data layer for reporting.",
+        "Automated script conversion from HQL to Spark using Azure Databricks and ensured production readiness through data comparisons.",
+        "Migrated over 500 scripts to production.",
+        "Transitioned 30+ Tableau reports to align with new pipeline structures in the HPE Phase 2 project.",
+        "Implemented Python utilities to extract metadata from Tableau files for process improvements.",
+        "Optimized Tableau licensing and maintained centralized metadata repositories."
       ],
       "cgi_technologies": [
-        "Excel",
-        "PowerPoint"
+        "Tableau",
+        "Azure Databricks",
+        "Python",
+        "HQL",
+        "Spark"
       ]
     }
   ],
   "other_experience": [
     {
-      "company": "Canadian Tire",
-      "position_title": "Cash Balancer",
-      "start_date": "11/23",
-      "end_date": "07/24",
+      "company": "Tata Consultancy Services Limited",
+      "position_title": "Lead Data Analyst & Data Engineer",
+      "start_date": "12/12",
+      "end_date": "12/20",
       "responsibilities": [
-        "Verified accuracy in financial documents to ensure consistent cash flow information.",
-        "Analyzed financial documents using knowledge from finance courses.",
-        "Managed allocation of funds paid to the establishment for bank deposit preparation."
+        "Collaborated with stakeholders to address analytical challenges and documented data lineage for solutions.",
+        "Designed interactive Tableau dashboards for Finance, reducing cash collection time by 80% and maximizing revenue.",
+        "Integrated Adobe Analytics and Salesforce data into the warehouse for actionable insights.",
+        "Performed exploratory data analysis using Python and prepared data for machine learning models.",
+        "Created a Spotfire-based Decommission Dashboard, reducing presentation efforts by 95%.",
+        "Designed star schemas and RPDs for OBIEE based on customer requirements.",
+        "Built data pipelines, transformations, and reporting infrastructures using Informatica, Talend, AWS Aurora, S3, Athena, Tableau, and Spotfire.",
+        "Integrated heterogeneous data sources into the enterprise data warehouse and applied data quality rules."
+      ],
+      "technologies": [
+        "Tableau",
+        "Spotfire",
+        "Python",
+        "OBIEE",
+        "Informatica",
+        "Talend",
+        "AWS Aurora",
+        "S3",
+        "Athena"
       ]
     },
     {
-      "company": "Government of Nova Scotia",
-      "position_title": "Operational & Service Excellence Intern",
-      "start_date": "01/23",
-      "end_date": "08/23",
+      "company": "Infosys Limited",
+      "position_title": "Technology Analyst",
+      "start_date": "04/11",
+      "end_date": "12/12",
       "responsibilities": [
-        "Designed and delivered virtual programs, services, and training for over 230 participants using MS Teams, Power Automate, Excel, and Outlook.",
-        "Facilitated team meetings to identify organizational barriers and propose solutions.",
-        "Developed standard operating procedures for services and events to ensure uniform operations.",
-        "Managed business process improvement training programs, including Lean Six Sigma certifications.",
-        "Created data visualization dashboards using Power BI to enhance data analysis.",
-        "Supported Lean Six Sigma Yellow Belt certification initiatives across the government.",
-        "Organized and coordinated a major event with over 70 participants.",
-        "Implemented the 5S methodology to develop an organizational system that improved team efficiency."
-      ]
-    },
-    {
-      "company": "Canadian Tire",
-      "position_title": "Customer Service Representative",
-      "start_date": "11/15",
-      "end_date": "06/22",
-      "responsibilities": [
-        "Resolved customer inquiries and complaints using effective communication and organizational skills.",
-        "Provided customer service tailored to diverse needs in a fast-paced environment.",
-        "Handled cash transactions and prepared registers for store opening.",
-        "Trained incoming employees on store policies, processes, and technologies.",
-        "Managed staffing allocation and break schedules for up to 8 cashiers per shift.",
-        "Enhanced problem-solving and communication skills while collaborating across various departments."
+        "Met data ingestion and reporting requirements for a talent management platform.",
+        "Implemented OBIA HR analytics with OBIEE 11g, Informatica, DAC, and Oracle Database.",
+        "Extracted PeopleSoft transactional data into OBIEE's Oracle data warehouse using Informatica.",
+        "Developed strategic scorecards tailored to product requirements."
+      ],
+      "technologies": [
+        "OBIEE",
+        "Informatica",
+        "Oracle Database"
       ]
     }
   ]

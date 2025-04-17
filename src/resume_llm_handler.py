@@ -137,4 +137,17 @@ def resume_stream(st, progress_bar, base_progress, file_progress_weight, file_pa
         res_dict[key] = call_llm(all_schemas, key, pdf_text)
         log(f"\t>> Completed key: {key}")
     progress_bar.progress(base_progress + file_progress_weight * 0.4)
+
+    # For testing
+    data = {
+        "structured_data": structured_data,
+        "years_exp": years_exp,
+        "profile": profile,
+        "res_dict": res_dict,
+    }
+    with open("resume_data.json", "w") as json_file:
+        json.dump(data, json_file, indent=4)
+
+    print("Data saved to resume_data.json")
+
     generate_resume(structured_data, years_exp, profile, res_dict)
