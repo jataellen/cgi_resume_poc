@@ -29,11 +29,10 @@ def convert_to_pdf(uploaded_file, file_id):
         uploaded_file.type
         == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     ):
-        temp_file_path = convert_docx_to_pdf(
+        pdf_file_path = convert_docx_to_pdf(
             uploaded_file, temp_file_path, pdf_file_path
         )
-
-    elif uploaded_file.type == "application/pdf":  # PDF MIME type
+    else:
         with open(pdf_file_path, "wb") as f:
             f.write(uploaded_file.read())
-    return temp_file_path
+    return pdf_file_path
