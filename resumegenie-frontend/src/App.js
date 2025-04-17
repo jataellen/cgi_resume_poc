@@ -16,7 +16,6 @@ function App() {
 
   const handleUpload = (e) => {
     setSelectedFile(e.target.files[0]);
-    // You can add your backend upload logic here
     console.log('Uploaded:', e.target.files[0]);
   };
 
@@ -25,11 +24,21 @@ function App() {
       <CssBaseline />
       <TopBar />
       <SideBar />
-      <Box component="main" sx={{ flexGrow: 1, p: 4, mt: 8 }}>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          p: 4,
+          mt: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
         <Typography variant="h2" color="primary.main" gutterBottom>
           Welcome to ResumeGenie
         </Typography>
-        <Typography variant="h5" sx={{ mb: 4 }}>
+        <Typography variant="h5" sx={{ mb: 4, textAlign: 'center' }}>
           Upload your resume and let AI help craft the perfect professional summary.
         </Typography>
 
@@ -38,14 +47,15 @@ function App() {
           sx={{
             p: 4,
             textAlign: 'center',
-            border: '2px dashed #9E83F5',
+            border: '2px dashed #E31937',
             borderRadius: 3,
             backgroundColor: '#F2F1F9',
             maxWidth: 600,
+            width: '100%',
           }}
         >
           <Stack spacing={2} alignItems="center">
-            <UploadFileIcon sx={{ fontSize: 60, color: '#5236AB' }} />
+            <UploadFileIcon sx={{ fontSize: 60, color: 'primary.main' }} />
             <Typography variant="h6">Please upload your resume here</Typography>
             <Button
               component="label"

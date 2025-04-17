@@ -6,7 +6,7 @@ const TopBar = () => (
     position="fixed"
     sx={{
       zIndex: (theme) => theme.zIndex.drawer + 1,
-      bgcolor: '#5236AB', // CGI red background
+      bgcolor: '#E31937', 
       boxShadow: 'none',
     }}
   >
@@ -17,9 +17,9 @@ const TopBar = () => (
         component="div"
         sx={{
           fontWeight: 700,
-          color: '#FFFFFF', // White font
+          color: '#FFFFFF',
           fontFamily: 'Source Sans Pro',
-          fontSize: '38px', // H1 scale
+          fontSize: '38px',
         }}
       >
         CGI
