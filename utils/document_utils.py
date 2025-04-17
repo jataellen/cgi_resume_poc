@@ -22,8 +22,8 @@ def convert_docx_to_pdf(uploaded_file, temp_file_path, pdf_file_path):
 
 def convert_to_pdf(uploaded_file, file_id):
 
-    temp_file_path = f"temp_{file_id}.docx"
-    pdf_file_path = f"temp_{file_id}.pdf"
+    temp_file_path = f"../temp_{file_id}.docx"
+    pdf_file_path = f"../temp_{file_id}.pdf"
 
     if (
         uploaded_file.type
@@ -33,7 +33,7 @@ def convert_to_pdf(uploaded_file, file_id):
             uploaded_file, temp_file_path, pdf_file_path
         )
 
-    elif uploaded_file.type == "application/pdf":  # PDF MIME type
+    else:
         with open(pdf_file_path, "wb") as f:
             f.write(uploaded_file.read())
     return temp_file_path
