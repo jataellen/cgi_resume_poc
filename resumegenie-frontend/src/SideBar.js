@@ -10,18 +10,16 @@ import {
 } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import DescriptionIcon from '@mui/icons-material/Description';
-import SettingsIcon from '@mui/icons-material/Settings';
 
-const drawerWidth = 240;
+const drawerWidth = 275;
 
 const navItems = [
-  { text: 'Home', icon: <HomeIcon /> },
+  { text: 'CGI’s template', icon: <HomeIcon /> },
   { text: 'Resumes', icon: <DescriptionIcon /> },
-  { text: 'Settings', icon: <SettingsIcon /> },
 ];
 
 function SideBar() {
-  const [selectedItem, setSelectedItem] = useState('Home');
+  const [selectedItem, setSelectedItem] = useState('CGI’s template');
 
   return (
     <Drawer
@@ -32,14 +30,14 @@ function SideBar() {
         [`& .MuiDrawer-paper`]: {
           width: drawerWidth,
           boxSizing: 'border-box',
-          bgcolor: '#FFF0F0',
+          bgcolor: '#FFFFFF',
+          boxShadow: '0px 2px 6px 2px #00000026',
+          borderRight: 'none',
         },
       }}
     >
       <Toolbar />
-      <Box sx={{ overflowY: 'auto' ,
-        overflowX: 'hidden',
-      }}>
+      <Box>
         <List>
           {navItems.map((item) => (
             <ListItem
@@ -47,26 +45,40 @@ function SideBar() {
               key={item.text}
               onClick={() => setSelectedItem(item.text)}
               sx={{
-                background:
-                  selectedItem === item.text
-                    ? 'linear-gradient(90deg, #E31937, #5236AB)'
-                    : 'transparent',
-                color: selectedItem === item.text ? 'white' : 'inherit',
-                borderRadius: 1,
-                mx: 1,
-                my: 0.5,
+                height: '64px',
+                paddingTop: '10px',
+                paddingBottom: '10px',
+                paddingLeft: '16px',
+                paddingRight: '24px',
+                backgroundColor: selectedItem === item.text ? '#E6E3F3' : '#FFFFFF',
+                borderLeft: selectedItem === item.text ? '4px solid' : '4px solid transparent',
+                borderImage: selectedItem === item.text
+                  ? 'linear-gradient(180deg, #E31937 0%, #5236AB 100%) 1'
+                  : 'none',
+                color: selectedItem === item.text ? '#333333' : '#333333',
                 '&:hover': {
-                  background: 'linear-gradient(90deg, #E31937, #5236AB)',
-                  color: 'white',
+                  backgroundColor: '#E6E3F3',
+                  borderLeft: '4px solid',
+                  borderImage: 'linear-gradient(180deg, #E31937 0%, #5236AB 100%) 1',
                 },
               }}
             >
-              <ListItemIcon sx={{ color: selectedItem === item.text ? 'white' : '#5236AB' }}>
+              <ListItemIcon
+                sx={{
+                  color: '#5236AB',
+                  minWidth: '40px', // fix icon alignment
+                }}
+              >
                 {item.icon}
               </ListItemIcon>
               <ListItemText
                 primary={item.text}
-                primaryTypographyProps={{ fontFamily: 'Source Sans Pro' }}
+                primaryTypographyProps={{
+                  fontFamily: 'Source Sans Pro',
+                  fontSize: '16px',
+                  fontWeight: 400,
+                  color: '#333333',
+                }}
               />
             </ListItem>
           ))}

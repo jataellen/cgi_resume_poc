@@ -1,12 +1,5 @@
 import React, { useState } from 'react';
-import {
-  CssBaseline,
-  Box,
-  Typography,
-  Paper,
-  Button,
-  Stack,
-} from '@mui/material';
+import { CssBaseline, Box, Typography, Button, Stack, Paper } from '@mui/material';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import TopBar from './TopBar';
 import SideBar from './SideBar';
@@ -20,7 +13,7 @@ function App() {
   };
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', height: '100vh', bgcolor: '#F6F8F9' }}>
       <CssBaseline />
       <TopBar />
       <SideBar />
@@ -28,50 +21,93 @@ function App() {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 4,
+          p: 6,
           mt: 8,
+          width: 'calc(100% - 275px)',
+          bgcolor: '#F6F8F9',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          gap: 4,
         }}
       >
-        <Typography variant="h2" color="primary.main" gutterBottom>
+        {/* Heading */}
+        <Typography variant="h2" sx={{ fontWeight: 600, color: '#333333', mb: 1 }}>
           Welcome to ResumeGenie
         </Typography>
-        <Typography variant="h5" sx={{ mb: 4, textAlign: 'center' }}>
-          Upload your resume and let AI help craft the perfect professional summary.
+        <Typography variant="body2" sx={{ fontSize: '16px', color: '#333333', mb: 4 }}>
+          Upload a <strong>PDF</strong> or <strong>DOCX</strong> resume file and let AI help craft the CGI’s template resume.
         </Typography>
 
+        {/* Upload Card */}
         <Paper
-          elevation={3}
+          elevation={0}
           sx={{
-            p: 4,
-            textAlign: 'center',
-            border: '2px dashed #E31937',
-            borderRadius: 3,
-            backgroundColor: '#F2F1F9',
-            maxWidth: 600,
-            width: '100%',
+            width: '601px',
+            height: '266px',
+            padding: '32px 24px',
+            borderTop: '5px solid #5236AB',
+            borderRight: '1px solid #5236AB',
+            borderBottom: '1px solid #5236AB',
+            borderLeft: '1px solid #5236AB',
+            backgroundColor: '#FFFFFF',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '24px',
           }}
         >
-          <Stack spacing={2} alignItems="center">
-            <UploadFileIcon sx={{ fontSize: 60, color: 'primary.main' }} />
-            <Typography variant="h6">Please upload your resume here</Typography>
-            <Button
-              component="label"
-              variant="contained"
-              color="primary"
-              sx={{ fontWeight: 'bold', textTransform: 'none' }}
-            >
-              Upload File
-              <input type="file" hidden onChange={handleUpload} />
-            </Button>
-            {selectedFile && (
-              <Typography variant="body1" sx={{ mt: 1 }}>
-                Uploaded: {selectedFile.name}
-              </Typography>
-            )}
-          </Stack>
+          {/* Upload Icon */}
+          <Box
+            sx={{
+              fontSize: '64px',
+              background: 'linear-gradient(180deg, #E31937 0%, #5236AB 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <span className="material-symbols-outlined" style={{ fontSize: '64px' }}>
+              file_upload
+            </span>
+          </Box>
+
+          {/* Upload Text */}
+          <Typography variant="body1" sx={{ fontSize: '16px', color: '#333333', fontWeight: 400 }}>
+            Upload a <strong>PDF</strong> or <strong>DOCX</strong> resume file
+          </Typography>
+
+          {/* Upload Button */}
+          <Button
+            component="label"
+            variant="contained"
+            color="primary"
+            sx={{
+              width: '200px',
+              height: '48px',
+              backgroundColor: '#5236AB',
+              textTransform: 'none',
+              fontWeight: 600,
+              fontSize: '16px',
+              borderRadius: '4px',
+              '&:hover': {
+                backgroundColor: '#3A2679',
+              },
+            }}
+          >
+            Upload file
+            <input type="file" hidden onChange={handleUpload} />
+          </Button>
+
+          {/* Uploaded file name (optional) */}
+          {selectedFile && (
+            <Typography variant="body2" sx={{ mt: 1, fontSize: '14px', color: '#333333' }}>
+              Uploaded: {selectedFile.name}
+            </Typography>
+          )}
         </Paper>
       </Box>
     </Box>
