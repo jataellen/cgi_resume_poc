@@ -1,3 +1,4 @@
+from docx.shared import RGBColor
 def handle_skills_summary(doc, replacements, res_dict_skills):
     for key, value in replacements:
         for table in doc.tables:
@@ -25,6 +26,11 @@ def replace_text_in_table(doc, replacements, res_dict):
                     for paragraph in cell.paragraphs:
                         if key in paragraph.text:
                             paragraph.text = paragraph.text.replace(key, value)
+                            # setting color to red, only for 'skill level' column
+                            if key == "{skill_level}":
+                                for run in paragraph.runs:
+                                    if value in run.text:
+                                        run.font.color.rgb = RGBColor(255, 0, 0)
                             replacement_made = True
                             break
                     if replacement_made:
