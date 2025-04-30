@@ -1,0 +1,76 @@
+const appStyles = {
+    rootBox: {
+      display: 'flex',
+      height: '100vh',
+      bgcolor: '#F6F8F9',
+    },
+    mainBox: {
+      flexGrow: 1,
+      p: 6,
+      mt: 8,
+      width: 'calc(100% - 275px)',
+      bgcolor: '#F6F8F9',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      gap: 4,
+    },
+    heading: {
+      fontWeight: 600,
+      color: '#333333',
+      mb: 1,
+    },
+    subText: {
+      fontSize: '16px',
+      color: '#333333',
+      mb: 4,
+    },
+    uploadCard: {
+      width: '601px',
+      height: '266px',
+      padding: '32px 24px',
+      borderTop: '5px solid #5236AB',
+      borderRight: '1px solid #5236AB',
+      borderBottom: '1px solid #5236AB',
+      borderLeft: '1px solid #5236AB',
+      backgroundColor: '#FFFFFF',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: '24px',
+    },
+    uploadIcon: {
+      fontSize: '64px',
+      background: 'linear-gradient(180deg, #E31937 0%, #5236AB 100%)',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    uploadText: {
+      fontSize: '16px',
+      color: '#333333',
+      fontWeight: 400,
+    },
+    uploadButton: {
+      width: '200px',
+      height: '48px',
+      backgroundColor: '#5236AB',
+      textTransform: 'none',
+      fontWeight: 600,
+      fontSize: '16px',
+      borderRadius: '4px',
+      '&:hover': {
+        backgroundColor: '#3A2679',
+      },
+    },
+    uploadedFileName: {
+      mt: 1,
+      fontSize: '14px',
+      color: '#333333',
+    },
+  };
+  
+  export default appStyles;

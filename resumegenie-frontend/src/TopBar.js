@@ -1,67 +1,30 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Box, Divider } from '@mui/material';
+import topBarStyles from './styles/topBarStyles'; // Adjust path as necessary
 
 function TopBar() {
   return (
-    <AppBar
-      position="fixed"
-      elevation={2}
-      sx={{
-        backgroundColor: '#FFFFFF',
-        color: '#E31937',
-        boxShadow: '0px 2px 6px 2px #00000026',
-        height: '64px',
-        justifyContent: 'center',
-        zIndex: (theme) => theme.zIndex.drawer + 1,
-      }}
-    >
-      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', height: '64px' }}>
+    <AppBar position="fixed" elevation={2} sx={topBarStyles.appBar}>
+      <Toolbar sx={topBarStyles.toolbar}>
         {/* Left Section */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          {/* CGI Text */}
-          <Typography
-            variant="h6"
-            sx={{
-              fontWeight: 700,
-              fontSize: '40px',
-              color: '#E31937', 
-              fontFamily: 'Source Sans Pro',
-            }}
-          >
+        <Box sx={topBarStyles.leftSection}>
+          <Typography variant="h6" sx={topBarStyles.logoText}>
             CGI
           </Typography>
 
-          {/* Divider */}
-          <Divider
-            orientation="vertical"
-            sx={{
-              height: '18px',
-              borderWidth: '1px',
-              borderColor: '#A8A8A8',
-              mx: 1,
-            }}
-          />
+          <Divider orientation="vertical" sx={topBarStyles.divider} />
 
-          {/* EXPERIENCE DESIGN SYSTEM Text */}
-          <Typography
-            variant="body2"
-            sx={{
-              fontSize: '16px',
-              color: '#333333',
-              fontFamily: 'Source Sans Pro',
-              fontWeight: 400,
-            }}
-          >
+          <Typography variant="body2" sx={topBarStyles.subtitle}>
             ResumeGenie
           </Typography>
         </Box>
 
         {/* Right Section */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <Typography variant="body2" sx={{ fontSize: '14px', color: '#333333' }}>
+        <Box sx={topBarStyles.rightSection}>
+          <Typography variant="body2" sx={topBarStyles.rightText}>
             EN
           </Typography>
-          <Typography variant="body2" sx={{ fontSize: '14px', color: '#333333' }}>
+          <Typography variant="body2" sx={topBarStyles.rightText}>
             Abhi Patel ▼
           </Typography>
         </Box>
