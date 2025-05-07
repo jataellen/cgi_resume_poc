@@ -1,21 +1,24 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Box, Divider } from '@mui/material';
 import topBarStyles from './styles/topBarStyles'; // Adjust path as necessary
-
+import logo from './assets/logo.png';
 function TopBar() {
   return (
     <AppBar position="fixed" elevation={2} sx={topBarStyles.appBar}>
       <Toolbar sx={topBarStyles.toolbar}>
         {/* Left Section */}
         <Box sx={topBarStyles.leftSection}>
-          <Typography variant="h6" sx={topBarStyles.logoText}>
-            CGI
-          </Typography>
+        <Box
+  component="img"
+  src={logo}
+  alt="CGI Logo"
+  sx={topBarStyles.logoImage}
+/>
 
           <Divider orientation="vertical" sx={topBarStyles.divider} />
 
           <Typography variant="body2" sx={topBarStyles.subtitle}>
-            ResumeGenie
+            RESUMEGENIE
           </Typography>
         </Box>
 

@@ -43,9 +43,13 @@ function SideBar() {
                 {item.icon}
               </ListItemIcon>
               <ListItemText
-                primary={item.text}
-                primaryTypographyProps={sidebarStyles.listItemText}
-              />
+  primary={item.text}
+  primaryTypographyProps={{
+    ...sidebarStyles.listItemText,
+    component: 'h3',
+  }}
+/>
+
             </ListItem>
           ))}
         </List>

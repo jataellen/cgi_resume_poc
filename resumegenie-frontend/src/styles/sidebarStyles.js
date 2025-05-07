@@ -43,10 +43,10 @@ const sidebarStyles = {
     minWidth: '40px',
   },
   listItemText: {
-    fontFamily: 'Source Sans Pro',
     fontSize: '16px',
-    fontWeight: 400,
+    fontWeight: 600,
     color: '#333333',
+    
   },
 };
 

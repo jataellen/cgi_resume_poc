@@ -30,10 +30,10 @@ const topBarStyles = {
       mx: 1,
     },
     subtitle: {
-      fontSize: '16px',
+      fontSize: '20px',
       color: '#333333',
-      fontFamily: 'Source Sans Pro',
       fontWeight: 400,
+
     },
     rightSection: {
       display: 'flex',
@@ -44,6 +44,11 @@ const topBarStyles = {
       fontSize: '14px',
       color: '#333333',
     },
+    logoImage: {
+      height: '40px', 
+      width: 'auto',
+    },
+   
   };
   
   export default topBarStyles;
