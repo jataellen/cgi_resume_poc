@@ -46,7 +46,8 @@ def process_replacements(structured_data, res_dict, profile, cgi_title, years_ex
     for key, extractor_func in extractors:
         try:
             value = extractor_func(structured_data)
-            if value is not None:
+            # Skip None, empty strings, empty lists, empty dicts
+            if value and not (isinstance(value, (list, dict)) and len(value) == 0):
                 replacements.append((f"{{{key}}}", value))
             else:
                 failures.append(key)
@@ -56,7 +57,9 @@ def process_replacements(structured_data, res_dict, profile, cgi_title, years_ex
     return replacements, failures
 
 
-def generate_resume(structured_data, years_exp, profile, res_dict):
+def generate_resume(
+    structured_data, years_exp, profile, res_dict, job_description="", role_title=""
+):
     # Update the path to include the 'data' folder
     input_filename = os.path.join("data", "resume_sample.docx")
 
@@ -66,7 +69,7 @@ def generate_resume(structured_data, years_exp, profile, res_dict):
     output_filename = "updated_resume.docx"
 
     #     full_name = structured_data['contact']['name']
-    cgi_title = "Consultant"
+    cgi_title = role_title if role_title else "Consultant"
     sector = "Health Services"
 
     # Usage:
@@ -96,6 +99,9 @@ def generate_resume(structured_data, years_exp, profile, res_dict):
     try:
         o_exp = res_dict["experience"]["other_experience"]
         for exp in o_exp:
+            # Process technologies field if it exists
+            if "technologies" in exp and isinstance(exp["technologies"], list):
+                exp["technologies"] = ", ".join(exp["technologies"])
             try:
                 for key, value in exp.items():
                     replacements.append(("{" + key + "}", value))
@@ -128,6 +134,9 @@ def generate_resume(structured_data, years_exp, profile, res_dict):
         replacements.append(("{education_entry}", ed_list))
     except Exception:
         failures.append("Education")
+
+    # Do not add any explicit mention of job description tailoring - keep it natural and coincidental
+    # Leave out the former code that added a note about tailoring
 
     # Document operations with error handling
     try:
