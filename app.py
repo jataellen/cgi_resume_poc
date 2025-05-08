@@ -8,6 +8,7 @@ import io
 from src.logs_manager import log, initialize_log_box
 from src.resume_llm_handler import resume_stream
 from utils.document_utils import *
+import traceback
 
 # # Streamlit app frontend
 
@@ -41,6 +42,27 @@ if "processed_files" not in st.session_state:
     st.session_state.processed_files = []
 
 with st.form("my-form", clear_on_submit=True):
+    # Add role selection radio button
+    selected_role = st.radio(
+        "Select resume format:",
+        options=["Developer", "Business Analyst", "Director"],
+        index=0,  # Default to Developer
+        horizontal=True,  # Display horizontally for better space usage
+    )
+
+    # Add custom role title field
+    custom_role_title = st.text_input(
+        "Enter specific role title (optional):",
+        help="E.g., 'Senior Full Stack Developer', 'Data Scientist', 'Project Manager'",
+    )
+
+    # Add job description text area with clear optional messaging
+    job_description = st.text_area(
+        "Enter job description (OPTIONAL - for better keyword matching and tailoring):",
+        height=150,
+        help="Paste the job description to tailor the resume with relevant keywords and skills. This is optional but recommended for better results.",
+    )
+
     uploaded_files = st.file_uploader(
         "Upload PDF or DOCX files", type=["pdf", "docx"], accept_multiple_files=True
     )
@@ -56,12 +78,21 @@ if submitted and uploaded_files:
     total_files = len(uploaded_files)
     file_progress_weight = 0.95 / total_files
 
+    # Log the selected role, custom role title, and job description
+    log(f"Selected role type: {selected_role}")
+    if custom_role_title and custom_role_title.strip():
+        log(f"Specific role title: {custom_role_title}")
+    else:
+        log("No specific role title provided - will use role type")
+    if job_description and job_description.strip():
+        log(f"Job description provided: {len(job_description)} characters")
+    else:
+        log("No job description provided - will use standard processing")
+
     for i, uploaded_file in enumerate(uploaded_files):
         # Update progress
         base_progress = i * file_progress_weight
         progress_bar.progress(base_progress)
-        # progress = (i) / len(uploaded_files)
-        # progress_bar.progress(progress)
         status_text.text(
             f"Processing {uploaded_file.name}... ({i+1}/{len(uploaded_files)})"
         )
@@ -75,11 +106,17 @@ if submitted and uploaded_files:
         temp_file_path = convert_to_pdf(uploaded_file, file_id)
 
         try:
-            # Process the PDF
+            # Process the PDF - pass the selected role, custom role title, and job description to the resume_stream function
             resume_stream(
-                st, progress_bar, base_progress, file_progress_weight, temp_file_path
+                st,
+                progress_bar,
+                base_progress,
+                file_progress_weight,
+                temp_file_path,
+                selected_role,
+                custom_role_title,
+                job_description,  # Pass the job description
             )
-            # resume_stream(st, progress_bar, temp_file_path)
             log(f"Processed PDF: {original_file_name}")
 
             # Rename the updated resume, and delete if it already exists
@@ -100,12 +137,24 @@ if submitted and uploaded_files:
                     "output_path": new_file_name,
                     "status": "Success",
                     "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                    "role_type": selected_role,  # Add the role type
+                    "role_title": (
+                        custom_role_title
+                        if custom_role_title and custom_role_title.strip()
+                        else selected_role
+                    ),  # Add the specific role title or default to role type
+                    "job_description": (
+                        "Yes" if (job_description and job_description.strip()) else "No"
+                    ),  # Track if job description was used
                 }
             )
 
         except Exception as e:
             # Handle any unexpected errors
             log(f"Error processing {original_file_name}: {str(e)}")
+            stack_trace = traceback.format_exc()
+            log(f"Stack trace:\n{stack_trace}")
+
             st.session_state.processed_files.append(
                 {
                     "id": file_id,
@@ -113,6 +162,10 @@ if submitted and uploaded_files:
                     "output_path": None,
                     "status": f"Error: {str(e)}",
                     "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                    "role": selected_role,  # Add the role even for failed processes
+                    "job_description": (
+                        "Yes" if job_description else "No"
+                    ),  # Track if job description was used
                 }
             )
 
@@ -128,34 +181,48 @@ if submitted and uploaded_files:
 # Display table of processed files
 if st.session_state.processed_files:
     st.subheader("Processed Files")
-    col1, col2, col3, col4 = st.columns([3, 2, 2, 1])
+    col1, col2, col3, col4, col5, col6 = st.columns(
+        [3, 1.5, 1, 2, 2, 1]
+    )  # Modified column widths for role title
 
     with col1:
-        st.markdown("**File Name**")  # Header for column 1
+        st.markdown("**File Name**")
 
     with col2:
-        st.markdown("**Status**")  # Header for column 2
+        st.markdown("**Role Title**")  # Changed to Role Title
 
     with col3:
-        st.markdown("**Timestamp**")  # Header for column 3
+        st.markdown("**Job Desc**")  # New column for job description
 
     with col4:
-        st.markdown("**Actions**")  # Header for column 4
+        st.markdown("**Status**")
+
+    with col5:
+        st.markdown("**Timestamp**")
+
+    with col6:
+        st.markdown("**Actions**")
 
     # Create the table with the documents and download buttons
     for i, file in enumerate(st.session_state.processed_files):
-        # col1, col2, col3, col4 = st.columns([3, 2, 2, 1])
-
         with col1:
             st.write(file["original_name"])
 
         with col2:
-            st.write(file["status"])
+            st.write(file.get("role_title", file.get("role", "N/A")))
 
         with col3:
-            st.write(file["timestamp"])
+            st.write(
+                file.get("job_description", "No")
+            )  # Display if job description was used
 
         with col4:
+            st.write(file["status"])
+
+        with col5:
+            st.write(file["timestamp"])
+
+        with col6:
             if file["output_path"] and os.path.exists(file["output_path"]):
                 with open(file["output_path"], "rb") as f:
                     st.download_button(
