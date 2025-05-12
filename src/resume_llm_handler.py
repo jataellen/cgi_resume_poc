@@ -8,7 +8,7 @@ from src.resume_generator import generate_resume
 import os
 import json
 import datetime
-from dotenv import load_dotenv
+
 from data.prompts import *
 
 
@@ -46,7 +46,6 @@ def generate_llm_content(
 
 
 def resume_stream(st, progress_bar, base_progress, file_progress_weight, file_path):
-    load_dotenv()
 
     llm = AzureChatOpenAI(
         azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
