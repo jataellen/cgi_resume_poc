@@ -9,6 +9,7 @@ from src.logs_manager import log, initialize_log_box
 from src.resume_llm_handler import resume_stream
 from utils.document_utils import *
 import traceback
+from dotenv import load_dotenv
 
 # # Streamlit app frontend
 
@@ -73,6 +74,7 @@ log_box = st.empty()
 initialize_log_box(log_box)
 if submitted and uploaded_files:
     # Create a progress bar
+    load_dotenv(override=True)
     progress_bar = st.progress(0)
     status_text = st.empty()
     total_files = len(uploaded_files)

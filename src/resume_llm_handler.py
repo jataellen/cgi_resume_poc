@@ -8,7 +8,7 @@ from src.resume_generator import generate_resume
 import os
 import json
 import datetime
-from dotenv import load_dotenv
+
 from data.prompts import *
 
 
@@ -55,7 +55,6 @@ def resume_stream(
     custom_role_title="",
     job_description="",
 ):
-    load_dotenv()
 
     llm = AzureChatOpenAI(
         azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
