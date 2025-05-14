@@ -31,7 +31,7 @@ def change_all_fonts(uploaded_file):
     # Change font for all runs in all paragraphs
     for paragraph in doc.paragraphs:
         for run in paragraph.runs:
-            run.font.name = "Arial"
+            run.font.name = "Times New Roman"
 
     # Change font in table cells
     for table in doc.tables:
@@ -39,17 +39,17 @@ def change_all_fonts(uploaded_file):
             for cell in row.cells:
                 for paragraph in cell.paragraphs:
                     for run in paragraph.runs:
-                        run.font.name = "Arial"
+                        run.font.name = "Times New Roman"
 
     # Change font in headers and footers
     for section in doc.sections:
         for header in section.header.paragraphs:
             for run in header.runs:
-                run.font.name = "Arial"
+                run.font.name = "Times New Roman"
 
         for footer in section.footer.paragraphs:
             for run in footer.runs:
-                run.font.name = "Arial"
+                run.font.name = "Times New Roman"
 
     # Save the modified document to a new BytesIO object
     output_buffer = io.BytesIO()
@@ -79,7 +79,7 @@ def convert_to_pdf(uploaded_file, file_id):
         uploaded_file.type
         == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     ):
-        # Change all fonts to Arial
+        # Change all fonts to Times New Roman
         modified_file = change_all_fonts(uploaded_file)
 
         # Convert to PDF
