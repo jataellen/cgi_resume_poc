@@ -1,85 +1,108 @@
 {
-  "cgi_experience": [],
+  "cgi_experience": [
+    {
+      "cgi_client_or_sector": "client descriptor not provided",
+      "cgi_position_title": "Position title not provided",
+      "cgi_start_date": "Start date not provided",
+      "cgi_end_date": "End date not provided",
+      "cgi_responsibilities": [],
+      "cgi_technologies": []
+    }
+  ],
   "other_experience": [
     {
-      "company": "Amazon",
-      "position_title": "Language Engineer I",
-      "start_date": "11/25",
+      "company": "St. Francis Xavier University",
+      "position_title": "Math, Statistics and Computer Science Learning Center Tutor",
+      "start_date": "09/24",
       "end_date": "Present",
       "responsibilities": [
-        "Designed APIs for language data production and analysis.",
-        "Evaluated large language model (LLM) performance.",
-        "Developed scalable solutions for language data workflows.",
-        "Created prompts for generative AI and automated workflows.",
-        "Conducted data analysis using Python and scripting tools.",
-        "Resolved production issues and deployed Alexa language updates.",
-        "Tested new features using machine learning and deterministic models."
-      ],
-      "technologies": [
-        "Python",
-        "Scripting Tools"
-      ]
-    },
-    {
-      "company": "TEKsystems at Meta",
-      "position_title": "Machine Learning Engineer",
-      "start_date": "02/24",
-      "end_date": "09/24",
-      "responsibilities": [
-        "Replaced features in ads-based models to ensure privacy compliance.",
-        "Implemented feature-replacement algorithms for various model architectures.",
-        "Conducted offline experimentation and online A/B testing for model analysis.",
-        "Collaborated with cross-functional teams to transition to privacy-compliant models."
-      ],
-      "technologies": [
-        "Python"
-      ]
-    },
-    {
-      "company": "TEKsystems at Meta",
-      "position_title": "Prompt Engineering Team Lead",
-      "start_date": "07/23",
-      "end_date": "02/24",
-      "responsibilities": [
-        "Assessed conversational abilities of generative AI models.",
-        "Developed a human evaluation process with safety, accuracy, and engagement metrics.",
-        "Constructed prompt-based fine-tuning strategies through experimentation.",
-        "Built a Python backend system to augment human evaluation workflows.",
-        "Optimized resource allocation by strategically assigning team tasks."
-      ],
-      "technologies": [
-        "Python"
-      ]
-    },
-    {
-      "company": "Geering Up STEM Outreach UBC",
-      "position_title": "Quantum Computing Curriculum Developer",
-      "start_date": "05/23",
-      "end_date": "08/23",
-      "responsibilities": [
-        "Developed curriculum materials for high school workshops and camps.",
-        "Presented curriculum to instructors and conducted training sessions.",
-        "Collected and analyzed participant feedback to improve content and methods."
+        "Provided tutoring support in Math, Statistics, and Computer Science.",
+        "Assisted students across various topics and challenges.",
+        "Dedicated two hours weekly to help students overcome academic difficulties."
       ],
       "technologies": []
     },
     {
-      "company": "Infosys",
-      "position_title": "Network Systems Engineer",
-      "start_date": "07/21",
-      "end_date": "07/22",
+      "company": "Government of Canada",
+      "position_title": "Platform Engineering Co-op",
+      "start_date": "05/24",
+      "end_date": "08/24",
       "responsibilities": [
-        "Trained in Networking, Unix, Routing, and Switching.",
-        "Applied network automation using Ansible and Agile/Scrum practices.",
-        "Designed, documented, and managed projects for EDGE data centers.",
-        "Collaborated on the Everest Project for Daimler."
+        "Set up internal tools, including JFrog Xray and OAuth2 Proxy.",
+        "Collaborated with platforms utilizing Kubernetes, Terraform, and AWS.",
+        "Enhanced problem-solving and platform integration skills."
       ],
       "technologies": [
-        "Networking",
-        "Unix",
-        "Ansible",
-        "Agile/Scrum"
+        "Kubernetes",
+        "Terraform",
+        "AWS",
+        "JFrog Xray",
+        "OAuth2 Proxy"
       ]
+    },
+    {
+      "company": "Government of Canada",
+      "position_title": "Software Development Co-op",
+      "start_date": "05/23",
+      "end_date": "08/23",
+      "responsibilities": [
+        "Developed an internal multi-team website.",
+        "Built back-end features using Python and front-end interfaces with TypeScript.",
+        "Deployed solutions using Docker and Nginx."
+      ],
+      "technologies": [
+        "Python",
+        "TypeScript",
+        "Docker",
+        "Nginx"
+      ]
+    },
+    {
+      "company": "New Castle Hotels and Resorts",
+      "position_title": "Banquet Server, Dishwasher, Rec Monitor",
+      "start_date": "05/22",
+      "end_date": "08/22",
+      "responsibilities": [
+        "Managed three distinct roles across six days a week.",
+        "Improved multitasking and teamwork competencies.",
+        "Adapted strategies to perform effectively in diverse environments."
+      ],
+      "technologies": []
+    },
+    {
+      "company": "Big Cove YMCA Camp",
+      "position_title": "Camp Counsellor",
+      "start_date": "06/21",
+      "end_date": "08/21",
+      "responsibilities": [
+        "Supervised and guided groups of six children on a weekly basis.",
+        "Fostered personal growth and ensured an enriching camp experience.",
+        "Contributed to the camp's exceptional community spirit."
+      ],
+      "technologies": []
+    },
+    {
+      "company": "Dalhousie University",
+      "position_title": "Essay Analyzer",
+      "start_date": "06/19",
+      "end_date": "06/20",
+      "responsibilities": [
+        "Analyzed and evaluated introductory psychology essays for difficulty.",
+        "Enhanced communication, computer, and active listening skills."
+      ],
+      "technologies": []
+    },
+    {
+      "company": "Eastlink",
+      "position_title": "TV Presenter",
+      "start_date": "03/16",
+      "end_date": "03/16",
+      "responsibilities": [
+        "Hosted a 30-minute TV program featuring The Next Step Wild Rhythm Tour.",
+        "Interviewed cast members and provided behind-the-scenes insights.",
+        "Developed strong communication and presentation skills."
+      ],
+      "technologies": []
     }
   ]
 }

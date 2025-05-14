@@ -143,7 +143,7 @@ For other experience format:
 - responsibilities (as action-based bullet points)
 - technologies (as an array of technologies used, if mentioned in the experience)
 
-Rewrite responsibilities into clear, action-based bullet points if needed.
+Rewrite responsibilities into clear, action-based bullet points if needed. The bullet points should be adequately detailed.
 """
 
 
@@ -175,8 +175,8 @@ Ensure the following:
 6. For each experience entry, highlight responsibilities and achievements that align with the job description requirements.
 7. Prioritize and emphasize experiences most relevant to the target job.
 8. Use keywords and terminology from the job description where appropriate and accurate.
-9. Rewrite responsibilities into clear, action-based bullet points that demonstrate relevant skills.
-10. Highlight measurable achievements and outcomes that would be valuable for the target position.
+9. The bullet points should be adequately detailed
+
 
 CRITICAL - ACCURACY FIRST: Maintain 90% fidelity to the original resume content. Make only minor, truthful adjustments (10% at most) to highlight relevant experience for the job description. Never fabricate responsibilities, achievements, technologies or qualifications. Only use terminology from the job description when it genuinely reflects what the candidate actually did. Always prioritize accuracy over optimization. Do not add new technologies or responsibilities that weren't in the original resume.
 
@@ -368,3 +368,20 @@ Provide the output in the following JSON format:
 Ensure the sections are clear, with each skill listed under the appropriate category with years of experience and skill level.
 """
 # --------------------------------------------------------------------------------
+# RFP Summarization
+RFP_SP = """
+You are a proposal manager for a large consulting company. 
+Your task is to create compelling and detailed job descriptions for roles in RFP responses. 
+Each description should highlight specific qualifications, responsibilities, and how the role contributes to project success.
+"""
+
+RFP_HP = """
+Based on the RFP details provided, create a professional 2-paragraph job description for the {input} position. 
+
+- The first paragraph should outline key responsibilities and project contributions. 
+- The second paragraph should detail required skills, experience, and qualifications. 
+
+Include specific technical requirements and domain knowledge relevant to the client's industry. 
+
+Context from RFP: {context}
+"""

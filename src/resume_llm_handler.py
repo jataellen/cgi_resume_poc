@@ -8,8 +8,86 @@ from src.resume_generator import generate_resume
 import os
 import json
 import datetime
-
+from dotenv import load_dotenv
 from data.prompts import *
+
+# Import additional RAG-related libraries
+from langchain_community.vectorstores import FAISS
+from langchain.text_splitter import CharacterTextSplitter
+from langchain_openai import AzureOpenAIEmbeddings
+from langchain_core.prompts import ChatPromptTemplate
+from langchain.chains.combine_documents import create_stuff_documents_chain
+from langchain.chains import create_retrieval_chain
+import traceback
+
+
+def generate_rag_job_description(llm, file_path, role_title):
+    """
+    Uses RAG to analyze an RFP document and generate a comprehensive job description.
+    """
+    try:
+        log(
+            f"Generating job description from RFP file using RAG for role: {role_title}"
+        )
+
+        # Load the PDF
+        loader = PyPDFLoader(file_path)
+        pages = loader.load()
+        pdf_text = "\n".join([doc.page_content for doc in pages])
+
+        # Split text into chunks
+        text_splitter = CharacterTextSplitter(chunk_size=3000, chunk_overlap=100)
+        documents = text_splitter.split_text(pdf_text)
+
+        # Ensure documents are clean and valid
+        documents = [
+            doc for doc in documents if doc and isinstance(doc, str) and doc.strip()
+        ]
+
+        if not documents:
+            log("Warning: No valid text extracted from the document")
+            return ""
+
+        # Create embeddings with proper deployment
+        embeddings = AzureOpenAIEmbeddings(
+            model="text-embedding-3-large",
+            azure_endpoint="https://cgi-resume-openai.openai.azure.com/openai/deployments/text-embedding-ada-002/embeddings?api-version=2023-05-15",
+            api_key=os.environ["AZURE_OPENAI_API_KEY"],
+        )
+
+        # Log for debugging
+        log(f"Creating vector store with {len(documents)} document chunks")
+
+        # Create vector store
+        vector_store = FAISS.from_texts(documents, embeddings)
+        retriever = vector_store.as_retriever()
+
+        # Create prompt
+        prompt = ChatPromptTemplate.from_messages(
+            [
+                ("system", RFP_SP),
+                ("human", RFP_HP),
+            ]
+        )
+
+        # Create and execute retrieval chain
+        question_answer_chain = create_stuff_documents_chain(llm, prompt)
+        chain = create_retrieval_chain(retriever, question_answer_chain)
+
+        # Invoke with the specific role
+        log(f"Executing RAG retrieval chain for {role_title}")
+        response = chain.invoke({"input": role_title})
+        job_description = response["answer"]
+
+        log(
+            f"Successfully generated job description from RFP ({len(job_description)} chars)"
+        )
+        return job_description
+
+    except Exception as e:
+        log(f"Error generating job description from RFP: {str(e)}")
+        log(traceback.format_exc())  # Corrected to format_exc() to get string
+        return ""
 
 
 def generate_llm_content(
@@ -54,7 +132,9 @@ def resume_stream(
     selected_role,
     custom_role_title="",
     job_description="",
+    rfp_file_path=None,  # Added parameter for RFP file
 ):
+    load_dotenv()
 
     llm = AzureChatOpenAI(
         azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
@@ -63,6 +143,31 @@ def resume_stream(
         deployment_name="gpt-4o",
         model="gpt-4o",  # Ensure function calling support
     )
+
+    # If RFP file is provided, generate a job description from it
+    if rfp_file_path and os.path.exists(rfp_file_path):
+        log(f"RFP file detected: {rfp_file_path}")
+        # Determine role title to use for the RAG job description generation
+        role_for_rag = custom_role_title.strip() if custom_role_title else selected_role
+
+        # Generate job description from RFP
+        rfp_job_description = generate_rag_job_description(
+            llm, rfp_file_path, role_for_rag
+        )
+
+        # If successful and user didn't provide a job description, use the generated one
+        if rfp_job_description and not (job_description and job_description.strip()):
+            log("Using RFP-generated job description")
+            job_description = rfp_job_description
+        # If user provided a job description, combine it with the RFP-generated one
+        elif rfp_job_description and job_description and job_description.strip():
+            log(
+                "Combining user-provided job description with RFP-generated description"
+            )
+            job_description = f"{job_description}\n\nAdditional requirements from RFP:\n{rfp_job_description}"
+
+    # Update progress
+    progress_bar.progress(base_progress + file_progress_weight * 0.1)
 
     loader = PyPDFLoader(file_path)
     pages = []
@@ -167,9 +272,6 @@ def resume_stream(
     else:
         role_title = custom_role_title.strip()
         log(f"Using provided role title: {role_title}")
-
-    # Use the custom role title if provided, otherwise use the selected role type
-    # role_title = custom_role_title.strip() if custom_role_title and custom_role_title.strip() else selected_role
 
     # Generate tailored profile based on job description if provided
     if job_description and job_description.strip():
