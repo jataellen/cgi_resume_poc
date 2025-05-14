@@ -201,6 +201,12 @@ def resume_stream(
     # Update progress - 20% complete for this file
     progress_bar.progress(base_progress + file_progress_weight * 0.2)
 
+    custom_role_title_string = (
+        f"\nAnd considering the target role type of {custom_role_title}, aligning with the general role type, while being more general:\n"
+        if custom_role_title
+        else ""
+    )
+
     # Generate an appropriate role title if not provided by user
     if not custom_role_title or not custom_role_title.strip():
         role_title = generate_llm_content(
@@ -209,7 +215,7 @@ def resume_stream(
             human_prompt_template=ROLE_TITLE_GEN_HP,
             format_args={
                 "structured_data": json.dumps(structured_data, indent=2),
-                "selected_role": selected_format,  # Changed from selected_role
+                "custom_role_title_string": custom_role_title_string,
             },
         )
         log(f"Generated role title: {role_title}")

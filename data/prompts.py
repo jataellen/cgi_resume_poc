@@ -6,16 +6,13 @@ ROLE_TITLE_GEN_HP = """
 Based on the following structured resume data:
 
 {structured_data}
-
-And considering the target role type of {selected_role}:
-
+{custom_role_title_string}
 Determine the most appropriate professional title for this individual that accurately reflects their experience level, skills, and career trajectory. The title should:
 
 1. Be industry-standard and recognizable (e.g., "Senior Software Developer" rather than "Code Wizard")
 2. Incorporate their primary technical domain or specialty if clear
 3. Be appropriately specific but not overly niche
-4. Align with the general role type ({selected_role}) while being more general
-5. Be 2-5 words in length
+4. Be 2-5 words in length
 
 Only return the professional title, with no additional explanation or commentary.
 """
