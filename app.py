@@ -342,9 +342,7 @@ if submitted and uploaded_files:
             log(f"Processed PDF: {original_file_name}")
 
             # Rename the updated resume, and delete if it already exists
-            new_file_name = (
-                os.path.splitext(original_file_name)[0] + f"_updated_{file_id}.docx"
-            )
+            new_file_name = os.path.splitext(original_file_name)[0] + f"_updated.docx"
             if os.path.exists(new_file_name):
                 os.remove(new_file_name)
                 log(f"Deleted existing file: {new_file_name}")

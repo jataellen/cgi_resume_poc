@@ -102,7 +102,6 @@ Reformat the experience section into a structured JSON format, ensuring the foll
 - Clearly include fields for 'company', 'job_title', 'start_date', 'end_date', 'responsibilities', and 'technologies'.
 
 - If the entry is under a 'CGI Experience' heading, prepend CGI to the company field along with the entire detailed client descriptor
-- Rewrite responsibilities into clear, action-based bullet points.
 - Include a 'Technologies' field listing relevant technologies used.
 - Ensure consistency, readability, and completeness.
 """
@@ -143,7 +142,7 @@ For other experience format:
 - responsibilities (as action-based bullet points)
 - technologies (as an array of technologies used, if mentioned in the experience)
 
-Rewrite responsibilities into clear, action-based bullet points if needed. The bullet points should be adequately detailed.
+Rewrite responsibilities into clear, action-based bullet points if needed. The bullet points should be detailed and at least 15 words
 """
 
 
