@@ -169,8 +169,8 @@ with st.form("my-form", clear_on_submit=True):
     # Create a card-like effect for the form
 
     st.subheader("Step 1: Choose Your Resume Format")
-    # Add role selection radio button with better styling
-    selected_role = st.radio(
+    # Add format selection radio button with better styling
+    selected_format = st.radio(
         "Select resume format:",
         options=["Developer", "Business Analyst", "Director"],
         index=0,  # Default to Developer
@@ -283,8 +283,8 @@ if submitted and uploaded_files:
     total_files = len(uploaded_files)
     file_progress_weight = 0.95 / total_files
 
-    # Log the selected role, custom role title, and optimization method
-    log(f"Selected role type: {selected_role}")
+    # Log the selected format, custom role title, and optimization method
+    log(f"Selected resume format: {selected_format}")
     if custom_role_title and custom_role_title.strip():
         log(f"Specific role title: {custom_role_title}")
     else:
@@ -334,7 +334,7 @@ if submitted and uploaded_files:
                 base_progress,
                 file_progress_weight,
                 temp_file_path,
-                selected_role,
+                selected_format,  # Changed from selected_role to selected_format
                 custom_role_title,
                 job_description,
                 rfp_file_path,  # Pass the RFP file path
@@ -357,11 +357,11 @@ if submitted and uploaded_files:
                     "output_path": new_file_name,
                     "status": "Success",
                     "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                    "role_type": selected_role,  # Add the role type
+                    "role_type": selected_format,  # Changed from selected_role to selected_format
                     "role_title": (
                         custom_role_title
                         if custom_role_title and custom_role_title.strip()
-                        else selected_role
+                        else selected_format  # Changed from selected_role to selected_format
                     ),  # Add the specific role title or default to role type
                     "job_description_type": st.session_state.optimization_method,  # Store the type of job description used
                     "job_description": (
@@ -399,7 +399,7 @@ if submitted and uploaded_files:
                     "output_path": None,
                     "status": f"Error: {str(e)}",
                     "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                    "role": selected_role,  # Add the role even for failed processes
+                    "role": selected_format,  # Changed from selected_role to selected_format
                     "job_description_type": st.session_state.optimization_method,  # Store the type of job description used
                     "job_description": (
                         "Yes"

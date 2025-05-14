@@ -129,7 +129,7 @@ def resume_stream(
     base_progress,
     file_progress_weight,
     file_path,
-    selected_role,
+    selected_format,  # Changed from selected_role to selected_format
     custom_role_title="",
     job_description="",
     rfp_file_path=None,  # Added parameter for RFP file
@@ -148,7 +148,9 @@ def resume_stream(
     if rfp_file_path and os.path.exists(rfp_file_path):
         log(f"RFP file detected: {rfp_file_path}")
         # Determine role title to use for the RAG job description generation
-        role_for_rag = custom_role_title.strip() if custom_role_title else selected_role
+        role_for_rag = (
+            custom_role_title.strip() if custom_role_title else selected_format
+        )  # Changed from selected_role
 
         # Generate job description from RFP
         rfp_job_description = generate_rag_job_description(
@@ -207,7 +209,7 @@ def resume_stream(
             human_prompt_template=ROLE_TITLE_GEN_HP,
             format_args={
                 "structured_data": json.dumps(structured_data, indent=2),
-                "selected_role": selected_role,
+                "selected_role": selected_format,  # Changed from selected_role
             },
         )
         log(f"Generated role title: {role_title}")
@@ -267,7 +269,7 @@ def resume_stream(
                 log(
                     f"WARNING: Generated role title contains skill '{tech}' not found in resume. Using generic title."
                 )
-                role_title = selected_role.title()
+                role_title = selected_format.title()  # Changed from selected_role
                 break
     else:
         role_title = custom_role_title.strip()
@@ -382,9 +384,15 @@ def resume_stream(
 
     print("Data saved to resume_data.json")
 
-    # Pass job description and role title to generate_resume
+    # Pass job description, role title, and format type to generate_resume
     generate_resume(
-        structured_data, years_exp, profile, res_dict, job_description, role_title
+        structured_data,
+        years_exp,
+        profile,
+        res_dict,
+        job_description,
+        role_title,
+        selected_format,  # Add selected_format parameter
     )
 
 
