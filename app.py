@@ -134,7 +134,7 @@ with col1:
     )
 
     st.image(
-        "C:\\Users\\jata.maccabe\\Documents\\GitHub\\cgi_resume_poc\\assets\\genie_logo.png",
+        "assets\\genie_logo.png",
         width=80,
     )
 with col2:
