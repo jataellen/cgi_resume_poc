@@ -21,3 +21,4 @@ streamlit
 pydantic==2.8
 Spire.Doc
 plum-dispatch==1.7.4
+faiss-cpu

@@ -1,484 +1,438 @@
 {
     "structured_data": {
         "contact": {
-            "name": "ANANYA APPARAJU",
-            "email": "ananya.apparaju@gmail.com",
+            "name": "Aimee Hastings-James",
+            "email": "",
             "phone": "",
             "location": "",
             "linkedin": "",
             "website": ""
         },
-        "professional_summary": "Passionate about solving complex problems in natural language processing and information retrieval. Skilled in machine learning and deep learning techniques. Experienced in Python, Java, and C++. Committed to continuous learning and driving innovation in language technology.",
+        "professional_summary": "Aimee Hastings-James is a dedicated and driven emerging professional in the fields of Computer Science and Mathematics, set to graduate from St. Francis Xavier University in May 2025. With a solid foundation in programming languages such as Python, Java, and C++, alongside expertise in tools like Kubernetes, Terraform, and AWS, Aimee has already demonstrated remarkable aptitude in software development and platform engineering during her co-op roles with the Government of Canada. Her hands-on experience ranges from developing multi-team internal websites using Python and TypeScript to deploying critical tools for internal use, showcasing her ability to solve complex problems and deliver impactful results.",
         "education": [
             {
-                "degree": "Master of Data Science",
-                "field_of_study": "Computational Linguistics",
-                "institution": "University of British Columbia",
-                "location": "Vancouver, BC",
-                "graduation_year": "06/2023"
+                "degree": "Bachelor's",
+                "field_of_study": "Computer Science and Math",
+                "institution": "St. Francis Xavier University",
+                "location": "",
+                "graduation_year": "2025"
             },
             {
-                "degree": "Bachelor of Technology",
-                "field_of_study": "Electronics and Communications Engineering",
-                "institution": "Jawaharlal Nehru Technological University",
-                "location": "Hyderabad, Telangana, India",
-                "graduation_year": "11/2020"
+                "institution": "Citadel High School"
+            },
+            {
+                "institution": "Halifax Central Junior High"
+            },
+            {
+                "institution": "Maritime Conservatory School of Dance"
             }
         ],
         "experience": [
             {
-                "job_title": "Language Engineer I",
-                "company": "Amazon",
-                "location": "Chennai, India",
-                "start_date": "11/25",
+                "job_title": "Math, Statistics and Computer Science Learning Center Tutor",
+                "company": "St. Francis Xavier University",
+                "location": "",
+                "start_date": "09/24",
                 "end_date": "Present",
-                "responsibilities": "Collaborated with scientists and engineers to design APIs, evaluate LLM performance, and develop scalable solutions for language data production and analysis. Engineered prompts for generative AI, automated workflows, and performed data analysis using Python and scripting tools. Managed customer-facing ML and deterministic models, resolved production issues, deployed Alexa language updates, and tested new features with modeling tools."
+                "responsibilities": "Provided tutoring support in Math, Statistics, and Computer Science. Assisted students across various topics and challenges. Dedicated two hours weekly to help students overcome academic difficulties."
             },
             {
-                "job_title": "Machine Learning Engineer",
-                "company": "TEKsystems at Meta",
-                "location": "Vancouver, BC",
-                "start_date": "02/2024",
-                "end_date": "09/2024",
-                "responsibilities": "Performed extensive feature replacement for ads-based models to ensure privacy compliance while retaining neutral metrics. Implemented innovative feature-replacement algorithms on models of varying architectures in a consolidated feature space. Conducted thorough testing and analysis through offline experimentation and online A/B testing. Collaborated closely with cross-functional teams to facilitate a seamless transition to privacy-compliant models."
+                "job_title": "Platform Engineering Co-op",
+                "company": "Government of Canada",
+                "location": "",
+                "start_date": "05/24",
+                "end_date": "08/24",
+                "responsibilities": "Set up internal tools, including JFrog Xray and OAuth2 Proxy. Collaborated with platforms utilizing Kubernetes, Terraform, and AWS. Enhanced problem-solving and platform integration skills."
             },
             {
-                "job_title": "Prompt Engineering Team Lead",
-                "company": "TEKsystems at Meta",
-                "location": "Vancouver, BC",
-                "start_date": "07/2023",
-                "end_date": "02/2024",
-                "responsibilities": "Led a comprehensive assessment of conversational abilities of generative AI models. Established a novel human evaluation process to measure specific conversational criteria- developed metrics for safety, accuracy, naturalness, and engagement levels of AI responses. Constructed effective prompt-based finetuning strategies, improved thorough adversarial and red-teaming experimentation. Developed a backend Pythonic system to augment human evaluation. Conducted strategic evaluations of team capabilities to allocate daily tasks which improved efficiency, reduced learning curves, and optimized resource allocation."
+                "job_title": "Software Development Co-op",
+                "company": "Government of Canada",
+                "location": "",
+                "start_date": "05/23",
+                "end_date": "08/23",
+                "responsibilities": "Developed an internal multi-team website. Built back-end features using Python and front-end interfaces with TypeScript. Deployed solutions using Docker and Nginx."
             },
             {
-                "job_title": "Quantum Computing Curriculum Developer",
-                "company": "Geering Up STEM Outreach UBC",
-                "location": "Vancouver, BC",
-                "start_date": "05/2023",
-                "end_date": "08/2023",
-                "responsibilities": "Collaborated with industry professionals and graduate students to develop age-appropriate curriculum materials for high school workshops, camps, and teacher training programs, created engaging and interactive learning experiences. Presented curriculum to instructors, provided training sessions, and guided them in the delivery of quantum computing workshops and camps. Collected and analyzed participant feedback to continuously improve curriculum content and instructional methods, aiming to enhance the educational experience."
+                "job_title": "Banquet Server, Dishwasher and Rec Monitor",
+                "company": "New Castle Hotels and Resorts, Legendary Hospitality and Emera Oval",
+                "location": "",
+                "start_date": "05/22",
+                "end_date": "08/22",
+                "responsibilities": "Managed three distinct roles across six days a week. Improved multitasking and teamwork competencies. Adapted strategies to perform effectively in diverse environments."
             },
             {
-                "job_title": "Network Systems Engineer",
-                "company": "Infosys",
-                "location": "Hyderabad, Telangana, India",
-                "start_date": "07/2021",
-                "end_date": "07/2022",
-                "responsibilities": "Trained in Networking, Unix, Routing, Switching, Network Automation with Ansible and Agile and Scrum practices. Implemented design, documentation, and project management in EDGE DCs for Daimler, as a part of the Everest Project."
+                "job_title": "Camp Counsellor",
+                "company": "Big Cove YMCA Camp",
+                "location": "",
+                "start_date": "06/21",
+                "end_date": "08/21",
+                "responsibilities": "Supervised and guided groups of six children on a weekly basis. Fostered personal growth and ensured an enriching camp experience. Contributed to the camp's exceptional community spirit."
+            },
+            {
+                "job_title": "Essay Analyzer",
+                "company": "Dalhousie University",
+                "location": "",
+                "start_date": "06/19",
+                "end_date": "06/20",
+                "responsibilities": "Analyzed and evaluated introductory psychology essays for difficulty. Enhanced communication, computer, and active listening skills."
+            },
+            {
+                "job_title": "TV Presenter",
+                "company": "Eastlink",
+                "location": "",
+                "start_date": "03/16",
+                "end_date": "03/16",
+                "responsibilities": "Hosted a 30-minute TV program featuring The Next Step Wild Rhythm Tour. Interviewed cast members and provided behind-the-scenes insights. Developed strong communication and presentation skills."
             }
         ],
         "skills": [
             "Python",
-            "SQL/NoSQL",
             "Java",
-            "C/C++",
+            "C++",
+            "Assembly",
+            "JavaScript",
+            "SQL",
+            "Kotlin",
+            "ReactJS",
+            "Flask",
+            "FastAPI",
             "Git",
-            "Unix/Ansible",
-            "HTML/CSS",
-            "React",
-            "Data Manipulation",
-            "Descriptive Statistics and Probability",
-            "Algorithms and Data Structures",
-            "Data Visualization",
-            "Statistical Inference",
-            "Supervised Learning",
-            "Regression",
-            "Computational Parsing",
-            "Computational Semantics",
-            "Unsupervised Learning",
-            "Computational Morphology",
-            "Machine Translation",
-            "Sentiment Analysis",
-            "NLP for Low Resource Languages",
-            "Prompt Engineering",
-            "Analog and Digital Networks",
-            "Switching and Logic Theory",
-            "Digital Signal and Image Processing"
+            "GitLab",
+            "Bitbucket",
+            "Terraform",
+            "HCL",
+            "Grafana",
+            "Kubernetes",
+            "AWS",
+            "Cloud Infrastructure",
+            "Time Management",
+            "Communication Skills",
+            "Team Collaboration",
+            "Multitasking",
+            "Problem Solving",
+            "Project Leadership"
         ],
-        "volunteer_experience": [
-            {
-                "organization": "Stanford University",
-                "role": "Section Leader for Code in Place",
-                "location": "",
-                "start_date": "",
-                "end_date": "",
-                "description": "Facilitated weekly discussion sessions for 8-10 students as a volunteer section leader to supplement professors' lectures in the 6-week introductory Python programming course. Collaborated with a diverse group of 700 volunteer teachers and 9000 students from around the world to deliver a quality educational experience."
-            }
+        "volunteer_experience": [],
+        "certifications": [],
+        "projects": [],
+        "languages": [
+            "English"
         ],
-        "projects": [
-            {
-                "title": "NLP-Based Analysis of Ontario Housing Legislation and Judicial Relevance Factors in Decisions on Eviction (Capstone Project)",
-                "description": "Conducted text mining and comprehensive analysis of 44,228 Ontario Housing cases using NLP principles. Developed a validated model to determine recurring factors that judges consider when ordering or delaying evictions. Designed and built an API/dashboard to provide quasi-real-time outcomes by applying the model to any Residential Tenancy Board (RTB) decisions.",
-                "technologies": [],
-                "link": ""
-            },
-            {
-                "title": "SIGMORPHON Shared Task on Interlinear Glossing",
-                "description": "Published a paper that was accepted into ACL titled 'Glossy Bytes- Neural Glossing using Subword Encoding.' Researched ways to automate the creation of interlinear glossed text, a key annotated data type in linguistic fieldwork and often the sole form of annotated data accessible for NLP work in low-resource languages. Developed a transformer-based deep learning model that produces grammatical descriptions at the morpheme level based on input sentences adhering to the Leipzig glossing conventions.",
-                "technologies": [],
-                "link": ""
-            },
-            {
-                "title": "Brainy: The Mental Health Screening Chatbot",
-                "description": "Finetuned an LLM using cutting edge prompt engineering techniques to administer psychological screening surveys in a conversational manner. Developed a web app interface for the screening tests.",
-                "technologies": [],
-                "link": ""
-            },
-            {
-                "title": "The Bookdel Test: Examining Female Participation in Jane Austen Novels",
-                "description": "Adapted the Bechdel Test for classic literature using advanced corpus linguistics techniques using Jane Austen novels as a baseline. Annotated a collection of Jane Austen\u2019s bibliography to assess gender representation. Developed a searchable web app for the entire annotated corpora. Featured on the UBC website's 'Data Science in Action' tab.",
-                "technologies": [],
-                "link": ""
-            }
-        ],
-        "languages": [],
         "awards": []
     },
-    "years_exp": "7 years of experience in Machine Learning and AI Engineering",
-    "profile": "Ananya Apparaju is a highly skilled Machine Learning Engineer with a strong foundation in developing innovative solutions that integrate AI functionalities and enhance operational efficiency. With hands-on expertise in Python, Java, and C++, Ananya has successfully engineered scalable systems and automated workflows while ensuring compliance with complex regulations. Her experience includes collaborating with cross-functional teams to implement privacy-compliant features, streamline processes, and deliver robust solutions that align with organizational goals. Ananya\u2019s technical acumen is complemented by her ability to leverage advanced security protocols and system integrations to maintain data integrity and optimize client experiences.\n\nAnanya\u2019s recent roles highlight her ability to lead and contribute to impactful projects in AI and cloud-based systems. As a Language Engineer at Amazon, she developed scalable APIs, evaluated large language models, and automated data analysis processes to improve system performance. Her tenure as a Machine Learning Engineer at Meta involved implementing feature-replacement algorithms and conducting rigorous A/B testing to ensure metrics neutrality while meeting privacy standards. Additionally, her leadership in prompt engineering at Meta showcased her talent for constructing metrics-driven strategies, enhancing AI conversational capabilities, and optimizing team workflows. These experiences demonstrate her adaptability to diverse challenges and her commitment to delivering user-centric solutions.\n\nWith a Master\u2019s degree in Data Science specializing in Computational Linguistics, Ananya combines deep technical knowledge with industry experience to design innovative applications in natural language processing and information retrieval. Her proficiency in database management systems (SQL/NoSQL), API development, and AI-driven automation aligns seamlessly with the requirements for modernizing client services. Ananya\u2019s dedication to solving complex problems and driving innovation positions her as a valuable asset in roles requiring expertise in cloud-hosted CRM solutions and workflow automation.",
+    "years_exp": "2 years of experience in Software Development and Platform Engineering",
+    "profile": "Aimee Hastings-James is an ambitious and highly skilled emerging professional in Computer Science and Mathematics, poised to graduate from St. Francis Xavier University in May 2025. With a strong academic foundation and hands-on experience, she has excelled in software development and platform engineering during her co-op placements with the Government of Canada. Aimee\u2019s technical proficiency spans programming languages like Python, Java, and C++, as well as advanced tools such as Kubernetes, Terraform, and AWS. Her ability to design and deploy impactful solutions is evident in her development of internal multi-team websites and critical platform tools.\n\nIn addition to her technical expertise, Aimee demonstrates exceptional communication and problem-solving skills, fostered through diverse roles such as tutoring at St. Francis Xavier University and working as a banquet server, camp counselor, and TV presenter. Her adaptability and dedication shine through her ability to manage multiple responsibilities, such as tutoring students weekly in Math, Statistics, and Computer Science or guiding young campers to foster personal growth. Aimee\u2019s versatility is further evident in her contributions to interdisciplinary projects, where she leverages her programming and leadership skills to deliver results.\n\nAs a proactive learner and collaborator, Aimee embodies teamwork and innovation, making her a valuable asset in any environment. Her extensive technical skill set, including ReactJS, Flask, Kubernetes, and cloud infrastructure, is complemented by her commitment to personal and professional growth. With her proven track record in both academic and professional settings, Aimee is well-equipped to tackle complex challenges and create meaningful impact in the field of technology.",
     "res_dict": {
         "experience": {
-            "cgi_experience": [],
+            "cgi_experience": [
+                {
+                    "cgi_client_or_sector": "client descriptor not provided",
+                    "cgi_position_title": "Position title not provided",
+                    "cgi_start_date": "Start date not provided",
+                    "cgi_end_date": "End date not provided",
+                    "cgi_responsibilities": [],
+                    "cgi_technologies": []
+                }
+            ],
             "other_experience": [
                 {
-                    "company": "Amazon",
-                    "position_title": "Language Engineer I",
-                    "start_date": "11/25",
+                    "company": "St. Francis Xavier University",
+                    "position_title": "Math, Statistics and Computer Science Learning Center Tutor",
+                    "start_date": "09/24",
                     "end_date": "Present",
                     "responsibilities": [
-                        "Collaborated with scientists and engineers to design APIs, evaluate LLM performance, and develop scalable solutions for language data production and analysis.",
-                        "Engineered prompts for generative AI, automated workflows, and performed data analysis using Python and scripting tools.",
-                        "Managed customer-facing ML and deterministic models, resolved production issues, deployed Alexa language updates, and tested new features with modeling tools."
+                        "Provided tutoring support in Math, Statistics, and Computer Science.",
+                        "Assisted students across various topics and challenges.",
+                        "Dedicated two hours weekly to help students overcome academic difficulties."
                     ],
-                    "technologies": [
-                        "Python",
-                        "Scripting Tools",
-                        "ML",
-                        "Generative AI"
-                    ]
+                    "technologies": []
                 },
                 {
-                    "company": "TEKsystems at Meta",
-                    "position_title": "Machine Learning Engineer",
-                    "start_date": "02/24",
-                    "end_date": "09/24",
+                    "company": "Government of Canada",
+                    "position_title": "Platform Engineering Co-op",
+                    "start_date": "05/24",
+                    "end_date": "08/24",
                     "responsibilities": [
-                        "Performed extensive feature replacement for ads-based models to ensure privacy compliance while retaining neutral metrics.",
-                        "Implemented innovative feature-replacement algorithms on models of varying architectures in a consolidated feature space.",
-                        "Conducted thorough testing and analysis through offline experimentation and online A/B testing.",
-                        "Collaborated closely with cross-functional teams to facilitate a seamless transition to privacy-compliant models."
+                        "Set up internal tools, including JFrog Xray and OAuth2 Proxy.",
+                        "Collaborated with platforms utilizing Kubernetes, Terraform, and AWS.",
+                        "Enhanced problem-solving and platform integration skills."
                     ],
                     "technologies": [
-                        "Feature-Replacement Algorithms",
-                        "A/B Testing",
-                        "Privacy Compliance"
+                        "Kubernetes",
+                        "Terraform",
+                        "AWS",
+                        "JFrog Xray",
+                        "OAuth2 Proxy"
                     ]
                 },
                 {
-                    "company": "TEKsystems at Meta",
-                    "position_title": "Prompt Engineering Team Lead",
-                    "start_date": "07/23",
-                    "end_date": "02/24",
-                    "responsibilities": [
-                        "Led a comprehensive assessment of conversational abilities of generative AI models.",
-                        "Established a novel human evaluation process to measure specific conversational criteria, developing metrics for safety, accuracy, naturalness, and engagement levels of AI responses.",
-                        "Constructed effective prompt-based fine-tuning strategies and improved through adversarial and red-teaming experimentation.",
-                        "Developed a backend Pythonic system to augment human evaluation.",
-                        "Conducted strategic evaluations of team capabilities to allocate daily tasks, improving efficiency, reducing learning curves, and optimizing resource allocation."
-                    ],
-                    "technologies": [
-                        "Generative AI",
-                        "Python",
-                        "Prompt Engineering",
-                        "Adversarial Experimentation"
-                    ]
-                },
-                {
-                    "company": "Geering Up STEM Outreach UBC",
-                    "position_title": "Quantum Computing Curriculum Developer",
+                    "company": "Government of Canada",
+                    "position_title": "Software Development Co-op",
                     "start_date": "05/23",
                     "end_date": "08/23",
                     "responsibilities": [
-                        "Collaborated with industry professionals and graduate students to develop age-appropriate curriculum materials for high school workshops, camps, and teacher training programs.",
-                        "Presented curriculum to instructors, provided training sessions, and guided them in the delivery of quantum computing workshops and camps.",
-                        "Collected and analyzed participant feedback to continuously improve curriculum content and instructional methods, enhancing the educational experience."
+                        "Developed an internal multi-team website.",
+                        "Built back-end features using Python and front-end interfaces with TypeScript.",
+                        "Deployed solutions using Docker and Nginx."
                     ],
                     "technologies": [
-                        "Quantum Computing"
+                        "Python",
+                        "TypeScript",
+                        "Docker",
+                        "Nginx"
                     ]
                 },
                 {
-                    "company": "Infosys",
-                    "position_title": "Network Systems Engineer",
-                    "start_date": "07/21",
-                    "end_date": "07/22",
+                    "company": "New Castle Hotels and Resorts",
+                    "position_title": "Banquet Server, Dishwasher, Rec Monitor",
+                    "start_date": "05/22",
+                    "end_date": "08/22",
                     "responsibilities": [
-                        "Trained in Networking, Unix, Routing, Switching, Network Automation with Ansible, and Agile and Scrum practices.",
-                        "Implemented design, documentation, and project management in EDGE DCs for Daimler as part of the Everest Project."
+                        "Managed three distinct roles across six days a week.",
+                        "Improved multitasking and teamwork competencies.",
+                        "Adapted strategies to perform effectively in diverse environments."
                     ],
-                    "technologies": [
-                        "Networking",
-                        "Unix",
-                        "Routing",
-                        "Switching",
-                        "Ansible",
-                        "Agile",
-                        "Scrum"
-                    ]
+                    "technologies": []
+                },
+                {
+                    "company": "Big Cove YMCA Camp",
+                    "position_title": "Camp Counsellor",
+                    "start_date": "06/21",
+                    "end_date": "08/21",
+                    "responsibilities": [
+                        "Supervised and guided groups of six children on a weekly basis.",
+                        "Fostered personal growth and ensured an enriching camp experience.",
+                        "Contributed to the camp's exceptional community spirit."
+                    ],
+                    "technologies": []
+                },
+                {
+                    "company": "Dalhousie University",
+                    "position_title": "Essay Analyzer",
+                    "start_date": "06/19",
+                    "end_date": "06/20",
+                    "responsibilities": [
+                        "Analyzed and evaluated introductory psychology essays for difficulty.",
+                        "Enhanced communication, computer, and active listening skills."
+                    ],
+                    "technologies": []
+                },
+                {
+                    "company": "Eastlink",
+                    "position_title": "TV Presenter",
+                    "start_date": "03/16",
+                    "end_date": "03/16",
+                    "responsibilities": [
+                        "Hosted a 30-minute TV program featuring The Next Step Wild Rhythm Tour.",
+                        "Interviewed cast members and provided behind-the-scenes insights.",
+                        "Developed strong communication and presentation skills."
+                    ],
+                    "technologies": []
                 }
             ]
         },
         "volunteer": {
             "volunteer_experience": [
                 {
-                    "role": "Section Leader",
-                    "organization": "Code in Place, Stanford University",
-                    "location": "Online",
-                    "start_date": "N/A",
-                    "end_date": "N/A",
+                    "role": "Camp Counsellor",
+                    "organization": "Big Cove YMCA Camp",
+                    "location": "",
+                    "start_date": "06/21",
+                    "end_date": "08/21",
                     "responsibilities": [
-                        "Facilitated weekly discussion sessions for 8-10 students to supplement lectures in a 6-week introductory Python programming course.",
-                        "Collaborated with 700 volunteer teachers and 9000 students globally to deliver a quality educational experience.",
-                        "Enhanced participant engagement and learning outcomes through effective communication and structured mentorship."
+                        "Supervised and guided groups of six children weekly.",
+                        "Fostered personal growth and ensured an enriching camp experience.",
+                        "Contributed to the camp's exceptional community spirit."
+                    ]
+                },
+                {
+                    "role": "TV Presenter",
+                    "organization": "Eastlink",
+                    "location": "",
+                    "start_date": "03/16",
+                    "end_date": "03/16",
+                    "responsibilities": [
+                        "Hosted a 30-minute TV program featuring The Next Step Wild Rhythm Tour.",
+                        "Interviewed cast members and provided behind-the-scenes insights.",
+                        "Developed strong communication and presentation skills."
                     ]
                 }
             ]
         },
         "other_sections": {
             "industry_experience": [
-                "Natural Language Processing (NLP)",
-                "Machine Learning",
-                "Information Retrieval",
-                "Cloud-Based Systems",
-                "Education Technology",
-                "Networking"
+                "Government Software Development",
+                "Education Tutoring",
+                "Hospitality",
+                "Summer Camp Counselling",
+                "Academic Research",
+                "Television Presenting"
             ],
             "technical_specializations": [
-                "Prompt Engineering",
-                "Supervised Learning",
-                "Unsupervised Learning",
-                "Data Manipulation",
-                "Statistical Inference",
-                "Algorithms and Data Structures",
-                "System Integration",
-                "API Development",
-                "Workflow Automation",
-                "Deep Learning",
-                "Sentiment Analysis",
-                "Machine Translation",
-                "Computational Parsing",
-                "Computational Semantics",
-                "NLP for Low Resource Languages"
+                "Platform Engineering",
+                "Software Development",
+                "Website Development",
+                "Back-end Development",
+                "Front-end Development",
+                "Monitoring and Visualization"
             ],
             "areas_of_expertise": [
-                "Data Science",
-                "Natural Language Processing",
-                "AI-Driven Features",
-                "Privacy Compliance",
-                "Cloud Solutions",
-                "Data Analysis",
-                "Model Deployment",
-                "Regulatory Compliance",
-                "Feature Replacement",
-                "Human Evaluation Processes"
+                "Team Collaboration",
+                "Multitasking",
+                "Problem Solving",
+                "Time Management",
+                "Communication Skills",
+                "Project Leadership"
             ],
             "languages": [
                 "English"
             ],
             "environments": [
-                "Unix",
-                "Cloud Platforms (AWS/Azure)",
-                "Networking Systems"
+                "Kubernetes",
+                "AWS",
+                "Cloud Infrastructure"
             ],
             "tools_and_software": [
                 "Python",
-                "SQL/NoSQL",
                 "Java",
                 "C++",
+                "Assembly",
+                "JavaScript",
+                "SQL",
+                "Kotlin",
+                "ReactJS",
+                "Flask",
+                "FastAPI",
                 "Git",
-                "HTML/CSS",
-                "React",
-                "Ansible",
-                "Statistical Modeling Tools"
+                "GitLab",
+                "Bitbucket",
+                "Terraform",
+                "HCL",
+                "Grafana"
             ]
         },
         "skills_summary": {
             "technical_skills": [
                 {
                     "skill": "Python",
-                    "years_of_experience": 4,
-                    "skill_level": 4
+                    "years_of_experience": 3,
+                    "skill_level": 3
                 },
                 {
                     "skill": "Java",
                     "years_of_experience": 3,
-                    "skill_level": 4
+                    "skill_level": 3
                 },
                 {
                     "skill": "C++",
                     "years_of_experience": 3,
-                    "skill_level": 4
-                },
-                {
-                    "skill": "SQL/NoSQL",
-                    "years_of_experience": 3,
-                    "skill_level": 4
-                },
-                {
-                    "skill": "API Development",
-                    "years_of_experience": 2,
                     "skill_level": 3
                 },
                 {
-                    "skill": "Unix",
+                    "skill": "JavaScript",
                     "years_of_experience": 2,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Ansible",
-                    "years_of_experience": 1,
                     "skill_level": 2
                 },
                 {
-                    "skill": "Git",
-                    "years_of_experience": 3,
-                    "skill_level": 4
-                },
-                {
-                    "skill": "HTML/CSS",
+                    "skill": "SQL",
                     "years_of_experience": 2,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "React",
-                    "years_of_experience": 1,
                     "skill_level": 2
                 }
             ],
             "application_knowledge": [
                 {
-                    "skill": "Data Manipulation",
+                    "skill": "Git",
                     "years_of_experience": 3,
-                    "skill_level": 4
+                    "skill_level": 3
                 },
                 {
-                    "skill": "Data Visualization",
+                    "skill": "GitLab",
                     "years_of_experience": 2,
                     "skill_level": 3
                 },
                 {
-                    "skill": "Statistical Inference",
+                    "skill": "Bitbucket",
                     "years_of_experience": 2,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Supervised Learning",
-                    "years_of_experience": 2,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Unsupervised Learning",
-                    "years_of_experience": 2,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Sentiment Analysis",
-                    "years_of_experience": 2,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Machine Translation",
-                    "years_of_experience": 2,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Prompt Engineering",
-                    "years_of_experience": 2,
-                    "skill_level": 4
+                    "skill_level": 2
                 }
             ],
             "it_disciplines": [
                 {
-                    "skill": "System Integration",
-                    "years_of_experience": 2,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Workflow Automation",
-                    "years_of_experience": 2,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Network Automation",
+                    "skill": "Terraform",
                     "years_of_experience": 1,
                     "skill_level": 2
                 },
                 {
-                    "skill": "System Security Protocols",
+                    "skill": "Kubernetes",
+                    "years_of_experience": 1,
+                    "skill_level": 2
+                },
+                {
+                    "skill": "AWS",
+                    "years_of_experience": 1,
+                    "skill_level": 2
+                },
+                {
+                    "skill": "HCL",
+                    "years_of_experience": 1,
+                    "skill_level": 2
+                },
+                {
+                    "skill": "Grafana",
                     "years_of_experience": 1,
                     "skill_level": 2
                 }
             ],
             "industry_knowledge": [
                 {
-                    "skill": "Natural Language Processing (NLP)",
-                    "years_of_experience": 3,
-                    "skill_level": 4
-                },
-                {
-                    "skill": "Information Retrieval",
-                    "years_of_experience": 3,
+                    "skill": "Government IT (Platform Engineering)",
+                    "years_of_experience": 2,
                     "skill_level": 3
                 },
                 {
-                    "skill": "Cloud Platforms (AWS/Azure/Google Cloud)",
+                    "skill": "Education (University Tutoring)",
+                    "years_of_experience": 1,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Hospitality",
                     "years_of_experience": 1,
                     "skill_level": 2
                 },
                 {
-                    "skill": "Pension Administration Systems",
-                    "years_of_experience": 0,
-                    "skill_level": 1
+                    "skill": "Youth Development (Camp Counselling)",
+                    "years_of_experience": 1,
+                    "skill_level": 2
                 }
             ],
             "other_relevant_skills": [
                 {
-                    "skill": "Algorithms and Data Structures",
-                    "years_of_experience": 2,
-                    "skill_level": 4
+                    "skill": "Time Management",
+                    "years_of_experience": 3,
+                    "skill_level": 3
                 },
                 {
-                    "skill": "Descriptive Statistics and Probability",
+                    "skill": "Communication",
+                    "years_of_experience": 3,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Teamwork",
+                    "years_of_experience": 3,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Multitasking",
                     "years_of_experience": 2,
                     "skill_level": 3
                 },
                 {
-                    "skill": "Computational Parsing",
-                    "years_of_experience": 2,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Computational Semantics",
-                    "years_of_experience": 2,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Computational Morphology",
-                    "years_of_experience": 2,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Adversarial Testing",
+                    "skill": "Presenting",
                     "years_of_experience": 1,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "A/B Testing",
-                    "years_of_experience": 1,
-                    "skill_level": 3
+                    "skill_level": 2
                 }
             ]
         }
     },
-    "job_description": "**Job Description: Developer \u2013 Quality and Client Relationship Management (CRM) Cloud-Hosted Solution**\n\n**Responsibilities and Project Contributions:**  \nThe Developer will play a pivotal role in designing, developing, and implementing a secure and scalable CRM cloud-hosted solution tailored for the Pensions and Treasury/Capital Management division of the Prince Edward Island Department of Finance. This role involves integrating the CRM system with existing pension administration systems, developing automated workflows, and ensuring compliance with federal and provincial regulations. The Developer will be responsible for creating and customizing dashboards, workflows, and robust reporting mechanisms to track client interactions across multiple channels, including phone, mail, electronic, and in-person communication. By leveraging AI functionalities, the Developer will streamline client note-taking processes and enhance user experience while maintaining the integrity of sensitive data through two-factor authentication and advanced security protocols. The Developer\u2019s contributions will directly impact the modernization of pension administration services, enabling seamless interaction between the Province and its 20,000+ lifelong clients.  \n\n**Required Skills, Experience, and Qualifications:**  \nThe ideal candidate will have a proven track record in developing cloud-based CRM solutions, with at least 5 years of experience in software development, system integration, and workflow automation. Expertise in programming languages such as Java, Python, or C#, as well as experience with cloud platforms like AWS, Azure, or Google Cloud, is essential. Familiarity with Oracle accounting software and TELUS Health Ariel pension plan administration platforms is highly desired. The Developer should possess strong knowledge of database management systems (SQL/NoSQL), API development, and system security protocols, including encryption and two-factor authentication. Experience in implementing AI-driven features for automation and analytics is an asset. The candidate must hold a degree in Computer Science, Software Engineering, or a related field and demonstrate a commitment to delivering user-centric solutions while adhering to regulatory compliance requirements. By ensuring technical excellence and seamless functionality, the Developer will help the Province meet its strategic goals for enhancing client service delivery and operational efficiency."
+    "job_description": "None provided"
 }

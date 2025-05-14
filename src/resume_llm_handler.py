@@ -51,7 +51,7 @@ def generate_rag_job_description(llm, file_path, role_title):
         # Create embeddings with proper deployment
         embeddings = AzureOpenAIEmbeddings(
             model="text-embedding-3-large",
-            azure_endpoint="https://cgi-resume-openai.openai.azure.com/openai/deployments/text-embedding-ada-002/embeddings?api-version=2023-05-15",
+            azure_endpoint=os.environ["AZURE_OPENAI_EMBEDDINGS_ENDPOINT"],
             api_key=os.environ["AZURE_OPENAI_API_KEY"],
         )
 
