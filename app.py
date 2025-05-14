@@ -15,7 +15,7 @@ import traceback
 # Set up the app configuration
 st.set_page_config(
     page_title="ResumeGenie",
-    page_icon="assets\\genie_logo.png",
+    page_icon="assets/genie_logo.png",
     layout="wide",
 )
 
@@ -134,7 +134,7 @@ with col1:
     )
 
     st.image(
-        "assets\\genie_logo.png",
+        "assets/genie_logo.png",
         width=80,
     )
 with col2:
