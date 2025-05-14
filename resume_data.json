@@ -1,0 +1,438 @@
+{
+    "structured_data": {
+        "contact": {
+            "name": "Aimee Hastings-James",
+            "email": "",
+            "phone": "",
+            "location": "",
+            "linkedin": "",
+            "website": ""
+        },
+        "professional_summary": "Aimee Hastings-James is a dedicated and driven emerging professional in the fields of Computer Science and Mathematics, set to graduate from St. Francis Xavier University in May 2025. With a solid foundation in programming languages such as Python, Java, and C++, alongside expertise in tools like Kubernetes, Terraform, and AWS, Aimee has already demonstrated remarkable aptitude in software development and platform engineering during her co-op roles with the Government of Canada. Her hands-on experience ranges from developing multi-team internal websites using Python and TypeScript to deploying critical tools for internal use, showcasing her ability to solve complex problems and deliver impactful results.",
+        "education": [
+            {
+                "degree": "Bachelor's",
+                "field_of_study": "Computer Science and Math",
+                "institution": "St. Francis Xavier University",
+                "location": "",
+                "graduation_year": "2025"
+            },
+            {
+                "institution": "Citadel High School"
+            },
+            {
+                "institution": "Halifax Central Junior High"
+            },
+            {
+                "institution": "Maritime Conservatory School of Dance"
+            }
+        ],
+        "experience": [
+            {
+                "job_title": "Math, Statistics and Computer Science Learning Center Tutor",
+                "company": "St. Francis Xavier University",
+                "location": "",
+                "start_date": "09/24",
+                "end_date": "Present",
+                "responsibilities": "Provided tutoring support in Math, Statistics, and Computer Science. Assisted students across various topics and challenges. Dedicated two hours weekly to help students overcome academic difficulties."
+            },
+            {
+                "job_title": "Platform Engineering Co-op",
+                "company": "Government of Canada",
+                "location": "",
+                "start_date": "05/24",
+                "end_date": "08/24",
+                "responsibilities": "Set up internal tools, including JFrog Xray and OAuth2 Proxy. Collaborated with platforms utilizing Kubernetes, Terraform, and AWS. Enhanced problem-solving and platform integration skills."
+            },
+            {
+                "job_title": "Software Development Co-op",
+                "company": "Government of Canada",
+                "location": "",
+                "start_date": "05/23",
+                "end_date": "08/23",
+                "responsibilities": "Developed an internal multi-team website. Built back-end features using Python and front-end interfaces with TypeScript. Deployed solutions using Docker and Nginx."
+            },
+            {
+                "job_title": "Banquet Server, Dishwasher and Rec Monitor",
+                "company": "New Castle Hotels and Resorts, Legendary Hospitality and Emera Oval",
+                "location": "",
+                "start_date": "05/22",
+                "end_date": "08/22",
+                "responsibilities": "Managed three distinct roles across six days a week. Improved multitasking and teamwork competencies. Adapted strategies to perform effectively in diverse environments."
+            },
+            {
+                "job_title": "Camp Counsellor",
+                "company": "Big Cove YMCA Camp",
+                "location": "",
+                "start_date": "06/21",
+                "end_date": "08/21",
+                "responsibilities": "Supervised and guided groups of six children on a weekly basis. Fostered personal growth and ensured an enriching camp experience. Contributed to the camp's exceptional community spirit."
+            },
+            {
+                "job_title": "Essay Analyzer",
+                "company": "Dalhousie University",
+                "location": "",
+                "start_date": "06/19",
+                "end_date": "06/20",
+                "responsibilities": "Analyzed and evaluated introductory psychology essays for difficulty. Enhanced communication, computer, and active listening skills."
+            },
+            {
+                "job_title": "TV Presenter",
+                "company": "Eastlink",
+                "location": "",
+                "start_date": "03/16",
+                "end_date": "03/16",
+                "responsibilities": "Hosted a 30-minute TV program featuring The Next Step Wild Rhythm Tour. Interviewed cast members and provided behind-the-scenes insights. Developed strong communication and presentation skills."
+            }
+        ],
+        "skills": [
+            "Python",
+            "Java",
+            "C++",
+            "Assembly",
+            "JavaScript",
+            "SQL",
+            "Kotlin",
+            "ReactJS",
+            "Flask",
+            "FastAPI",
+            "Git",
+            "GitLab",
+            "Bitbucket",
+            "Terraform",
+            "HCL",
+            "Grafana",
+            "Kubernetes",
+            "AWS",
+            "Cloud Infrastructure",
+            "Time Management",
+            "Communication Skills",
+            "Team Collaboration",
+            "Multitasking",
+            "Problem Solving",
+            "Project Leadership"
+        ],
+        "volunteer_experience": [],
+        "certifications": [],
+        "projects": [],
+        "languages": [
+            "English"
+        ],
+        "awards": []
+    },
+    "years_exp": "2 years of experience in Software Development and Platform Engineering",
+    "profile": "Aimee Hastings-James is an ambitious and highly skilled emerging professional in Computer Science and Mathematics, poised to graduate from St. Francis Xavier University in May 2025. With a strong academic foundation and hands-on experience, she has excelled in software development and platform engineering during her co-op placements with the Government of Canada. Aimee\u2019s technical proficiency spans programming languages like Python, Java, and C++, as well as advanced tools such as Kubernetes, Terraform, and AWS. Her ability to design and deploy impactful solutions is evident in her development of internal multi-team websites and critical platform tools.\n\nIn addition to her technical expertise, Aimee demonstrates exceptional communication and problem-solving skills, fostered through diverse roles such as tutoring at St. Francis Xavier University and working as a banquet server, camp counselor, and TV presenter. Her adaptability and dedication shine through her ability to manage multiple responsibilities, such as tutoring students weekly in Math, Statistics, and Computer Science or guiding young campers to foster personal growth. Aimee\u2019s versatility is further evident in her contributions to interdisciplinary projects, where she leverages her programming and leadership skills to deliver results.\n\nAs a proactive learner and collaborator, Aimee embodies teamwork and innovation, making her a valuable asset in any environment. Her extensive technical skill set, including ReactJS, Flask, Kubernetes, and cloud infrastructure, is complemented by her commitment to personal and professional growth. With her proven track record in both academic and professional settings, Aimee is well-equipped to tackle complex challenges and create meaningful impact in the field of technology.",
+    "res_dict": {
+        "experience": {
+            "cgi_experience": [
+                {
+                    "cgi_client_or_sector": "client descriptor not provided",
+                    "cgi_position_title": "Position title not provided",
+                    "cgi_start_date": "Start date not provided",
+                    "cgi_end_date": "End date not provided",
+                    "cgi_responsibilities": [],
+                    "cgi_technologies": []
+                }
+            ],
+            "other_experience": [
+                {
+                    "company": "St. Francis Xavier University",
+                    "position_title": "Math, Statistics and Computer Science Learning Center Tutor",
+                    "start_date": "09/24",
+                    "end_date": "Present",
+                    "responsibilities": [
+                        "Provided tutoring support in Math, Statistics, and Computer Science.",
+                        "Assisted students across various topics and challenges.",
+                        "Dedicated two hours weekly to help students overcome academic difficulties."
+                    ],
+                    "technologies": []
+                },
+                {
+                    "company": "Government of Canada",
+                    "position_title": "Platform Engineering Co-op",
+                    "start_date": "05/24",
+                    "end_date": "08/24",
+                    "responsibilities": [
+                        "Set up internal tools, including JFrog Xray and OAuth2 Proxy.",
+                        "Collaborated with platforms utilizing Kubernetes, Terraform, and AWS.",
+                        "Enhanced problem-solving and platform integration skills."
+                    ],
+                    "technologies": [
+                        "Kubernetes",
+                        "Terraform",
+                        "AWS",
+                        "JFrog Xray",
+                        "OAuth2 Proxy"
+                    ]
+                },
+                {
+                    "company": "Government of Canada",
+                    "position_title": "Software Development Co-op",
+                    "start_date": "05/23",
+                    "end_date": "08/23",
+                    "responsibilities": [
+                        "Developed an internal multi-team website.",
+                        "Built back-end features using Python and front-end interfaces with TypeScript.",
+                        "Deployed solutions using Docker and Nginx."
+                    ],
+                    "technologies": [
+                        "Python",
+                        "TypeScript",
+                        "Docker",
+                        "Nginx"
+                    ]
+                },
+                {
+                    "company": "New Castle Hotels and Resorts",
+                    "position_title": "Banquet Server, Dishwasher, Rec Monitor",
+                    "start_date": "05/22",
+                    "end_date": "08/22",
+                    "responsibilities": [
+                        "Managed three distinct roles across six days a week.",
+                        "Improved multitasking and teamwork competencies.",
+                        "Adapted strategies to perform effectively in diverse environments."
+                    ],
+                    "technologies": []
+                },
+                {
+                    "company": "Big Cove YMCA Camp",
+                    "position_title": "Camp Counsellor",
+                    "start_date": "06/21",
+                    "end_date": "08/21",
+                    "responsibilities": [
+                        "Supervised and guided groups of six children on a weekly basis.",
+                        "Fostered personal growth and ensured an enriching camp experience.",
+                        "Contributed to the camp's exceptional community spirit."
+                    ],
+                    "technologies": []
+                },
+                {
+                    "company": "Dalhousie University",
+                    "position_title": "Essay Analyzer",
+                    "start_date": "06/19",
+                    "end_date": "06/20",
+                    "responsibilities": [
+                        "Analyzed and evaluated introductory psychology essays for difficulty.",
+                        "Enhanced communication, computer, and active listening skills."
+                    ],
+                    "technologies": []
+                },
+                {
+                    "company": "Eastlink",
+                    "position_title": "TV Presenter",
+                    "start_date": "03/16",
+                    "end_date": "03/16",
+                    "responsibilities": [
+                        "Hosted a 30-minute TV program featuring The Next Step Wild Rhythm Tour.",
+                        "Interviewed cast members and provided behind-the-scenes insights.",
+                        "Developed strong communication and presentation skills."
+                    ],
+                    "technologies": []
+                }
+            ]
+        },
+        "volunteer": {
+            "volunteer_experience": [
+                {
+                    "role": "Camp Counsellor",
+                    "organization": "Big Cove YMCA Camp",
+                    "location": "",
+                    "start_date": "06/21",
+                    "end_date": "08/21",
+                    "responsibilities": [
+                        "Supervised and guided groups of six children weekly.",
+                        "Fostered personal growth and ensured an enriching camp experience.",
+                        "Contributed to the camp's exceptional community spirit."
+                    ]
+                },
+                {
+                    "role": "TV Presenter",
+                    "organization": "Eastlink",
+                    "location": "",
+                    "start_date": "03/16",
+                    "end_date": "03/16",
+                    "responsibilities": [
+                        "Hosted a 30-minute TV program featuring The Next Step Wild Rhythm Tour.",
+                        "Interviewed cast members and provided behind-the-scenes insights.",
+                        "Developed strong communication and presentation skills."
+                    ]
+                }
+            ]
+        },
+        "other_sections": {
+            "industry_experience": [
+                "Government Software Development",
+                "Education Tutoring",
+                "Hospitality",
+                "Summer Camp Counselling",
+                "Academic Research",
+                "Television Presenting"
+            ],
+            "technical_specializations": [
+                "Platform Engineering",
+                "Software Development",
+                "Website Development",
+                "Back-end Development",
+                "Front-end Development",
+                "Monitoring and Visualization"
+            ],
+            "areas_of_expertise": [
+                "Team Collaboration",
+                "Multitasking",
+                "Problem Solving",
+                "Time Management",
+                "Communication Skills",
+                "Project Leadership"
+            ],
+            "languages": [
+                "English"
+            ],
+            "environments": [
+                "Kubernetes",
+                "AWS",
+                "Cloud Infrastructure"
+            ],
+            "tools_and_software": [
+                "Python",
+                "Java",
+                "C++",
+                "Assembly",
+                "JavaScript",
+                "SQL",
+                "Kotlin",
+                "ReactJS",
+                "Flask",
+                "FastAPI",
+                "Git",
+                "GitLab",
+                "Bitbucket",
+                "Terraform",
+                "HCL",
+                "Grafana"
+            ]
+        },
+        "skills_summary": {
+            "technical_skills": [
+                {
+                    "skill": "Python",
+                    "years_of_experience": 3,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Java",
+                    "years_of_experience": 3,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "C++",
+                    "years_of_experience": 3,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "JavaScript",
+                    "years_of_experience": 2,
+                    "skill_level": 2
+                },
+                {
+                    "skill": "SQL",
+                    "years_of_experience": 2,
+                    "skill_level": 2
+                }
+            ],
+            "application_knowledge": [
+                {
+                    "skill": "Git",
+                    "years_of_experience": 3,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "GitLab",
+                    "years_of_experience": 2,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Bitbucket",
+                    "years_of_experience": 2,
+                    "skill_level": 2
+                }
+            ],
+            "it_disciplines": [
+                {
+                    "skill": "Terraform",
+                    "years_of_experience": 1,
+                    "skill_level": 2
+                },
+                {
+                    "skill": "Kubernetes",
+                    "years_of_experience": 1,
+                    "skill_level": 2
+                },
+                {
+                    "skill": "AWS",
+                    "years_of_experience": 1,
+                    "skill_level": 2
+                },
+                {
+                    "skill": "HCL",
+                    "years_of_experience": 1,
+                    "skill_level": 2
+                },
+                {
+                    "skill": "Grafana",
+                    "years_of_experience": 1,
+                    "skill_level": 2
+                }
+            ],
+            "industry_knowledge": [
+                {
+                    "skill": "Government IT (Platform Engineering)",
+                    "years_of_experience": 2,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Education (University Tutoring)",
+                    "years_of_experience": 1,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Hospitality",
+                    "years_of_experience": 1,
+                    "skill_level": 2
+                },
+                {
+                    "skill": "Youth Development (Camp Counselling)",
+                    "years_of_experience": 1,
+                    "skill_level": 2
+                }
+            ],
+            "other_relevant_skills": [
+                {
+                    "skill": "Time Management",
+                    "years_of_experience": 3,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Communication",
+                    "years_of_experience": 3,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Teamwork",
+                    "years_of_experience": 3,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Multitasking",
+                    "years_of_experience": 2,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Presenting",
+                    "years_of_experience": 1,
+                    "skill_level": 2
+                }
+            ]
+        }
+    },
+    "job_description": "None provided"
+}

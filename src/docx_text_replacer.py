@@ -1,45 +1,40 @@
 from src.logs_manager import log
 
-def replace_text_in_docx(doc, replacements):
-    """
-    Replaces text in a DOCX file, and replicates sections based on the specified start and end tags.
-    """
-    filtered_replacements = [(el[0], el[1]) for el in replacements]
+from docx import Document
 
-    # {k: v for k, v in el if v is not None for el in}
-    for key, value in filtered_replacements:
-        log(f"Working on key: {key}")
-        # st.write(f"Working on key: {key}\nValue: {value}")
-        for paragraph in doc.paragraphs:
-        
-            if key in paragraph.text:
-                if isinstance(value, list):
-                    paragraph.style = 'ListBullet'
-                    x_par = paragraph._p
-                    if len(value) > 1:
-                        paragraph.text = paragraph.text.replace(key, value[0])
-                        value = value[1:]
-                        for bp in value[::-1]:
-                            para = doc.add_paragraph(bp, style='ListBullet')
-                            x_par.addnext(para._p)
-                else:
-                    paragraph.text = paragraph.text.replace(key, value)
-                break
-                
-        
+def replace_text_in_docx(doc: Document, replacements: list):
+    
+    for key, value in replacements:
+
+        def process_paragraphs(paragraphs):
+            for paragraph in paragraphs:
+                if key in paragraph.text:
+                    if isinstance(value, list):
+                        # Remove the placeholder 
+                        # idx : Index of the placeholder
+                        parent = paragraph._element.getparent()
+                        idx = parent.index(paragraph._element)
+                        parent.remove(paragraph._element)
+
+                        # Insert bullet points
+                        for item in value:
+                            if item and item.strip():  
+                                bullet_para = doc.add_paragraph(item.strip(), style="ListBullet")
+                                parent.insert(idx, bullet_para._element)
+                                idx += 1
+                    else:
+                        # replacing the content if it is not a list
+                        paragraph.text = paragraph.text.replace(key, str(value))
+                    return True
+            return False
+
+        # Try replacing in normal document paragraphs
+        if process_paragraphs(doc.paragraphs):
+            continue
+
+        # Try replacing inside table cells
         for table in doc.tables:
             for row in table.rows:
                 for cell in row.cells:
-                    for paragraph in cell.paragraphs:
-                        if key in paragraph.text:
-                            if isinstance(value, list):
-                                paragraph.style = 'ListBullet'
-                                x_par = paragraph._p
-                                paragraph.text = paragraph.text.replace(key, value[0])
-                                value = value[1:]
-                                for bp in value:
-                                    para = doc.add_paragraph(bp, style='ListBullet')
-                                    x_par.addnext(para._p)
-                            else:
-                                paragraph.text = paragraph.text.replace(key, value)
-                            break
+                    if process_paragraphs(cell.paragraphs):
+                        break

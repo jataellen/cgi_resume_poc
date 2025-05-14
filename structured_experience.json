@@ -1,0 +1,108 @@
+{
+  "cgi_experience": [
+    {
+      "cgi_client_or_sector": "client descriptor not provided",
+      "cgi_position_title": "Position title not provided",
+      "cgi_start_date": "Start date not provided",
+      "cgi_end_date": "End date not provided",
+      "cgi_responsibilities": [],
+      "cgi_technologies": []
+    }
+  ],
+  "other_experience": [
+    {
+      "company": "St. Francis Xavier University",
+      "position_title": "Math, Statistics and Computer Science Learning Center Tutor",
+      "start_date": "09/24",
+      "end_date": "Present",
+      "responsibilities": [
+        "Provided tutoring support in Math, Statistics, and Computer Science.",
+        "Assisted students across various topics and challenges.",
+        "Dedicated two hours weekly to help students overcome academic difficulties."
+      ],
+      "technologies": []
+    },
+    {
+      "company": "Government of Canada",
+      "position_title": "Platform Engineering Co-op",
+      "start_date": "05/24",
+      "end_date": "08/24",
+      "responsibilities": [
+        "Set up internal tools, including JFrog Xray and OAuth2 Proxy.",
+        "Collaborated with platforms utilizing Kubernetes, Terraform, and AWS.",
+        "Enhanced problem-solving and platform integration skills."
+      ],
+      "technologies": [
+        "Kubernetes",
+        "Terraform",
+        "AWS",
+        "JFrog Xray",
+        "OAuth2 Proxy"
+      ]
+    },
+    {
+      "company": "Government of Canada",
+      "position_title": "Software Development Co-op",
+      "start_date": "05/23",
+      "end_date": "08/23",
+      "responsibilities": [
+        "Developed an internal multi-team website.",
+        "Built back-end features using Python and front-end interfaces with TypeScript.",
+        "Deployed solutions using Docker and Nginx."
+      ],
+      "technologies": [
+        "Python",
+        "TypeScript",
+        "Docker",
+        "Nginx"
+      ]
+    },
+    {
+      "company": "New Castle Hotels and Resorts",
+      "position_title": "Banquet Server, Dishwasher, Rec Monitor",
+      "start_date": "05/22",
+      "end_date": "08/22",
+      "responsibilities": [
+        "Managed three distinct roles across six days a week.",
+        "Improved multitasking and teamwork competencies.",
+        "Adapted strategies to perform effectively in diverse environments."
+      ],
+      "technologies": []
+    },
+    {
+      "company": "Big Cove YMCA Camp",
+      "position_title": "Camp Counsellor",
+      "start_date": "06/21",
+      "end_date": "08/21",
+      "responsibilities": [
+        "Supervised and guided groups of six children on a weekly basis.",
+        "Fostered personal growth and ensured an enriching camp experience.",
+        "Contributed to the camp's exceptional community spirit."
+      ],
+      "technologies": []
+    },
+    {
+      "company": "Dalhousie University",
+      "position_title": "Essay Analyzer",
+      "start_date": "06/19",
+      "end_date": "06/20",
+      "responsibilities": [
+        "Analyzed and evaluated introductory psychology essays for difficulty.",
+        "Enhanced communication, computer, and active listening skills."
+      ],
+      "technologies": []
+    },
+    {
+      "company": "Eastlink",
+      "position_title": "TV Presenter",
+      "start_date": "03/16",
+      "end_date": "03/16",
+      "responsibilities": [
+        "Hosted a 30-minute TV program featuring The Next Step Wild Rhythm Tour.",
+        "Interviewed cast members and provided behind-the-scenes insights.",
+        "Developed strong communication and presentation skills."
+      ],
+      "technologies": []
+    }
+  ]
+}
