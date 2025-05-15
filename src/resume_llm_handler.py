@@ -10,6 +10,7 @@ import json
 import datetime
 from dotenv import load_dotenv
 from data.prompts import *
+from src.cgi_experience_generator import generate_default_cgi_prompt
 
 # Import additional RAG-related libraries
 from langchain_community.vectorstores import FAISS
@@ -86,7 +87,7 @@ def generate_rag_job_description(llm, file_path, role_title):
 
     except Exception as e:
         log(f"Error generating job description from RFP: {str(e)}")
-        log(traceback.format_exc())  # Corrected to format_exc() to get string
+        log(traceback.format_exc())
         return ""
 
 
@@ -98,7 +99,6 @@ def generate_llm_content(
     functions=None,
     extract_function_call=False,
 ):
-
     try:
         format_args = format_args or {}
         current_date = datetime.datetime.now().date()
@@ -120,7 +120,116 @@ def generate_llm_content(
         else:
             return response.content.strip()
     except Exception as e:
+        log(f"Error generating content: {str(e)}")
         return f"Error generating content: {str(e)}"
+
+
+def generate_cgi_experience(llm, format_type, custom_role_title=None):
+    """
+    Uses the LLM to generate a default CGI experience entry.
+
+    Args:
+        llm: The LLM instance to use
+        format_type: The selected resume format
+        custom_role_title: Optional custom role title
+
+    Returns:
+        dict: A dictionary containing the CGI experience entry
+    """
+    try:
+        log(f"Generating default CGI experience for {format_type} role")
+
+        # Create the prompt for the LLM
+        prompt = generate_default_cgi_prompt(format_type, custom_role_title)
+
+        # Use simple system + human message approach
+        messages = [
+            SystemMessage(
+                content="You are an expert resume writer who specializes in creating realistic and compelling work experiences for CGI consultants."
+            ),
+            HumanMessage(content=prompt),
+        ]
+
+        # Get response from LLM
+        response = llm.invoke(messages)
+        content = response.content.strip()
+
+        # Extract JSON from the response
+        try:
+            # Try to parse the entire response as JSON
+            cgi_experience = json.loads(content)
+            log("Successfully generated CGI experience entry")
+            return cgi_experience
+        except json.JSONDecodeError:
+            # If that fails, try to extract JSON from text
+            log("Failed to parse response as JSON, attempting to extract JSON block")
+            import re
+
+            json_match = re.search(r"```json\n(.*?)\n```", content, re.DOTALL)
+            if json_match:
+                try:
+                    cgi_experience = json.loads(json_match.group(1))
+                    log("Successfully extracted JSON from markdown code block")
+                    return cgi_experience
+                except:
+                    log("Failed to parse extracted JSON")
+
+            # Last resort: Try to create a manual structure from the response
+            log("Creating fallback CGI experience entry")
+
+            # Get current date for start date
+            current_date = datetime.now()
+            start_date = f"{current_date.month:02d}/{current_date.year}"
+
+            return {
+                "cgi_client_or_sector": "Major Enterprise Client",
+                "cgi_position_title": (
+                    custom_role_title if custom_role_title else format_type
+                ),
+                "cgi_start_date": start_date,
+                "cgi_end_date": "Present",
+                "cgi_responsibilities": [
+                    "Led development of enterprise solutions tailored to client business requirements.",
+                    "Collaborated with cross-functional teams to implement system enhancements.",
+                    "Provided technical expertise and guidance to ensure project success.",
+                    "Conducted thorough analysis and testing to maintain quality standards.",
+                ],
+                "cgi_technologies": [
+                    "Agile Methodology",
+                    "Cloud Services",
+                    "Enterprise Architecture",
+                    "Business Intelligence",
+                    "Data Management",
+                ],
+            }
+    except Exception as e:
+        log(f"Error generating CGI experience: {str(e)}")
+        log(traceback.format_exc())
+
+        # Fallback to a simple default
+        current_date = datetime.now()
+        start_date = f"{current_date.month:02d}/{current_date.year}"
+
+        return {
+            "cgi_client_or_sector": "Enterprise Client",
+            "cgi_position_title": (
+                custom_role_title if custom_role_title else format_type
+            ),
+            "cgi_start_date": start_date,
+            "cgi_end_date": "Present",
+            "cgi_responsibilities": [
+                "Implemented solutions based on client requirements.",
+                "Collaborated with cross-functional teams.",
+                "Provided technical expertise throughout project lifecycle.",
+                "Ensured high-quality deliverables.",
+            ],
+            "cgi_technologies": [
+                "Agile",
+                "Cloud Services",
+                "Enterprise Software",
+                "Data Management",
+            ],
+        }
 
 
 def resume_stream(
@@ -129,10 +238,11 @@ def resume_stream(
     base_progress,
     file_progress_weight,
     file_path,
-    selected_format,  # Changed from selected_role to selected_format
+    selected_format,
     custom_role_title="",
     job_description="",
-    rfp_file_path=None,  # Added parameter for RFP file
+    rfp_file_path=None,
+    include_default_cgi=False,  # New parameter
 ):
     load_dotenv()
 
@@ -141,7 +251,7 @@ def resume_stream(
         api_key=os.environ["AZURE_OPENAI_API_KEY"],
         api_version="2024-12-01-preview",
         deployment_name="gpt-4o",
-        model="gpt-4o",  # Ensure function calling support
+        model="gpt-4o",
     )
 
     # If RFP file is provided, generate a job description from it
@@ -150,7 +260,7 @@ def resume_stream(
         # Determine role title to use for the RAG job description generation
         role_for_rag = (
             custom_role_title.strip() if custom_role_title else selected_format
-        )  # Changed from selected_role
+        )
 
         # Generate job description from RFP
         rfp_job_description = generate_rag_job_description(
@@ -220,63 +330,6 @@ def resume_stream(
         )
         log(f"Generated role title: {role_title}")
 
-        # Validate that the role title doesn't contain skills not in the resume
-        # Extract skills from structured data
-        skills_in_resume = []
-        if "skills" in structured_data:
-            for skill_category in structured_data["skills"]:
-                if isinstance(skill_category, list):
-                    skills_in_resume.extend([s.lower() for s in skill_category])
-
-        # Common programming languages and frameworks to check against
-        tech_keywords = [
-            "java",
-            "python",
-            "javascript",
-            "c++",
-            "ruby",
-            "golang",
-            "react",
-            "angular",
-            "vue",
-            "node",
-            "aws",
-            "azure",
-            "mongodb",
-            "sql",
-            "nosql",
-            "docker",
-            "kubernetes",
-            ".net",
-            "php",
-            "swift",
-            "kotlin",
-            "rust",
-            "typescript",
-            "scala",
-            "r ",
-            "matlab",
-            "tableau",
-            "powershell",
-            "bash",
-            "perl",
-            "c#",
-            "django",
-            "flask",
-            "spring",
-            "laravel",
-        ]
-
-        # Check if role title contains skills not in resume
-        role_title_lower = role_title.lower()
-        for tech in tech_keywords:
-            # Use word boundary check to avoid partial matches (e.g., "java" in "javascript")
-            if f" {tech} " in f" {role_title_lower} " and tech not in skills_in_resume:
-                log(
-                    f"WARNING: Generated role title contains skill '{tech}' not found in resume. Using generic title."
-                )
-                role_title = selected_format.title()  # Changed from selected_role
-                break
     else:
         role_title = custom_role_title.strip()
         log(f"Using provided role title: {role_title}")
@@ -371,6 +424,46 @@ def resume_stream(
         res_dict["experience"] = experience_chain(pdf_text, llm)
         log(f"\t>> Completed key: experience")
 
+    # If include_default_cgi is True, generate a default CGI experience entry
+    if include_default_cgi:
+        log("Generating default CGI experience entry")
+        default_cgi_exp = generate_cgi_experience(
+            llm, selected_format, custom_role_title
+        )
+
+        # Add the default entry to the beginning of the CGI experience array
+        if "cgi_experience" in res_dict["experience"]:
+            # Check if there's already a non-empty cgi_experience
+            if (
+                res_dict["experience"]["cgi_experience"]
+                and len(res_dict["experience"]["cgi_experience"]) > 0
+            ):
+                # Check if the first entry is a placeholder (client descriptor not provided)
+                if res_dict["experience"]["cgi_experience"][0].get(
+                    "cgi_client_or_sector"
+                ) == "client descriptor not provided" or not res_dict["experience"][
+                    "cgi_experience"
+                ][
+                    0
+                ].get(
+                    "cgi_responsibilities"
+                ):
+                    # Replace the placeholder with our generated experience
+                    res_dict["experience"]["cgi_experience"][0] = default_cgi_exp
+                    log("Replaced placeholder CGI experience with generated experience")
+                else:
+                    # Insert at the beginning if there's already valid content
+                    res_dict["experience"]["cgi_experience"].insert(0, default_cgi_exp)
+                    log(
+                        "Added generated CGI experience at the beginning of existing experiences"
+                    )
+            else:
+                # If the array is empty or None, initialize it with our experience
+                res_dict["experience"]["cgi_experience"] = [default_cgi_exp]
+                log("Created new CGI experience entry")
+
+        log("Added default CGI experience entry")
+
     # Process other sections
     for key in all_schemas.keys():
         res_dict[key] = call_llm(all_schemas, key, pdf_text, job_description)
@@ -398,7 +491,7 @@ def resume_stream(
         res_dict,
         job_description,
         role_title,
-        selected_format,  # Add selected_format parameter
+        selected_format,
     )
 
 

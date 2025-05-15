@@ -137,7 +137,7 @@ For other experience format:
 - start_date (formatted as MM/YY)
 - end_date (formatted as MM/YY or Present)
 - responsibilities (as action-based bullet points)
-- technologies (as an array of technologies used, if mentioned in the experience)
+- technologies (as an array of technologies used)
 
 Rewrite responsibilities into clear, action-based bullet points if needed. The bullet points should be detailed and at least 15 words
 """
@@ -192,7 +192,7 @@ For other experience format:
 - start_date (formatted as MM/YY)
 - end_date (formatted as MM/YY or Present)
 - responsibilities (as action-based bullet points tailored to the job description)
-- technologies (as an array of technologies used, emphasizing those mentioned in the job description if they appear in the original resume)
+- technologies (as an array of technologies used, emphasizing those mentioned in the job description)
 
 Remember to maintain accuracy while optimizing the content for the target role.
 """

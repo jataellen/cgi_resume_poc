@@ -91,6 +91,16 @@ st.markdown(
         border-radius: 6px;
         border-left: 4px solid #FF4B4B;
     }
+    
+    /* Checkbox styling */
+    .cgi-experience-checkbox {
+        margin-top: 0.75rem;
+        margin-bottom: 1.25rem;
+        padding: 0.75rem;
+        background-color: #F8F9FA;
+        border-radius: 6px;
+        border-left: 4px solid #4B4BFF;
+    }
     </style>
     """,
     unsafe_allow_html=True,
@@ -183,6 +193,18 @@ with st.form("my-form", clear_on_submit=True):
         help="E.g., 'Senior Full Stack Developer', 'Data Scientist', 'Project Manager'",
         placeholder="e.g. Senior Full Stack Developer",
     )
+
+    # Add checkbox for default CGI experience with improved styling
+    # st.markdown("<div class='cgi-experience-checkbox'>", unsafe_allow_html=True)
+    include_default_cgi = st.checkbox(
+        "Include AI-generated CGI experience entry",
+        help="Adds a current CGI role with AI-generated responsibilities based on the selected format",
+        value=False,
+    )
+    st.write(
+        "*Adds a customized CGI consulting role with relevant experience to your resume.*"
+    )
+    # st.markdown("</div>", unsafe_allow_html=True)
 
     # Create a card-like effect for the optimization section
     st.markdown("<div class='step-card'>", unsafe_allow_html=True)
@@ -290,6 +312,12 @@ if submitted and uploaded_files:
     else:
         log("No specific role title provided - will use role type")
 
+    # Log default CGI experience inclusion
+    if include_default_cgi:
+        log("AI-generated CGI experience will be included")
+    else:
+        log("No AI-generated CGI experience requested")
+
     # Log optimization method selected
     if st.session_state.optimization_method == "Enter job description":
         log(f"Optimization method: Job description (manual entry)")
@@ -342,6 +370,7 @@ if submitted and uploaded_files:
                     custom_role_title,
                     job_description,
                     rfp_file_path,
+                    include_default_cgi,  # Add the new parameter
                 )
                 log(f"Processed PDF: {original_file_name}")
 
@@ -389,6 +418,7 @@ if submitted and uploaded_files:
                             )
                             else "No"
                         ),
+                        "cgi_experience_added": "Yes" if include_default_cgi else "No",
                     }
                 )
 
@@ -428,6 +458,7 @@ if submitted and uploaded_files:
                             )
                             else "No"
                         ),
+                        "cgi_experience_added": "Yes" if include_default_cgi else "No",
                     }
                 )
 
@@ -472,6 +503,7 @@ if submitted and uploaded_files:
                         )
                         else "No"
                     ),
+                    "cgi_experience_added": "Yes" if include_default_cgi else "No",
                 }
             )
 
