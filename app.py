@@ -91,6 +91,16 @@ st.markdown(
         border-radius: 6px;
         border-left: 4px solid #FF4B4B;
     }
+    
+    /* Checkbox styling */
+    .cgi-experience-checkbox {
+        margin-top: 0.75rem;
+        margin-bottom: 1.25rem;
+        padding: 0.75rem;
+        background-color: #F8F9FA;
+        border-radius: 6px;
+        border-left: 4px solid #4B4BFF;
+    }
     </style>
     """,
     unsafe_allow_html=True,
@@ -169,8 +179,8 @@ with st.form("my-form", clear_on_submit=True):
     # Create a card-like effect for the form
 
     st.subheader("Step 1: Choose Your Resume Format")
-    # Add role selection radio button with better styling
-    selected_role = st.radio(
+    # Add format selection radio button with better styling
+    selected_format = st.radio(
         "Select resume format:",
         options=["Developer", "Business Analyst", "Director"],
         index=0,  # Default to Developer
@@ -183,6 +193,18 @@ with st.form("my-form", clear_on_submit=True):
         help="E.g., 'Senior Full Stack Developer', 'Data Scientist', 'Project Manager'",
         placeholder="e.g. Senior Full Stack Developer",
     )
+
+    # Add checkbox for default CGI experience with improved styling
+    # st.markdown("<div class='cgi-experience-checkbox'>", unsafe_allow_html=True)
+    include_default_cgi = st.checkbox(
+        "Include AI-generated CGI experience entry",
+        help="Adds a current CGI role with AI-generated responsibilities based on the selected format",
+        value=False,
+    )
+    st.write(
+        "*Adds a customized CGI consulting role with relevant experience to your resume.*"
+    )
+    # st.markdown("</div>", unsafe_allow_html=True)
 
     # Create a card-like effect for the optimization section
     st.markdown("<div class='step-card'>", unsafe_allow_html=True)
@@ -283,12 +305,18 @@ if submitted and uploaded_files:
     total_files = len(uploaded_files)
     file_progress_weight = 0.95 / total_files
 
-    # Log the selected role, custom role title, and optimization method
-    log(f"Selected role type: {selected_role}")
+    # Log the selected format, custom role title, and optimization method
+    log(f"Selected resume format: {selected_format}")
     if custom_role_title and custom_role_title.strip():
         log(f"Specific role title: {custom_role_title}")
     else:
         log("No specific role title provided - will use role type")
+
+    # Log default CGI experience inclusion
+    if include_default_cgi:
+        log("AI-generated CGI experience will be included")
+    else:
+        log("No AI-generated CGI experience requested")
 
     # Log optimization method selected
     if st.session_state.optimization_method == "Enter job description":
@@ -323,84 +351,139 @@ if submitted and uploaded_files:
 
         # Save the uploaded file temporarily
         original_file_name = uploaded_file.name
-        log(f"Processing PDF: {original_file_name}")
-        temp_file_path = convert_to_pdf(uploaded_file, file_id)
+        log(f"Processing file: {original_file_name}")
 
         try:
-            # Process the PDF - pass the RFP file path if available
-            resume_stream(
-                st,
-                progress_bar,
-                base_progress,
-                file_progress_weight,
-                temp_file_path,
-                selected_role,
-                custom_role_title,
-                job_description,
-                rfp_file_path,  # Pass the RFP file path
-            )
-            log(f"Processed PDF: {original_file_name}")
+            # Attempt to convert to PDF
+            temp_file_path = convert_to_pdf(uploaded_file, file_id)
+            log(f"Successfully converted {original_file_name} to PDF format")
 
-            # Rename the updated resume, and delete if it already exists
-            new_file_name = os.path.splitext(original_file_name)[0] + f"_updated.docx"
-            if os.path.exists(new_file_name):
-                os.remove(new_file_name)
-                log(f"Deleted existing file: {new_file_name}")
-            os.rename("updated_resume.docx", new_file_name)
-            log(f"Renamed updated resume to: {new_file_name}")
+            try:
+                # Process the PDF - pass the RFP file path if available
+                resume_stream(
+                    st,
+                    progress_bar,
+                    base_progress,
+                    file_progress_weight,
+                    temp_file_path,
+                    selected_format,
+                    custom_role_title,
+                    job_description,
+                    rfp_file_path,
+                    include_default_cgi,  # Add the new parameter
+                )
+                log(f"Processed PDF: {original_file_name}")
 
-            # Add to processed files list
-            st.session_state.processed_files.append(
-                {
-                    "id": file_id,
-                    "original_name": original_file_name,
-                    "output_path": new_file_name,
-                    "status": "Success",
-                    "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                    "role_type": selected_role,  # Add the role type
-                    "role_title": (
-                        custom_role_title
-                        if custom_role_title and custom_role_title.strip()
-                        else selected_role
-                    ),  # Add the specific role title or default to role type
-                    "job_description_type": st.session_state.optimization_method,  # Store the type of job description used
-                    "job_description": (
-                        "Yes"
-                        if (
-                            st.session_state.optimization_method
-                            == "Enter job description"
-                            and job_description
-                            and job_description.strip()
-                        )
-                        else "No"
-                    ),
-                    "rfp_used": (
-                        "Yes"
-                        if (
-                            st.session_state.optimization_method
-                            == "Upload RFP document"
-                            and rfp_file_path
-                        )
-                        else "No"
-                    ),
-                }
-            )
+                # Rename the updated resume, and delete if it already exists
+                new_file_name = (
+                    os.path.splitext(original_file_name)[0] + f"_updated.docx"
+                )
+                if os.path.exists(new_file_name):
+                    os.remove(new_file_name)
+                    log(f"Deleted existing file: {new_file_name}")
+                os.rename("updated_resume.docx", new_file_name)
+                log(f"Renamed updated resume to: {new_file_name}")
+
+                # Add to processed files list - Success case
+                st.session_state.processed_files.append(
+                    {
+                        "id": file_id,
+                        "original_name": original_file_name,
+                        "output_path": new_file_name,
+                        "status": "Success",
+                        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                        "role_type": selected_format,
+                        "role_title": (
+                            custom_role_title
+                            if custom_role_title and custom_role_title.strip()
+                            else selected_format
+                        ),
+                        "job_description_type": st.session_state.optimization_method,
+                        "job_description": (
+                            "Yes"
+                            if (
+                                st.session_state.optimization_method
+                                == "Enter job description"
+                                and job_description
+                                and job_description.strip()
+                            )
+                            else "No"
+                        ),
+                        "rfp_used": (
+                            "Yes"
+                            if (
+                                st.session_state.optimization_method
+                                == "Upload RFP document"
+                                and rfp_file_path
+                            )
+                            else "No"
+                        ),
+                        "cgi_experience_added": "Yes" if include_default_cgi else "No",
+                    }
+                )
+
+            except Exception as e:
+                # Handle errors in resume processing
+                error_message = f"Error processing {original_file_name}: {str(e)}"
+                log(error_message)
+                stack_trace = traceback.format_exc()
+                log(f"Stack trace:\n{stack_trace}")
+
+                # Add to processed files list - Processing error case
+                st.session_state.processed_files.append(
+                    {
+                        "id": file_id,
+                        "original_name": original_file_name,
+                        "output_path": None,
+                        "status": f"Error: {str(e)}",
+                        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                        "role_type": selected_format,
+                        "job_description_type": st.session_state.optimization_method,
+                        "job_description": (
+                            "Yes"
+                            if (
+                                st.session_state.optimization_method
+                                == "Enter job description"
+                                and job_description
+                                and job_description.strip()
+                            )
+                            else "No"
+                        ),
+                        "rfp_used": (
+                            "Yes"
+                            if (
+                                st.session_state.optimization_method
+                                == "Upload RFP document"
+                                and rfp_file_path
+                            )
+                            else "No"
+                        ),
+                        "cgi_experience_added": "Yes" if include_default_cgi else "No",
+                    }
+                )
+
+            # Clean up temp file if it exists
+            if "temp_file_path" in locals() and os.path.exists(temp_file_path):
+                os.remove(temp_file_path)
+                log(f"Cleaned up temporary PDF file: {temp_file_path}")
 
         except Exception as e:
-            # Handle any unexpected errors
-            log(f"Error processing {original_file_name}: {str(e)}")
+            # Handle errors in file conversion
+            error_message = f"Error converting {original_file_name} to PDF: {str(e)}"
+            log(error_message)
             stack_trace = traceback.format_exc()
             log(f"Stack trace:\n{stack_trace}")
 
+            # Add to processed files list - Conversion error case
             st.session_state.processed_files.append(
                 {
                     "id": file_id,
                     "original_name": original_file_name,
                     "output_path": None,
-                    "status": f"Error: {str(e)}",
+                    "status": f"Conversion Error: {str(e)}",
                     "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                    "role": selected_role,  # Add the role even for failed processes
-                    "job_description_type": st.session_state.optimization_method,  # Store the type of job description used
+                    "role_type": selected_format,
+                    "job_description_type": st.session_state.optimization_method,
                     "job_description": (
                         "Yes"
                         if (
@@ -420,12 +503,9 @@ if submitted and uploaded_files:
                         )
                         else "No"
                     ),
+                    "cgi_experience_added": "Yes" if include_default_cgi else "No",
                 }
             )
-
-        # Clean up temp file
-        if os.path.exists(temp_file_path):
-            os.remove(temp_file_path)
 
     # Clean up RFP file if it exists
     if rfp_file_path and os.path.exists(rfp_file_path):
@@ -486,7 +566,7 @@ if st.session_state.processed_files:
         with col1:
             st.write(file["original_name"])
         with col2:
-            st.write(file.get("role_title", file.get("role", "N/A")))
+            st.write(file.get("role_title", file.get("role_type", "N/A")))
         with col3:
             optimization_method = file.get("job_description_type", "No optimization")
             st.write(optimization_method)

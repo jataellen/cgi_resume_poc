@@ -58,10 +58,28 @@ def process_replacements(structured_data, res_dict, profile, cgi_title, years_ex
 
 
 def generate_resume(
-    structured_data, years_exp, profile, res_dict, job_description="", role_title=""
+    structured_data,
+    years_exp,
+    profile,
+    res_dict,
+    job_description="",
+    role_title="",
+    format_type="Developer",
 ):
-    # Update the path to include the 'data' folder
-    input_filename = os.path.join("data", "resume_sample.docx")
+    # Choose the appropriate template based on the format_type
+    if format_type == "Business Analyst":
+        input_filename = os.path.join("data", "resume_sample_BA.docx")
+    elif format_type == "Director":
+        input_filename = os.path.join("data", "resume_sample_Director.docx")
+    else:  # Default to Developer
+        input_filename = os.path.join("data", "resume_sample.docx")
+
+    # Check if the file exists, if not use the default
+    if not os.path.exists(input_filename):
+        print(
+            f"Warning: Template file {input_filename} not found, using default template"
+        )
+        input_filename = os.path.join("data", "resume_sample.docx")
 
     # Load the Word document
     doc = Document(input_filename)
