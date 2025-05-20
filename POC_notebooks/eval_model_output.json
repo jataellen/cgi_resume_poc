@@ -1,0 +1,45 @@
+{
+  "Profile": {
+    "things_done_poorly": [
+      "No mention of specific metrics or measurable achievements (e.g., percentage improvements or impact in work).",
+      "Overly lengthy and descriptive, which might overwhelm recruiters looking for concise information.",
+      "Limited emphasis on leadership qualities despite holding a team lead role, which could set the candidate apart more effectively."
+    ],
+    "things_done_well": [
+      "Effectively communicates a clear narrative of the candidate's career progression.",
+      "Highlights key technical skills and areas of expertise relevant to the field (e.g., NLP, AI).",
+      "Balances academic achievements with applied experience, demonstrating both theoretical and practical expertise."
+    ],
+    "rating": 8,
+    "flag": false
+  },
+  "Skills": {
+    "things_done_poorly": [
+      "Some skills are too broad or unclear (e.g., 'Electronics' as a general category could be broken into more specific applications).",
+      "No specific mention of proficiency levels for many skills outside the technical summary, which may leave recruiters guessing.",
+      "Technologies used in recent roles, like A/B testing or specific libraries for NLP, are not explicitly listed."
+    ],
+    "things_done_well": [
+      "Comprehensive range of skills covering technical, industry knowledge, and application-level expertise.",
+      "Focus on in-demand skills like Python, NLP, and machine learning, which are highly relevant to job roles in data science.",
+      "Provides a good balance of technical stack knowledge (e.g., Python, SQL, React) and domain-specific knowledge (e.g., prompt engineering, NLP for low-resource languages)."
+    ],
+    "rating": 7,
+    "flag": false
+  },
+  "Experience": {
+    "things_done_poorly": [
+      "Dates for some roles are inconsistent or unclear (e.g., '11/25' for Amazon could be a typo).",
+      "Long paragraphs instead of bullet points in some descriptions make the responsibilities harder to scan quickly.",
+      "Limited quantification of achievements or specific results (e.g., 'reduced workflow time by X%' or 'improved model accuracy by Y%')."
+    ],
+    "things_done_well": [
+      "Provides solid descriptions of responsibilities and contributions in each role, showcasing diverse technical and leadership capabilities.",
+      "Highlights work in cutting-edge fields like generative AI, privacy-compliant models, and prompt engineering.",
+      "Illustrates progression to more advanced roles, demonstrating growth in responsibility and technical expertise over time."
+    ],
+    "rating": 7,
+    "flag": false
+  },
+  "overall_score": 7.4
+}
