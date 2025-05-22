@@ -246,6 +246,11 @@ def resume_stream(
 ):
     load_dotenv()
 
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    JSON_SCHEMA_PATH = os.path.join(BASE_DIR, "data", "json_schema.json")
+    ALL_SCHEMAS_PATH = os.path.join(BASE_DIR, "data", "all_schemas.json")
+    EXPERIENCE_SCHEMA_PATH = os.path.join(BASE_DIR, "data", "experience_schema.json")
+
     llm = AzureChatOpenAI(
         azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
         api_key=os.environ["AZURE_OPENAI_API_KEY"],
@@ -291,8 +296,12 @@ def resume_stream(
 
     current_date = datetime.datetime.now().date()
 
-    with open("data/json_schema.json", "r") as file:  # Updated path
-        json_schema = json.load(file)
+    try:
+        with open(JSON_SCHEMA_PATH, "r") as file:
+            json_schema = json.load(file)
+    except FileNotFoundError:
+        raise FileNotFoundError(f"JSON schema file not found at {JSON_SCHEMA_PATH}")
+   
 
     # Generate structured data
     structured_data = generate_llm_content(
@@ -408,8 +417,11 @@ def resume_stream(
 
         return json_structured_data
 
-    with open("data/all_schemas.json", "r") as file:
-        all_schemas = json.load(file)
+    try:
+        with open(ALL_SCHEMAS_PATH, "r") as file:
+            all_schemas = json.load(file)
+    except FileNotFoundError:
+        raise FileNotFoundError(f"All schemas file not found at {ALL_SCHEMAS_PATH}")
 
     res_dict = dict()
 
@@ -498,8 +510,16 @@ def resume_stream(
 def call_tailored_experience_chain(pdf_text, job_description, role, llm):
     """Modified experience chain that incorporates job description"""
 
-    with open("data/experience_schema.json", "r") as file:
-        exp_schemas = json.load(file)
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    EXPERIENCE_SCHEMA_PATH = os.path.join(BASE_DIR, "data", "experience_schema.json")
+    print(f"Current working directory: {os.getcwd()}")
+    print(f"Looking for experience_schema.json at: {EXPERIENCE_SCHEMA_PATH}")  # Debugging
+
+    try:
+        with open(EXPERIENCE_SCHEMA_PATH, "r") as file:
+            exp_schemas = json.load(file)
+    except FileNotFoundError:
+        raise FileNotFoundError(f"Experience schema file not found at {EXPERIENCE_SCHEMA_PATH}")
 
     current_date = datetime.datetime.now().date()
 
