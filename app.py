@@ -531,7 +531,8 @@ if st.session_state.processed_files:
     )
 
     # Create a styled table
-    col1, col2, col3, col4, col5, col6 = st.columns([3, 1.5, 1.5, 1, 2, 1.5])
+    col1, col2, col3, col4, col5, col6, col7 = st.columns([3, 1.5, 1.5, 1, 2, 1.2, 1.2])
+
 
     # Create styled headers
     with col1:
@@ -554,6 +555,9 @@ if st.session_state.processed_files:
         )
     with col6:
         st.markdown("<p style='font-weight: 600;'>Actions</p>", unsafe_allow_html=True)
+
+    with col7:
+        st.markdown("<p style='font-weight: 600;'>Evaluation</p>", unsafe_allow_html=True)
 
     # Add a divider
     st.markdown(
@@ -595,6 +599,18 @@ if st.session_state.processed_files:
                     )
             else:
                 st.write("N/A")
+
+    with col7:
+        eval_path = f"evaluation_{file['id']}.json"
+        if os.path.exists(eval_path):
+            with open(eval_path, "rb") as eval_file:
+                st.download_button(
+                    label="📊 Evaluation",
+                    data=eval_file,
+                    file_name=os.path.basename(eval_path),
+                    mime="application/json",
+                    key=f"eval_{i}",
+            )        
 
     # Add action buttons
     st.markdown(

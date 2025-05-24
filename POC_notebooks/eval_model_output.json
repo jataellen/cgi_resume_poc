@@ -1,45 +1,119 @@
 {
-  "Profile": {
+  "Profile/Professional Summary": {
     "things_done_poorly": [
-      "No mention of specific metrics or measurable achievements (e.g., percentage improvements or impact in work).",
-      "Overly lengthy and descriptive, which might overwhelm recruiters looking for concise information.",
-      "Limited emphasis on leadership qualities despite holding a team lead role, which could set the candidate apart more effectively."
+      "Lacks measurable achievements or metrics to quantify impact.",
+      "Does not address specific career goals or direction clearly.",
+      "The summary is overly descriptive and lacks conciseness in highlighting key strengths."
     ],
     "things_done_well": [
-      "Effectively communicates a clear narrative of the candidate's career progression.",
-      "Highlights key technical skills and areas of expertise relevant to the field (e.g., NLP, AI).",
-      "Balances academic achievements with applied experience, demonstrating both theoretical and practical expertise."
+      "Effectively showcases a combination of technical expertise and domain knowledge.",
+      "Highlights contributions to innovation in language technology, demonstrating impactful roles.",
+      "Strong emphasis on collaboration, leadership, and versatility across multiple projects and roles."
     ],
-    "rating": 8,
+    "rating": 7,
     "flag": false
   },
   "Skills": {
     "things_done_poorly": [
-      "Some skills are too broad or unclear (e.g., 'Electronics' as a general category could be broken into more specific applications).",
-      "No specific mention of proficiency levels for many skills outside the technical summary, which may leave recruiters guessing.",
-      "Technologies used in recent roles, like A/B testing or specific libraries for NLP, are not explicitly listed."
+      "Skills list is verbose and lacks hierarchical organization (e.g., priority/key skills versus secondary skills).",
+      "No clear demarcation between technical, programming, and industry-specific skills.",
+      "Lacks measurable proficiency levels for specialized areas such as NLP or deep learning."
     ],
     "things_done_well": [
-      "Comprehensive range of skills covering technical, industry knowledge, and application-level expertise.",
-      "Focus on in-demand skills like Python, NLP, and machine learning, which are highly relevant to job roles in data science.",
-      "Provides a good balance of technical stack knowledge (e.g., Python, SQL, React) and domain-specific knowledge (e.g., prompt engineering, NLP for low-resource languages)."
+      "Broad skill set across programming, data science, and machine learning techniques.",
+      "Includes modern and highly relevant skills like prompt engineering and computational semantics.",
+      "Includes a mix of technical, application, and soft skills, showcasing versatility."
     ],
-    "rating": 7,
+    "rating": 8,
     "flag": false
   },
   "Experience": {
     "things_done_poorly": [
-      "Dates for some roles are inconsistent or unclear (e.g., '11/25' for Amazon could be a typo).",
-      "Long paragraphs instead of bullet points in some descriptions make the responsibilities harder to scan quickly.",
-      "Limited quantification of achievements or specific results (e.g., 'reduced workflow time by X%' or 'improved model accuracy by Y%')."
+      "Job descriptions lack specific metrics or quantifiable results that demonstrate success.",
+      "Some entries, like Amazon, have ambiguous start dates (e.g., '11/25'), reducing clarity.",
+      "Responsibilities in certain roles (e.g., Infosys) are generic and do not emphasize unique achievements."
     ],
     "things_done_well": [
-      "Provides solid descriptions of responsibilities and contributions in each role, showcasing diverse technical and leadership capabilities.",
-      "Highlights work in cutting-edge fields like generative AI, privacy-compliant models, and prompt engineering.",
-      "Illustrates progression to more advanced roles, demonstrating growth in responsibility and technical expertise over time."
+      "Shows strong career progression and increasingly impactful roles in NLP and AI-related fields.",
+      "Includes advanced tasks such as prompt engineering, privacy compliance, and AI assessment, demonstrating technical depth.",
+      "Descriptions emphasize collaboration, innovation, and leadership in key projects."
     ],
     "rating": 7,
     "flag": false
   },
-  "overall_score": 7.4
+  "Education": {
+    "things_done_poorly": [
+      "Presentation lacks details on GPA, coursework, or academic honors if applicable.",
+      "No mention of relevant extracurricular achievements connected to education (e.g., research or student organizations).",
+      "Graduation months are inconsistent (e.g., '06/2023' and '11/2020'); standardizing formats would improve readability."
+    ],
+    "things_done_well": [
+      "Education entries are directly relevant to the field of NLP and computational linguistics.",
+      "Includes advanced degrees from reputable institutions, enhancing credibility.",
+      "Clearly identifies specialization areas, adding focus to career objectives."
+    ],
+    "rating": 8,
+    "flag": false
+  },
+  "Projects": {
+    "things_done_poorly": [
+      "Projects lack details on the technologies applied or tools used (e.g., no mention of software frameworks or coding libraries).",
+      "Several projects lack links to papers, code repositories, or visual demos, reducing impact.",
+      "Descriptions are not consistently structured to showcase measurable contributions or outcomes."
+    ],
+    "things_done_well": [
+      "Projects are highly technical and demonstrate deep expertise in NLP and machine learning.",
+      "Showcases innovation and real-world impact, including published research (e.g., an ACL-accepted paper) and web app development.",
+      "Covers diverse domains, showcasing versatility across housing legislation analysis, mental health, and literature-based corpus studies."
+    ],
+    "rating": 7,
+    "flag": false
+  },
+  "Volunteer Experience": {
+    "things_done_poorly": [
+      "Volunteer experience has no specific dates, reducing its credibility.",
+      "Limited in scope compared to other sections; only one activity is highlighted.",
+      "Does not emphasize measurable outcomes or testimonials from the participating students or organizations."
+    ],
+    "things_done_well": [
+      "Clearly demonstrates engagement in education and global collaboration, showing interpersonal skills and community impact.",
+      "Highlights technical expertise by linking the role to Python programming education, maintaining relevance to career interests.",
+      "Showcases a unique contribution to a globally recognized program, enhancing visibility."
+    ],
+    "rating": 6,
+    "flag": false
+  },
+  "Contact Information": {
+    "things_done_poorly": [
+      "Important details like phone number and location are missing, reducing accessibility.",
+      "No LinkedIn or website is provided, making it harder for recruiters to verify the professional profile.",
+      "Incomplete presentation reduces professionalism for industry standards."
+    ],
+    "things_done_well": [
+      "Email address is professional and relevant for communication.",
+      "Name is clearly stated, creating ease of identification.",
+      "Respects privacy by limiting unnecessary personal information."
+    ],
+    "rating": 5,
+    "flag": true
+  },
+  "overall_score": 5.4,
+  "section_weights": {
+    "Profile": 0.25,
+    "Skills": 0.2,
+    "Experience": 0.25,
+    "Education": 0.1,
+    "Projects": 0.1,
+    "Volunteer Experience": 0.05,
+    "Contact Information": 0.05
+  },
+  "ratings_summary": {
+    "Profile": 0,
+    "Skills": 8,
+    "Experience": 7,
+    "Education": 8,
+    "Projects": 7,
+    "Volunteer Experience": 6,
+    "Contact Information": 5
+  }
 }
