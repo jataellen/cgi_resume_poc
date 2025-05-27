@@ -4,7 +4,8 @@
       "Bash(pip install:*)",
       "Bash(npm install:*)",
       "Bash(chmod:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(grep:*)"
     ],
     "deny": []
   }

@@ -239,7 +239,7 @@ async def upload_resume(file: UploadFile = File(...), current_user=Depends(get_c
         "progress": 10,
         "created_at": datetime.now(),
         "error": None,
-        "user_id": current_user.get("id", "unknown")
+        "user_id": current_user.id if hasattr(current_user, 'id') else current_user.get("id", "unknown") if isinstance(current_user, dict) else "unknown"
     }
     
     # Start processing in background
@@ -381,7 +381,8 @@ async def get_process_status(session_id: str, current_user=Depends(get_current_u
     session = upload_sessions[session_id]
     
     # Verify user owns this session
-    if session.get("user_id") != current_user.get("id"):
+    user_id = current_user.id if hasattr(current_user, 'id') else current_user.get("id") if isinstance(current_user, dict) else None
+    if session.get("user_id") != user_id:
         raise HTTPException(status_code=403, detail="Access denied")
     
     # Prepare download URL if completed
@@ -408,7 +409,8 @@ async def download_resume(session_id: str, current_user=Depends(get_current_user
     session = upload_sessions[session_id]
     
     # Verify user owns this session
-    if session.get("user_id") != current_user.get("id"):
+    user_id = current_user.id if hasattr(current_user, 'id') else current_user.get("id") if isinstance(current_user, dict) else None
+    if session.get("user_id") != user_id:
         raise HTTPException(status_code=403, detail="Access denied")
     
     if session["status"] != "completed" or not session["output_path"]:
@@ -439,7 +441,8 @@ async def cleanup_session(session_id: str, current_user=Depends(get_current_user
     session = upload_sessions[session_id]
     
     # Verify user owns this session
-    if session.get("user_id") != current_user.get("id"):
+    user_id = current_user.id if hasattr(current_user, 'id') else current_user.get("id") if isinstance(current_user, dict) else None
+    if session.get("user_id") != user_id:
         raise HTTPException(status_code=403, detail="Access denied")
     
     # Clean up files
