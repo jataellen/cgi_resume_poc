@@ -1,7 +1,7 @@
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from fastapi import FastAPI, File, UploadFile, HTTPException
+from fastapi import FastAPI, File, UploadFile, HTTPException, Depends, Header
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -15,6 +15,13 @@ from concurrent.futures import ThreadPoolExecutor
 import traceback
 import tempfile
 import sys
+from dotenv import load_dotenv
+from supabase import create_client, Client
+import jwt
+from functools import wraps
+
+# Load environment variables
+load_dotenv()
 
 # Add current directory to Python path
 sys.path.append('.')
@@ -76,10 +83,19 @@ from src.resume_llm_handler import resume_stream
 # Initialize FastAPI app
 app = FastAPI(title="ResumeGenie API", version="1.0.0")
 
+# Get environment variables
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_SERVICE_KEY = os.getenv("SUPABASE_SERVICE_KEY")
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:3000")
+PORT = int(os.getenv("PORT", "8000"))
+
+# Initialize Supabase client
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_SERVICE_KEY) if SUPABASE_URL and SUPABASE_SERVICE_KEY else None
+
 # Configure CORS for React frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # React dev server
+    allow_origins=[FRONTEND_URL, "http://localhost:3000"],  # Allow both local and production
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -90,6 +106,29 @@ executor = ThreadPoolExecutor(max_workers=4)
 
 # Store upload sessions
 upload_sessions = {}
+
+# Auth dependency
+async def get_current_user(authorization: Optional[str] = Header(None)):
+    """Verify JWT token from Supabase"""
+    if not supabase:
+        # If Supabase is not configured, allow all requests (development mode)
+        return {"id": "dev-user", "email": "dev@example.com"}
+    
+    if not authorization:
+        raise HTTPException(status_code=401, detail="Authorization header missing")
+    
+    try:
+        # Extract token from "Bearer <token>" format
+        token = authorization.split(" ")[1] if " " in authorization else authorization
+        
+        # Verify token with Supabase
+        user = supabase.auth.get_user(token)
+        if not user:
+            raise HTTPException(status_code=401, detail="Invalid token")
+        
+        return user.user
+    except Exception as e:
+        raise HTTPException(status_code=401, detail=f"Authentication failed: {str(e)}")
 
 # Pydantic models for request/response
 class UploadResponse(BaseModel):
@@ -171,7 +210,7 @@ async def root():
     return {"message": "ResumeGenie API is running", "working_directory": os.getcwd()}
 
 @app.post("/api/upload", response_model=UploadResponse)
-async def upload_resume(file: UploadFile = File(...)):
+async def upload_resume(file: UploadFile = File(...), current_user=Depends(get_current_user)):
     """
     Upload a resume file (PDF or DOCX) for processing
     """
@@ -199,7 +238,8 @@ async def upload_resume(file: UploadFile = File(...)):
         "logs": [f"Uploaded file: {file.filename}"],
         "progress": 10,
         "created_at": datetime.now(),
-        "error": None
+        "error": None,
+        "user_id": current_user.get("id", "unknown")
     }
     
     # Start processing in background
@@ -331,7 +371,7 @@ async def process_resume_async(session_id: str):
         session["logs"].append(f"Error details: {str(e)}")
 
 @app.get("/api/status/{session_id}", response_model=ProcessStatus)
-async def get_process_status(session_id: str):
+async def get_process_status(session_id: str, current_user=Depends(get_current_user)):
     """
     Get the current status of resume processing
     """
@@ -339,6 +379,10 @@ async def get_process_status(session_id: str):
         raise HTTPException(status_code=404, detail="Session not found")
     
     session = upload_sessions[session_id]
+    
+    # Verify user owns this session
+    if session.get("user_id") != current_user.get("id"):
+        raise HTTPException(status_code=403, detail="Access denied")
     
     # Prepare download URL if completed
     download_url = None
@@ -354,7 +398,7 @@ async def get_process_status(session_id: str):
     )
 
 @app.get("/api/download/{session_id}")
-async def download_resume(session_id: str):
+async def download_resume(session_id: str, current_user=Depends(get_current_user)):
     """
     Download the processed resume
     """
@@ -362,6 +406,10 @@ async def download_resume(session_id: str):
         raise HTTPException(status_code=404, detail="Session not found")
     
     session = upload_sessions[session_id]
+    
+    # Verify user owns this session
+    if session.get("user_id") != current_user.get("id"):
+        raise HTTPException(status_code=403, detail="Access denied")
     
     if session["status"] != "completed" or not session["output_path"]:
         raise HTTPException(status_code=400, detail="Resume processing not completed")
@@ -381,7 +429,7 @@ async def download_resume(session_id: str):
     )
 
 @app.delete("/api/session/{session_id}")
-async def cleanup_session(session_id: str):
+async def cleanup_session(session_id: str, current_user=Depends(get_current_user)):
     """
     Clean up session data and files
     """
@@ -389,6 +437,10 @@ async def cleanup_session(session_id: str):
         raise HTTPException(status_code=404, detail="Session not found")
     
     session = upload_sessions[session_id]
+    
+    # Verify user owns this session
+    if session.get("user_id") != current_user.get("id"):
+        raise HTTPException(status_code=403, detail="Access denied")
     
     # Clean up files
     if session.get("upload_path") and os.path.exists(session["upload_path"]):
@@ -456,4 +508,4 @@ async def startup_event():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run(app, host="0.0.0.0", port=PORT, reload=True)

@@ -8,8 +8,10 @@ import appStyles from './styles/appStyles';
 import uploadProgressStyles from './styles/uploadProgressStyles';
 import uploadCompletedStyles from './styles/uploadCompletedStyles';
 import apiService from './services/apiService';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import Auth from './components/Auth';
 
-function App() {
+function AppContent() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
@@ -302,6 +304,34 @@ function App() {
       </Box>
     </Box>
   );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppWrapper />
+    </AuthProvider>
+  );
+}
+
+function AppWrapper() {
+  const { user, loading, isSupabaseConfigured } = useAuth();
+
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  // If Supabase is configured and user is not authenticated, show auth screen
+  if (isSupabaseConfigured && !user) {
+    return <Auth />;
+  }
+
+  // Otherwise show the main app
+  return <AppContent />;
 }
 
 export default App;

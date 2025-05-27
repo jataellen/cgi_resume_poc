@@ -1,7 +1,8 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, Box, Divider } from '@mui/material';
+import { AppBar, Toolbar, Typography, Box, Divider, Button } from '@mui/material';
 import topBarStyles from './styles/topBarStyles'; // Adjust path as necessary
 import logo from './assets/logo.png';
+import { useAuth } from './contexts/AuthContext';
 function TopBar() {
   return (
     <AppBar position="fixed" elevation={2} sx={topBarStyles.appBar}>
@@ -27,12 +28,37 @@ function TopBar() {
           <Typography variant="body2" sx={topBarStyles.rightText}>
             EN
           </Typography>
-          <Typography variant="body2" sx={topBarStyles.rightText}>
-            Abhi Patel ▼
-          </Typography>
+          <UserMenu />
         </Box>
       </Toolbar>
     </AppBar>
+  );
+}
+
+function UserMenu() {
+  const { user, signOut, isSupabaseConfigured } = useAuth();
+  
+  if (!isSupabaseConfigured || !user) {
+    return (
+      <Typography variant="body2" sx={topBarStyles.rightText}>
+        Developer Mode
+      </Typography>
+    );
+  }
+  
+  return (
+    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+      <Typography variant="body2" sx={topBarStyles.rightText}>
+        {user.email}
+      </Typography>
+      <Button 
+        size="small" 
+        onClick={signOut}
+        sx={{ color: 'inherit', textTransform: 'none' }}
+      >
+        Sign Out
+      </Button>
+    </Box>
   );
 }
 

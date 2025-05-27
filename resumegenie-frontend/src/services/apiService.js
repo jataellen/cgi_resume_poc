@@ -1,5 +1,17 @@
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
+// Helper to get auth headers
+const getAuthHeaders = () => {
+  const token = localStorage.getItem('supabase.auth.token');
+  if (token) {
+    const parsedToken = JSON.parse(token);
+    return {
+      'Authorization': `Bearer ${parsedToken.access_token}`,
+    };
+  }
+  return {};
+};
+
 class ApiService {
   /**
    * Upload a resume file
@@ -14,6 +26,9 @@ class ApiService {
       const response = await fetch(`${API_BASE_URL}/api/upload`, {
         method: 'POST',
         body: formData,
+        headers: {
+          ...getAuthHeaders(),
+        },
       });
 
       if (!response.ok) {
@@ -42,7 +57,11 @@ class ApiService {
    */
   async getStatus(sessionId) {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/status/${sessionId}`);
+      const response = await fetch(`${API_BASE_URL}/api/status/${sessionId}`, {
+        headers: {
+          ...getAuthHeaders(),
+        },
+      });
 
       if (!response.ok) {
         const error = await response.json().catch(() => ({ detail: 'Failed to get status' }));
@@ -72,7 +91,11 @@ class ApiService {
    */
   async downloadResume(sessionId) {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/download/${sessionId}`);
+      const response = await fetch(`${API_BASE_URL}/api/download/${sessionId}`, {
+        headers: {
+          ...getAuthHeaders(),
+        },
+      });
 
       if (!response.ok) {
         const error = await response.json().catch(() => ({ detail: 'Download failed' }));
@@ -97,6 +120,9 @@ class ApiService {
     try {
       const response = await fetch(`${API_BASE_URL}/api/session/${sessionId}`, {
         method: 'DELETE',
+        headers: {
+          ...getAuthHeaders(),
+        },
       });
 
       if (!response.ok) {

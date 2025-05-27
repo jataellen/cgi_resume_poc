@@ -22,3 +22,8 @@ pydantic==2.8
 Spire.Doc
 plum-dispatch==1.7.4
 faiss-cpu
+python-dotenv==1.0.0
+supabase==1.0.3
+fastapi==0.95.0
+uvicorn==0.21.1
+python-multipart==0.0.6
