@@ -12,7 +12,8 @@
                 "degree": "Master of Data Science",
                 "field_of_study": "Computational Linguistics",
                 "institution": "University of British Columbia",
-                "graduation_year": "2025"
+                "location": "Vancouver",
+                "graduation_year": "A+"
             }
         ],
         "experience": [
@@ -91,19 +92,19 @@
         ],
         "awards": [
             {
-                "title": "Project presentation award",
+                "title": "Awards for Project Presentation",
                 "organization": "BC Stats",
                 "year": "2023"
             },
             {
-                "title": "Featured on UBC website",
+                "title": "Featured on UBC Website",
                 "organization": "University of British Columbia",
                 "year": "2023"
             }
         ]
     },
     "years_exp": "3 years of experience in Data Science",
-    "profile": "Behrooz Qiassi is a highly skilled Data Scientist with over three years of professional experience and a Master\u2019s degree in Data Science specializing in Computational Linguistics from the University of British Columbia. He has a proven track record of delivering impactful solutions in fast-paced environments, including startups and independent projects. Behrooz excels in developing cutting-edge data applications leveraging machine learning and Large Language Models (LLMs), as demonstrated by his work on Retrieval-Augmented Generation (RAG) systems and semantic search technologies. His technical expertise spans Python, R, SQL, PostgreSQL, AWS, Docker, and advanced frameworks like Pytorch, LangChain, and Llamaindex.\n\nThroughout his career, Behrooz has led transformative projects that showcase his ability to drive innovation and streamline processes. As an Independent Data Scientist, he designed the Iranian Newspaper Research Assistant, an application that makes historical archives searchable through RAG, enabling researchers to explore documents intuitively. At XYON Health, he single-handedly built a scalable data warehouse and ETL pipelines, cutting reporting time by 70%. His contributions have earned recognition, including a project presentation award from BC Stats and a feature on the UBC website for his semantic search and topic modeling advancements.\n\nBehrooz\u2019s technical versatility and leadership skills extend beyond individual projects. His experience at Nu Data and BoldZee highlights his ability to automate large-scale data collection and build reliable data systems that provide actionable insights. With a strong foundation in data engineering, machine learning, and visualization tools such as Power BI and Plotly, he combines technical precision with strategic problem-solving. Whether designing intuitive chatbots or orchestrating ETL pipelines, Behrooz consistently delivers solutions that enhance efficiency, accessibility, and user experience.",
+    "profile": "Behrooz Qiassi is a highly skilled Data Scientist with three years of experience and a Master\u2019s degree in Data Science - Computational Linguistics from the University of British Columbia. With a strong foundation in machine learning and Large Language Models (LLMs), he excels at developing innovative data-driven applications and delivering impactful solutions. Behrooz has a proven track record of leading end-to-end projects, designing ETL pipelines, and building robust data warehouse infrastructures, all while thriving in fast-paced startup environments.\n\nIn his current role as an Independent Data Scientist, Behrooz developed the Iranian Newspaper Research Assistant, a groundbreaking application leveraging Retrieval-Augmented Generation (RAG) to make scanned historical archives searchable and accessible. Previously, he designed a custom Agentic RAG solution at Nu Data, integrating advanced analytics and chatbot interfaces, and spearheaded a data warehouse initiative at XYON Health, reducing reporting time by 70%. His expertise in semantic search, graph-based visualizations, and AI chatbot development has consistently delivered measurable results, earning him awards and recognition from esteemed organizations like BC Stats and UBC.\n\nBehrooz possesses a versatile technical skill set, including Python, SQL, PostgreSQL, AWS, Pytorch, and LangChain, among others. He has also demonstrated proficiency in building intuitive dashboards, fine-tuning LLMs, and orchestrating scalable data pipelines. Recognized for his ability to create meaningful insights and improve user experiences, Behrooz is a dynamic professional dedicated to pushing the boundaries of data science and computational linguistics.",
     "res_dict": {
         "experience": {
             "cgi_experience": [],
@@ -114,22 +115,17 @@
                     "start_date": "12/24",
                     "end_date": "Present",
                     "responsibilities": [
-                        "Developed an application to make scanned Iranian historical archives searchable using Retrieval-Augmented Generation (RAG).",
-                        "Converted scanned newspaper archives into machine-readable text, improving accessibility for researchers and historians.",
-                        "Implemented full-text and semantic search to enable intuitive and efficient document retrieval.",
-                        "Created a graph-based search tool for exploring document relationships via graph visualizations.",
-                        "Built a chatbot interface for natural language queries to simplify archive exploration."
+                        "Developed an application to make scanned Iranian historical newspapers searchable through Retrieval-Augmented Generation (RAG).",
+                        "Converted scanned archives into machine-readable text, improving accessibility for researchers and historians.",
+                        "Implemented full-text and semantic search, enabling efficient and intuitive document retrieval.",
+                        "Created graph-based search to explore document relationships through interactive graph visualizations.",
+                        "Built a chatbot assistant for natural language queries, simplifying archive exploration for users."
                     ],
                     "technologies": [
-                        "Python",
-                        "R",
-                        "SQL",
-                        "PostgreSQL",
-                        "Pgvector",
-                        "Elasticsearch",
-                        "LangChain",
-                        "Llamaindex",
-                        "Streamlit"
+                        "Retrieval-Augmented Generation (RAG)",
+                        "Semantic Search",
+                        "Graph-based Search",
+                        "Natural Language Processing (NLP)"
                     ]
                 },
                 {
@@ -138,19 +134,15 @@
                     "start_date": "04/24",
                     "end_date": "11/24",
                     "responsibilities": [
-                        "Developed a custom Agentic RAG solution offering vetted data, analytics, and visualizations through a chatbot interface.",
-                        "Fine-tuned Large Language Models to improve semantic search, question answering, and function calling capabilities.",
-                        "Built automated web scraping tools to collect large-scale data from over 50 sources."
+                        "Developed a custom Agentic Retrieval Augmented Generation (RAG) solution providing advanced analytics via a chatbot interface.",
+                        "Fine-tuned Large Language Models to enhance semantic search, question answering, and function calling capabilities.",
+                        "Built automated web scraping tools for large-scale data collection from over 50 sources."
                     ],
                     "technologies": [
-                        "Python",
-                        "Pytorch",
+                        "Agentic Retrieval Augmented Generation (RAG)",
                         "Large Language Models",
-                        "LangChain",
-                        "Flask",
-                        "Streamlit",
-                        "AWS (EC2, ECS, S3)",
-                        "Docker"
+                        "Web Scraping",
+                        "Advanced Analytics"
                     ]
                 },
                 {
@@ -159,36 +151,30 @@
                     "start_date": "09/23",
                     "end_date": "03/24",
                     "responsibilities": [
-                        "Designed and built a data warehouse, reducing reporting time by 70% for business operations.",
-                        "Created scalable ETL pipelines to integrate data from more than 11 sources efficiently.",
-                        "Developed connected dashboards delivering actionable insights for marketing, finance, and operations teams."
+                        "Designed and built a data warehouse as the sole data scientist, reducing reporting time by 70%.",
+                        "Created scalable ETL pipelines to integrate data from over 11 sources for unified data processing.",
+                        "Delivered actionable insights through connected dashboards for marketing, finance, and operations teams."
                     ],
                     "technologies": [
-                        "Python",
-                        "SQL",
-                        "PostgreSQL",
-                        "AWS Redshift",
-                        "Power BI",
-                        "Prefect",
-                        "Docker"
+                        "Data Warehouse",
+                        "ETL Pipelines",
+                        "Actionable Dashboards"
                     ]
                 },
                 {
-                    "company": "BC Stats - Capstone Project",
+                    "company": "BC Stats",
                     "position_title": "Data Scientist",
                     "start_date": "05/23",
                     "end_date": "07/23",
                     "responsibilities": [
-                        "Developed a semantic search system improving BC Data Catalogue's search precision by 25% and recall by 40%.",
-                        "Created a topic modeling solution with interactive visualizations, enhancing the user experience for BC Data Catalogue.",
-                        "Received two awards for project presentation and was featured on the UBC website for excellence."
+                        "Improved BC Data Catalogue's search precision by 25% and recall by 40% with a new semantic search system.",
+                        "Developed topic modeling solutions with interactive visualizations to enhance user experience.",
+                        "Received two awards for project presentation and featured recognition on the UBC website."
                     ],
                     "technologies": [
-                        "Python",
-                        "scikit-learn",
-                        "LangChain",
-                        "Matplotlib",
-                        "Plotly"
+                        "Semantic Search",
+                        "Topic Modeling",
+                        "Interactive Visualizations"
                     ]
                 },
                 {
@@ -197,16 +183,12 @@
                     "start_date": "02/19",
                     "end_date": "09/21",
                     "responsibilities": [
-                        "Automated data scraping pipelines to extract structured and unstructured data from over 40 sources.",
-                        "Developed and optimized ETL pipelines, improving data processing efficiency by 20% through streamlined workflows."
+                        "Automated data scraping pipelines for extracting structured and unstructured data from more than 40 sources.",
+                        "Optimized ETL pipelines, increasing data processing efficiency by 20%."
                     ],
                     "technologies": [
-                        "Python",
-                        "SQL",
-                        "PostgreSQL",
-                        "MongoDB",
-                        "Airflow",
-                        "Docker"
+                        "Data Scraping",
+                        "ETL Pipelines"
                     ]
                 }
             ]
@@ -216,10 +198,10 @@
         },
         "other_sections": {
             "industry_experience": [
-                "Sustainability & AI",
+                "Sustainability and AI",
                 "Pharmaceutical Manufacturing",
-                "Government Statistics",
-                "IT Services and IT Consulting"
+                "Government Data Analytics",
+                "IT Services and Consulting"
             ],
             "technical_specializations": [
                 "Data Engineering",
@@ -228,37 +210,28 @@
                 "Data Application Development"
             ],
             "areas_of_expertise": [
-                "ETL pipeline design",
-                "Data warehouse development",
-                "Semantic search systems",
-                "Retrieval-Augmented Generation (RAG)",
+                "Developing Retrieval-Augmented Generation (RAG) solutions",
                 "Fine-tuning Large Language Models",
-                "Topic modeling",
-                "Automated web scraping"
+                "Designing and implementing ETL pipelines",
+                "Building data warehouse infrastructure",
+                "Developing semantic search systems",
+                "Automating web scraping pipelines"
             ],
             "languages": [
                 "English",
                 "Persian"
             ],
             "environments": [
-                "Fast-paced startup",
-                "Independent consulting",
-                "Capstone academic projects"
+                "Startup environments",
+                "Academic research",
+                "Government projects"
             ],
             "tools_and_software": [
-                "Python",
-                "R",
-                "SQL",
-                "JavaScript",
-                "Bash Scripting",
-                "HTML",
-                "CSS",
                 "PostgreSQL",
                 "MongoDB",
                 "Pgvector",
                 "Solr",
                 "Elasticsearch",
-                "Redshift",
                 "AWS (EC2, ECS, S3, Lambda)",
                 "Prefect",
                 "Airflow",
@@ -266,6 +239,7 @@
                 "Docker",
                 "scikit-learn",
                 "Pytorch",
+                "XGBoost",
                 "LangChain",
                 "Llamaindex",
                 "Power BI",
@@ -281,36 +255,36 @@
             "technical_skills": [
                 {
                     "skill": "Python",
-                    "years_of_experience": 4,
+                    "years_of_experience": 5,
                     "skill_level": 4
                 },
                 {
                     "skill": "SQL",
-                    "years_of_experience": 4,
+                    "years_of_experience": 5,
                     "skill_level": 4
                 },
                 {
                     "skill": "R",
+                    "years_of_experience": 4,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "JavaScript",
+                    "years_of_experience": 2,
+                    "skill_level": 2
+                },
+                {
+                    "skill": "Bash Scripting",
                     "years_of_experience": 3,
                     "skill_level": 3
                 },
                 {
-                    "skill": "Machine Learning (scikit-learn, Pytorch, XGBoost)",
-                    "years_of_experience": 3,
-                    "skill_level": 4
-                },
-                {
-                    "skill": "Large Language Models (LLMs)",
-                    "years_of_experience": 3,
-                    "skill_level": 4
-                },
-                {
-                    "skill": "Docker",
+                    "skill": "scikit-learn",
                     "years_of_experience": 3,
                     "skill_level": 3
                 },
                 {
-                    "skill": "AWS (EC2, ECS, S3, Lambda)",
+                    "skill": "Pytorch",
                     "years_of_experience": 3,
                     "skill_level": 3
                 }
@@ -337,9 +311,9 @@
                     "skill_level": 3
                 },
                 {
-                    "skill": "LangChain",
+                    "skill": "Matplotlib",
                     "years_of_experience": 3,
-                    "skill_level": 4
+                    "skill_level": 3
                 }
             ],
             "it_disciplines": [
@@ -350,8 +324,13 @@
                 },
                 {
                     "skill": "Data Warehousing",
-                    "years_of_experience": 3,
+                    "years_of_experience": 4,
                     "skill_level": 4
+                },
+                {
+                    "skill": "Semantic Search Solutions",
+                    "years_of_experience": 3,
+                    "skill_level": 3
                 },
                 {
                     "skill": "Data Orchestration (Prefect, Airflow)",
@@ -359,63 +338,63 @@
                     "skill_level": 3
                 },
                 {
-                    "skill": "Semantic Search",
+                    "skill": "Docker",
                     "years_of_experience": 3,
-                    "skill_level": 4
-                },
-                {
-                    "skill": "Web Scraping",
-                    "years_of_experience": 4,
-                    "skill_level": 4
+                    "skill_level": 3
                 }
             ],
             "industry_knowledge": [
                 {
-                    "skill": "Sustainability & AI",
+                    "skill": "Data Science",
+                    "years_of_experience": 3,
+                    "skill_level": 4
+                },
+                {
+                    "skill": "AI in Sustainability",
                     "years_of_experience": 1,
-                    "skill_level": 3
+                    "skill_level": 2
                 },
                 {
                     "skill": "Pharmaceutical Manufacturing",
                     "years_of_experience": 1,
-                    "skill_level": 3
+                    "skill_level": 2
                 },
                 {
-                    "skill": "IT Services and IT Consulting",
+                    "skill": "IT Consulting",
                     "years_of_experience": 2,
                     "skill_level": 3
                 },
                 {
-                    "skill": "Historical Research Applications",
-                    "years_of_experience": 1,
+                    "skill": "Computational Linguistics",
+                    "years_of_experience": 2,
                     "skill_level": 3
                 }
             ],
             "other_relevant_skills": [
                 {
-                    "skill": "Project Management",
-                    "years_of_experience": 3,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Graph-based Search Development",
-                    "years_of_experience": 1,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Topic Modeling",
-                    "years_of_experience": 1,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Interactive Dashboards",
-                    "years_of_experience": 3,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Natural Language Processing (NLP)",
+                    "skill": "Large Language Models",
                     "years_of_experience": 3,
                     "skill_level": 4
+                },
+                {
+                    "skill": "Visualization (Seaborn, Plotly)",
+                    "years_of_experience": 3,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Graph-based Search Systems",
+                    "years_of_experience": 2,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Web Scraping",
+                    "years_of_experience": 3,
+                    "skill_level": 4
+                },
+                {
+                    "skill": "Chatbot Development",
+                    "years_of_experience": 2,
+                    "skill_level": 3
                 }
             ]
         }

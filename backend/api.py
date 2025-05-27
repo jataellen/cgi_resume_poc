@@ -6,18 +6,72 @@ from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional, List
-
+import os
 import shutil
 import uuid
 from datetime import datetime
-import tempfile
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
+import traceback
+import tempfile
+import sys
 
-# Import your existing modules
-from src.logs_manager import log_messages, log
+# Add current directory to Python path
+sys.path.append('.')
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
+# Set working directory to the script's directory
+script_dir = os.path.dirname(os.path.abspath(__file__))
+print(f"Script directory: {script_dir}")
+print(f"Current working directory before change: {os.getcwd()}")
+
+# Change to script directory
+os.chdir(script_dir)
+print(f"Current working directory after change: {os.getcwd()}")
+
+# Check if data directory exists from this location
+data_path = os.path.join(script_dir, "data")
+if not os.path.exists(data_path):
+    # Try parent directory
+    parent_dir = os.path.dirname(script_dir)
+    data_path = os.path.join(parent_dir, "data")
+    if os.path.exists(data_path):
+        os.chdir(parent_dir)
+        print(f"Found data directory in parent, changed to: {os.getcwd()}")
+    else:
+        print(f"Data directory not found in {script_dir} or {parent_dir}")
+        print("Available directories:")
+        try:
+            for item in os.listdir(script_dir):
+                if os.path.isdir(item):
+                    print(f"  - {item}")
+        except:
+            pass
+
+# Verify required files exist
+required_files = [
+    'data/experience_schema.json',
+    'data/json_schema.json', 
+    'data/all_schemas.json',
+    'data/prompts.py'
+]
+
+missing_files = []
+for file_path in required_files:
+    if not os.path.exists(file_path):
+        missing_files.append(file_path)
+
+if missing_files:
+    print("❌ Missing required files:")
+    for file_path in missing_files:
+        print(f"   - {file_path}")
+    print("\nPlease make sure you're running the app from the correct directory")
+    print("and that all data files are present.")
+    sys.exit(1)
+
+# Import your existing modules after path setup
+from src.logs_manager import log, initialize_log_box, log_messages
 from src.resume_llm_handler import resume_stream
-import streamlit as st  # We'll mock this since we don't need it anymore
 
 # Initialize FastAPI app
 app = FastAPI(title="ResumeGenie API", version="1.0.0")
@@ -50,16 +104,71 @@ class ProcessStatus(BaseModel):
     download_url: Optional[str] = None
     error: Optional[str] = None
 
-class ErrorResponse(BaseModel):
-    detail: str
-
 # Create necessary directories
 os.makedirs("uploads", exist_ok=True)
 os.makedirs("outputs", exist_ok=True)
 
+# Mock classes for Streamlit compatibility
+class MockProgressBar:
+    def __init__(self, session_id):
+        self.session_id = session_id
+        self.current_progress = 0
+    
+    def progress(self, value):
+        # Convert 0-1 range to 0-100
+        if value <= 1:
+            self.current_progress = int(value * 100)
+        else:
+            self.current_progress = int(value)
+        
+        if self.session_id in upload_sessions:
+            upload_sessions[self.session_id]["progress"] = min(self.current_progress, 100)
+
+class MockStreamlit:
+    def __init__(self):
+        pass
+    
+    def write(self, *args, **kwargs):
+        pass
+    
+    def empty(self):
+        return self
+    
+    def text_area(self, *args, **kwargs):
+        pass
+
+class MockLogBox:
+    def text_area(self, *args, **kwargs):
+        pass
+
+def convert_to_pdf(uploaded_file, file_id):
+    """
+    Simple file conversion - if it's DOCX, keep as DOCX for now
+    If it's PDF, save as PDF
+    """
+    file_name = uploaded_file.name if hasattr(uploaded_file, 'name') else uploaded_file
+    file_extension = os.path.splitext(file_name)[1].lower()
+    
+    temp_file_path = f"temp_{file_id}{file_extension}"
+    
+    # Save the file
+    if hasattr(uploaded_file, 'path'):
+        # It's a file path
+        shutil.copy(uploaded_file.path, temp_file_path)
+    elif hasattr(uploaded_file, 'read'):
+        # It's a file-like object
+        with open(temp_file_path, 'wb') as f:
+            content = uploaded_file.read()
+            f.write(content)
+    else:
+        # It's already a file path
+        shutil.copy(uploaded_file, temp_file_path)
+    
+    return temp_file_path
+
 @app.get("/")
 async def root():
-    return {"message": "ResumeGenie API is running"}
+    return {"message": "ResumeGenie API is running", "working_directory": os.getcwd()}
 
 @app.post("/api/upload", response_model=UploadResponse)
 async def upload_resume(file: UploadFile = File(...)):
@@ -89,7 +198,8 @@ async def upload_resume(file: UploadFile = File(...)):
         "output_path": None,
         "logs": [f"Uploaded file: {file.filename}"],
         "progress": 10,
-        "created_at": datetime.now()
+        "created_at": datetime.now(),
+        "error": None
     }
     
     # Start processing in background
@@ -111,30 +221,82 @@ async def process_resume_async(session_id: str):
         # Update status
         session["status"] = "processing"
         session["logs"].append("Starting resume processing...")
+        session["logs"].append(f"Working directory: {os.getcwd()}")
         session["progress"] = 20
         
         # Clear previous log messages
         log_messages.clear()
         
-        # Process the resume using existing logic
+        # Initialize mock log box
+        mock_log_box = MockLogBox()
+        initialize_log_box(mock_log_box)
+        
+        # Get file info
         upload_path = session["upload_path"]
         original_filename = session["filename"]
         
-        # Mock streamlit object (not needed anymore)
-        class MockSt:
-            def write(self, *args, **kwargs):
-                pass
+        # Create mock objects for resume_stream
+        mock_st = MockStreamlit()
+        mock_progress_bar = MockProgressBar(session_id)
         
-        mock_st = MockSt()
+        # Hardcoded parameters for testing
+        selected_format = "Developer"
+        custom_role_title = ""
+        job_description = ""
+        rfp_file_path = None
+        include_default_cgi = False
         
-        # Run CPU-bound task in thread pool
+        # Convert file to appropriate format
+        file_id = session_id[:8]
+        
+        class TempFile:
+            def __init__(self, path, filename):
+                self.name = filename
+                self.path = path
+        
+        temp_file = TempFile(upload_path, original_filename)
+        
+        session["logs"].append("Preparing file for processing...")
+        session["progress"] = 30
+        
+        try:
+            temp_file_path = convert_to_pdf(temp_file, file_id)
+            session["logs"].append("File prepared successfully")
+            session["progress"] = 40
+        except Exception as e:
+            session["logs"].append(f"Using original file format: {str(e)}")
+            temp_file_path = upload_path
+            session["progress"] = 40
+        
+        # Set up progress parameters
+        base_progress = 0.4  # 40% done
+        file_progress_weight = 0.6  # 60% remaining
+        
+        session["logs"].append("Processing resume with AI...")
+        session["progress"] = 50
+        
+        # Run the resume processing in thread pool
         loop = asyncio.get_event_loop()
-        await loop.run_in_executor(executor, resume_stream, mock_st, upload_path)
         
-        # Update progress as logs are generated
-        for i, log_msg in enumerate(log_messages):
-            session["logs"].append(log_msg)
-            session["progress"] = min(20 + (i + 1) * 10, 90)
+        await loop.run_in_executor(
+            executor,
+            resume_stream,
+            mock_st,
+            mock_progress_bar,
+            base_progress,
+            file_progress_weight,
+            temp_file_path,
+            selected_format,
+            custom_role_title,
+            job_description,
+            rfp_file_path,
+            include_default_cgi
+        )
+        
+        # Copy logs from global log_messages to session
+        for log_msg in log_messages:
+            if log_msg not in session["logs"]:
+                session["logs"].append(log_msg)
         
         # Handle output file
         output_filename = os.path.splitext(original_filename)[0] + "_updated.docx"
@@ -147,14 +309,26 @@ async def process_resume_async(session_id: str):
             session["logs"].append("Resume processing completed successfully!")
             session["progress"] = 100
             session["status"] = "completed"
+            
+            # Clean up temporary files
+            if temp_file_path != upload_path and os.path.exists(temp_file_path):
+                os.remove(temp_file_path)
+                session["logs"].append("Cleaned up temporary files")
         else:
-            raise Exception("Output file not generated")
+            raise Exception("Output file was not generated")
             
     except Exception as e:
         session["status"] = "error"
-        session["logs"].append(f"Error: {str(e)}")
+        error_msg = f"Processing error: {str(e)}"
+        session["logs"].append(error_msg)
         session["error"] = str(e)
         session["progress"] = 0
+        
+        # Log full traceback for debugging
+        traceback_str = traceback.format_exc()
+        print(f"Error processing session {session_id}:")
+        print(traceback_str)
+        session["logs"].append(f"Error details: {str(e)}")
 
 @app.get("/api/status/{session_id}", response_model=ProcessStatus)
 async def get_process_status(session_id: str):
@@ -236,10 +410,17 @@ async def health_check():
     return {
         "status": "healthy",
         "timestamp": datetime.now().isoformat(),
-        "active_sessions": len(upload_sessions)
+        "active_sessions": len(upload_sessions),
+        "working_directory": os.getcwd(),
+        "data_files_exist": {
+            "experience_schema": os.path.exists("data/experience_schema.json"),
+            "json_schema": os.path.exists("data/json_schema.json"),
+            "all_schemas": os.path.exists("data/all_schemas.json"),
+            "prompts": os.path.exists("data/prompts.py")
+        }
     }
 
-# Cleanup old sessions periodically (optional)
+# Cleanup old sessions periodically
 async def cleanup_old_sessions():
     """
     Clean up sessions older than 1 hour
@@ -254,9 +435,17 @@ async def cleanup_old_sessions():
         
         for session_id in sessions_to_remove:
             try:
-                await cleanup_session(session_id)
-            except:
-                pass
+                if session_id in upload_sessions:
+                    session = upload_sessions[session_id]
+                    # Clean up files
+                    if session.get("upload_path") and os.path.exists(session["upload_path"]):
+                        os.remove(session["upload_path"])
+                    if session.get("output_path") and os.path.exists(session["output_path"]):
+                        os.remove(session["output_path"])
+                    # Remove session
+                    del upload_sessions[session_id]
+            except Exception as e:
+                print(f"Error cleaning up session {session_id}: {e}")
         
         await asyncio.sleep(300)  # Run every 5 minutes
 

@@ -10,12 +10,17 @@ import datetime
 from dotenv import load_dotenv
 from data.prompts import *
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+EXPERIENCE_SCHEMA_PATH = os.path.join(BASE_DIR, "data", "experience_schema.json")
 
 def experience_chain(pdf_text, llm):
     text_input = pdf_text
 
-    with open("data/experience_schema.json", "r") as file:
-        exp_schemas = json.load(file)
+    try:
+        with open(EXPERIENCE_SCHEMA_PATH, "r") as file:
+            exp_schemas = json.load(file)
+    except FileNotFoundError:
+        raise FileNotFoundError(f"Experience schema file not found at {EXPERIENCE_SCHEMA_PATH}")
 
     current_date = datetime.datetime.now().date()
     # human_content = (

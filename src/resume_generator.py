@@ -66,23 +66,53 @@ def generate_resume(
     role_title="",
     format_type="Developer",
 ):
-    # Choose the appropriate template based on the format_type
+    # Choose the appropriate template based on the format_type with proper path handling
     if format_type == "Business Analyst":
-        input_filename = os.path.join("data", "resume_sample_BA.docx")
+        template_name = "resume_sample_BA.docx"
     elif format_type == "Director":
-        input_filename = os.path.join("data", "resume_sample_Director.docx")
+        template_name = "resume_sample_Director.docx"
     else:  # Default to Developer
-        input_filename = os.path.join("data", "resume_sample.docx")
-
+        template_name = "resume_sample.docx"
+    
+    # Use os.path.join for cross-platform compatibility
+    input_filename = os.path.join("data", template_name)
+    
     # Check if the file exists, if not use the default
     if not os.path.exists(input_filename):
-        print(
-            f"Warning: Template file {input_filename} not found, using default template"
-        )
+        print(f"Warning: Template file {input_filename} not found, trying default template")
         input_filename = os.path.join("data", "resume_sample.docx")
+        
+        # If even the default doesn't exist, list what's available
+        if not os.path.exists(input_filename):
+            print(f"Error: Default template {input_filename} also not found")
+            print("Available files in data directory:")
+            try:
+                data_files = os.listdir("data")
+                for file in data_files:
+                    if file.endswith('.docx'):
+                        print(f"  - {file}")
+                        # Use the first available .docx file as fallback
+                        if input_filename == os.path.join("data", "resume_sample.docx"):
+                            input_filename = os.path.join("data", file)
+                            print(f"Using fallback template: {input_filename}")
+                            break
+            except Exception as e:
+                print(f"Error listing data directory: {e}")
+                raise Exception(f"No template file found and cannot access data directory: {e}")
+    
+    # Double-check the file exists before proceeding
+    if not os.path.exists(input_filename):
+        raise Exception(f"Template file not found: {input_filename}")
+    
+    print(f"Using template file: {input_filename}")
 
     # Load the Word document
-    doc = Document(input_filename)
+    try:
+        doc = Document(input_filename)
+        print(f"Successfully loaded template: {input_filename}")
+    except Exception as e:
+        print(f"Error loading template {input_filename}: {e}")
+        raise Exception(f"Failed to load template file: {e}")
 
     output_filename = "updated_resume.docx"
 
@@ -190,5 +220,10 @@ def generate_resume(
         failures.append("Skills table replacement")
 
     print(f"Failures with the following fields: {failures}")
-    doc.save(output_filename)
-    print(f"Updated document saved as: {output_filename}")
+    
+    try:
+        doc.save(output_filename)
+        print(f"Updated document saved as: {output_filename}")
+    except Exception as e:
+        print(f"Error saving document: {e}")
+        raise Exception(f"Failed to save output document: {e}")

@@ -7,25 +7,32 @@ class ApiService {
    * @returns {Promise<{sessionId: string, message: string, filename: string}>}
    */
   async uploadResume(file) {
-    const formData = new FormData();
-    formData.append('file', file);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
 
-    const response = await fetch(`${API_BASE_URL}/api/upload`, {
-      method: 'POST',
-      body: formData,
-    });
+      const response = await fetch(`${API_BASE_URL}/api/upload`, {
+        method: 'POST',
+        body: formData,
+      });
 
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.detail || 'Upload failed');
+      if (!response.ok) {
+        const error = await response.json().catch(() => ({ detail: 'Upload failed' }));
+        throw new Error(error.detail || `Upload failed with status ${response.status}`);
+      }
+
+      const data = await response.json();
+      return {
+        sessionId: data.session_id,
+        message: data.message,
+        filename: data.filename,
+      };
+    } catch (error) {
+      if (error.name === 'TypeError' && error.message.includes('fetch')) {
+        throw new Error('Unable to connect to server. Please make sure the backend is running on port 8000.');
+      }
+      throw error;
     }
-
-    const data = await response.json();
-    return {
-      sessionId: data.session_id,
-      message: data.message,
-      filename: data.filename,
-    };
   }
 
   /**
@@ -34,21 +41,28 @@ class ApiService {
    * @returns {Promise<{status: string, logs: string[], progress: number, downloadUrl: string|null, error: string|null}>}
    */
   async getStatus(sessionId) {
-    const response = await fetch(`${API_BASE_URL}/api/status/${sessionId}`);
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/status/${sessionId}`);
 
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.detail || 'Failed to get status');
+      if (!response.ok) {
+        const error = await response.json().catch(() => ({ detail: 'Failed to get status' }));
+        throw new Error(error.detail || `Status check failed with status ${response.status}`);
+      }
+
+      const data = await response.json();
+      return {
+        status: data.status,
+        logs: data.logs || [],
+        progress: data.progress || 0,
+        downloadUrl: data.download_url,
+        error: data.error,
+      };
+    } catch (error) {
+      if (error.name === 'TypeError' && error.message.includes('fetch')) {
+        throw new Error('Unable to connect to server. Please check your connection.');
+      }
+      throw error;
     }
-
-    const data = await response.json();
-    return {
-      status: data.status,
-      logs: data.logs,
-      progress: data.progress,
-      downloadUrl: data.download_url,
-      error: data.error,
-    };
   }
 
   /**
@@ -57,14 +71,21 @@ class ApiService {
    * @returns {Promise<Blob>}
    */
   async downloadResume(sessionId) {
-    const response = await fetch(`${API_BASE_URL}/api/download/${sessionId}`);
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/download/${sessionId}`);
 
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.detail || 'Download failed');
+      if (!response.ok) {
+        const error = await response.json().catch(() => ({ detail: 'Download failed' }));
+        throw new Error(error.detail || `Download failed with status ${response.status}`);
+      }
+
+      return response.blob();
+    } catch (error) {
+      if (error.name === 'TypeError' && error.message.includes('fetch')) {
+        throw new Error('Unable to connect to server. Please check your connection.');
+      }
+      throw error;
     }
-
-    return response.blob();
   }
 
   /**
@@ -73,13 +94,18 @@ class ApiService {
    * @returns {Promise<void>}
    */
   async cleanupSession(sessionId) {
-    const response = await fetch(`${API_BASE_URL}/api/session/${sessionId}`, {
-      method: 'DELETE',
-    });
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/session/${sessionId}`, {
+        method: 'DELETE',
+      });
 
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.detail || 'Cleanup failed');
+      if (!response.ok) {
+        const error = await response.json().catch(() => ({ detail: 'Cleanup failed' }));
+        throw new Error(error.detail || `Cleanup failed with status ${response.status}`);
+      }
+    } catch (error) {
+      // Don't throw errors for cleanup failures - just log them
+      console.warn('Session cleanup failed:', error.message);
     }
   }
 
@@ -88,18 +114,39 @@ class ApiService {
    * @returns {Promise<{status: string, timestamp: string, activeSessions: number}>}
    */
   async healthCheck() {
-    const response = await fetch(`${API_BASE_URL}/api/health`);
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/health`);
 
-    if (!response.ok) {
-      throw new Error('API is not healthy');
+      if (!response.ok) {
+        throw new Error(`API health check failed with status ${response.status}`);
+      }
+
+      const data = await response.json();
+      return {
+        status: data.status,
+        timestamp: data.timestamp,
+        activeSessions: data.active_sessions,
+      };
+    } catch (error) {
+      if (error.name === 'TypeError' && error.message.includes('fetch')) {
+        throw new Error('Unable to connect to server. Please make sure the backend is running.');
+      }
+      throw error;
     }
+  }
 
-    const data = await response.json();
-    return {
-      status: data.status,
-      timestamp: data.timestamp,
-      activeSessions: data.active_sessions,
-    };
+  /**
+   * Test the connection to the backend
+   * @returns {Promise<boolean>}
+   */
+  async testConnection() {
+    try {
+      await this.healthCheck();
+      return true;
+    } catch (error) {
+      console.error('Connection test failed:', error.message);
+      return false;
+    }
   }
 }
 
