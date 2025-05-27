@@ -1,7 +1,6 @@
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
-
-// Import auth context
 import { useAuth } from '../contexts/AuthContext';
+
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
 // Store auth instance
 let authInstance = null;
