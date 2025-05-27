@@ -7,7 +7,7 @@ import SideBar from './SideBar';
 import appStyles from './styles/appStyles';
 import uploadProgressStyles from './styles/uploadProgressStyles';
 import uploadCompletedStyles from './styles/uploadCompletedStyles';
-import apiService from './services/apiService';
+import apiService, { setAuthInstance } from './services/apiService';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Auth from './components/Auth';
 
@@ -314,7 +314,13 @@ function App() {
 }
 
 function AppWrapper() {
-  const { user, loading, isSupabaseConfigured } = useAuth();
+  const auth = useAuth();
+  const { user, loading, isSupabaseConfigured } = auth;
+
+  // Set auth instance for API service
+  React.useEffect(() => {
+    setAuthInstance(auth);
+  }, [auth]);
 
   if (loading) {
     return (

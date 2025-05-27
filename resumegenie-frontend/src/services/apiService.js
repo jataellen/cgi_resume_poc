@@ -1,13 +1,24 @@
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
+// Import auth context
+import { useAuth } from '../contexts/AuthContext';
+
+// Store auth instance
+let authInstance = null;
+
+export const setAuthInstance = (auth) => {
+  authInstance = auth;
+};
+
 // Helper to get auth headers
 const getAuthHeaders = () => {
-  const token = localStorage.getItem('supabase.auth.token');
-  if (token) {
-    const parsedToken = JSON.parse(token);
-    return {
-      'Authorization': `Bearer ${parsedToken.access_token}`,
-    };
+  if (authInstance && authInstance.getAuthToken) {
+    const token = authInstance.getAuthToken();
+    if (token) {
+      return {
+        'Authorization': `Bearer ${token}`,
+      };
+    }
   }
   return {};
 };
