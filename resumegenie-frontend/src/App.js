@@ -19,7 +19,6 @@ function AppContent() {
   const [progress, setProgress] = useState(0);
   const [sessionId, setSessionId] = useState(null);
   const [error, setError] = useState(null);
-  const [downloadUrl, setDownloadUrl] = useState(null);
   
   const statusIntervalRef = useRef(null);
 
@@ -43,7 +42,7 @@ function AppContent() {
       if (status.status === 'completed') {
         setIsUploading(false);
         setIsCompleted(true);
-        setDownloadUrl(status.downloadUrl);
+        // Download URL is available at status.downloadUrl
         
         // Stop polling
         if (statusIntervalRef.current) {
@@ -170,7 +169,7 @@ function AppContent() {
     setSessionId(null);
     setProgress(0);
     setError(null);
-    setDownloadUrl(null);
+    // Reset complete
   };
 
   return (
