@@ -134,13 +134,16 @@ const SuccessIcon = styled(Box)(({ theme }) => ({
 
 const StepperStyled = styled(Stepper)(({ theme }) => ({
   '& .MuiStepLabel-root .Mui-completed': {
-    color: cgiColors.success
+    color: '#666666' // Grey for completed steps
   },
   '& .MuiStepLabel-root .Mui-active': {
     color: cgiColors.primary
   },
   '& .MuiStepConnector-line': {
     borderColor: cgiColors.lightGray
+  },
+  '& .MuiStepConnector-root.Mui-completed .MuiStepConnector-line': {
+    borderColor: '#666666' // Grey line for completed connectors
   }
 }));
 
