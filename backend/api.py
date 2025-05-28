@@ -235,7 +235,7 @@ async def upload_resume(file: UploadFile = File(...), current_user=Depends(get_c
         "filename": file.filename,
         "upload_path": upload_path,
         "output_path": None,
-        "logs": [f"Uploaded file: {file.filename}"],
+        "logs": [f"File received: {file.filename}"],
         "progress": 10,
         "created_at": datetime.now(),
         "error": None,
@@ -295,7 +295,7 @@ async def upload_resume_complex(
         "filename": file.filename,
         "upload_path": upload_path,
         "output_path": None,
-        "logs": [f"Uploaded file: {file.filename}"],
+        "logs": [f"File received: {file.filename}"],
         "progress": 10,
         "created_at": datetime.now(),
         "error": None,
@@ -327,8 +327,7 @@ async def process_resume_async(session_id: str):
     try:
         # Update status
         session["status"] = "processing"
-        session["logs"].append("Starting resume processing...")
-        session["logs"].append(f"Working directory: {os.getcwd()}")
+        session["logs"].append("Initializing document processing...")
         session["progress"] = 20
         
         # Clear previous log messages
@@ -363,7 +362,7 @@ async def process_resume_async(session_id: str):
         
         temp_file = TempFile(upload_path, original_filename)
         
-        session["logs"].append("Preparing file for processing...")
+        session["logs"].append("Converting document to processing format...")
         session["progress"] = 30
         
         try:
@@ -551,10 +550,12 @@ async def process_resume_async_complex(session_id: str):
     try:
         # Update status
         session["status"] = "processing"
-        session["logs"].append("Starting resume processing with advanced options...")
-        session["logs"].append(f"Format: {session['selected_format']}")
-        if session['optimization_method'] != 'none':
-            session["logs"].append(f"Optimization: {session['optimization_method']}")
+        session["logs"].append("Initializing advanced document processing...")
+        session["logs"].append(f"Target format: {session['selected_format']} profile")
+        if session['optimization_method'] == 'description':
+            session["logs"].append("Applying job description optimization...")
+        elif session['optimization_method'] == 'rfp':
+            session["logs"].append("Analyzing RFP requirements...")
         session["progress"] = 20
         
         # Clear previous log messages
@@ -589,7 +590,7 @@ async def process_resume_async_complex(session_id: str):
         
         temp_file = TempFile(upload_path, original_filename)
         
-        session["logs"].append("Preparing file for processing...")
+        session["logs"].append("Converting document to processing format...")
         session["progress"] = 30
         
         try:
