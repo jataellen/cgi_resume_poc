@@ -180,6 +180,22 @@ class MockLogBox:
     def text_area(self, *args, **kwargs):
         pass
 
+def save_rfp_file(rfp_file, file_id):
+    """Save the uploaded RFP file to disk and return the path"""
+    if rfp_file is None:
+        return None
+    
+    # Generate a unique filename
+    file_extension = os.path.splitext(rfp_file.filename)[1]
+    temp_file_path = f"temp_rfp_{file_id}{file_extension}"
+    
+    # Save the file
+    with open(temp_file_path, "wb") as f:
+        shutil.copyfileobj(rfp_file.file, f)
+    
+    log_messages.append(f"Saved RFP file: {temp_file_path}")
+    return temp_file_path
+
 def convert_to_pdf(uploaded_file, file_id):
     """
     Simple file conversion - if it's DOCX, keep as DOCX for now
@@ -283,10 +299,12 @@ async def upload_resume_complex(
     # Save RFP file if provided
     rfp_path = None
     if rfpFile and optimizationMethod == "rfp":
-        rfp_path = f"uploads/{session_id}_rfp_{rfpFile.filename}"
         try:
-            with open(rfp_path, "wb") as buffer:
-                shutil.copyfileobj(rfpFile.file, buffer)
+            # Rewind the file to the beginning
+            rfpFile.file.seek(0)
+            rfp_path = save_rfp_file(rfpFile, session_id)
+            if rfp_path:
+                session_logs = [f"RFP file uploaded: {rfpFile.filename}"]
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Failed to save RFP file: {str(e)}")
     
