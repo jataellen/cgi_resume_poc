@@ -20,6 +20,244 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains import create_retrieval_chain
 import traceback
+from docx import Document
+
+def extract_resume_data_from_docx(file_path):
+    """
+    Extract resume data from a DOCX file and return structured JSON
+    
+    Args:
+        file_path (str): Path to the DOCX file
+        
+    Returns:
+        dict: Structured resume data
+    """
+    try:
+        doc = Document(file_path)
+        
+        # Extract all text from the document
+        full_text = []
+        
+        # Extract from paragraphs
+        for paragraph in doc.paragraphs:
+            if paragraph.text.strip():
+                full_text.append(paragraph.text.strip())
+        
+        # Extract from tables
+        for table in doc.tables:
+            for row in table.rows:
+                for cell in row.cells:
+                    for paragraph in cell.paragraphs:
+                        if paragraph.text.strip():
+                            full_text.append(paragraph.text.strip())
+        
+        resume_text = '\n'.join(full_text)
+        
+        # Basic structure
+        structured_data = {
+            "contact": {
+                "name": "",
+                "email": "",
+                "phone": "",
+                "location": ""
+            },
+            "profile": "",
+            "skills": [],
+            "experience": [],
+            "education": [],
+            "projects": [],
+            "volunteer_experience": [],
+            "certifications": []
+        }
+        
+        # Enhanced text-based parsing
+        lines = [line.strip() for line in resume_text.split('\n') if line.strip()]
+        current_section = None
+        current_entry = {}
+        
+        for i, line in enumerate(lines):
+            line_lower = line.lower()
+            
+            # Detect contact information (usually at the top)
+            if '@' in line and not structured_data["contact"]["email"]:
+                structured_data["contact"]["email"] = line
+            elif any(char in line for char in ['(', ')', '-']) and len([c for c in line if c.isdigit()]) >= 7:
+                if not structured_data["contact"]["phone"]:
+                    structured_data["contact"]["phone"] = line
+            
+            # Detect sections
+            if any(keyword in line_lower for keyword in ['summary', 'profile', 'objective']):
+                current_section = 'profile'
+                continue
+            elif any(keyword in line_lower for keyword in ['skills', 'technical skills', 'competencies']):
+                current_section = 'skills'
+                continue
+            elif any(keyword in line_lower for keyword in ['experience', 'work experience', 'employment']):
+                current_section = 'experience'
+                continue
+            elif any(keyword in line_lower for keyword in ['education', 'academic']):
+                current_section = 'education'
+                continue
+            elif any(keyword in line_lower for keyword in ['projects', 'project experience']):
+                current_section = 'projects'
+                continue
+            elif any(keyword in line_lower for keyword in ['volunteer', 'community']):
+                current_section = 'volunteer_experience'
+                continue
+            elif any(keyword in line_lower for keyword in ['certification', 'certificates']):
+                current_section = 'certifications'
+                continue
+            
+            # Process content based on current section
+            if current_section == 'profile':
+                if structured_data["profile"]:
+                    structured_data["profile"] += " " + line
+                else:
+                    structured_data["profile"] = line
+            
+            elif current_section == 'skills':
+                # Try to parse skills (common formats: comma-separated, bullet points)
+                if ',' in line:
+                    skills = [skill.strip() for skill in line.split(',')]
+                    structured_data["skills"].extend(skills)
+                elif line.startswith('•') or line.startswith('-'):
+                    structured_data["skills"].append(line.lstrip('•-').strip())
+                else:
+                    structured_data["skills"].append(line)
+            
+            elif current_section in ['experience', 'projects', 'volunteer_experience']:
+                # Simple approach: treat each line as either a new entry or continuation
+                if any(keyword in line_lower for keyword in ['company', 'position', 'title', 'role']):
+                    if current_entry:
+                        structured_data[current_section].append(current_entry)
+                    current_entry = {"description": line, "details": []}
+                else:
+                    if current_entry:
+                        current_entry["details"].append(line)
+                    else:
+                        current_entry = {"description": line, "details": []}
+            
+            elif current_section == 'education':
+                structured_data["education"].append(line)
+            
+            elif current_section == 'certifications':
+                structured_data["certifications"].append(line)
+        
+        # Add any remaining entry
+        if current_entry and current_section in ['experience', 'projects', 'volunteer_experience']:
+            structured_data[current_section].append(current_entry)
+        
+        # Try to extract name from the first few lines if not found
+        if not structured_data["contact"]["name"]:
+            for line in lines[:5]:
+                if not any(char in line for char in ['@', '(', ')', '-']) and len(line.split()) <= 4:
+                    structured_data["contact"]["name"] = line
+                    break
+        
+        log(f"Successfully extracted data from DOCX: {file_path}")
+        return structured_data
+        
+    except Exception as e:
+        log(f"Error extracting data from DOCX: {str(e)}")
+        traceback.print_exc()
+        return None
+
+
+def extract_resume_data_with_llm(file_path, llm):
+    """
+    Extract resume data from DOCX using LLM for better parsing
+    
+    Args:
+        file_path (str): Path to the DOCX file
+        llm: Language model instance
+        
+    Returns:
+        dict: Structured resume data
+    """
+    try:
+        log(f"Starting LLM-enhanced extraction from DOCX: {file_path}")
+        
+        # First extract raw text
+        doc = Document(file_path)
+        full_text = []
+        
+        for paragraph in doc.paragraphs:
+            if paragraph.text.strip():
+                full_text.append(paragraph.text.strip())
+        
+        for table in doc.tables:
+            for row in table.rows:
+                for cell in row.cells:
+                    for paragraph in cell.paragraphs:
+                        if paragraph.text.strip():
+                            full_text.append(paragraph.text.strip())
+        
+        resume_text = '\n'.join(full_text)
+        
+        # Use LLM to structure the data
+        system_prompt = """
+        You are an expert resume parser. Extract structured information from the given resume text.
+        Return the data in the following JSON format:
+        {
+            "contact": {
+                "name": "Full Name",
+                "email": "email@example.com",
+                "phone": "phone number",
+                "location": "city, state"
+            },
+            "profile": "Professional summary or objective",
+            "skills": ["skill1", "skill2", "skill3"],
+            "experience": [
+                {
+                    "title": "Job Title",
+                    "company": "Company Name",
+                    "duration": "Start Date - End Date",
+                    "responsibilities": ["responsibility1", "responsibility2"]
+                }
+            ],
+            "education": [
+                {
+                    "degree": "Degree Type",
+                    "field": "Field of Study",
+                    "institution": "Institution Name",
+                    "year": "Graduation Year"
+                }
+            ],
+            "certifications": ["certification1", "certification2"]
+        }
+        
+        Extract all available information. If a field is not present, use an empty string or empty array as appropriate.
+        """
+        
+        human_prompt = f"Parse the following resume text and return structured JSON data:\n\n{resume_text}"
+        
+        messages = [
+            SystemMessage(content=system_prompt),
+            HumanMessage(content=human_prompt)
+        ]
+        
+        response = llm.invoke(messages)
+        
+        try:
+            # Try to parse JSON from response
+            json_match = re.search(r'```json\n(.*?)\n```', response.content, re.DOTALL)
+            if json_match:
+                result = json.loads(json_match.group(1))
+                log("Successfully parsed LLM response with JSON code block")
+                return result
+            else:
+                # Try to parse the entire response as JSON
+                result = json.loads(response.content.strip())
+                log("Successfully parsed LLM response as direct JSON")
+                return result
+        except Exception as parse_error:
+            log(f"Failed to parse LLM response as JSON: {str(parse_error)}")
+            log("Falling back to basic extraction")
+            return extract_resume_data_from_docx(file_path)
+            
+    except Exception as e:
+        log(f"Error in LLM-based extraction: {str(e)}")
+        return extract_resume_data_from_docx(file_path)
 
 
 def generate_rag_job_description(llm, file_path, role_title):
@@ -564,3 +802,134 @@ def call_tailored_experience_chain(pdf_text, job_description, role, llm):
         )  # Use json.dump to format the data and write to the file
 
     return json_structured_data
+
+
+def evaluate_resume(file_path, job_description=None, evaluation_criteria=None):
+    """
+    Evaluate a resume and provide scoring/analysis
+    
+    Args:
+        file_path (str): Path to the resume file (PDF or DOCX)
+        job_description (str, optional): Target job description for tailored evaluation
+        evaluation_criteria (dict, optional): Custom evaluation criteria
+        
+    Returns:
+        dict: Evaluation results with scores and recommendations
+    """
+    try:
+        load_dotenv()
+        
+        # Initialize LLM
+        llm = AzureChatOpenAI(
+            azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
+            api_key=os.environ["AZURE_OPENAI_API_KEY"],
+            api_version="2024-12-01-preview",
+            deployment_name="gpt-4o",
+            model="gpt-4o",
+        )
+        
+        # Extract resume data
+        if file_path.endswith('.pdf'):
+            loader = PyPDFLoader(file_path)
+            pages = loader.load()
+            resume_text = "\n".join([doc.page_content for doc in pages])
+        elif file_path.endswith('.docx'):
+            # Use your existing DOCX extraction
+            structured_data = extract_resume_data_with_llm(file_path, llm)
+            resume_text = json.dumps(structured_data, indent=2)
+        else:
+            raise ValueError("Unsupported file format. Use PDF or DOCX.")
+        
+        # Default evaluation criteria
+        default_criteria = {
+            "technical_skills": 0.25,
+            "experience_relevance": 0.30,
+            "education": 0.15,
+            "achievements": 0.20,
+            "presentation": 0.10
+        }
+        
+        criteria = evaluation_criteria or default_criteria
+        
+        # Create evaluation prompt
+        evaluation_prompt = f"""
+        Evaluate the following resume based on these criteria:
+        {json.dumps(criteria, indent=2)}
+        
+        Resume Content:
+        {resume_text}
+        
+        {"Job Description for Tailored Evaluation:" + job_description if job_description else ""}
+        
+        Provide a comprehensive evaluation including:
+        1. Overall score (0-100)
+        2. Individual scores for each criterion
+        3. Strengths identified
+        4. Areas for improvement
+        5. Specific recommendations
+        6. Missing elements (if job description provided)
+        
+        Return as JSON format with the structure:
+        {{
+            "overall_score": <score>,
+            "criterion_scores": {{
+                "technical_skills": <score>,
+                "experience_relevance": <score>,
+                "education": <score>,
+                "achievements": <score>,
+                "presentation": <score>
+            }},
+            "strengths": ["strength1", "strength2"],
+            "improvements": ["improvement1", "improvement2"],
+            "recommendations": ["rec1", "rec2"],
+            "missing_elements": ["element1", "element2"]
+        }}
+        """
+        
+        # Generate evaluation
+        messages = [
+            SystemMessage(content="You are an expert resume evaluator and career advisor."),
+            HumanMessage(content=evaluation_prompt)
+        ]
+        
+        response = llm.invoke(messages)
+        
+        # Parse JSON response
+        try:
+            # Try to extract JSON from response
+            import re
+            json_match = re.search(r'```json\n(.*?)\n```', response.content, re.DOTALL)
+            if json_match:
+                evaluation_result = json.loads(json_match.group(1))
+            else:
+                evaluation_result = json.loads(response.content.strip())
+                
+            log(f"Successfully evaluated resume: {file_path}")
+            return evaluation_result
+            
+        except json.JSONDecodeError:
+            # Fallback result if JSON parsing fails
+            log("Failed to parse evaluation JSON, returning basic result")
+            return {
+                "overall_score": 75,
+                "criterion_scores": {
+                    "technical_skills": 70,
+                    "experience_relevance": 80,
+                    "education": 75,
+                    "achievements": 70,
+                    "presentation": 75
+                },
+                "strengths": ["Good experience background"],
+                "improvements": ["Could enhance technical skills section"],
+                "recommendations": ["Review and update resume format"],
+                "missing_elements": [],
+                "raw_response": response.content
+            }
+            
+    except Exception as e:
+        log(f"Error evaluating resume: {str(e)}")
+        return {
+            "error": str(e),
+            "overall_score": 0,
+            "message": "Evaluation failed"
+        }

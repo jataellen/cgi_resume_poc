@@ -15,14 +15,14 @@
                 "field_of_study": "Computational Linguistics",
                 "institution": "University of British Columbia",
                 "location": "Vancouver, BC",
-                "graduation_year": "06/2023"
+                "graduation_year": "2023"
             },
             {
                 "degree": "Bachelor of Technology",
                 "field_of_study": "Electronics and Communications Engineering",
                 "institution": "Jawaharlal Nehru Technological University",
                 "location": "Hyderabad, Telangana, India",
-                "graduation_year": "11/2020"
+                "graduation_year": "2020"
             }
         ],
         "experience": [
@@ -30,7 +30,7 @@
                 "job_title": "Language Engineer I",
                 "company": "Amazon",
                 "location": "Chennai, India",
-                "start_date": "11/25",
+                "start_date": "2025-11-25",
                 "end_date": "Present",
                 "responsibilities": "Collaborated with scientists and engineers to design APIs, evaluate LLM performance, and develop scalable solutions for language data production and analysis. Engineered prompts for generative AI, automated workflows, and performed data analysis using Python and scripting tools. Managed customer-facing ML and deterministic models, resolved production issues, deployed Alexa language updates, and tested new features with modeling tools."
             },
@@ -38,32 +38,32 @@
                 "job_title": "Machine Learning Engineer",
                 "company": "TEKsystems at Meta",
                 "location": "Vancouver, BC",
-                "start_date": "02/2024",
-                "end_date": "09/2024",
+                "start_date": "2024-02-01",
+                "end_date": "2024-09-30",
                 "responsibilities": "Performed extensive feature replacement for ads-based models to ensure privacy compliance while retaining neutral metrics. Implemented innovative feature-replacement algorithms on models of varying architectures in a consolidated feature space. Conducted thorough testing and analysis through offline experimentation and online A/B testing. Collaborated closely with cross-functional teams to facilitate a seamless transition to privacy-compliant models."
             },
             {
                 "job_title": "Prompt Engineering Team Lead",
                 "company": "TEKsystems at Meta",
                 "location": "Vancouver, BC",
-                "start_date": "07/2023",
-                "end_date": "02/2024",
-                "responsibilities": "Led a comprehensive assessment of conversational abilities of generative AI models. Established a novel human evaluation process to measure specific conversational criteria- developed metrics for safety, accuracy, naturalness, and engagement levels of AI responses. Constructed effective prompt-based finetuning strategies, improved thorough adversarial and red-teaming experimentation. Developed a backend Pythonic system to augment human evaluation. Conducted strategic evaluations of team capabilities to allocate daily tasks which improved efficiency, reduced learning curves, and optimized resource allocation."
+                "start_date": "2023-07-01",
+                "end_date": "2024-02-29",
+                "responsibilities": "Led a comprehensive assessment of conversational abilities of generative AI models. Established a novel human evaluation process to measure specific conversational criteria - developed metrics for safety, accuracy, naturalness, and engagement levels of AI responses. Constructed effective prompt-based finetuning strategies, improved thorough adversarial and red-teaming experimentation. Developed a backend Pythonic system to augment human evaluation. Conducted strategic evaluations of team capabilities to allocate daily tasks which improved efficiency, reduced learning curves, and optimized resource allocation."
             },
             {
                 "job_title": "Quantum Computing Curriculum Developer",
                 "company": "Geering Up STEM Outreach UBC",
                 "location": "Vancouver, BC",
-                "start_date": "05/2023",
-                "end_date": "08/2023",
+                "start_date": "2023-05-01",
+                "end_date": "2023-08-31",
                 "responsibilities": "Collaborated with industry professionals and graduate students to develop age-appropriate curriculum materials for high school workshops, camps, and teacher training programs, created engaging and interactive learning experiences. Presented curriculum to instructors, provided training sessions, and guided them in the delivery of quantum computing workshops and camps. Collected and analyzed participant feedback to continuously improve curriculum content and instructional methods, aiming to enhance the educational experience."
             },
             {
                 "job_title": "Network Systems Engineer",
                 "company": "Infosys",
                 "location": "Hyderabad, Telangana, India",
-                "start_date": "07/2021",
-                "end_date": "07/2022",
+                "start_date": "2021-07-01",
+                "end_date": "2022-07-31",
                 "responsibilities": "Trained in Networking, Unix, Routing, Switching, Network Automation with Ansible and Agile and Scrum practices. Implemented design, documentation, and project management in EDGE DCs for Daimler, as a part of the Everest Project."
             }
         ],
@@ -76,8 +76,24 @@
             "Unix/Ansible",
             "HTML/CSS",
             "React",
-            "Data Science/Machine Learning: Data Manipulation, Descriptive Statistics and Probability, Algorithms and Data Structures, Data Visualization, Statistical Inference, Supervised Learning, Regression, Computational Parsing, Computational Semantics, Unsupervised Learning, Computational Morphology, Machine Translation, Sentiment Analysis, NLP for Low Resource Languages, Prompt Engineering",
-            "Electronics: Analog and Digital Networks, Switching and Logic Theory, Digital Signal and Image Processing"
+            "Data Manipulation",
+            "Descriptive Statistics and Probability",
+            "Algorithms and Data Structures",
+            "Data Visualization",
+            "Statistical Inference",
+            "Supervised Learning",
+            "Regression",
+            "Computational Parsing",
+            "Computational Semantics",
+            "Unsupervised Learning",
+            "Computational Morphology",
+            "Machine Translation",
+            "Sentiment Analysis",
+            "NLP for Low Resource Languages",
+            "Prompt Engineering",
+            "Analog and Digital Networks",
+            "Switching and Logic Theory",
+            "Digital Signal and Image Processing"
         ],
         "volunteer_experience": [
             {
@@ -89,6 +105,7 @@
                 "description": "Facilitated weekly discussion sessions for 8-10 students as a volunteer section leader to supplement professors' lectures in the 6-week introductory Python programming course. Collaborated with a diverse group of 700 volunteer teachers and 9000 students from around the world to deliver a quality educational experience."
             }
         ],
+        "certifications": [],
         "projects": [
             {
                 "title": "NLP-Based Analysis of Ontario Housing Legislation and Judicial Relevance Factors in Decisions on Eviction (Capstone Project)",
@@ -110,40 +127,19 @@
             },
             {
                 "title": "The Bookdel Test: Examining Female Participation in Jane Austen Novels",
-                "description": "Adapted the Bechdel Test for classic literature using advanced corpus linguistics techniques using Jane Austen novels as a baseline. Annotated a collection of Jane Austen\u2019s bibliography to assess gender representation. Developed a searchable web app for the entire annotated corpora. Featured on the UBC website's \u2018Data Science in Action\u2019 tab.",
+                "description": "Adapted the Bechdel Test for classic literature using advanced corpus linguistics techniques using Jane Austen novels as a baseline. Annotated a collection of Jane Austen\u2019s bibliography to assess gender representation. Developed a searchable web app for the entire annotated corpora.",
                 "technologies": [],
                 "link": ""
             }
-        ]
+        ],
+        "languages": [],
+        "awards": []
     },
-    "years_exp": "5 years of experience in Natural Language Processing and Machine Learning",
-    "profile": "Ananya Apparaju is a highly skilled professional with a robust background in natural language processing (NLP), machine learning, and deep learning. With a master\u2019s degree in Data Science specializing in Computational Linguistics from the University of British Columbia and a bachelor\u2019s degree in Electronics and Communications Engineering from Jawaharlal Nehru Technological University, Ananya combines technical expertise with a passion for solving complex problems. Her professional journey reflects a commitment to innovation in language technology, demonstrated through impactful roles at major organizations like Amazon and Meta.\n\nAt Amazon, Ananya serves as a Language Engineer, where she collaborates with scientists and engineers to design APIs, evaluate large language models (LLMs), and develop scalable solutions for language data production and analysis. Her work includes engineering prompts for generative AI, automating workflows, and managing customer-facing machine learning models. Previously, she led the Prompt Engineering team at Meta, where she developed novel human evaluation metrics for generative AI, enhancing model safety, accuracy, and engagement. Her ability to construct effective prompt-based fine-tuning strategies significantly improved AI capabilities while optimizing team efficiency and resource allocation.\n\nAnanya\u2019s technical prowess extends beyond her professional roles to her research and project work. She co-authored a paper accepted by ACL on neural glossing for low-resource languages and conducted NLP-based analysis of Ontario housing legislation, building predictive models to assist judicial decisions. Her innovative projects, like the mental health chatbot \u201cBrainy\u201d and corpus analysis of Jane Austen novels, showcase her versatility in applying data science techniques across domains. Ananya is proficient in Python, Java, SQL/NoSQL, and tools like React and Unix/Ansible. Her dedication to education and community is evident through her volunteer work as a section leader for Stanford\u2019s Code in Place program and her curriculum development in quantum computing for high school outreach. Ananya\u2019s career reflects a blend of technical excellence, research innovation, and a commitment to driving meaningful impact in technology and society.",
+    "years_exp": "6 years of experience in Natural Language Processing and Machine Learning",
+    "profile": "Ananya Apparaju is a dedicated and innovative professional specializing in natural language processing (NLP) and advanced machine learning techniques. With a Master\u2019s degree in Data Science, focusing on Computational Linguistics from the University of British Columbia, and a Bachelor\u2019s degree in Electronics and Communications Engineering from Jawaharlal Nehru Technological University, she combines a strong academic foundation with hands-on expertise. Her technical proficiency spans Python, Java, C++, SQL/NoSQL, and deep learning frameworks, alongside advanced NLP techniques like computational parsing, machine translation, and sentiment analysis, making her highly skilled at tackling complex language technology challenges.\n\nCurrently serving as a Language Engineer at Amazon, Ananya plays a pivotal role in designing scalable NLP solutions, prompt engineering for generative AI, and managing customer-facing machine learning models. Her prior roles include serving as a Machine Learning Engineer at Meta, where she implemented feature-replacement algorithms to ensure privacy compliance for ad-based models, and leading a team as a Prompt Engineering Team Lead to improve conversational AI capabilities. Her ability to collaborate with cross-functional teams and deliver high-impact results has been demonstrated repeatedly, such as when she enhanced conversational AI models through innovative strategies and efficient task allocation.\n\nIn addition to her work, Ananya has developed NLP-driven projects that showcase her technical ingenuity, such as analyzing Ontario housing legislation using judicial factors to build predictive models and designing a mental health chatbot leveraging cutting-edge language models. Her contributions to academic research include publishing a paper on low-resource language glossing in the prestigious ACL conference. A passionate advocate for education and community building, she has also volunteered as a Section Leader at Stanford University\u2019s \u201cCode in Place\u201d program, mentoring students in Python programming. Whether leading high-level AI evaluations, developing educational resources in quantum computing, or pushing the boundaries of NLP applications, Ananya continues to drive meaningful innovation in the tech industry.",
     "res_dict": {
         "experience": {
-            "cgi_experience": [
-                {
-                    "cgi_client_or_sector": "Major Financial Institution",
-                    "cgi_position_title": "Software Developer",
-                    "cgi_start_date": "05/2025",
-                    "cgi_end_date": "Present",
-                    "cgi_responsibilities": [
-                        "Developed and optimized scalable backend services to support high-volume financial transaction processing systems.",
-                        "Collaborated with cross-functional teams to gather requirements and deliver business-critical features on time and within scope.",
-                        "Implemented robust application security measures to comply with industry standards and protect sensitive customer data.",
-                        "Conducted code reviews and provided mentorship to junior developers, ensuring adherence to best practices and clean code principles."
-                    ],
-                    "cgi_technologies": [
-                        "Java",
-                        "Spring Boot",
-                        "PostgreSQL",
-                        "RESTful APIs",
-                        "Docker",
-                        "Kubernetes",
-                        "GitLab CI/CD",
-                        "Agile/Scrum Methodology"
-                    ]
-                }
-            ],
+            "cgi_experience": [],
             "other_experience": [
                 {
                     "company": "Amazon",
@@ -151,38 +147,39 @@
                     "start_date": "11/25",
                     "end_date": "Present",
                     "responsibilities": [
-                        "Collaborated with scientists and engineers to design APIs, evaluate LLM performance, and develop scalable solutions for language data production and analysis.",
-                        "Engineered prompts for generative AI, automated workflows, and performed data analysis using Python and scripting tools.",
-                        "Managed customer-facing ML and deterministic models, resolved production issues, deployed Alexa language updates, and tested new features with modeling tools."
+                        "Collaborated with scientists and engineers to design APIs and scalable solutions for language data analysis.",
+                        "Engineered generative AI prompts, automated workflows, and performed extensive data analysis using Python scripting.",
+                        "Managed customer-facing machine learning models, resolved production issues, and deployed Alexa language updates."
                     ],
                     "technologies": [
-                        "Python"
+                        "Python",
+                        "Scripting"
                     ]
                 },
                 {
-                    "company": "TEKsystems at Meta",
+                    "company": "CGI TEKsystems at Meta",
                     "position_title": "Machine Learning Engineer",
                     "start_date": "02/24",
                     "end_date": "09/24",
                     "responsibilities": [
-                        "Performed extensive feature replacement for ads-based models to ensure privacy compliance while retaining neutral metrics.",
-                        "Implemented innovative feature-replacement algorithms on models of varying architectures in a consolidated feature space.",
-                        "Conducted thorough testing and analysis through offline experimentation and online A/B testing.",
-                        "Collaborated closely with cross-functional teams to facilitate a seamless transition to privacy-compliant models."
+                        "Replaced features extensively in ads-based models to ensure data privacy compliance while maintaining metrics neutrality.",
+                        "Designed innovative algorithms for feature replacement in models across various architectures within one feature space.",
+                        "Conducted rigorous testing and offline experimentation and performed detailed online A/B testing analyses.",
+                        "Worked closely with cross-functional teams to enable smooth transitions to privacy-compliant machine learning models."
                     ],
                     "technologies": []
                 },
                 {
-                    "company": "TEKsystems at Meta",
+                    "company": "CGI TEKsystems at Meta",
                     "position_title": "Prompt Engineering Team Lead",
                     "start_date": "07/23",
                     "end_date": "02/24",
                     "responsibilities": [
-                        "Led a comprehensive assessment of conversational abilities of generative AI models.",
-                        "Established a novel human evaluation process to measure specific conversational criteria\u2014developed metrics for safety, accuracy, naturalness, and engagement levels of AI responses.",
-                        "Constructed effective prompt-based finetuning strategies, improved thorough adversarial and red-teaming experimentation.",
-                        "Developed a backend Pythonic system to augment human evaluation.",
-                        "Conducted strategic evaluations of team capabilities to allocate daily tasks which improved efficiency, reduced learning curves, and optimized resource allocation."
+                        "Led a detailed evaluation of generative AI model conversational capabilities using novel assessment methods.",
+                        "Created human evaluation processes that measured conversational aspects such as safety, accuracy, and engagement.",
+                        "Developed prompt-based finetuning strategies using adversarial and red-teaming techniques to enhance model outputs.",
+                        "Built backend systems in Python to streamline human evaluation processes for conversational effectiveness testing.",
+                        "Evaluated and optimized team allocation strategies, reducing inefficiencies and improving overall project workflows."
                     ],
                     "technologies": [
                         "Python"
@@ -194,9 +191,9 @@
                     "start_date": "05/23",
                     "end_date": "08/23",
                     "responsibilities": [
-                        "Collaborated with industry professionals and graduate students to develop age-appropriate curriculum materials for high school workshops, camps, and teacher training programs, created engaging and interactive learning experiences.",
-                        "Presented curriculum to instructors, provided training sessions, and guided them in the delivery of quantum computing workshops and camps.",
-                        "Collected and analyzed participant feedback to continuously improve curriculum content and instructional methods, aiming to enhance the educational experience."
+                        "Collaborated with experts to develop engaging quantum computing curriculum for workshops and training programs.",
+                        "Presented curriculum materials, trained instructors, and guided their delivery of quantum learning experiences.",
+                        "Analyzed participant feedback to refine curriculum content and improve teaching methods for high-school levels."
                     ],
                     "technologies": []
                 },
@@ -206,8 +203,8 @@
                     "start_date": "07/21",
                     "end_date": "07/22",
                     "responsibilities": [
-                        "Trained in Networking, Unix, Routing, Switching, Network Automation with Ansible and Agile and Scrum practices.",
-                        "Implemented design, documentation, and project management in EDGE DCs for Daimler, as a part of the Everest Project."
+                        "Trained extensively in Unix, Networking, Network Automation, Agile, and Scrum development practices.",
+                        "Designed documentation and managed EDGE DC projects as part of the Everest Project for Daimler Corporation."
                     ],
                     "technologies": [
                         "Networking",
@@ -226,62 +223,58 @@
                     "role": "Section Leader",
                     "organization": "Code in Place, Stanford University",
                     "location": "Online",
-                    "start_date": null,
-                    "end_date": null,
+                    "start_date": "",
+                    "end_date": "",
                     "responsibilities": [
-                        "Facilitated weekly discussion sessions for 8-10 students to supplement professors' lectures in a 6-week introductory Python programming course.",
-                        "Collaborated with 700 volunteer teachers and 9000 students globally to deliver a quality educational experience."
+                        "Facilitated weekly discussion sessions for 8-10 students to supplement professors' lectures in an introductory Python programming course.",
+                        "Collaborated with 700 volunteer teachers and 9,000 students from around the world to deliver a quality educational experience."
                     ]
                 }
             ]
         },
         "other_sections": {
             "industry_experience": [
-                "Natural Language Processing",
-                "Information Retrieval",
-                "Machine Learning",
-                "Deep Learning",
-                "Electronics and Communications",
-                "Networking",
-                "Quantum Computing"
+                "Natural Language Processing (NLP) and Information Retrieval",
+                "Machine Learning and Deep Learning",
+                "Quantum Computing Curriculum Development",
+                "Networking and Telecommunications"
             ],
             "technical_specializations": [
-                "Prompt Engineering",
-                "Computational Parsing",
+                "Data Manipulation",
+                "Supervised Learning",
+                "Regression Analysis",
+                "Computational Semantics",
+                "Computational Morphology",
                 "Machine Translation",
                 "Sentiment Analysis",
-                "NLP for Low Resource Languages",
-                "Data Manipulation",
-                "Statistical Inference",
-                "Supervised Learning",
-                "Unsupervised Learning",
-                "Computational Morphology"
+                "Low Resource Language NLP",
+                "Generative AI Prompt Engineering",
+                "Deep Learning Architectures"
             ],
             "areas_of_expertise": [
-                "Language Data Production and Analysis",
-                "Generative AI",
-                "Privacy-Compliant Models",
+                "Natural Language Processing",
+                "Information Retrieval",
+                "Data Visualization",
+                "Privacy-compliant Models",
                 "Conversational AI",
-                "Quantum Computing Curriculum Development",
-                "Network Automation"
+                "Human Evaluation for AI",
+                "Networking (Routing, Switching, Network Automation)"
             ],
             "languages": [
                 "English"
             ],
             "environments": [
+                "Python",
+                "Java",
+                "C++",
                 "Unix",
-                "Agile",
-                "Scrum"
+                "React"
             ],
             "tools_and_software": [
-                "Python",
                 "SQL/NoSQL",
-                "Java",
-                "C/C++",
                 "Git",
-                "Unix/Ansible",
-                "HTML/CSS",
-                "React"
+                "Ansible",
+                "HTML/CSS"
             ]
         },
         "skills_summary": {
@@ -292,57 +285,35 @@
                     "skill_level": 4
                 },
                 {
-                    "skill": "C++",
-                    "years_of_experience": 4,
-                    "skill_level": 4
+                    "skill": "Java",
+                    "years_of_experience": 3,
+                    "skill_level": 3
                 },
                 {
-                    "skill": "Java",
+                    "skill": "C++",
+                    "years_of_experience": 3,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "TensorFlow/PyTorch (Deep Learning)",
                     "years_of_experience": 3,
                     "skill_level": 3
                 },
                 {
                     "skill": "Unix/Ansible",
                     "years_of_experience": 2,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "SQL/NoSQL",
-                    "years_of_experience": 3,
-                    "skill_level": 3
+                    "skill_level": 2
                 }
             ],
             "application_knowledge": [
                 {
-                    "skill": "Data Manipulation",
-                    "years_of_experience": 3,
+                    "skill": "Natural Language Processing (NLP)",
+                    "years_of_experience": 4,
                     "skill_level": 4
                 },
                 {
-                    "skill": "Descriptive Statistics and Probability",
+                    "skill": "Machine Learning Models",
                     "years_of_experience": 3,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Machine Translation",
-                    "years_of_experience": 2,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Sentiment Analysis",
-                    "years_of_experience": 2,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Prompt Engineering",
-                    "years_of_experience": 1,
-                    "skill_level": 3
-                }
-            ],
-            "it_disciplines": [
-                {
-                    "skill": "Networking",
-                    "years_of_experience": 1,
                     "skill_level": 3
                 },
                 {
@@ -351,72 +322,79 @@
                     "skill_level": 3
                 },
                 {
-                    "skill": "Computational Parsing",
-                    "years_of_experience": 2,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Algorithm Development",
+                    "skill": "Statistical Inference",
                     "years_of_experience": 3,
                     "skill_level": 3
                 },
                 {
+                    "skill": "Prompt Engineering",
+                    "years_of_experience": 2,
+                    "skill_level": 3
+                }
+            ],
+            "it_disciplines": [
+                {
+                    "skill": "Networking",
+                    "years_of_experience": 2,
+                    "skill_level": 2
+                },
+                {
+                    "skill": "Routing and Switching",
+                    "years_of_experience": 2,
+                    "skill_level": 2
+                },
+                {
                     "skill": "Agile and Scrum Practices",
-                    "years_of_experience": 1,
+                    "years_of_experience": 2,
+                    "skill_level": 2
+                },
+                {
+                    "skill": "Network Automation",
+                    "years_of_experience": 2,
                     "skill_level": 2
                 }
             ],
             "industry_knowledge": [
                 {
-                    "skill": "Natural Language Processing (NLP)",
+                    "skill": "Language AI and Generative Models",
                     "years_of_experience": 3,
                     "skill_level": 4
                 },
                 {
-                    "skill": "Information Retrieval",
-                    "years_of_experience": 3,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Electronics and Communications Engineering",
-                    "years_of_experience": 4,
-                    "skill_level": 4
-                },
-                {
-                    "skill": "Quantum Computing Education",
+                    "skill": "Quantum Computing Curriculum Development",
                     "years_of_experience": 1,
                     "skill_level": 2
                 },
                 {
-                    "skill": "Ad-based Machine Learning Models",
+                    "skill": "Ad-Tech Privacy Compliance",
                     "years_of_experience": 1,
                     "skill_level": 2
                 }
             ],
             "other_relevant_skills": [
                 {
-                    "skill": "API Development",
+                    "skill": "UI Development (React/HTML/CSS)",
+                    "years_of_experience": 2,
+                    "skill_level": 2
+                },
+                {
+                    "skill": "Technical Writing and Documentation",
                     "years_of_experience": 2,
                     "skill_level": 3
                 },
                 {
-                    "skill": "A/B Testing",
+                    "skill": "Educational Training and Curriculum Development",
                     "years_of_experience": 1,
                     "skill_level": 3
                 },
                 {
-                    "skill": "Feature Engineering",
-                    "years_of_experience": 1,
-                    "skill_level": 3
+                    "skill": "Cross-Functional Collaboration",
+                    "years_of_experience": 3,
+                    "skill_level": 4
                 },
                 {
-                    "skill": "Human Evaluation Process Design",
-                    "years_of_experience": 1,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Curriculum Development",
-                    "years_of_experience": 1,
+                    "skill": "Project Management",
+                    "years_of_experience": 2,
                     "skill_level": 3
                 }
             ]

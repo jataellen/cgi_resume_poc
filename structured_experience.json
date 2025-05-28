@@ -7,38 +7,39 @@
       "start_date": "11/25",
       "end_date": "Present",
       "responsibilities": [
-        "Collaborated with scientists and engineers to design APIs, evaluate LLM performance, and develop scalable solutions for language data production and analysis.",
-        "Engineered prompts for generative AI, automated workflows, and performed data analysis using Python and scripting tools.",
-        "Managed customer-facing ML and deterministic models, resolved production issues, deployed Alexa language updates, and tested new features with modeling tools."
+        "Collaborated with scientists and engineers to design APIs and scalable solutions for language data analysis.",
+        "Engineered generative AI prompts, automated workflows, and performed extensive data analysis using Python scripting.",
+        "Managed customer-facing machine learning models, resolved production issues, and deployed Alexa language updates."
       ],
       "technologies": [
-        "Python"
+        "Python",
+        "Scripting"
       ]
     },
     {
-      "company": "TEKsystems at Meta",
+      "company": "CGI TEKsystems at Meta",
       "position_title": "Machine Learning Engineer",
       "start_date": "02/24",
       "end_date": "09/24",
       "responsibilities": [
-        "Performed extensive feature replacement for ads-based models to ensure privacy compliance while retaining neutral metrics.",
-        "Implemented innovative feature-replacement algorithms on models of varying architectures in a consolidated feature space.",
-        "Conducted thorough testing and analysis through offline experimentation and online A/B testing.",
-        "Collaborated closely with cross-functional teams to facilitate a seamless transition to privacy-compliant models."
+        "Replaced features extensively in ads-based models to ensure data privacy compliance while maintaining metrics neutrality.",
+        "Designed innovative algorithms for feature replacement in models across various architectures within one feature space.",
+        "Conducted rigorous testing and offline experimentation and performed detailed online A/B testing analyses.",
+        "Worked closely with cross-functional teams to enable smooth transitions to privacy-compliant machine learning models."
       ],
       "technologies": []
     },
     {
-      "company": "TEKsystems at Meta",
+      "company": "CGI TEKsystems at Meta",
       "position_title": "Prompt Engineering Team Lead",
       "start_date": "07/23",
       "end_date": "02/24",
       "responsibilities": [
-        "Led a comprehensive assessment of conversational abilities of generative AI models.",
-        "Established a novel human evaluation process to measure specific conversational criteria\u2014developed metrics for safety, accuracy, naturalness, and engagement levels of AI responses.",
-        "Constructed effective prompt-based finetuning strategies, improved thorough adversarial and red-teaming experimentation.",
-        "Developed a backend Pythonic system to augment human evaluation.",
-        "Conducted strategic evaluations of team capabilities to allocate daily tasks which improved efficiency, reduced learning curves, and optimized resource allocation."
+        "Led a detailed evaluation of generative AI model conversational capabilities using novel assessment methods.",
+        "Created human evaluation processes that measured conversational aspects such as safety, accuracy, and engagement.",
+        "Developed prompt-based finetuning strategies using adversarial and red-teaming techniques to enhance model outputs.",
+        "Built backend systems in Python to streamline human evaluation processes for conversational effectiveness testing.",
+        "Evaluated and optimized team allocation strategies, reducing inefficiencies and improving overall project workflows."
       ],
       "technologies": [
         "Python"
@@ -50,9 +51,9 @@
       "start_date": "05/23",
       "end_date": "08/23",
       "responsibilities": [
-        "Collaborated with industry professionals and graduate students to develop age-appropriate curriculum materials for high school workshops, camps, and teacher training programs, created engaging and interactive learning experiences.",
-        "Presented curriculum to instructors, provided training sessions, and guided them in the delivery of quantum computing workshops and camps.",
-        "Collected and analyzed participant feedback to continuously improve curriculum content and instructional methods, aiming to enhance the educational experience."
+        "Collaborated with experts to develop engaging quantum computing curriculum for workshops and training programs.",
+        "Presented curriculum materials, trained instructors, and guided their delivery of quantum learning experiences.",
+        "Analyzed participant feedback to refine curriculum content and improve teaching methods for high-school levels."
       ],
       "technologies": []
     },
@@ -62,8 +63,8 @@
       "start_date": "07/21",
       "end_date": "07/22",
       "responsibilities": [
-        "Trained in Networking, Unix, Routing, Switching, Network Automation with Ansible and Agile and Scrum practices.",
-        "Implemented design, documentation, and project management in EDGE DCs for Daimler, as a part of the Everest Project."
+        "Trained extensively in Unix, Networking, Network Automation, Agile, and Scrum development practices.",
+        "Designed documentation and managed EDGE DC projects as part of the Everest Project for Daimler Corporation."
       ],
       "technologies": [
         "Networking",
