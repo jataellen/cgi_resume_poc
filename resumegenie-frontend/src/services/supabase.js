@@ -8,5 +8,5 @@ export const supabase = supabaseUrl && supabaseAnonKey
   : null;
 
 export const isSupabaseConfigured = () => {
-  return false; 
+  return !!supabase; 
 };

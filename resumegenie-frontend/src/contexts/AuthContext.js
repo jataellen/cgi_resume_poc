@@ -41,19 +41,17 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const signIn = async (email, password) => {
-    if (!isSupabaseConfigured()) {
-      throw new Error('Supabase is not configured');
+    if (!supabase) {
+      throw new Error('Authentication service is not available');
     }
     
-    // Mock authentication for demo - you can replace this with real auth
-    if (email === 'demo@cgi.com' && password === 'demo123') {
-      const mockUser = { id: 'demo-user', email: 'demo@cgi.com' };
-      setUser(mockUser);
-      setSession({ user: mockUser, access_token: 'mock-token' });
-      return { user: mockUser };
-    } else {
-      throw new Error('Invalid email or password. Try demo@cgi.com / demo123');
-    }
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    
+    if (error) throw error;
+    return data;
   };
 
   const signUp = async (email, password) => {

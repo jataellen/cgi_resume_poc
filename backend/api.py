@@ -121,8 +121,7 @@ upload_sessions = {}
 async def get_current_user(authorization: Optional[str] = Header(None)):
     """Verify JWT token from Supabase"""
     if not supabase:
-        # If Supabase is not configured, allow all requests (development mode)
-        return {"id": "dev-user", "email": "dev@example.com"}
+        raise HTTPException(status_code=503, detail="Authentication service unavailable")
     
     if not authorization:
         raise HTTPException(status_code=401, detail="Authorization header missing")
