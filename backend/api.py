@@ -255,6 +255,7 @@ async def upload_resume(file: UploadFile = File(...), current_user=Depends(get_c
 async def upload_resume_complex(
     file: UploadFile = File(...),
     format: str = Form("Developer"),
+    customRoleTitle: Optional[str] = Form(None),
     includeDefaultCgi: bool = Form(False),
     optimizationMethod: str = Form("none"),
     jobDescription: Optional[str] = Form(None),
@@ -302,7 +303,7 @@ async def upload_resume_complex(
         "user_id": current_user.id if hasattr(current_user, 'id') else current_user.get("id", "unknown") if isinstance(current_user, dict) else "unknown",
         # Complex mode parameters
         "selected_format": format,
-        "custom_role_title": format if format not in ["Developer", "Manager", "Director"] else "",
+        "custom_role_title": customRoleTitle if customRoleTitle else "",
         "include_default_cgi": includeDefaultCgi,
         "optimization_method": optimizationMethod,
         "job_description": jobDescription if optimizationMethod == "description" else "",

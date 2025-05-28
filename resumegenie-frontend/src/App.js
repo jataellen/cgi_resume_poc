@@ -186,7 +186,8 @@ function AppContent() {
         // Prepare form data with all parameters
         const formData = new FormData();
         formData.append('file', file);
-        formData.append('format', selectedFormat === 'Custom' ? customRoleTitle : selectedFormat);
+        formData.append('format', selectedFormat);
+        formData.append('customRoleTitle', customRoleTitle);
         formData.append('includeDefaultCgi', includeDefaultCgi);
         formData.append('optimizationMethod', optimizationMethod);
         
@@ -386,21 +387,20 @@ function AppContent() {
                       label="Select Format"
                     >
                       <MenuItem value="Developer">Developer</MenuItem>
-                      <MenuItem value="Manager">Manager</MenuItem>
+                      <MenuItem value="Business Analyst">Business Analyst</MenuItem>
                       <MenuItem value="Director">Director</MenuItem>
-                      <MenuItem value="Custom">Custom</MenuItem>
                     </Select>
                   </FormControl>
                   
-                  {selectedFormat === 'Custom' && (
-                    <TextField
-                      fullWidth
-                      label="Custom Role Title"
-                      value={customRoleTitle}
-                      onChange={(e) => setCustomRoleTitle(e.target.value)}
-                      sx={{ mb: 2 }}
-                    />
-                  )}
+                  <TextField
+                    fullWidth
+                    label="Enter specific role title (optional)"
+                    value={customRoleTitle}
+                    onChange={(e) => setCustomRoleTitle(e.target.value)}
+                    placeholder="e.g. Senior Full Stack Developer"
+                    helperText="E.g., 'Senior Full Stack Developer', 'Data Scientist', 'Project Manager'"
+                    sx={{ mb: 2 }}
+                  />
                   
                   <FormControlLabel
                     control={
@@ -411,6 +411,9 @@ function AppContent() {
                     }
                     label="Include AI-generated CGI experience entry"
                   />
+                  <Typography variant="caption" display="block" sx={{ ml: 4, mb: 2, color: 'text.secondary' }}>
+                    Adds a customized CGI consulting role with relevant experience to your resume.
+                  </Typography>
                 </Box>
                 
                 <Box sx={{ mb: 3 }}>
@@ -656,7 +659,7 @@ function AppContent() {
                       '&:hover': { bgcolor: 'grey.50' }
                     }}>
                       <Typography variant="body2" noWrap>{file.originalName}</Typography>
-                      <Typography variant="body2">{selectedFormat}</Typography>
+                      <Typography variant="body2" noWrap>{customRoleTitle || selectedFormat}</Typography>
                       <Typography variant="body2">
                         {optimizationMethod === 'none' ? 'None' : 
                          optimizationMethod === 'description' ? 'Job Desc' : 'RFP'}
