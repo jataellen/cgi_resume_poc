@@ -529,7 +529,11 @@ function AppWrapper() {
                         <InputLabel>Select Format</InputLabel>
                         <Select
                           value={selectedFormat}
-                          onChange={(e) => setSelectedFormat(e.target.value)}
+                          onChange={(e) => {
+                            setSelectedFormat(e.target.value);
+                            // Stay on step 1 (format selection is step 0)
+                            if (currentStep < 0) setCurrentStep(0);
+                          }}
                           label="Select Format"
                           sx={{
                             '& .MuiOutlinedInput-root': {
@@ -584,7 +588,13 @@ function AppWrapper() {
                       <CGIToggleButtonGroup
                         value={optimizationMethod}
                         exclusive
-                        onChange={(e, newMethod) => newMethod && setOptimizationMethod(newMethod)}
+                        onChange={(e, newMethod) => {
+                          if (newMethod) {
+                            setOptimizationMethod(newMethod);
+                            // Move to step 2 when optimization method is selected
+                            if (currentStep < 1) setCurrentStep(1);
+                          }
+                        }}
                         sx={{ mb: 2, display: 'flex', flexWrap: 'wrap', gap: 1 }}
                       >
                         <ToggleButton value="none" sx={{ flex: '1 1 200px' }}>
@@ -606,7 +616,11 @@ function AppWrapper() {
                             rows={4}
                             label="Job Description"
                             value={jobDescription}
-                            onChange={(e) => setJobDescription(e.target.value)}
+                            onChange={(e) => {
+                              setJobDescription(e.target.value);
+                              // Move to step 2 when typing in job description
+                              if (currentStep < 1) setCurrentStep(1);
+                            }}
                             placeholder="Paste job description here..."
                             sx={{
                               '& .MuiOutlinedInput-root': {
@@ -627,7 +641,11 @@ function AppWrapper() {
                               id="rfp-upload"
                               hidden
                               accept=".pdf,.docx,.doc"
-                              onChange={(e) => setRfpFile(e.target.files[0])}
+                              onChange={(e) => {
+                                setRfpFile(e.target.files[0]);
+                                // Move to step 2 when RFP file is uploaded
+                                if (currentStep < 1) setCurrentStep(1);
+                              }}
                             />
                             <label htmlFor="rfp-upload">
                               <CGIButton component="span" variant="outlined">
@@ -665,7 +683,11 @@ function AppWrapper() {
                             type="file"
                             hidden
                             multiple
-                            onChange={(e) => setSelectedFiles(Array.from(e.target.files))}
+                            onChange={(e) => {
+                              setSelectedFiles(Array.from(e.target.files));
+                              // Move to step 3 when files are selected
+                              if (currentStep < 2) setCurrentStep(2);
+                            }}
                             accept=".pdf,.docx,.doc"
                           />
                         </GradientButton>
