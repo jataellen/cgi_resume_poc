@@ -697,35 +697,28 @@ async def process_resume_async_complex(session_id: str):
         output_filename = os.path.splitext(original_filename)[0] + "_updated.docx"
         output_path = f"outputs/{session_id}_{output_filename}"
         
-        # Check if output file exists
-        temp_output_path = f"{file_id}_output.docx"
-        if os.path.exists(temp_output_path):
-            shutil.move(temp_output_path, output_path)
-            session["output_path"] = output_path
-            session["logs"].append(f"Resume processed successfully: {output_filename}")
-            session["status"] = "completed"
-            session["progress"] = 100
-        else:
-            # Check for alternative output paths
-            possible_outputs = [
-                f"temp_{file_id}_output.docx",
-                "output.docx",
-                f"{os.path.splitext(original_filename)[0]}_updated.docx"
-            ]
-            
-            found = False
-            for possible_output in possible_outputs:
-                if os.path.exists(possible_output):
-                    shutil.move(possible_output, output_path)
-                    session["output_path"] = output_path
-                    session["logs"].append(f"Resume processed successfully: {output_filename}")
-                    session["status"] = "completed"
-                    session["progress"] = 100
-                    found = True
-                    break
-            
-            if not found:
-                raise Exception("Output file not found after processing")
+        # Check if output file exists - start with the most common output name
+        possible_outputs = [
+            "updated_resume.docx",  # This is what the log shows
+            f"{file_id}_output.docx",
+            f"temp_{file_id}_output.docx",
+            "output.docx",
+            f"{os.path.splitext(original_filename)[0]}_updated.docx"
+        ]
+        
+        found = False
+        for possible_output in possible_outputs:
+            if os.path.exists(possible_output):
+                shutil.move(possible_output, output_path)
+                session["output_path"] = output_path
+                session["logs"].append(f"Resume processed successfully: {output_filename}")
+                session["status"] = "completed"
+                session["progress"] = 100
+                found = True
+                break
+        
+        if not found:
+            raise Exception("Output file not found after processing")
         
         # Cleanup temp files
         if os.path.exists(temp_file_path) and temp_file_path != upload_path:
