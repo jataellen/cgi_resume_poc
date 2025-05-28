@@ -200,8 +200,40 @@ function AppContent() {
           // Upload file with complex parameters
           const uploadResult = await apiService.uploadResumeComplex(formData);
           
-          // Wait for processing to complete
-          const result = await pollAndWaitForCompletion(uploadResult.sessionId);
+          // Poll for status and collect logs
+          const result = await new Promise((resolve) => {
+            const intervalId = setInterval(async () => {
+              try {
+                const status = await apiService.getStatus(uploadResult.sessionId);
+                
+                // Update logs with detailed information from backend
+                if (status.logs && status.logs.length > 0) {
+                  setLogs(prev => {
+                    const newLogs = [...prev];
+                    // Add new logs that aren't already present
+                    status.logs.forEach(log => {
+                      if (!newLogs.includes(log) && !log.includes(file.name)) {
+                        newLogs.push(log);
+                      }
+                    });
+                    return newLogs;
+                  });
+                }
+                
+                // Update progress for this file
+                const fileProgress = (i / selectedFiles.length) * 100 + (status.progress / selectedFiles.length);
+                setProgress(fileProgress);
+                
+                if (status.status === 'completed' || status.status === 'error') {
+                  clearInterval(intervalId);
+                  resolve(status);
+                }
+              } catch (err) {
+                clearInterval(intervalId);
+                resolve({ status: 'error', error: err.message });
+              }
+            }, 1000);
+          });
           
           results.push({
             originalName: file.name,
@@ -210,9 +242,6 @@ function AppContent() {
             error: result.error,
             sessionId: uploadResult.sessionId
           });
-          
-          // Update progress
-          setProgress(((i + 1) / selectedFiles.length) * 100);
           
         } catch (err) {
           results.push({
@@ -234,23 +263,6 @@ function AppContent() {
     }
   };
 
-  const pollAndWaitForCompletion = async (sessionId) => {
-    return new Promise((resolve) => {
-      const intervalId = setInterval(async () => {
-        try {
-          const status = await apiService.getStatus(sessionId);
-          
-          if (status.status === 'completed' || status.status === 'error') {
-            clearInterval(intervalId);
-            resolve(status);
-          }
-        } catch (err) {
-          clearInterval(intervalId);
-          resolve({ status: 'error', error: err.message });
-        }
-      }, 1000);
-    });
-  };
 
   const handleDownloadSingle = async (sessionId, originalName) => {
     try {
@@ -522,12 +534,24 @@ function AppContent() {
             <Paper elevation={0} sx={uploadProgressStyles.logsCard}>
               <Typography sx={uploadProgressStyles.logsTitle}>Processing logs</Typography>
               <Box sx={uploadProgressStyles.logsInnerBox}>
-                {logs.map((log, idx) => (
-                  <Box key={idx} sx={uploadProgressStyles.logItem}>
-                    <CircularProgress size={16} sx={{ color: '#5236AB' }} />
-                    <span>{log}</span>
-                  </Box>
-                ))}
+                {logs.map((log, idx) => {
+                  // Last log is in progress, others are completed
+                  const isLastLog = idx === logs.length - 1;
+                  const isCompleted = !isLastLog;
+                  
+                  return (
+                    <Box key={idx} sx={uploadProgressStyles.logItem}>
+                      {isCompleted ? (
+                        <span className="material-symbols-outlined" style={{ fontSize: '16px', color: '#4CAF50' }}>
+                          check_circle
+                        </span>
+                      ) : (
+                        <CircularProgress size={16} sx={{ color: '#5236AB' }} />
+                      )}
+                      <span>{log}</span>
+                    </Box>
+                  );
+                })}
               </Box>
             </Paper>
           </>
@@ -561,7 +585,7 @@ function AppContent() {
                       sx={uploadCompletedStyles.downloadButton}
                       onClick={handleDownload}
                     >
-                      <span className="material-symbols-outlined" style={{ fontSize: '20px', mr: 1 }}>
+                      <span className="material-symbols-outlined" style={{ fontSize: '20px', marginRight: '8px' }}>
                         download
                       </span>
                       Download crafted file
