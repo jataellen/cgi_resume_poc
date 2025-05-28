@@ -415,10 +415,8 @@ function AppWrapper() {
         pb: 3,
         px: 3,
         minHeight: 'calc(100vh - 64px)',
-        // Remove margin-left and width constraints that were causing offset
-        position: 'relative',
-        left: { xs: 0, sm: '320px' }, // Push content to account for sidebar
-        width: { xs: '100%', sm: 'calc(100% - 320px)' }
+        marginLeft: { xs: 0, sm: '320px' }, // Account for sidebar
+        width: { xs: '100%', sm: 'auto' } // Let it naturally fill the space
       }}>
         <Fade in={true} timeout={800}>
           <Box sx={{ 
