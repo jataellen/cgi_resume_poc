@@ -94,7 +94,7 @@ function TopBar() {
 }
 
 function UserMenu() {
-  const { user, signOut, isSupabaseConfigured } = useAuth();
+  const { user, signOut } = useAuth();
   
   // If no user is authenticated, show Developer Mode
   if (!user) {

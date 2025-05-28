@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { Box, Button, TextField, Paper, Typography, Alert, Card, CardContent } from '@mui/material';
+import { Box, Button, TextField, Typography, Alert, Card, CardContent } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 // CGI Theme Colors
