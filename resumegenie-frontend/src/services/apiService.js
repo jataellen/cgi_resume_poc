@@ -59,6 +59,40 @@ class ApiService {
   }
 
   /**
+   * Upload a resume file with complex parameters
+   * @param {FormData} formData - The form data with file and parameters
+   * @returns {Promise<{sessionId: string, message: string, filename: string}>}
+   */
+  async uploadResumeComplex(formData) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/upload-complex`, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          ...getAuthHeaders(),
+        },
+      });
+
+      if (!response.ok) {
+        const error = await response.json().catch(() => ({ detail: 'Upload failed' }));
+        throw new Error(error.detail || `Upload failed with status ${response.status}`);
+      }
+
+      const data = await response.json();
+      return {
+        sessionId: data.session_id,
+        message: data.message,
+        filename: data.filename,
+      };
+    } catch (error) {
+      if (error.name === 'TypeError' && error.message.includes('fetch')) {
+        throw new Error('Unable to connect to server. Please make sure the backend is running on port 8000.');
+      }
+      throw error;
+    }
+  }
+
+  /**
    * Get processing status
    * @param {string} sessionId - The session ID
    * @returns {Promise<{status: string, logs: string[], progress: number, downloadUrl: string|null, error: string|null}>}

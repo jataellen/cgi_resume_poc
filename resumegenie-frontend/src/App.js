@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
-  CssBaseline, Box, Typography, Button, Paper, CircularProgress, LinearProgress
+  CssBaseline, Box, Typography, Button, Paper, CircularProgress, LinearProgress,
+  Tabs, Tab, FormControl, InputLabel, Select, MenuItem, TextField, Checkbox,
+  FormControlLabel, ToggleButtonGroup, ToggleButton
 } from '@mui/material';
 import TopBar from './TopBar';
 import SideBar from './SideBar';
@@ -19,6 +21,15 @@ function AppContent() {
   const [progress, setProgress] = useState(0);
   const [sessionId, setSessionId] = useState(null);
   const [error, setError] = useState(null);
+  const [tabValue, setTabValue] = useState(0);
+  
+  // Complex mode states
+  const [selectedFormat, setSelectedFormat] = useState('Developer');
+  const [customRoleTitle, setCustomRoleTitle] = useState('');
+  const [includeDefaultCgi, setIncludeDefaultCgi] = useState(false);
+  const [optimizationMethod, setOptimizationMethod] = useState('none');
+  const [jobDescription, setJobDescription] = useState('');
+  const [rfpFile, setRfpFile] = useState(null);
   
   const statusIntervalRef = useRef(null);
 
@@ -152,6 +163,45 @@ function AppContent() {
     }
   };
 
+  const handleComplexUpload = async () => {
+    if (!selectedFile) return;
+
+    setIsUploading(true);
+    setIsCompleted(false);
+    setError(null);
+    setLogs([]);
+    setProgress(0);
+
+    try {
+      // Prepare form data with all parameters
+      const formData = new FormData();
+      formData.append('file', selectedFile);
+      formData.append('format', selectedFormat === 'Custom' ? customRoleTitle : selectedFormat);
+      formData.append('includeDefaultCgi', includeDefaultCgi);
+      formData.append('optimizationMethod', optimizationMethod);
+      
+      if (optimizationMethod === 'description') {
+        formData.append('jobDescription', jobDescription);
+      } else if (optimizationMethod === 'rfp' && rfpFile) {
+        formData.append('rfpFile', rfpFile);
+      }
+
+      // Upload file with complex parameters
+      const uploadResult = await apiService.uploadResumeComplex(formData);
+      setSessionId(uploadResult.sessionId);
+      
+      // Start polling for status
+      statusIntervalRef.current = setInterval(() => {
+        pollStatus(uploadResult.sessionId);
+      }, 1000);
+      
+    } catch (err) {
+      console.error('Upload error:', err);
+      setError(err.message);
+      setIsUploading(false);
+    }
+  };
+
   const handleReset = async () => {
     // Clean up session if exists
     if (sessionId) {
@@ -193,31 +243,169 @@ function AppContent() {
           </Paper>
         )}
 
+        <Paper elevation={0} sx={{ bgcolor: 'background.paper', mb: 3 }}>
+          <Tabs value={tabValue} onChange={(e, newValue) => setTabValue(newValue)} centered>
+            <Tab label="Simple Mode" />
+            <Tab label="Advanced Mode" />
+          </Tabs>
+        </Paper>
+
         {!isUploading && !isCompleted && (
-          <Paper elevation={0} sx={appStyles.uploadCard}>
-            <Box sx={appStyles.uploadIcon}>
-              <span className="material-symbols-outlined" style={{ fontSize: '64px' }}>
-                file_upload
-              </span>
-            </Box>
-            <Typography variant="body1" sx={appStyles.uploadText}>
-              Upload a <strong>PDF</strong> or <strong>DOCX</strong> resume file
-            </Typography>
-            <Button component="label" variant="contained" color="primary" sx={appStyles.uploadButton}>
-              Upload file
-              <input 
-                type="file" 
-                hidden 
-                onChange={handleUpload} 
-                accept=".pdf,.docx"
-              />
-            </Button>
-            {selectedFile && (
-              <Typography variant="body2" sx={appStyles.uploadedFileName}>
-                Selected: {selectedFile.name}
-              </Typography>
+          <>
+            {tabValue === 0 ? (
+              // Simple Mode
+              <Paper elevation={0} sx={appStyles.uploadCard}>
+                <Box sx={appStyles.uploadIcon}>
+                  <span className="material-symbols-outlined" style={{ fontSize: '64px' }}>
+                    file_upload
+                  </span>
+                </Box>
+                <Typography variant="body1" sx={appStyles.uploadText}>
+                  Upload a <strong>PDF</strong> or <strong>DOCX</strong> resume file
+                </Typography>
+                <Button component="label" variant="contained" color="primary" sx={appStyles.uploadButton}>
+                  Upload file
+                  <input 
+                    type="file" 
+                    hidden 
+                    onChange={handleUpload} 
+                    accept=".pdf,.docx"
+                  />
+                </Button>
+                {selectedFile && (
+                  <Typography variant="body2" sx={appStyles.uploadedFileName}>
+                    Selected: {selectedFile.name}
+                  </Typography>
+                )}
+              </Paper>
+            ) : (
+              // Advanced Mode
+              <Paper elevation={0} sx={{ p: 3 }}>
+                <Box sx={{ mb: 3 }}>
+                  <Typography variant="h6" sx={{ mb: 2 }}>Step 1: Choose Resume Format</Typography>
+                  <FormControl fullWidth sx={{ mb: 2 }}>
+                    <InputLabel>Select Format</InputLabel>
+                    <Select
+                      value={selectedFormat}
+                      onChange={(e) => setSelectedFormat(e.target.value)}
+                      label="Select Format"
+                    >
+                      <MenuItem value="Developer">Developer</MenuItem>
+                      <MenuItem value="Manager">Manager</MenuItem>
+                      <MenuItem value="Director">Director</MenuItem>
+                      <MenuItem value="Custom">Custom</MenuItem>
+                    </Select>
+                  </FormControl>
+                  
+                  {selectedFormat === 'Custom' && (
+                    <TextField
+                      fullWidth
+                      label="Custom Role Title"
+                      value={customRoleTitle}
+                      onChange={(e) => setCustomRoleTitle(e.target.value)}
+                      sx={{ mb: 2 }}
+                    />
+                  )}
+                  
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={includeDefaultCgi}
+                        onChange={(e) => setIncludeDefaultCgi(e.target.checked)}
+                      />
+                    }
+                    label="Include AI-generated CGI experience entry"
+                  />
+                </Box>
+                
+                <Box sx={{ mb: 3 }}>
+                  <Typography variant="h6" sx={{ mb: 2 }}>Step 2: Choose Optimization Method</Typography>
+                  <ToggleButtonGroup
+                    value={optimizationMethod}
+                    exclusive
+                    onChange={(e, newMethod) => newMethod && setOptimizationMethod(newMethod)}
+                    sx={{ mb: 2 }}
+                    fullWidth
+                  >
+                    <ToggleButton value="none">📄 No optimization</ToggleButton>
+                    <ToggleButton value="description">✏️ Enter job description</ToggleButton>
+                    <ToggleButton value="rfp">📎 Upload RFP document</ToggleButton>
+                  </ToggleButtonGroup>
+                  
+                  {optimizationMethod === 'description' && (
+                    <TextField
+                      fullWidth
+                      multiline
+                      rows={4}
+                      label="Job Description"
+                      value={jobDescription}
+                      onChange={(e) => setJobDescription(e.target.value)}
+                      placeholder="Paste job description here..."
+                    />
+                  )}
+                  
+                  {optimizationMethod === 'rfp' && (
+                    <Box sx={{ border: '2px dashed #ccc', borderRadius: 1, p: 2, textAlign: 'center' }}>
+                      <input
+                        type="file"
+                        id="rfp-upload"
+                        hidden
+                        accept=".pdf,.docx"
+                        onChange={(e) => setRfpFile(e.target.files[0])}
+                      />
+                      <label htmlFor="rfp-upload">
+                        <Button component="span" variant="outlined">
+                          Upload RFP Document
+                        </Button>
+                      </label>
+                      {rfpFile && (
+                        <Typography variant="body2" sx={{ mt: 1 }}>
+                          Selected: {rfpFile.name}
+                        </Typography>
+                      )}
+                    </Box>
+                  )}
+                </Box>
+                
+                <Box>
+                  <Typography variant="h6" sx={{ mb: 2 }}>Step 3: Upload Your Resume</Typography>
+                  <Box sx={{ border: '2px dashed #ccc', borderRadius: 1, p: 3, textAlign: 'center' }}>
+                    <Box sx={{ mb: 2 }}>
+                      <span className="material-symbols-outlined" style={{ fontSize: '48px', color: '#666' }}>
+                        file_upload
+                      </span>
+                    </Box>
+                    <Button component="label" variant="contained" color="primary">
+                      Select Resume File
+                      <input
+                        type="file"
+                        hidden
+                        onChange={(e) => setSelectedFile(e.target.files[0])}
+                        accept=".pdf,.docx"
+                      />
+                    </Button>
+                    {selectedFile && (
+                      <Typography variant="body2" sx={{ mt: 2 }}>
+                        Selected: {selectedFile.name}
+                      </Typography>
+                    )}
+                  </Box>
+                  
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                    sx={{ mt: 3 }}
+                    onClick={handleComplexUpload}
+                    disabled={!selectedFile}
+                  >
+                    ✨ Generate Optimized Resume
+                  </Button>
+                </Box>
+              </Paper>
             )}
-          </Paper>
+          </>
         )}
 
         {isUploading && (

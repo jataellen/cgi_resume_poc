@@ -1,7 +1,7 @@
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from fastapi import FastAPI, File, UploadFile, HTTPException, Depends, Header
+from fastapi import FastAPI, File, UploadFile, HTTPException, Depends, Header, Form
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -251,6 +251,73 @@ async def upload_resume(file: UploadFile = File(...), current_user=Depends(get_c
         filename=file.filename
     )
 
+@app.post("/api/upload-complex", response_model=UploadResponse)
+async def upload_resume_complex(
+    file: UploadFile = File(...),
+    format: str = Form("Developer"),
+    includeDefaultCgi: bool = Form(False),
+    optimizationMethod: str = Form("none"),
+    jobDescription: Optional[str] = Form(None),
+    rfpFile: Optional[UploadFile] = File(None),
+    current_user=Depends(get_current_user)
+):
+    """
+    Upload a resume file with complex processing options
+    """
+    # Validate file type
+    if not file.filename.endswith(('.pdf', '.docx')):
+        raise HTTPException(status_code=400, detail="Only PDF and DOCX files are allowed")
+    
+    # Generate unique session ID
+    session_id = str(uuid.uuid4())
+    
+    # Save uploaded file
+    upload_path = f"uploads/{session_id}_{file.filename}"
+    try:
+        with open(upload_path, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to save file: {str(e)}")
+    
+    # Save RFP file if provided
+    rfp_path = None
+    if rfpFile and optimizationMethod == "rfp":
+        rfp_path = f"uploads/{session_id}_rfp_{rfpFile.filename}"
+        try:
+            with open(rfp_path, "wb") as buffer:
+                shutil.copyfileobj(rfpFile.file, buffer)
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Failed to save RFP file: {str(e)}")
+    
+    # Initialize session with complex parameters
+    upload_sessions[session_id] = {
+        "status": "uploaded",
+        "filename": file.filename,
+        "upload_path": upload_path,
+        "output_path": None,
+        "logs": [f"Uploaded file: {file.filename}"],
+        "progress": 10,
+        "created_at": datetime.now(),
+        "error": None,
+        "user_id": current_user.id if hasattr(current_user, 'id') else current_user.get("id", "unknown") if isinstance(current_user, dict) else "unknown",
+        # Complex mode parameters
+        "selected_format": format,
+        "custom_role_title": format if format not in ["Developer", "Manager", "Director"] else "",
+        "include_default_cgi": includeDefaultCgi,
+        "optimization_method": optimizationMethod,
+        "job_description": jobDescription if optimizationMethod == "description" else "",
+        "rfp_file_path": rfp_path
+    }
+    
+    # Start processing in background
+    asyncio.create_task(process_resume_async_complex(session_id))
+    
+    return UploadResponse(
+        session_id=session_id,
+        message="File uploaded successfully. Processing will begin shortly.",
+        filename=file.filename
+    )
+
 async def process_resume_async(session_id: str):
     """
     Process resume asynchronously
@@ -474,6 +541,141 @@ async def health_check():
             "prompts": os.path.exists("data/prompts.py")
         }
     }
+
+async def process_resume_async_complex(session_id: str):
+    """
+    Process resume asynchronously with complex parameters
+    """
+    session = upload_sessions[session_id]
+    
+    try:
+        # Update status
+        session["status"] = "processing"
+        session["logs"].append("Starting resume processing with advanced options...")
+        session["logs"].append(f"Format: {session['selected_format']}")
+        if session['optimization_method'] != 'none':
+            session["logs"].append(f"Optimization: {session['optimization_method']}")
+        session["progress"] = 20
+        
+        # Clear previous log messages
+        log_messages.clear()
+        
+        # Initialize mock log box
+        mock_log_box = MockLogBox()
+        initialize_log_box(mock_log_box)
+        
+        # Get file info
+        upload_path = session["upload_path"]
+        original_filename = session["filename"]
+        
+        # Create mock objects for resume_stream
+        mock_st = MockStreamlit()
+        mock_progress_bar = MockProgressBar(session_id)
+        
+        # Extract parameters from session
+        selected_format = session["selected_format"]
+        custom_role_title = session["custom_role_title"]
+        job_description = session["job_description"]
+        rfp_file_path = session["rfp_file_path"]
+        include_default_cgi = session["include_default_cgi"]
+        
+        # Convert file to appropriate format
+        file_id = session_id[:8]
+        
+        class TempFile:
+            def __init__(self, path, filename):
+                self.name = filename
+                self.path = path
+        
+        temp_file = TempFile(upload_path, original_filename)
+        
+        session["logs"].append("Preparing file for processing...")
+        session["progress"] = 30
+        
+        try:
+            temp_file_path = convert_to_pdf(temp_file, file_id)
+            session["logs"].append("File prepared successfully")
+            session["progress"] = 40
+        except Exception as e:
+            session["logs"].append(f"Using original file format: {str(e)}")
+            temp_file_path = upload_path
+            session["progress"] = 40
+        
+        # Set up progress parameters
+        base_progress = 0.4  # 40% done
+        file_progress_weight = 0.6  # 60% remaining
+        
+        session["logs"].append("Processing resume with AI...")
+        session["progress"] = 50
+        
+        # Run the resume processing in thread pool
+        loop = asyncio.get_event_loop()
+        
+        await loop.run_in_executor(
+            executor,
+            resume_stream,
+            mock_st,
+            mock_progress_bar,
+            base_progress,
+            file_progress_weight,
+            temp_file_path,
+            selected_format,
+            custom_role_title,
+            job_description,
+            rfp_file_path,
+            include_default_cgi
+        )
+        
+        # Copy logs from global log_messages to session
+        for log_msg in log_messages:
+            if log_msg not in session["logs"]:
+                session["logs"].append(log_msg)
+        
+        # Handle output file
+        output_filename = os.path.splitext(original_filename)[0] + "_updated.docx"
+        output_path = f"outputs/{session_id}_{output_filename}"
+        
+        # Check if output file exists
+        temp_output_path = f"{file_id}_output.docx"
+        if os.path.exists(temp_output_path):
+            shutil.move(temp_output_path, output_path)
+            session["output_path"] = output_path
+            session["logs"].append(f"Resume processed successfully: {output_filename}")
+            session["status"] = "completed"
+            session["progress"] = 100
+        else:
+            # Check for alternative output paths
+            possible_outputs = [
+                f"temp_{file_id}_output.docx",
+                "output.docx",
+                f"{os.path.splitext(original_filename)[0]}_updated.docx"
+            ]
+            
+            found = False
+            for possible_output in possible_outputs:
+                if os.path.exists(possible_output):
+                    shutil.move(possible_output, output_path)
+                    session["output_path"] = output_path
+                    session["logs"].append(f"Resume processed successfully: {output_filename}")
+                    session["status"] = "completed"
+                    session["progress"] = 100
+                    found = True
+                    break
+            
+            if not found:
+                raise Exception("Output file not found after processing")
+        
+        # Cleanup temp files
+        if os.path.exists(temp_file_path) and temp_file_path != upload_path:
+            os.remove(temp_file_path)
+            
+    except Exception as e:
+        session["status"] = "error"
+        session["error"] = str(e)
+        session["logs"].append(f"Error: {str(e)}")
+        session["logs"].append(f"Traceback: {traceback.format_exc()}")
+        print(f"Error processing resume: {str(e)}")
+        print(traceback.format_exc())
 
 # Cleanup old sessions periodically
 async def cleanup_old_sessions():
