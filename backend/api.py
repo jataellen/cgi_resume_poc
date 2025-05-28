@@ -93,9 +93,19 @@ PORT = int(os.getenv("PORT", "8000"))
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_SERVICE_KEY) if SUPABASE_URL and SUPABASE_SERVICE_KEY else None
 
 # Configure CORS for React frontend
+allowed_origins = [
+    FRONTEND_URL,
+    "http://localhost:3000",
+    "https://cgi-resumegenie-staging.netlify.app",
+    "https://cgi-resumegenie.netlify.app"  # Production URL
+]
+
+# Filter out None/empty values
+allowed_origins = [origin for origin in allowed_origins if origin]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[FRONTEND_URL, "http://localhost:3000"],  # Allow both local and production
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
