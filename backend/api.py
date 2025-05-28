@@ -147,16 +147,26 @@ class ProcessStatus(BaseModel):
 os.makedirs("uploads", exist_ok=True)
 os.makedirs("outputs", exist_ok=True)
 
+async def update_progress(session_id: str, progress: int, message: str = None):
+    """Update session progress and optionally add a log message"""
+    if session_id in upload_sessions:
+        upload_sessions[session_id]["progress"] = min(progress, 100)
+        if message:
+            upload_sessions[session_id]["logs"].append(message)
+
 # Mock classes for Streamlit compatibility
 class MockProgressBar:
-    def __init__(self, session_id):
+    def __init__(self, session_id, start_percent=25, end_percent=95):
         self.session_id = session_id
         self.current_progress = 0
+        self.start_percent = start_percent
+        self.end_percent = end_percent
     
     def progress(self, value):
-        # Convert 0-1 range to 0-100
+        # Convert 0-1 range to start_percent-end_percent range
         if value <= 1:
-            self.current_progress = int(value * 100)
+            # Map 0-1 to start_percent-end_percent
+            self.current_progress = int(self.start_percent + (value * (self.end_percent - self.start_percent)))
         else:
             self.current_progress = int(value)
         
@@ -294,7 +304,7 @@ async def upload_resume(file: UploadFile = File(...), current_user=Depends(get_c
         "upload_path": upload_path,
         "output_path": None,
         "logs": [f"File received: {file.filename}"],
-        "progress": 10,
+        "progress": 5,
         "created_at": datetime.now(),
         "error": None,
         "user_id": current_user.id if hasattr(current_user, 'id') else current_user.get("id", "unknown") if isinstance(current_user, dict) else "unknown"
@@ -357,7 +367,7 @@ async def upload_resume_complex(
         "upload_path": upload_path,
         "output_path": None,
         "logs": [f"File received: {file.filename}"],
-        "progress": 10,
+        "progress": 5,
         "created_at": datetime.now(),
         "error": None,
         "user_id": current_user.id if hasattr(current_user, 'id') else current_user.get("id", "unknown") if isinstance(current_user, dict) else "unknown",
@@ -388,8 +398,7 @@ async def process_resume_async(session_id: str):
     try:
         # Update status
         session["status"] = "processing"
-        session["logs"].append("Initializing document processing...")
-        session["progress"] = 20
+        await update_progress(session_id, 10, "Initializing document processing...")
         
         # Clear previous log messages
         log_messages.clear()
@@ -404,7 +413,7 @@ async def process_resume_async(session_id: str):
         
         # Create mock objects for resume_stream
         mock_st = MockStreamlit()
-        mock_progress_bar = MockProgressBar(session_id)
+        mock_progress_bar = MockProgressBar(session_id, start_percent=25, end_percent=95)
         
         # Hardcoded parameters for testing
         selected_format = "Developer"
@@ -423,24 +432,21 @@ async def process_resume_async(session_id: str):
         
         temp_file = TempFile(upload_path, original_filename)
         
-        session["logs"].append("Converting document to processing format...")
-        session["progress"] = 30
+        await update_progress(session_id, 15, "Converting document to processing format...")
         
         try:
             temp_file_path = convert_to_pdf(temp_file, file_id)
-            session["logs"].append("File prepared successfully")
-            session["progress"] = 40
+            await update_progress(session_id, 20, "File prepared successfully")
         except Exception as e:
-            session["logs"].append(f"Using original file format: {str(e)}")
+            await update_progress(session_id, 20, f"Using original file format: {str(e)}")
+
             temp_file_path = upload_path
-            session["progress"] = 40
         
         # Set up progress parameters
-        base_progress = 0.4  # 40% done
-        file_progress_weight = 0.6  # 60% remaining
+        base_progress = 0.25  # 25% done
+        file_progress_weight = 0.70  # 70% for AI processing
         
-        session["logs"].append("Processing resume with AI...")
-        session["progress"] = 50
+        await update_progress(session_id, 25, "Processing resume with AI...")
         
         # Run the resume processing in thread pool
         loop = asyncio.get_event_loop()
@@ -473,29 +479,27 @@ async def process_resume_async(session_id: str):
             final_output_path = f"outputs/{session_id}_{output_filename}"
             shutil.move(temp_output, final_output_path)
             session["output_path"] = final_output_path
-            session["logs"].append("Resume processing completed successfully!")
-            session["progress"] = 100
+            await update_progress(session_id, 100, "Resume processing completed successfully!")
             session["status"] = "completed"
             
             # Clean up temporary files
             if temp_file_path != upload_path and os.path.exists(temp_file_path):
                 os.remove(temp_file_path)
-                session["logs"].append("Cleaned up temporary files")
+                await update_progress(session_id, 100, "Cleaned up temporary files")
         else:
             raise Exception("Output file was not generated")
             
     except Exception as e:
         session["status"] = "error"
         error_msg = f"Processing error: {str(e)}"
-        session["logs"].append(error_msg)
+        await update_progress(session_id, 0, error_msg)
         session["error"] = str(e)
-        session["progress"] = 0
         
         # Log full traceback for debugging
         traceback_str = traceback.format_exc()
         print(f"Error processing session {session_id}:")
         print(traceback_str)
-        session["logs"].append(f"Error details: {str(e)}")
+        await update_progress(session_id, 0, f"Error details: {str(e)}")
 
 @app.get("/api/status/{session_id}", response_model=ProcessStatus)
 async def get_process_status(session_id: str, current_user=Depends(get_current_user)):
@@ -617,7 +621,7 @@ async def process_resume_async_complex(session_id: str):
             session["logs"].append("Applying job description optimization...")
         elif session['optimization_method'] == 'rfp':
             session["logs"].append("Analyzing RFP requirements...")
-        session["progress"] = 20
+        session["progress"] = 10
         
         # Clear previous log messages
         log_messages.clear()
@@ -632,7 +636,7 @@ async def process_resume_async_complex(session_id: str):
         
         # Create mock objects for resume_stream
         mock_st = MockStreamlit()
-        mock_progress_bar = MockProgressBar(session_id)
+        mock_progress_bar = MockProgressBar(session_id, start_percent=25, end_percent=95)
         
         # Extract parameters from session
         selected_format = session["selected_format"]
@@ -651,24 +655,21 @@ async def process_resume_async_complex(session_id: str):
         
         temp_file = TempFile(upload_path, original_filename)
         
-        session["logs"].append("Converting document to processing format...")
-        session["progress"] = 30
+        await update_progress(session_id, 15, "Converting document to processing format...")
         
         try:
             temp_file_path = convert_to_pdf(temp_file, file_id)
-            session["logs"].append("File prepared successfully")
-            session["progress"] = 40
+            await update_progress(session_id, 20, "File prepared successfully")
         except Exception as e:
-            session["logs"].append(f"Using original file format: {str(e)}")
+            await update_progress(session_id, 20, f"Using original file format: {str(e)}")
+
             temp_file_path = upload_path
-            session["progress"] = 40
         
         # Set up progress parameters
-        base_progress = 0.4  # 40% done
-        file_progress_weight = 0.6  # 60% remaining
+        base_progress = 0.25  # 25% done
+        file_progress_weight = 0.70  # 70% for AI processing
         
-        session["logs"].append("Processing resume with AI...")
-        session["progress"] = 50
+        await update_progress(session_id, 25, "Processing resume with AI...")
         
         # Run the resume processing in thread pool
         loop = asyncio.get_event_loop()
@@ -697,35 +698,31 @@ async def process_resume_async_complex(session_id: str):
         output_filename = os.path.splitext(original_filename)[0] + "_updated.docx"
         output_path = f"outputs/{session_id}_{output_filename}"
         
-        # Check if output file exists
-        temp_output_path = f"{file_id}_output.docx"
-        if os.path.exists(temp_output_path):
-            shutil.move(temp_output_path, output_path)
-            session["output_path"] = output_path
-            session["logs"].append(f"Resume processed successfully: {output_filename}")
-            session["status"] = "completed"
-            session["progress"] = 100
-        else:
-            # Check for alternative output paths
-            possible_outputs = [
-                f"temp_{file_id}_output.docx",
-                "output.docx",
-                f"{os.path.splitext(original_filename)[0]}_updated.docx"
-            ]
-            
-            found = False
-            for possible_output in possible_outputs:
-                if os.path.exists(possible_output):
-                    shutil.move(possible_output, output_path)
-                    session["output_path"] = output_path
-                    session["logs"].append(f"Resume processed successfully: {output_filename}")
-                    session["status"] = "completed"
-                    session["progress"] = 100
-                    found = True
-                    break
-            
-            if not found:
-                raise Exception("Output file not found after processing")
+        # Check if output file exists - start with the most common output name
+        possible_outputs = [
+            "updated_resume.docx",  # This is what the log shows
+            f"{file_id}_output.docx",
+            f"temp_{file_id}_output.docx",
+            "output.docx",
+            f"{os.path.splitext(original_filename)[0]}_updated.docx"
+        ]
+        
+        found = False
+        for possible_output in possible_outputs:
+            if os.path.exists(possible_output):
+                shutil.move(possible_output, output_path)
+                session["output_path"] = output_path
+                await update_progress(session_id, 100, f"Resume processed successfully: {output_filename}")
+                session["status"] = "completed"
+                found = True
+                break
+        
+        if not found:
+            # List all .docx files in current directory for debugging
+            import glob
+            docx_files = glob.glob("*.docx")
+            await update_progress(session_id, 0, f"Available .docx files: {docx_files}")
+            raise Exception("Output file not found after processing")
         
         # Cleanup temp files
         if os.path.exists(temp_file_path) and temp_file_path != upload_path:
@@ -734,8 +731,8 @@ async def process_resume_async_complex(session_id: str):
     except Exception as e:
         session["status"] = "error"
         session["error"] = str(e)
-        session["logs"].append(f"Error: {str(e)}")
-        session["logs"].append(f"Traceback: {traceback.format_exc()}")
+        await update_progress(session_id, 0, f"Error: {str(e)}")
+        await update_progress(session_id, 0, f"Traceback: {traceback.format_exc()}")
         print(f"Error processing resume: {str(e)}")
         print(traceback.format_exc())
 
