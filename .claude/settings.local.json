@@ -5,7 +5,8 @@
       "Bash(npm install:*)",
       "Bash(chmod:*)",
       "Bash(find:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(sed:*)"
     ],
     "deny": []
   }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Drawer,
   List,
@@ -13,12 +13,16 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import sidebarStyles from './styles/sidebarStyles';
 
 const navItems = [
-  { text: 'CGI’s template', icon: <HomeIcon /> },
-  { text: 'Resumes', icon: <DescriptionIcon /> },
+  { text: 'Simple Mode', icon: <HomeIcon /> },
+  { text: 'Advanced Mode', icon: <DescriptionIcon /> },
 ];
 
-function SideBar() {
-  const [selectedItem, setSelectedItem] = useState('CGI’s template');
+function SideBar({ selectedMode, onModeChange }) {
+  const [selectedItem, setSelectedItem] = useState(selectedMode);
+
+  useEffect(() => {
+    setSelectedItem(selectedMode);
+  }, [selectedMode]);
 
   return (
     <Drawer
@@ -32,7 +36,10 @@ function SideBar() {
             <ListItem
               button
               key={item.text}
-              onClick={() => setSelectedItem(item.text)}
+              onClick={() => {
+                setSelectedItem(item.text);
+                onModeChange(item.text);
+              }}
               sx={
                 selectedItem === item.text
                   ? sidebarStyles.activeListItem

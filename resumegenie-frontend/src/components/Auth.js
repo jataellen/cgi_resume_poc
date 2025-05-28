@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { Box, Button, TextField, Paper, Typography, Alert, Tab, Tabs } from '@mui/material';
+import { Box, Button, TextField, Paper, Typography, Alert } from '@mui/material';
 
 function Auth() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [tab, setTab] = useState(0);
-  const { signIn, signUp } = useAuth();
+  const { signIn } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,12 +15,7 @@ function Auth() {
     setLoading(true);
 
     try {
-      if (tab === 0) {
-        await signIn(email, password);
-      } else {
-        await signUp(email, password);
-        setError('Check your email for the confirmation link!');
-      }
+      await signIn(email, password);
     } catch (error) {
       setError(error.message);
     } finally {
@@ -44,10 +38,9 @@ function Auth() {
           Resume Genie
         </Typography>
         
-        <Tabs value={tab} onChange={(e, newValue) => setTab(newValue)} sx={{ mb: 3 }}>
-          <Tab label="Sign In" />
-          <Tab label="Sign Up" />
-        </Tabs>
+        <Typography variant="h5" align="center" gutterBottom>
+          Sign In
+        </Typography>
 
         <form onSubmit={handleSubmit}>
           <TextField
@@ -82,7 +75,7 @@ function Auth() {
             sx={{ mt: 3 }}
             disabled={loading}
           >
-            {loading ? 'Loading...' : tab === 0 ? 'Sign In' : 'Sign Up'}
+            {loading ? 'Loading...' : 'Sign In'}
           </Button>
         </form>
       </Paper>

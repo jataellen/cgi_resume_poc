@@ -196,30 +196,72 @@ def save_rfp_file(rfp_file, file_id):
     log_messages.append(f"Saved RFP file: {temp_file_path}")
     return temp_file_path
 
+# Import the proper convert_to_pdf function from utils
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from utils.document_utils import convert_to_pdf as convert_to_pdf_utils
+
 def convert_to_pdf(uploaded_file, file_id):
     """
-    Simple file conversion - if it's DOCX, keep as DOCX for now
-    If it's PDF, save as PDF
+    Convert uploaded file to PDF using the utils function
+    Handles PDF, DOCX, and DOC files
     """
-    file_name = uploaded_file.name if hasattr(uploaded_file, 'name') else uploaded_file
-    file_extension = os.path.splitext(file_name)[1].lower()
+    # Create a file-like object that matches what the utils function expects
+    class FileWrapper:
+        def __init__(self, file_obj, filename):
+            self.file_obj = file_obj
+            self.name = filename
+            self.type = self._get_mime_type(filename)
+            
+        def _get_mime_type(self, filename):
+            ext = os.path.splitext(filename)[1].lower()
+            if ext == '.docx':
+                return "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            elif ext == '.doc':
+                return "application/msword"
+            elif ext == '.pdf':
+                return "application/pdf"
+            return "application/octet-stream"
+            
+        def getbuffer(self):
+            # Read file content and return as bytes
+            if hasattr(self.file_obj, 'path'):
+                with open(self.file_obj.path, 'rb') as f:
+                    return f.read()
+            elif hasattr(self.file_obj, 'read'):
+                content = self.file_obj.read()
+                if hasattr(self.file_obj, 'seek'):
+                    self.file_obj.seek(0)  # Reset file pointer
+                return content
+            else:
+                # It's a file path
+                with open(self.file_obj, 'rb') as f:
+                    return f.read()
+                    
+        def read(self):
+            return self.getbuffer()
     
-    temp_file_path = f"temp_{file_id}{file_extension}"
-    
-    # Save the file
-    if hasattr(uploaded_file, 'path'):
-        # It's a file path
-        shutil.copy(uploaded_file.path, temp_file_path)
-    elif hasattr(uploaded_file, 'read'):
-        # It's a file-like object
-        with open(temp_file_path, 'wb') as f:
-            content = uploaded_file.read()
-            f.write(content)
+    # Get filename
+    if hasattr(uploaded_file, 'name'):
+        filename = uploaded_file.name
+    elif hasattr(uploaded_file, 'filename'):
+        filename = uploaded_file.filename
     else:
-        # It's already a file path
-        shutil.copy(uploaded_file, temp_file_path)
+        filename = os.path.basename(str(uploaded_file))
     
-    return temp_file_path
+    # Create wrapper and call the utils function
+    file_wrapper = FileWrapper(uploaded_file, filename)
+    
+    try:
+        # Call the actual convert_to_pdf from utils
+        pdf_path = convert_to_pdf_utils(file_wrapper, file_id)
+        return pdf_path
+    except Exception as e:
+        log_messages.append(f"Error converting file: {str(e)}")
+        # Fallback to simple save for now
+        temp_file_path = f"temp_{file_id}{os.path.splitext(filename)[1]}"
+        with open(temp_file_path, 'wb') as f:
+            f.write(file_wrapper.getbuffer())
+        return temp_file_path
 
 @app.get("/")
 async def root():
@@ -231,8 +273,8 @@ async def upload_resume(file: UploadFile = File(...), current_user=Depends(get_c
     Upload a resume file (PDF or DOCX) for processing
     """
     # Validate file type
-    if not file.filename.endswith(('.pdf', '.docx')):
-        raise HTTPException(status_code=400, detail="Only PDF and DOCX files are allowed")
+    if not file.filename.endswith(('.pdf', '.docx', '.doc')):
+        raise HTTPException(status_code=400, detail="Only PDF, DOCX, and DOC files are allowed")
     
     # Generate unique session ID
     session_id = str(uuid.uuid4())
@@ -282,8 +324,8 @@ async def upload_resume_complex(
     Upload a resume file with complex processing options
     """
     # Validate file type
-    if not file.filename.endswith(('.pdf', '.docx')):
-        raise HTTPException(status_code=400, detail="Only PDF and DOCX files are allowed")
+    if not file.filename.endswith(('.pdf', '.docx', '.doc')):
+        raise HTTPException(status_code=400, detail="Only PDF, DOCX, and DOC files are allowed")
     
     # Generate unique session ID
     session_id = str(uuid.uuid4())

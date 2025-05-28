@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
   CssBaseline, Box, Typography, Button, Paper, CircularProgress, LinearProgress,
-  Tabs, Tab, FormControl, InputLabel, Select, MenuItem, TextField, Checkbox,
+  FormControl, InputLabel, Select, MenuItem, TextField, Checkbox,
   FormControlLabel, ToggleButtonGroup, ToggleButton
 } from '@mui/material';
 import TopBar from './TopBar';
@@ -22,7 +22,7 @@ function AppContent() {
   const [progress, setProgress] = useState(0);
   const [sessionId, setSessionId] = useState(null);
   const [error, setError] = useState(null);
-  const [tabValue, setTabValue] = useState(0);
+  const [selectedMode, setSelectedMode] = useState('Simple Mode');
   
   // Complex mode states
   const [selectedFormat, setSelectedFormat] = useState('Developer');
@@ -90,8 +90,8 @@ function AppContent() {
     if (!file) return;
 
     // Validate file type
-    if (!file.name.endsWith('.pdf') && !file.name.endsWith('.docx')) {
-      setError('Please upload a PDF or DOCX file');
+    if (!file.name.endsWith('.pdf') && !file.name.endsWith('.docx') && !file.name.endsWith('.doc')) {
+      setError('Please upload a PDF, DOCX, or DOC file');
       return;
     }
 
@@ -322,13 +322,19 @@ function AppContent() {
     <Box sx={appStyles.rootBox}>
       <CssBaseline />
       <TopBar />
-      <SideBar />
+      <SideBar 
+        selectedMode={selectedMode}
+        onModeChange={(mode) => setSelectedMode(mode)}
+      />
       <Box component="main" sx={appStyles.mainBox}>
         <Typography variant="h2" sx={appStyles.heading}>
-          Welcome to ResumeGenie
+          Welcome to ResumeGenie - {selectedMode}
         </Typography>
         <Typography variant="body2" sx={appStyles.subText}>
-          Upload a <strong>PDF</strong> or <strong>DOCX</strong> resume file and let AI help craft the CGI's template resume.
+          {selectedMode === 'Simple Mode' 
+            ? <>Upload a <strong>PDF</strong>, <strong>DOCX</strong>, or <strong>DOC</strong> resume file and let AI help craft the CGI's template resume.</>
+            : <>Advanced mode: Customize role format, add job descriptions, and process multiple resumes at once.</>
+          }
         </Typography>
 
         {error && (
@@ -339,16 +345,10 @@ function AppContent() {
           </Paper>
         )}
 
-        <Paper elevation={0} sx={{ bgcolor: 'background.paper', mb: 3 }}>
-          <Tabs value={tabValue} onChange={(e, newValue) => setTabValue(newValue)} centered>
-            <Tab label="Simple Mode" />
-            <Tab label="Advanced Mode" />
-          </Tabs>
-        </Paper>
 
         {!isUploading && !isCompleted && (
           <>
-            {tabValue === 0 ? (
+            {selectedMode === 'Simple Mode' ? (
               // Simple Mode
               <Paper elevation={0} sx={appStyles.uploadCard}>
                 <Box sx={appStyles.uploadIcon}>
@@ -365,7 +365,7 @@ function AppContent() {
                     type="file" 
                     hidden 
                     onChange={handleUpload} 
-                    accept=".pdf,.docx"
+                    accept=".pdf,.docx,.doc"
                   />
                 </Button>
                 {selectedFile && (
@@ -448,7 +448,7 @@ function AppContent() {
                         type="file"
                         id="rfp-upload"
                         hidden
-                        accept=".pdf,.docx"
+                        accept=".pdf,.docx,.doc"
                         onChange={(e) => setRfpFile(e.target.files[0])}
                       />
                       <label htmlFor="rfp-upload">
@@ -483,7 +483,7 @@ function AppContent() {
                         hidden
                         multiple
                         onChange={(e) => setSelectedFiles(Array.from(e.target.files))}
-                        accept=".pdf,.docx"
+                        accept=".pdf,.docx,.doc"
                       />
                     </Button>
                     {selectedFiles.length > 0 && (
@@ -563,7 +563,7 @@ function AppContent() {
         {isCompleted && (
           <>
             {/* Simple mode completion or Complex mode with single file */}
-            {(tabValue === 0 || processedFiles.length === 0) ? (
+            {(selectedMode === 'Simple Mode' || processedFiles.length === 0) ? (
               <>
                 <Paper elevation={0} sx={uploadProgressStyles.uploadingCard}>
                   <Box sx={uploadCompletedStyles.successIcon}>
