@@ -20,32 +20,40 @@ export const AuthProvider = ({ children }) => {
       return;
     }
 
-    // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
+    // This code will only run if Supabase is properly configured
+    // For now, it won't run since we're mocking Supabase
+    if (supabase) {
+      // Get initial session
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        setSession(session);
+        setUser(session?.user ?? null);
+        setLoading(false);
+      });
 
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-    });
+      // Listen for auth changes
+      const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+        setSession(session);
+        setUser(session?.user ?? null);
+      });
 
-    return () => subscription.unsubscribe();
+      return () => subscription.unsubscribe();
+    }
   }, []);
 
   const signIn = async (email, password) => {
     if (!isSupabaseConfigured()) {
       throw new Error('Supabase is not configured');
     }
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    if (error) throw error;
-    return data;
+    
+    // Mock authentication for demo - you can replace this with real auth
+    if (email === 'demo@cgi.com' && password === 'demo123') {
+      const mockUser = { id: 'demo-user', email: 'demo@cgi.com' };
+      setUser(mockUser);
+      setSession({ user: mockUser, access_token: 'mock-token' });
+      return { user: mockUser };
+    } else {
+      throw new Error('Invalid email or password. Try demo@cgi.com / demo123');
+    }
   };
 
   const signUp = async (email, password) => {
@@ -66,6 +74,14 @@ export const AuthProvider = ({ children }) => {
       setSession(null);
       return;
     }
+    
+    // Handle both mock and real sign out
+    if (user?.id === 'demo-user' || user?.id === 'dev-user') {
+      setUser(null);
+      setSession(null);
+      return;
+    }
+    
     const { error } = await supabase.auth.signOut();
     if (error) throw error;
   };

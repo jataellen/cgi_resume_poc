@@ -1,19 +1,170 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
-  CssBaseline, Box, Typography, Button, Paper, CircularProgress, LinearProgress,
+  CssBaseline, Box, Typography, Button, CircularProgress, LinearProgress,
   FormControl, InputLabel, Select, MenuItem, TextField, Checkbox,
-  FormControlLabel, ToggleButtonGroup, ToggleButton
+  FormControlLabel, ToggleButtonGroup, ToggleButton, Card, CardContent,
+  Stepper, Step, StepLabel, Chip, Fade, Zoom
 } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import TopBar from './TopBar';
 import SideBar from './SideBar';
-import appStyles from './styles/appStyles';
-import uploadProgressStyles from './styles/uploadProgressStyles';
-import uploadCompletedStyles from './styles/uploadCompletedStyles';
-import apiService, { setAuthInstance } from './services/apiService';
+import apiService from './services/apiService';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Auth from './components/Auth';
 
-function AppContent() {
+// CGI Theme Colors
+const cgiColors = {
+  primary: '#5236AB',
+  secondary: '#E31937',
+  success: '#1AB977',
+  warning: '#F1A425',
+  error: '#B00020',
+  gray: '#333333',
+  lightGray: '#F2F1F9',
+  white: '#FFFFFF',
+  gradient: 'linear-gradient(135deg, #5236AB 0%, #A82465 60%, #E31937 100%)'
+};
+
+// Styled Components with CGI Theme
+const StyledCard = styled(Card)(({ theme }) => ({
+  background: cgiColors.white,
+  borderRadius: '12px',
+  boxShadow: '0 4px 20px rgba(82, 54, 171, 0.1)',
+  border: `1px solid ${cgiColors.lightGray}`,
+  transition: 'all 0.3s ease',
+  '&:hover': {
+    boxShadow: '0 8px 30px rgba(82, 54, 171, 0.15)',
+    transform: 'translateY(-2px)'
+  }
+}));
+
+const GradientButton = styled(Button)(({ theme }) => ({
+  background: cgiColors.gradient,
+  color: cgiColors.white,
+  borderRadius: '8px',
+  padding: '12px 24px',
+  fontWeight: 600,
+  textTransform: 'none',
+  fontSize: '16px',
+  boxShadow: '0 4px 15px rgba(82, 54, 171, 0.3)',
+  transition: 'all 0.3s ease',
+  '&:hover': {
+    background: cgiColors.gradient,
+    boxShadow: '0 6px 20px rgba(82, 54, 171, 0.4)',
+    transform: 'translateY(-1px)'
+  },
+  '&:disabled': {
+    background: '#cccccc',
+    color: '#666666'
+  }
+}));
+
+const CGIButton = styled(Button)(({ theme, variant }) => ({
+  borderRadius: '8px',
+  padding: '10px 20px',
+  fontWeight: 600,
+  textTransform: 'none',
+  fontSize: '14px',
+  transition: 'all 0.3s ease',
+  ...(variant === 'contained' && {
+    backgroundColor: cgiColors.primary,
+    color: cgiColors.white,
+    '&:hover': {
+      backgroundColor: '#3A2679',
+      boxShadow: '0 4px 15px rgba(82, 54, 171, 0.3)'
+    }
+  }),
+  ...(variant === 'outlined' && {
+    borderColor: cgiColors.primary,
+    color: cgiColors.primary,
+    '&:hover': {
+      backgroundColor: cgiColors.lightGray,
+      borderColor: cgiColors.primary
+    }
+  })
+}));
+
+const UploadZone = styled(Box)(({ theme }) => ({
+  border: `2px dashed ${cgiColors.primary}`,
+  borderRadius: '12px',
+  padding: '40px 20px',
+  textAlign: 'center',
+  background: `linear-gradient(135deg, ${cgiColors.lightGray} 0%, ${cgiColors.white} 100%)`,
+  transition: 'all 0.3s ease',
+  cursor: 'pointer',
+  '&:hover': {
+    borderColor: cgiColors.secondary,
+    background: `linear-gradient(135deg, ${cgiColors.white} 0%, ${cgiColors.lightGray} 100%)`,
+    transform: 'translateY(-2px)'
+  }
+}));
+
+const UploadIcon = styled(Box)(({ theme }) => ({
+  width: '80px',
+  height: '80px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  margin: '0 auto 20px',
+  '& .material-symbols-outlined': {
+    fontSize: '60px',
+    background: cgiColors.gradient,
+    backgroundClip: 'text',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+    fontWeight: '400'
+  }
+}));
+
+const SuccessIcon = styled(Box)(({ theme }) => ({
+  width: '80px',
+  height: '80px',
+  borderRadius: '50%',
+  background: cgiColors.gradient,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  margin: '0 auto 20px',
+  boxShadow: '0 8px 25px rgba(82, 54, 171, 0.3)',
+  '& .material-symbols-outlined': {
+    fontSize: '40px',
+    color: cgiColors.white
+  }
+}));
+
+const StepperStyled = styled(Stepper)(({ theme }) => ({
+  '& .MuiStepLabel-root .Mui-completed': {
+    color: cgiColors.success
+  },
+  '& .MuiStepLabel-root .Mui-active': {
+    color: cgiColors.primary
+  },
+  '& .MuiStepConnector-line': {
+    borderColor: cgiColors.lightGray
+  }
+}));
+
+const CGIToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
+  '& .MuiToggleButton-root': {
+    borderColor: cgiColors.primary,
+    color: cgiColors.primary,
+    '&.Mui-selected': {
+      backgroundColor: cgiColors.primary,
+      color: cgiColors.white,
+      '&:hover': {
+        backgroundColor: '#3A2679'
+      }
+    },
+    '&:hover': {
+      backgroundColor: cgiColors.lightGray
+    }
+  }
+}));
+
+function AppWrapper() {
+  const auth = useAuth();
+  const { user, loading, isSupabaseConfigured } = auth;
+  
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
@@ -24,19 +175,19 @@ function AppContent() {
   const [error, setError] = useState(null);
   const [selectedMode, setSelectedMode] = useState('Simple Mode');
   
-  // Complex mode states
+  // Advanced mode states
   const [selectedFormat, setSelectedFormat] = useState('Developer');
   const [customRoleTitle, setCustomRoleTitle] = useState('');
   const [includeDefaultCgi, setIncludeDefaultCgi] = useState(false);
   const [optimizationMethod, setOptimizationMethod] = useState('none');
   const [jobDescription, setJobDescription] = useState('');
   const [rfpFile, setRfpFile] = useState(null);
-  const [processedFiles, setProcessedFiles] = useState([]);
+  const [currentStep, setCurrentStep] = useState(0);
   
   const statusIntervalRef = useRef(null);
 
+  // ALL HOOKS MUST BE AT THE TOP - BEFORE ANY RETURNS
   useEffect(() => {
-    // Cleanup on unmount
     return () => {
       if (statusIntervalRef.current) {
         clearInterval(statusIntervalRef.current);
@@ -44,20 +195,31 @@ function AppContent() {
     };
   }, []);
 
+  // NOW WE CAN DO CONDITIONAL RETURNS
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <CircularProgress sx={{ color: cgiColors.primary }} />
+      </Box>
+    );
+  }
+
+  // If Supabase is configured and user is not authenticated, show auth screen
+  if (isSupabaseConfigured && !user) {
+    return <Auth />;
+  }
+
   const pollStatus = async (sessionId) => {
     try {
       const status = await apiService.getStatus(sessionId);
       
-      // Update state
       setLogs(status.logs);
       setProgress(status.progress);
       
       if (status.status === 'completed') {
         setIsUploading(false);
         setIsCompleted(true);
-        // Download URL is available at status.downloadUrl
         
-        // Stop polling
         if (statusIntervalRef.current) {
           clearInterval(statusIntervalRef.current);
           statusIntervalRef.current = null;
@@ -66,7 +228,6 @@ function AppContent() {
         setIsUploading(false);
         setError(status.error || 'An error occurred during processing');
         
-        // Stop polling
         if (statusIntervalRef.current) {
           clearInterval(statusIntervalRef.current);
           statusIntervalRef.current = null;
@@ -77,7 +238,6 @@ function AppContent() {
       setError(err.message);
       setIsUploading(false);
       
-      // Stop polling
       if (statusIntervalRef.current) {
         clearInterval(statusIntervalRef.current);
         statusIntervalRef.current = null;
@@ -89,9 +249,8 @@ function AppContent() {
     const file = e.target.files[0];
     if (!file) return;
 
-    // Validate file type
-    if (!file.name.endsWith('.pdf') && !file.name.endsWith('.docx') && !file.name.endsWith('.doc')) {
-      setError('Please upload a PDF, DOCX, or DOC file');
+    if (!file.name.endsWith('.pdf') && !file.name.endsWith('.docx')) {
+      setError('Please upload a PDF or DOCX file');
       return;
     }
 
@@ -103,14 +262,12 @@ function AppContent() {
     setProgress(0);
 
     try {
-      // Upload file
       const uploadResult = await apiService.uploadResume(file);
       setSessionId(uploadResult.sessionId);
       
-      // Start polling for status
       statusIntervalRef.current = setInterval(() => {
         pollStatus(uploadResult.sessionId);
-      }, 1000); // Poll every second
+      }, 1000);
       
     } catch (err) {
       console.error('Upload error:', err);
@@ -119,53 +276,7 @@ function AppContent() {
     }
   };
 
-  const handleCancel = async () => {
-    // Stop polling
-    if (statusIntervalRef.current) {
-      clearInterval(statusIntervalRef.current);
-      statusIntervalRef.current = null;
-    }
-
-    // Clean up session if exists
-    if (sessionId) {
-      try {
-        await apiService.cleanupSession(sessionId);
-      } catch (err) {
-        console.error('Error cleaning up session:', err);
-      }
-    }
-
-    // Reset state
-    setIsUploading(false);
-    setLogs([]);
-    setSelectedFile(null);
-    setSessionId(null);
-    setProgress(0);
-    setError(null);
-  };
-
-  const handleDownload = async () => {
-    if (!sessionId) return;
-
-    try {
-      const blob = await apiService.downloadResume(sessionId);
-      
-      // Create download link
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = selectedFile.name.replace(/\.(pdf|docx)$/i, '_updated.docx');
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(url);
-    } catch (err) {
-      console.error('Download error:', err);
-      setError(err.message);
-    }
-  };
-
-  const handleComplexUpload = async () => {
+  const handleAdvancedUpload = async () => {
     if (selectedFiles.length === 0) return;
 
     setIsUploading(true);
@@ -173,45 +284,25 @@ function AppContent() {
     setError(null);
     setLogs([]);
     setProgress(0);
-    setProcessedFiles([]);
 
     try {
-      // Process files sequentially for now
       const results = [];
       
       for (let i = 0; i < selectedFiles.length; i++) {
         const file = selectedFiles[i];
         setLogs(prev => [...prev, `Processing file ${i + 1}/${selectedFiles.length}: ${file.name}`]);
         
-        // Prepare form data with all parameters
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('format', selectedFormat);
-        formData.append('customRoleTitle', customRoleTitle);
-        formData.append('includeDefaultCgi', includeDefaultCgi);
-        formData.append('optimizationMethod', optimizationMethod);
-        
-        if (optimizationMethod === 'description') {
-          formData.append('jobDescription', jobDescription);
-        } else if (optimizationMethod === 'rfp' && rfpFile) {
-          formData.append('rfpFile', rfpFile);
-        }
-
         try {
-          // Upload file with complex parameters
-          const uploadResult = await apiService.uploadResumeComplex(formData);
+          const uploadResult = await apiService.uploadResume(file);
           
-          // Poll for status and collect logs
           const result = await new Promise((resolve) => {
             const intervalId = setInterval(async () => {
               try {
                 const status = await apiService.getStatus(uploadResult.sessionId);
                 
-                // Update logs with detailed information from backend
                 if (status.logs && status.logs.length > 0) {
                   setLogs(prev => {
                     const newLogs = [...prev];
-                    // Add new logs that aren't already present
                     status.logs.forEach(log => {
                       if (!newLogs.includes(log) && !log.includes(file.name)) {
                         newLogs.push(log);
@@ -221,7 +312,6 @@ function AppContent() {
                   });
                 }
                 
-                // Update progress for this file
                 const fileProgress = (i / selectedFiles.length) * 100 + (status.progress / selectedFiles.length);
                 setProgress(fileProgress);
                 
@@ -253,14 +343,8 @@ function AppContent() {
         }
       }
       
-      setProcessedFiles(results);
       setIsCompleted(true);
       setIsUploading(false);
-      
-      // Auto-switch to Results tab if multiple files were processed
-      if (results.length > 1) {
-        setSelectedMode('Results');
-      }
       
     } catch (err) {
       console.error('Upload error:', err);
@@ -269,16 +353,16 @@ function AppContent() {
     }
   };
 
+  const handleDownload = async () => {
+    if (!sessionId) return;
 
-  const handleDownloadSingle = async (sessionId, originalName) => {
     try {
       const blob = await apiService.downloadResume(sessionId);
       
-      // Create download link
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = originalName.replace(/\.(pdf|docx)$/i, '_updated.docx');
+      a.download = selectedFile.name.replace(/\.(pdf|docx)$/i, '_updated.docx');
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -289,29 +373,7 @@ function AppContent() {
     }
   };
 
-  const handleDownloadAll = async () => {
-    // For now, download files one by one
-    // In a production app, you might want to create a zip file on the backend
-    const successfulFiles = processedFiles.filter(f => f.status === 'completed');
-    
-    for (const file of successfulFiles) {
-      await handleDownloadSingle(file.sessionId, file.originalName);
-      // Add a small delay between downloads to avoid browser blocking
-      await new Promise(resolve => setTimeout(resolve, 500));
-    }
-  };
-
-  const handleReset = async () => {
-    // Clean up session if exists
-    if (sessionId) {
-      try {
-        await apiService.cleanupSession(sessionId);
-      } catch (err) {
-        console.error('Error cleaning up session:', err);
-      }
-    }
-
-    // Reset state
+  const handleReset = () => {
     setIsCompleted(false);
     setSelectedFile(null);
     setSelectedFiles([]);
@@ -319,434 +381,449 @@ function AppContent() {
     setSessionId(null);
     setProgress(0);
     setError(null);
-    setProcessedFiles([]);
     setIsUploading(false);
+    setCurrentStep(0);
     
-    // Reset to appropriate mode
     if (selectedMode === 'Results') {
       setSelectedMode('Simple Mode');
     }
   };
 
+  const steps = ['Choose Format', 'Optimization', 'Upload Files'];
+
   return (
-    <Box sx={appStyles.rootBox}>
+    <Box sx={{ 
+      display: 'flex', 
+      backgroundColor: '#fafafa',
+      minHeight: '100vh'
+    }}>
       <CssBaseline />
       <TopBar />
       <SideBar 
         selectedMode={selectedMode}
         onModeChange={(mode) => setSelectedMode(mode)}
       />
-      <Box component="main" sx={appStyles.mainBox}>
-        <Typography variant="h2" sx={appStyles.heading}>
-          Welcome to ResumeGenie - {selectedMode}
-        </Typography>
-        <Typography variant="body2" sx={appStyles.subText}>
-          {selectedMode === 'Simple Mode' 
-            ? <>Upload a <strong>PDF</strong>, <strong>DOCX</strong>, or <strong>DOC</strong> resume file and let AI help craft the CGI's template resume.</>
-            : selectedMode === 'Advanced Mode'
-            ? <>Advanced mode: Customize role format, add job descriptions, and process multiple resumes at once.</>
-            : <>View and download your processed resume files.</>
-          }
-        </Typography>
+      
+      <Box component="main" sx={{ 
+        flexGrow: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        mt: 8, // Account for top bar
+        pt: 3,
+        pb: 3,
+        px: 3,
+        minHeight: 'calc(100vh - 64px)',
+        // Remove margin-left and width constraints that were causing offset
+        position: 'relative',
+        left: { xs: 0, sm: '320px' }, // Push content to account for sidebar
+        width: { xs: '100%', sm: 'calc(100% - 320px)' }
+      }}>
+        <Fade in={true} timeout={800}>
+          <Box sx={{ 
+            width: '100%', 
+            maxWidth: '1200px', 
+            textAlign: 'center',
+            mb: 4
+          }}>
+            <Typography 
+              variant="h3" 
+              sx={{ 
+                mb: 2, 
+                color: cgiColors.primary,
+                fontWeight: 700,
+                background: cgiColors.gradient,
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent'
+              }}
+            >
+              Welcome to ResumeGenie
+            </Typography>
+            
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                mb: 4, 
+                color: cgiColors.gray,
+                fontWeight: 400
+              }}
+            >
+              {selectedMode === 'Simple Mode' 
+                ? <>Upload a <strong>PDF</strong> or <strong>DOCX</strong> resume file and let AI help craft the CGI's template resume.</>
+                : selectedMode === 'Advanced Mode'
+                ? <>Advanced mode: Customize role format, add job descriptions, and process multiple resumes at once.</>
+                : <>View and download your processed resume files.</>
+              }
+            </Typography>
+          </Box>
+        </Fade>
 
         {error && (
-          <Paper elevation={0} sx={{ ...appStyles.uploadCard, backgroundColor: '#ffebee', mb: 2 }}>
-            <Typography color="error" sx={{ textAlign: 'center' }}>
-              {error}
-            </Typography>
-          </Paper>
+          <Zoom in={true}>
+            <StyledCard sx={{ 
+              mb: 3, 
+              borderLeft: `4px solid ${cgiColors.error}`, 
+              width: '100%', 
+              maxWidth: '1000px'
+            }}>
+              <CardContent>
+                <Typography color="error" sx={{ fontWeight: 600 }}>
+                  {error}
+                </Typography>
+              </CardContent>
+            </StyledCard>
+          </Zoom>
         )}
 
-
         {!isUploading && !isCompleted && selectedMode !== 'Results' && (
-          <>
-            {selectedMode === 'Simple Mode' ? (
-              // Simple Mode
-              <Paper elevation={0} sx={appStyles.uploadCard}>
-                <Box sx={appStyles.uploadIcon}>
-                  <span className="material-symbols-outlined" style={{ fontSize: '64px' }}>
-                    file_upload
-                  </span>
-                </Box>
-                <Typography variant="body1" sx={appStyles.uploadText}>
-                  Upload a <strong>PDF</strong> or <strong>DOCX</strong> resume file
-                </Typography>
-                <Button component="label" variant="contained" color="primary" sx={appStyles.uploadButton}>
-                  Upload file
-                  <input 
-                    type="file" 
-                    hidden 
-                    onChange={handleUpload} 
-                    accept=".pdf,.docx,.doc"
-                  />
-                </Button>
-                {selectedFile && (
-                  <Typography variant="body2" sx={appStyles.uploadedFileName}>
-                    Selected: {selectedFile.name}
-                  </Typography>
-                )}
-              </Paper>
-            ) : (
-              // Advanced Mode
-              <Paper elevation={0} sx={{ p: 3 }}>
-                <Box sx={{ mb: 3 }}>
-                  <Typography variant="h6" sx={{ mb: 2 }}>Step 1: Choose Resume Format</Typography>
-                  <FormControl fullWidth sx={{ mb: 2 }}>
-                    <InputLabel>Select Format</InputLabel>
-                    <Select
-                      value={selectedFormat}
-                      onChange={(e) => setSelectedFormat(e.target.value)}
-                      label="Select Format"
-                    >
-                      <MenuItem value="Developer">Developer</MenuItem>
-                      <MenuItem value="Business Analyst">Business Analyst</MenuItem>
-                      <MenuItem value="Director">Director</MenuItem>
-                    </Select>
-                  </FormControl>
-                  
-                  <TextField
-                    fullWidth
-                    label="Enter specific role title (optional)"
-                    value={customRoleTitle}
-                    onChange={(e) => setCustomRoleTitle(e.target.value)}
-                    placeholder="e.g. Senior Full Stack Developer"
-                    helperText="E.g., 'Senior Full Stack Developer', 'Data Scientist', 'Project Manager'"
-                    sx={{ mb: 2 }}
-                  />
-                  
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={includeDefaultCgi}
-                        onChange={(e) => setIncludeDefaultCgi(e.target.checked)}
-                      />
-                    }
-                    label="Include AI-generated CGI experience entry"
-                  />
-                  <Typography variant="caption" display="block" sx={{ ml: 4, mb: 2, color: 'text.secondary' }}>
-                    Adds a customized CGI consulting role with relevant experience to your resume.
-                  </Typography>
-                </Box>
-                
-                <Box sx={{ mb: 3 }}>
-                  <Typography variant="h6" sx={{ mb: 2 }}>Step 2: Choose Optimization Method</Typography>
-                  <ToggleButtonGroup
-                    value={optimizationMethod}
-                    exclusive
-                    onChange={(e, newMethod) => newMethod && setOptimizationMethod(newMethod)}
-                    sx={{ mb: 2 }}
-                    fullWidth
-                  >
-                    <ToggleButton value="none">📄 No optimization</ToggleButton>
-                    <ToggleButton value="description">✏️ Enter job description</ToggleButton>
-                    <ToggleButton value="rfp">📎 Upload RFP document</ToggleButton>
-                  </ToggleButtonGroup>
-                  
-                  {optimizationMethod === 'description' && (
-                    <TextField
-                      fullWidth
-                      multiline
-                      rows={4}
-                      label="Job Description"
-                      value={jobDescription}
-                      onChange={(e) => setJobDescription(e.target.value)}
-                      placeholder="Paste job description here..."
-                    />
-                  )}
-                  
-                  {optimizationMethod === 'rfp' && (
-                    <Box sx={{ border: '2px dashed #ccc', borderRadius: 1, p: 2, textAlign: 'center' }}>
-                      <input
-                        type="file"
-                        id="rfp-upload"
-                        hidden
-                        accept=".pdf,.docx,.doc"
-                        onChange={(e) => setRfpFile(e.target.files[0])}
-                      />
-                      <label htmlFor="rfp-upload">
-                        <Button component="span" variant="outlined">
-                          Upload RFP Document
-                        </Button>
-                      </label>
-                      {rfpFile && (
-                        <Typography variant="body2" sx={{ mt: 1 }}>
-                          Selected: {rfpFile.name}
+          <Fade in={true} timeout={1000}>
+            <Box sx={{ 
+              width: '100%', 
+              display: 'flex', 
+              justifyContent: 'center'
+            }}>
+              {selectedMode === 'Simple Mode' ? (
+                <StyledCard sx={{ maxWidth: 600, width: '100%' }}>
+                  <CardContent sx={{ p: 4 }}>
+                    <UploadZone>
+                      <UploadIcon>
+                        <span className="material-symbols-outlined">file_upload</span>
+                      </UploadIcon>
+                      <Typography variant="h5" sx={{ mb: 2, color: cgiColors.primary, fontWeight: 600 }}>
+                        Upload Resume File
+                      </Typography>
+                      <Typography variant="body1" sx={{ mb: 3, color: cgiColors.gray }}>
+                        Upload a <strong>PDF</strong> or <strong>DOCX</strong> resume file
+                      </Typography>
+                      <GradientButton component="label">
+                        Choose File
+                        <input 
+                          type="file" 
+                          hidden 
+                          onChange={handleUpload} 
+                          accept=".pdf,.docx"
+                        />
+                      </GradientButton>
+                      {selectedFile && (
+                        <Typography variant="body2" sx={{ mt: 2, color: cgiColors.primary, fontWeight: 500 }}>
+                          Selected: {selectedFile.name}
                         </Typography>
                       )}
-                    </Box>
-                  )}
-                </Box>
-                
-                <Box>
-                  <Typography variant="h6" sx={{ mb: 2 }}>Step 3: Upload Your Resumes</Typography>
-                  <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                    You can select multiple resume files to process at once
-                  </Typography>
-                  <Box sx={{ border: '2px dashed #ccc', borderRadius: 1, p: 3, textAlign: 'center' }}>
-                    <Box sx={{ mb: 2 }}>
-                      <span className="material-symbols-outlined" style={{ fontSize: '48px', color: '#666' }}>
-                        file_upload
-                      </span>
-                    </Box>
-                    <Button component="label" variant="contained" color="primary">
-                      Select Resume Files
-                      <input
-                        type="file"
-                        hidden
-                        multiple
-                        onChange={(e) => setSelectedFiles(Array.from(e.target.files))}
-                        accept=".pdf,.docx,.doc"
+                    </UploadZone>
+                  </CardContent>
+                </StyledCard>
+              ) : (
+                <StyledCard sx={{ maxWidth: 1000, width: '100%' }}>
+                  <CardContent sx={{ p: 4 }}>
+                    <StepperStyled activeStep={currentStep} sx={{ mb: 4 }}>
+                      {steps.map((label) => (
+                        <Step key={label}>
+                          <StepLabel>{label}</StepLabel>
+                        </Step>
+                      ))}
+                    </StepperStyled>
+
+                    <Box sx={{ mb: 4 }}>
+                      <Typography variant="h5" sx={{ mb: 3, color: cgiColors.primary, fontWeight: 600 }}>
+                        Step 1: Choose Resume Format
+                      </Typography>
+                      <FormControl fullWidth sx={{ mb: 2 }}>
+                        <InputLabel>Select Format</InputLabel>
+                        <Select
+                          value={selectedFormat}
+                          onChange={(e) => setSelectedFormat(e.target.value)}
+                          label="Select Format"
+                          sx={{
+                            '& .MuiOutlinedInput-root': {
+                              '&.Mui-focused fieldset': {
+                                borderColor: cgiColors.primary
+                              }
+                            }
+                          }}
+                        >
+                          <MenuItem value="Developer">Developer</MenuItem>
+                          <MenuItem value="Business Analyst">Business Analyst</MenuItem>
+                          <MenuItem value="Director">Director</MenuItem>
+                        </Select>
+                      </FormControl>
+                      
+                      <TextField
+                        fullWidth
+                        label="Enter specific role title (optional)"
+                        value={customRoleTitle}
+                        onChange={(e) => setCustomRoleTitle(e.target.value)}
+                        placeholder="e.g. Senior Full Stack Developer"
+                        helperText="E.g., 'Senior Full Stack Developer', 'Data Scientist', 'Project Manager'"
+                        sx={{ 
+                          mb: 2,
+                          '& .MuiOutlinedInput-root': {
+                            '&.Mui-focused fieldset': {
+                              borderColor: cgiColors.primary
+                            }
+                          }
+                        }}
                       />
-                    </Button>
-                    {selectedFiles.length > 0 && (
-                      <Box sx={{ mt: 2 }}>
-                        <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
-                          Selected {selectedFiles.length} file{selectedFiles.length > 1 ? 's' : ''}:
+                      
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={includeDefaultCgi}
+                            onChange={(e) => setIncludeDefaultCgi(e.target.checked)}
+                            sx={{ color: cgiColors.primary }}
+                          />
+                        }
+                        label="Include AI-generated CGI experience entry"
+                      />
+                      <Typography variant="caption" display="block" sx={{ ml: 4, mb: 2, color: cgiColors.gray }}>
+                        Adds a customized CGI consulting role with relevant experience to your resume.
+                      </Typography>
+                    </Box>
+                    
+                    <Box sx={{ mb: 4 }}>
+                      <Typography variant="h5" sx={{ mb: 3, color: cgiColors.primary, fontWeight: 600 }}>
+                        Step 2: Choose Optimization Method
+                      </Typography>
+                      <CGIToggleButtonGroup
+                        value={optimizationMethod}
+                        exclusive
+                        onChange={(e, newMethod) => newMethod && setOptimizationMethod(newMethod)}
+                        sx={{ mb: 2, display: 'flex', flexWrap: 'wrap', gap: 1 }}
+                      >
+                        <ToggleButton value="none" sx={{ flex: '1 1 200px' }}>
+                          📄 No optimization
+                        </ToggleButton>
+                        <ToggleButton value="description" sx={{ flex: '1 1 200px' }}>
+                          ✏️ Enter job description
+                        </ToggleButton>
+                        <ToggleButton value="rfp" sx={{ flex: '1 1 200px' }}>
+                          📎 Upload RFP document
+                        </ToggleButton>
+                      </CGIToggleButtonGroup>
+                      
+                      {optimizationMethod === 'description' && (
+                        <Fade in={true}>
+                          <TextField
+                            fullWidth
+                            multiline
+                            rows={4}
+                            label="Job Description"
+                            value={jobDescription}
+                            onChange={(e) => setJobDescription(e.target.value)}
+                            placeholder="Paste job description here..."
+                            sx={{
+                              '& .MuiOutlinedInput-root': {
+                                '&.Mui-focused fieldset': {
+                                  borderColor: cgiColors.primary
+                                }
+                              }
+                            }}
+                          />
+                        </Fade>
+                      )}
+                      
+                      {optimizationMethod === 'rfp' && (
+                        <Fade in={true}>
+                          <UploadZone sx={{ mt: 2 }}>
+                            <input
+                              type="file"
+                              id="rfp-upload"
+                              hidden
+                              accept=".pdf,.docx,.doc"
+                              onChange={(e) => setRfpFile(e.target.files[0])}
+                            />
+                            <label htmlFor="rfp-upload">
+                              <CGIButton component="span" variant="outlined">
+                                Upload RFP Document
+                              </CGIButton>
+                            </label>
+                            {rfpFile && (
+                              <Typography variant="body2" sx={{ mt: 1, color: cgiColors.primary }}>
+                                Selected: {rfpFile.name}
+                              </Typography>
+                            )}
+                          </UploadZone>
+                        </Fade>
+                      )}
+                    </Box>
+                    
+                    <Box>
+                      <Typography variant="h5" sx={{ mb: 3, color: cgiColors.primary, fontWeight: 600 }}>
+                        Step 3: Upload Your Resumes
+                      </Typography>
+                      <Typography variant="body2" sx={{ mb: 2, color: cgiColors.gray }}>
+                        You can select multiple resume files to process at once
+                      </Typography>
+                      
+                      <UploadZone>
+                        <UploadIcon>
+                          <span className="material-symbols-outlined">file_upload</span>
+                        </UploadIcon>
+                        <Typography variant="h6" sx={{ mb: 2, color: cgiColors.primary, fontWeight: 600 }}>
+                          Select Resume Files
                         </Typography>
-                        {selectedFiles.map((file, index) => (
-                          <Typography key={index} variant="body2" color="text.secondary">
-                            • {file.name}
-                          </Typography>
-                        ))}
+                        <GradientButton component="label">
+                          Choose Files
+                          <input
+                            type="file"
+                            hidden
+                            multiple
+                            onChange={(e) => setSelectedFiles(Array.from(e.target.files))}
+                            accept=".pdf,.docx,.doc"
+                          />
+                        </GradientButton>
+                        {selectedFiles.length > 0 && (
+                          <Box sx={{ mt: 3 }}>
+                            <Typography variant="body1" sx={{ fontWeight: 600, mb: 2, color: cgiColors.primary }}>
+                              Selected {selectedFiles.length} file{selectedFiles.length > 1 ? 's' : ''}:
+                            </Typography>
+                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, justifyContent: 'center' }}>
+                              {selectedFiles.map((file, index) => (
+                                <Chip
+                                  key={index}
+                                  label={file.name}
+                                  sx={{
+                                    backgroundColor: cgiColors.lightGray,
+                                    color: cgiColors.primary,
+                                    fontWeight: 500
+                                  }}
+                                />
+                              ))}
+                            </Box>
+                          </Box>
+                        )}
+                      </UploadZone>
+                      
+                      <Box sx={{ textAlign: 'center', mt: 4 }}>
+                        <GradientButton
+                          size="large"
+                          onClick={handleAdvancedUpload}
+                          disabled={selectedFiles.length === 0}
+                          sx={{ px: 4, py: 1.5, fontSize: '18px' }}
+                        >
+                          ✨ Generate Optimized Resume
+                        </GradientButton>
                       </Box>
-                    )}
-                  </Box>
-                  
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    size="large"
-                    sx={{ mt: 3 }}
-                    onClick={handleComplexUpload}
-                    disabled={selectedFiles.length === 0}
-                  >
-                    ✨ Generate Optimized Resume
-                  </Button>
-                </Box>
-              </Paper>
-            )}
-          </>
+                    </Box>
+                  </CardContent>
+                </StyledCard>
+              )}
+            </Box>
+          </Fade>
         )}
 
         {isUploading && (
-          <>
-            <Paper elevation={0} sx={uploadProgressStyles.uploadingCard}>
-              <CircularProgress sx={uploadProgressStyles.progressCircle} />
-              <Typography sx={uploadProgressStyles.uploadingText}>
-                Processing resume file… {progress}%
-              </Typography>
-              <LinearProgress 
-                variant="determinate" 
-                value={progress} 
-                sx={{ width: '100%', mt: 2, mb: 2 }}
-              />
-              <Button onClick={handleCancel} {...uploadProgressStyles.cancelButton}>
-                Cancel
-              </Button>
-            </Paper>
-
-            <Paper elevation={0} sx={uploadProgressStyles.logsCard}>
-              <Typography sx={uploadProgressStyles.logsTitle}>Processing logs</Typography>
-              <Box sx={uploadProgressStyles.logsInnerBox}>
-                {logs.map((log, idx) => {
-                  // Last log is in progress, others are completed
-                  const isLastLog = idx === logs.length - 1;
-                  const isCompleted = !isLastLog;
-                  
-                  return (
-                    <Box key={idx} sx={uploadProgressStyles.logItem}>
-                      {isCompleted ? (
-                        <span className="material-symbols-outlined" style={{ fontSize: '16px', color: '#4CAF50' }}>
-                          check_circle
-                        </span>
-                      ) : (
-                        <CircularProgress size={16} sx={{ color: '#5236AB' }} />
-                      )}
-                      <span>{log}</span>
-                    </Box>
-                  );
-                })}
-              </Box>
-            </Paper>
-          </>
-        )}
-
-        {isCompleted && selectedMode !== 'Results' && (
-          <>
-            {/* Simple mode completion or single file completion */}
-            <Paper elevation={0} sx={uploadProgressStyles.uploadingCard}>
-              <Box sx={uploadCompletedStyles.successIcon}>
-                <span className="material-symbols-outlined" style={{ fontSize: '64px' }}>
-                  check_circle
-                </span>
-              </Box>
-              <Typography sx={uploadCompletedStyles.successText}>
-                Your resume is processed successfully!
-              </Typography>
-              <Box sx={uploadCompletedStyles.buttonRow}>
-                <Button
-                  variant="text"
-                  sx={uploadCompletedStyles.uploadNewButton}
-                  onClick={handleReset}
-                >
-                  Upload a new file
-                </Button>
-
-                <Button
-                  variant="contained"
-                  sx={uploadCompletedStyles.downloadButton}
-                  onClick={handleDownload}
-                >
-                  <span className="material-symbols-outlined" style={{ fontSize: '20px', marginRight: '8px' }}>
-                    download
-                  </span>
-                  Download crafted file
-                </Button>
-                
-                {processedFiles.length > 0 && (
-                  <Button
-                    variant="outlined"
-                    sx={{ ...uploadCompletedStyles.uploadNewButton, ml: 2 }}
-                    onClick={() => setSelectedMode('Results')}
-                  >
-                    View All Results
-                  </Button>
-                )}
-              </Box>
-            </Paper>
-
-            <Paper elevation={0} sx={uploadProgressStyles.logsCard}>
-              <Typography sx={uploadProgressStyles.logsTitle}>Processing logs</Typography>
-              <Box sx={uploadProgressStyles.logsInnerBox}>
-                {logs.map((log, idx) => (
-                  <Box key={idx} sx={uploadProgressStyles.logItem}>
-                    <span className="material-symbols-outlined" style={{ fontSize: '16px', color: '#4CAF50' }}>
-                      check_circle
-                    </span>
-                    <span style={{ ml: 1 }}>{log}</span>
-                  </Box>
-                ))}
-              </Box>
-            </Paper>
-          </>
-        )}
-
-        {/* Results Tab */}
-        {selectedMode === 'Results' && (
-          <>
-            {processedFiles.length > 0 ? (
-              <Paper elevation={0} sx={{ p: 3, mb: 3 }}>
-                <Typography variant="h6" sx={{ mb: 3 }}>📋 Processing Results</Typography>
-                
-                {/* Results Summary */}
-                <Box sx={{ mb: 3 }}>
-                  <Typography variant="body2" color="text.secondary">
-                    {processedFiles.filter(f => f.status === 'completed').length} of {processedFiles.length} files processed successfully
+          <Fade in={true}>
+            <Box sx={{ 
+              maxWidth: 800, 
+              width: '100%'
+            }}>
+              <StyledCard sx={{ mb: 3 }}>
+                <CardContent sx={{ p: 4, textAlign: 'center' }}>
+                  <CircularProgress 
+                    size={60} 
+                    sx={{ 
+                      color: cgiColors.primary,
+                      mb: 3
+                    }} 
+                  />
+                  <Typography variant="h5" sx={{ mb: 2, color: cgiColors.primary, fontWeight: 600 }}>
+                    Processing resume file… {progress}%
                   </Typography>
-                </Box>
-                
-                {/* Table Header */}
-                <Box sx={{ 
-                  display: 'grid', 
-                  gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', 
-                  gap: 2, 
-                  p: 2, 
-                  bgcolor: 'grey.100',
-                  borderRadius: 1,
-                  mb: 1
-                }}>
-                  <Typography variant="subtitle2" fontWeight="bold">File Name</Typography>
-                  <Typography variant="subtitle2" fontWeight="bold">Role</Typography>
-                  <Typography variant="subtitle2" fontWeight="bold">Optimization</Typography>
-                  <Typography variant="subtitle2" fontWeight="bold">Status</Typography>
-                  <Typography variant="subtitle2" fontWeight="bold">Action</Typography>
-                </Box>
-
-                {/* Table Rows */}
-                {processedFiles.map((file, index) => (
-                  <Box key={index} sx={{ 
-                    display: 'grid', 
-                    gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', 
-                    gap: 2, 
-                    p: 2, 
-                    borderBottom: '1px solid',
-                    borderColor: 'divider',
-                    '&:hover': { bgcolor: 'grey.50' }
-                  }}>
-                    <Typography variant="body2" noWrap>{file.originalName}</Typography>
-                    <Typography variant="body2" noWrap>{customRoleTitle || selectedFormat}</Typography>
-                    <Typography variant="body2">
-                      {optimizationMethod === 'none' ? 'None' : 
-                       optimizationMethod === 'description' ? 'Job Desc' : 'RFP'}
-                    </Typography>
-                    <Box>
-                      {file.status === 'completed' ? (
-                        <Typography variant="body2" color="success.main">✓ Success</Typography>
-                      ) : (
-                        <Typography variant="body2" color="error.main">✗ Failed</Typography>
-                      )}
-                    </Box>
-                    <Box>
-                      {file.status === 'completed' ? (
-                        <Button
-                          size="small"
-                          variant="outlined"
-                          onClick={() => handleDownloadSingle(file.sessionId, file.originalName)}
-                        >
-                          Download
-                        </Button>
-                      ) : (
-                        <Typography variant="caption" color="text.secondary">N/A</Typography>
-                      )}
-                    </Box>
-                  </Box>
-                ))}
-
-                <Box sx={{ mt: 3, textAlign: 'center' }}>
-                  <Button
-                    variant="contained"
-                    onClick={handleReset}
-                    sx={{ mr: 2 }}
+                  <LinearProgress 
+                    variant="determinate" 
+                    value={progress} 
+                    sx={{ 
+                      width: '100%', 
+                      height: 8,
+                      borderRadius: 4,
+                      mb: 3,
+                      backgroundColor: cgiColors.lightGray,
+                      '& .MuiLinearProgress-bar': {
+                        background: cgiColors.gradient
+                      }
+                    }}
+                  />
+                  <CGIButton 
+                    variant="outlined" 
+                    onClick={() => setIsUploading(false)}
                   >
-                    Process New Files
-                  </Button>
-                  {processedFiles.filter(f => f.status === 'completed').length > 1 && (
-                    <Button
-                      variant="outlined"
-                      onClick={handleDownloadAll}
-                    >
-                      Download All
-                    </Button>
-                  )}
-                </Box>
-              </Paper>
-            ) : (
-              <Paper elevation={0} sx={appStyles.uploadCard}>
-                <Box sx={appStyles.uploadIcon}>
-                  <span className="material-symbols-outlined" style={{ fontSize: '64px' }}>
-                    table_chart
-                  </span>
-                </Box>
-                <Typography variant="body1" sx={appStyles.uploadText}>
-                  No results available yet
-                </Typography>
-                <Typography variant="body2" sx={appStyles.subText}>
-                  Process some files first to see results here
-                </Typography>
-                <Button 
-                  variant="contained" 
-                  color="primary" 
-                  sx={appStyles.uploadButton}
-                  onClick={() => setSelectedMode('Simple Mode')}
-                >
-                  Start Processing
-                </Button>
-              </Paper>
-            )}
-          </>
+                    Cancel
+                  </CGIButton>
+                </CardContent>
+              </StyledCard>
+
+              <StyledCard>
+                <CardContent sx={{ p: 3 }}>
+                  <Typography variant="h6" sx={{ mb: 2, color: cgiColors.primary, fontWeight: 600 }}>
+                    Processing logs
+                  </Typography>
+                  <Box sx={{ maxHeight: 300, overflowY: 'auto' }}>
+                    {logs.map((log, idx) => {
+                      const isLastLog = idx === logs.length - 1;
+                      const isCompleted = !isLastLog;
+                      
+                      return (
+                        <Box key={idx} sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                          {isCompleted ? (
+                            <span className="material-symbols-outlined" style={{ 
+                              fontSize: '16px', 
+                              color: cgiColors.success,
+                              marginRight: '8px'
+                            }}>
+                              check_circle
+                            </span>
+                          ) : (
+                            <CircularProgress size={16} sx={{ color: cgiColors.primary, mr: 1 }} />
+                          )}
+                          <Typography variant="body2" sx={{ color: cgiColors.gray }}>
+                            {log}
+                          </Typography>
+                        </Box>
+                      );
+                    })}
+                  </Box>
+                </CardContent>
+              </StyledCard>
+            </Box>
+          </Fade>
         )}
 
+        {isCompleted && (
+          <Fade in={true}>
+            <Box sx={{ 
+              maxWidth: 800, 
+              width: '100%'
+            }}>
+              <StyledCard sx={{ mb: 3 }}>
+                <CardContent sx={{ p: 4, textAlign: 'center' }}>
+                  <SuccessIcon sx={{ mb: 3 }}>
+                    <span className="material-symbols-outlined">check_circle</span>
+                  </SuccessIcon>
+                  <Typography variant="h4" sx={{ mb: 3, color: cgiColors.primary, fontWeight: 700 }}>
+                    Your resume is processed successfully!
+                  </Typography>
+                  <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
+                    <CGIButton
+                      variant="outlined"
+                      onClick={handleReset}
+                    >
+                      Upload a new file
+                    </CGIButton>
+                    <GradientButton
+                      onClick={handleDownload}
+                      sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+                    >
+                      <span className="material-symbols-outlined">download</span>
+                      Download crafted file
+                    </GradientButton>
+                  </Box>
+                </CardContent>
+              </StyledCard>
+            </Box>
+          </Fade>
+        )}
       </Box>
     </Box>
   );
@@ -758,32 +835,6 @@ function App() {
       <AppWrapper />
     </AuthProvider>
   );
-}
-
-function AppWrapper() {
-  const auth = useAuth();
-  const { user, loading, isSupabaseConfigured } = auth;
-
-  // Set auth instance for API service
-  React.useEffect(() => {
-    setAuthInstance(auth);
-  }, [auth]);
-
-  if (loading) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
-
-  // If Supabase is configured and user is not authenticated, show auth screen
-  if (isSupabaseConfigured && !user) {
-    return <Auth />;
-  }
-
-  // Otherwise show the main app
-  return <AppContent />;
 }
 
 export default App;
