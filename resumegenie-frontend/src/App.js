@@ -257,6 +257,11 @@ function AppContent() {
       setIsCompleted(true);
       setIsUploading(false);
       
+      // Auto-switch to Results tab if multiple files were processed
+      if (results.length > 1) {
+        setSelectedMode('Results');
+      }
+      
     } catch (err) {
       console.error('Upload error:', err);
       setError(err.message);
@@ -315,7 +320,12 @@ function AppContent() {
     setProgress(0);
     setError(null);
     setProcessedFiles([]);
-    // Reset complete
+    setIsUploading(false);
+    
+    // Reset to appropriate mode
+    if (selectedMode === 'Results') {
+      setSelectedMode('Simple Mode');
+    }
   };
 
   return (
@@ -333,7 +343,9 @@ function AppContent() {
         <Typography variant="body2" sx={appStyles.subText}>
           {selectedMode === 'Simple Mode' 
             ? <>Upload a <strong>PDF</strong>, <strong>DOCX</strong>, or <strong>DOC</strong> resume file and let AI help craft the CGI's template resume.</>
-            : <>Advanced mode: Customize role format, add job descriptions, and process multiple resumes at once.</>
+            : selectedMode === 'Advanced Mode'
+            ? <>Advanced mode: Customize role format, add job descriptions, and process multiple resumes at once.</>
+            : <>View and download your processed resume files.</>
           }
         </Typography>
 
@@ -346,7 +358,7 @@ function AppContent() {
         )}
 
 
-        {!isUploading && !isCompleted && (
+        {!isUploading && !isCompleted && selectedMode !== 'Results' && (
           <>
             {selectedMode === 'Simple Mode' ? (
               // Simple Mode
@@ -560,152 +572,177 @@ function AppContent() {
           </>
         )}
 
-        {isCompleted && (
+        {isCompleted && selectedMode !== 'Results' && (
           <>
-            {/* Simple mode completion or Complex mode with single file */}
-            {(selectedMode === 'Simple Mode' || processedFiles.length === 0) ? (
-              <>
-                <Paper elevation={0} sx={uploadProgressStyles.uploadingCard}>
-                  <Box sx={uploadCompletedStyles.successIcon}>
-                    <span className="material-symbols-outlined" style={{ fontSize: '64px' }}>
+            {/* Simple mode completion or single file completion */}
+            <Paper elevation={0} sx={uploadProgressStyles.uploadingCard}>
+              <Box sx={uploadCompletedStyles.successIcon}>
+                <span className="material-symbols-outlined" style={{ fontSize: '64px' }}>
+                  check_circle
+                </span>
+              </Box>
+              <Typography sx={uploadCompletedStyles.successText}>
+                Your resume is processed successfully!
+              </Typography>
+              <Box sx={uploadCompletedStyles.buttonRow}>
+                <Button
+                  variant="text"
+                  sx={uploadCompletedStyles.uploadNewButton}
+                  onClick={handleReset}
+                >
+                  Upload a new file
+                </Button>
+
+                <Button
+                  variant="contained"
+                  sx={uploadCompletedStyles.downloadButton}
+                  onClick={handleDownload}
+                >
+                  <span className="material-symbols-outlined" style={{ fontSize: '20px', marginRight: '8px' }}>
+                    download
+                  </span>
+                  Download crafted file
+                </Button>
+                
+                {processedFiles.length > 0 && (
+                  <Button
+                    variant="outlined"
+                    sx={{ ...uploadCompletedStyles.uploadNewButton, ml: 2 }}
+                    onClick={() => setSelectedMode('Results')}
+                  >
+                    View All Results
+                  </Button>
+                )}
+              </Box>
+            </Paper>
+
+            <Paper elevation={0} sx={uploadProgressStyles.logsCard}>
+              <Typography sx={uploadProgressStyles.logsTitle}>Processing logs</Typography>
+              <Box sx={uploadProgressStyles.logsInnerBox}>
+                {logs.map((log, idx) => (
+                  <Box key={idx} sx={uploadProgressStyles.logItem}>
+                    <span className="material-symbols-outlined" style={{ fontSize: '16px', color: '#4CAF50' }}>
                       check_circle
                     </span>
+                    <span style={{ ml: 1 }}>{log}</span>
                   </Box>
-                  <Typography sx={uploadCompletedStyles.successText}>
-                    Your resume is processed successfully!
+                ))}
+              </Box>
+            </Paper>
+          </>
+        )}
+
+        {/* Results Tab */}
+        {selectedMode === 'Results' && (
+          <>
+            {processedFiles.length > 0 ? (
+              <Paper elevation={0} sx={{ p: 3, mb: 3 }}>
+                <Typography variant="h6" sx={{ mb: 3 }}>📋 Processing Results</Typography>
+                
+                {/* Results Summary */}
+                <Box sx={{ mb: 3 }}>
+                  <Typography variant="body2" color="text.secondary">
+                    {processedFiles.filter(f => f.status === 'completed').length} of {processedFiles.length} files processed successfully
                   </Typography>
-                  <Box sx={uploadCompletedStyles.buttonRow}>
-                    <Button
-                      variant="text"
-                      sx={uploadCompletedStyles.uploadNewButton}
-                      onClick={handleReset}
-                    >
-                      Upload a new file
-                    </Button>
+                </Box>
+                
+                {/* Table Header */}
+                <Box sx={{ 
+                  display: 'grid', 
+                  gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', 
+                  gap: 2, 
+                  p: 2, 
+                  bgcolor: 'grey.100',
+                  borderRadius: 1,
+                  mb: 1
+                }}>
+                  <Typography variant="subtitle2" fontWeight="bold">File Name</Typography>
+                  <Typography variant="subtitle2" fontWeight="bold">Role</Typography>
+                  <Typography variant="subtitle2" fontWeight="bold">Optimization</Typography>
+                  <Typography variant="subtitle2" fontWeight="bold">Status</Typography>
+                  <Typography variant="subtitle2" fontWeight="bold">Action</Typography>
+                </Box>
 
-                    <Button
-                      variant="contained"
-                      sx={uploadCompletedStyles.downloadButton}
-                      onClick={handleDownload}
-                    >
-                      <span className="material-symbols-outlined" style={{ fontSize: '20px', marginRight: '8px' }}>
-                        download
-                      </span>
-                      Download crafted file
-                    </Button>
-                  </Box>
-                </Paper>
-
-                <Paper elevation={0} sx={uploadProgressStyles.logsCard}>
-                  <Typography sx={uploadProgressStyles.logsTitle}>Processing logs</Typography>
-                  <Box sx={uploadProgressStyles.logsInnerBox}>
-                    {logs.map((log, idx) => (
-                      <Box key={idx} sx={uploadProgressStyles.logItem}>
-                        <span className="material-symbols-outlined" style={{ fontSize: '16px', color: '#4CAF50' }}>
-                          check_circle
-                        </span>
-                        <span style={{ ml: 1 }}>{log}</span>
-                      </Box>
-                    ))}
-                  </Box>
-                </Paper>
-              </>
-            ) : (
-              /* Complex mode with multiple files - show table */
-              <>
-                <Paper elevation={0} sx={{ p: 3, mb: 3 }}>
-                  <Box sx={{ textAlign: 'center', mb: 3 }}>
-                    <Box sx={uploadCompletedStyles.successIcon}>
-                      <span className="material-symbols-outlined" style={{ fontSize: '64px' }}>
-                        check_circle
-                      </span>
-                    </Box>
-                    <Typography variant="h5" sx={{ mt: 2, mb: 1 }}>
-                      Processing Complete!
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {processedFiles.filter(f => f.status === 'completed').length} of {processedFiles.length} files processed successfully
-                    </Typography>
-                  </Box>
-
-                  <Typography variant="h6" sx={{ mb: 2 }}>📋 Processed Files</Typography>
-                  
-                  {/* Table Header */}
-                  <Box sx={{ 
+                {/* Table Rows */}
+                {processedFiles.map((file, index) => (
+                  <Box key={index} sx={{ 
                     display: 'grid', 
                     gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', 
                     gap: 2, 
                     p: 2, 
-                    bgcolor: 'grey.100',
-                    borderRadius: 1,
-                    mb: 1
+                    borderBottom: '1px solid',
+                    borderColor: 'divider',
+                    '&:hover': { bgcolor: 'grey.50' }
                   }}>
-                    <Typography variant="subtitle2" fontWeight="bold">File Name</Typography>
-                    <Typography variant="subtitle2" fontWeight="bold">Role</Typography>
-                    <Typography variant="subtitle2" fontWeight="bold">Optimization</Typography>
-                    <Typography variant="subtitle2" fontWeight="bold">Status</Typography>
-                    <Typography variant="subtitle2" fontWeight="bold">Action</Typography>
-                  </Box>
-
-                  {/* Table Rows */}
-                  {processedFiles.map((file, index) => (
-                    <Box key={index} sx={{ 
-                      display: 'grid', 
-                      gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', 
-                      gap: 2, 
-                      p: 2, 
-                      borderBottom: '1px solid',
-                      borderColor: 'divider',
-                      '&:hover': { bgcolor: 'grey.50' }
-                    }}>
-                      <Typography variant="body2" noWrap>{file.originalName}</Typography>
-                      <Typography variant="body2" noWrap>{customRoleTitle || selectedFormat}</Typography>
-                      <Typography variant="body2">
-                        {optimizationMethod === 'none' ? 'None' : 
-                         optimizationMethod === 'description' ? 'Job Desc' : 'RFP'}
-                      </Typography>
-                      <Box>
-                        {file.status === 'completed' ? (
-                          <Typography variant="body2" color="success.main">✓ Success</Typography>
-                        ) : (
-                          <Typography variant="body2" color="error.main">✗ Failed</Typography>
-                        )}
-                      </Box>
-                      <Box>
-                        {file.status === 'completed' ? (
-                          <Button
-                            size="small"
-                            variant="outlined"
-                            onClick={() => handleDownloadSingle(file.sessionId, file.originalName)}
-                          >
-                            Download
-                          </Button>
-                        ) : (
-                          <Typography variant="caption" color="text.secondary">N/A</Typography>
-                        )}
-                      </Box>
+                    <Typography variant="body2" noWrap>{file.originalName}</Typography>
+                    <Typography variant="body2" noWrap>{customRoleTitle || selectedFormat}</Typography>
+                    <Typography variant="body2">
+                      {optimizationMethod === 'none' ? 'None' : 
+                       optimizationMethod === 'description' ? 'Job Desc' : 'RFP'}
+                    </Typography>
+                    <Box>
+                      {file.status === 'completed' ? (
+                        <Typography variant="body2" color="success.main">✓ Success</Typography>
+                      ) : (
+                        <Typography variant="body2" color="error.main">✗ Failed</Typography>
+                      )}
                     </Box>
-                  ))}
-
-                  <Box sx={{ mt: 3, textAlign: 'center' }}>
-                    <Button
-                      variant="contained"
-                      onClick={handleReset}
-                      sx={{ mr: 2 }}
-                    >
-                      Process New Files
-                    </Button>
-                    {processedFiles.filter(f => f.status === 'completed').length > 1 && (
-                      <Button
-                        variant="outlined"
-                        onClick={handleDownloadAll}
-                      >
-                        Download All
-                      </Button>
-                    )}
+                    <Box>
+                      {file.status === 'completed' ? (
+                        <Button
+                          size="small"
+                          variant="outlined"
+                          onClick={() => handleDownloadSingle(file.sessionId, file.originalName)}
+                        >
+                          Download
+                        </Button>
+                      ) : (
+                        <Typography variant="caption" color="text.secondary">N/A</Typography>
+                      )}
+                    </Box>
                   </Box>
-                </Paper>
-              </>
+                ))}
+
+                <Box sx={{ mt: 3, textAlign: 'center' }}>
+                  <Button
+                    variant="contained"
+                    onClick={handleReset}
+                    sx={{ mr: 2 }}
+                  >
+                    Process New Files
+                  </Button>
+                  {processedFiles.filter(f => f.status === 'completed').length > 1 && (
+                    <Button
+                      variant="outlined"
+                      onClick={handleDownloadAll}
+                    >
+                      Download All
+                    </Button>
+                  )}
+                </Box>
+              </Paper>
+            ) : (
+              <Paper elevation={0} sx={appStyles.uploadCard}>
+                <Box sx={appStyles.uploadIcon}>
+                  <span className="material-symbols-outlined" style={{ fontSize: '64px' }}>
+                    table_chart
+                  </span>
+                </Box>
+                <Typography variant="body1" sx={appStyles.uploadText}>
+                  No results available yet
+                </Typography>
+                <Typography variant="body2" sx={appStyles.subText}>
+                  Process some files first to see results here
+                </Typography>
+                <Button 
+                  variant="contained" 
+                  color="primary" 
+                  sx={appStyles.uploadButton}
+                  onClick={() => setSelectedMode('Simple Mode')}
+                >
+                  Start Processing
+                </Button>
+              </Paper>
             )}
           </>
         )}
