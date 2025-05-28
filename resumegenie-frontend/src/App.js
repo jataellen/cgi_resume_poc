@@ -410,13 +410,11 @@ function AppWrapper() {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        mt: 8, // Account for top bar
-        pt: 3,
+        pt: { xs: 8, sm: 11 }, // Account for top bar
         pb: 3,
         px: 3,
-        minHeight: 'calc(100vh - 64px)',
-        marginLeft: { xs: 0, sm: '320px' }, // Account for sidebar
-        width: { xs: '100%', sm: 'auto' } // Let it naturally fill the space
+        minHeight: '100vh',
+        overflow: 'auto'
       }}>
         <Fade in={true} timeout={800}>
           <Box sx={{ 
