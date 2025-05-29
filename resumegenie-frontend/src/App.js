@@ -8,7 +8,7 @@ import {
 import { styled } from '@mui/material/styles';
 import TopBar from './TopBar';
 import SideBar from './SideBar';
-import apiService from './services/apiService';
+import apiService, { setAuthInstance } from './services/apiService';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Auth from './components/Auth';
 
@@ -167,6 +167,11 @@ const CGIToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
 function AppWrapper() {
   const auth = useAuth();
   const { user, loading, isSupabaseConfigured } = auth;
+  
+  // Set auth instance for API service
+  useEffect(() => {
+    setAuthInstance(auth);
+  }, [auth]);
   
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedFiles, setSelectedFiles] = useState([]);
