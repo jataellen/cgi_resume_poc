@@ -168,6 +168,11 @@ function AppWrapper() {
   const auth = useAuth();
   const { user, loading, isSupabaseConfigured } = auth;
   
+  // Set auth instance for API service
+  useEffect(() => {
+    apiService.setAuthInstance(auth);
+  }, [auth]);
+  
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
