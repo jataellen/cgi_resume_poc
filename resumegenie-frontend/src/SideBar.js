@@ -181,14 +181,14 @@ function SideBar({ selectedMode, onModeChange }) {
               fontWeight: 600,
               mb: 1 
             }}>
-              Need Help?
+              Help us improve!
             </Typography>
             <Typography variant="caption" sx={{ 
               color: cgiColors.darkGray,
               display: 'block',
               lineHeight: 1.4
             }}>
-              Contact support for assistance with resume processing
+              Report bugs and issues: https://forms.office.com/Pages/DesignPageV2.aspx?origin=NeoPortalPage&subpage=design&id=jMb-uS3JHkaalz0DoPGLggNy9r1fPYlKr5k30PYAjzFUMURDVkxBT1c3NE1MMzVQS0tFQkM4SzY4OS4u&analysis=false
             </Typography>
           </Box>
         </Box>

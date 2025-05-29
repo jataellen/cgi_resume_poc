@@ -3,7 +3,8 @@ import {
   CssBaseline, Box, Typography, Button, CircularProgress, LinearProgress,
   FormControl, InputLabel, Select, MenuItem, TextField, Checkbox,
   FormControlLabel, ToggleButtonGroup, ToggleButton, Card, CardContent,
-  Stepper, Step, StepLabel, Chip, Fade, Zoom
+  Stepper, Step, StepLabel, Chip, Fade, Zoom, Table, TableBody,
+  TableCell, TableContainer, TableHead, TableRow, Paper, IconButton
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import TopBar from './TopBar';
@@ -191,6 +192,7 @@ function AppWrapper() {
   const [jobDescription, setJobDescription] = useState('');
   const [rfpFile, setRfpFile] = useState(null);
   const [currentStep, setCurrentStep] = useState(0);
+  const [processedFiles, setProcessedFiles] = useState([]);
   
   const statusIntervalRef = useRef(null);
 
@@ -227,6 +229,19 @@ function AppWrapper() {
       if (status.status === 'completed') {
         setIsUploading(false);
         setIsCompleted(true);
+        
+        // Add to processed files
+        const newFile = {
+          id: sessionId,
+          name: selectedFile?.name || 'Unknown',
+          status: 'completed',
+          downloadUrl: status.downloadUrl,
+          processedAt: new Date().toISOString(),
+        };
+        setProcessedFiles(prev => [...prev, newFile]);
+        
+        // Switch to Results tab
+        setSelectedMode('Results');
         
         if (statusIntervalRef.current) {
           clearInterval(statusIntervalRef.current);
@@ -351,8 +366,22 @@ function AppWrapper() {
         }
       }
       
+      // Add all processed files to the processedFiles list
+      const newProcessedFiles = results.map(result => ({
+        id: result.sessionId || Math.random().toString(36).substr(2, 9),
+        name: result.originalName,
+        status: result.status,
+        downloadUrl: result.downloadUrl,
+        error: result.error,
+        processedAt: new Date().toISOString(),
+      }));
+      setProcessedFiles(prev => [...prev, ...newProcessedFiles]);
+      
       setIsCompleted(true);
       setIsUploading(false);
+      
+      // Switch to Results tab
+      setSelectedMode('Results');
       
     } catch (err) {
       console.error('Upload error:', err);
@@ -481,7 +510,86 @@ function AppWrapper() {
           </Zoom>
         )}
 
-        {!isUploading && !isCompleted && selectedMode !== 'Results' && (
+        {selectedMode === 'Results' && (
+          <Fade in={true} timeout={1000}>
+            <Box sx={{ 
+              width: '100%', 
+              maxWidth: '1200px'
+            }}>
+              <StyledCard>
+                <CardContent sx={{ p: 4 }}>
+                  <Typography variant="h5" sx={{ mb: 3, color: cgiColors.primary, fontWeight: 600 }}>
+                    Processed Files
+                  </Typography>
+                  <TableContainer component={Paper} elevation={0}>
+                    <Table>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>File Name</TableCell>
+                          <TableCell>Status</TableCell>
+                          <TableCell>Processed At</TableCell>
+                          <TableCell>Actions</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {processedFiles.length === 0 ? (
+                          <TableRow>
+                            <TableCell colSpan={4} align="center" sx={{ py: 4 }}>
+                              <Typography variant="body1" color="text.secondary">
+                                No files processed yet. Upload files in Simple or Advanced mode to see them here.
+                              </Typography>
+                            </TableCell>
+                          </TableRow>
+                        ) : (
+                          processedFiles.map((file) => (
+                            <TableRow key={file.id}>
+                              <TableCell>{file.name}</TableCell>
+                              <TableCell>
+                                <Chip 
+                                  label={file.status} 
+                                  color={file.status === 'completed' ? 'success' : 'error'}
+                                  size="small"
+                                />
+                              </TableCell>
+                              <TableCell>{new Date(file.processedAt).toLocaleString()}</TableCell>
+                              <TableCell>
+                                {file.downloadUrl && (
+                                  <Button
+                                    variant="outlined"
+                                    size="small"
+                                    onClick={async () => {
+                                      try {
+                                        const blob = await apiService.downloadResume(file.id);
+                                        const url = URL.createObjectURL(blob);
+                                        const a = document.createElement('a');
+                                        a.href = url;
+                                        a.download = file.name.replace(/\.(pdf|docx?)$/i, '_updated.docx');
+                                        document.body.appendChild(a);
+                                        a.click();
+                                        document.body.removeChild(a);
+                                        URL.revokeObjectURL(url);
+                                      } catch (err) {
+                                        setError('Failed to download file');
+                                      }
+                                    }}
+                                  >
+                                    Download
+                                  </Button>
+                                )}
+                              </TableCell>
+                            </TableRow>
+                          ))
+                        )}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </CardContent>
+              </StyledCard>
+            </Box>
+          </Fade>
+        )}
+
+        {selectedMode !== 'Results' && (
           <Fade in={true} timeout={1000}>
             <Box sx={{ 
               width: '100%', 
@@ -816,40 +924,6 @@ function AppWrapper() {
           </Fade>
         )}
 
-        {isCompleted && (
-          <Fade in={true}>
-            <Box sx={{ 
-              maxWidth: 800, 
-              width: '100%'
-            }}>
-              <StyledCard sx={{ mb: 3 }}>
-                <CardContent sx={{ p: 4, textAlign: 'center' }}>
-                  <SuccessIcon sx={{ mb: 3 }}>
-                    <span className="material-symbols-outlined">check_circle</span>
-                  </SuccessIcon>
-                  <Typography variant="h4" sx={{ mb: 3, color: cgiColors.primary, fontWeight: 700 }}>
-                    Your resume is processed successfully!
-                  </Typography>
-                  <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
-                    <CGIButton
-                      variant="outlined"
-                      onClick={handleReset}
-                    >
-                      Upload a new file
-                    </CGIButton>
-                    <GradientButton
-                      onClick={handleDownload}
-                      sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
-                    >
-                      <span className="material-symbols-outlined">download</span>
-                      Download crafted file
-                    </GradientButton>
-                  </Box>
-                </CardContent>
-              </StyledCard>
-            </Box>
-          </Fade>
-        )}
       </Box>
     </Box>
   );
