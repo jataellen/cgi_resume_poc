@@ -7,12 +7,14 @@ import {
   ListItemIcon,
   Toolbar,
   Box,
-  Typography
+  Typography,
+  Button
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import HomeIcon from '@mui/icons-material/Home';
 import DescriptionIcon from '@mui/icons-material/Description';
 import TableChartIcon from '@mui/icons-material/TableChart';
+import BugReportIcon from '@mui/icons-material/BugReport';
 
 // CGI Theme Colors
 const cgiColors = {
@@ -179,17 +181,32 @@ function SideBar({ selectedMode, onModeChange }) {
             <Typography variant="body2" sx={{ 
               color: cgiColors.primary, 
               fontWeight: 600,
-              mb: 1 
+              mb: 2 
             }}>
               Help us improve!
             </Typography>
-            <Typography variant="caption" sx={{ 
-              color: cgiColors.darkGray,
-              display: 'block',
-              lineHeight: 1.4
-            }}>
-              Report bugs and issues: https://forms.office.com/Pages/DesignPageV2.aspx?origin=NeoPortalPage&subpage=design&id=jMb-uS3JHkaalz0DoPGLggNy9r1fPYlKr5k30PYAjzFUMURDVkxBT1c3NE1MMzVQS0tFQkM4SzY4OS4u&analysis=false
-            </Typography>
+            <Button
+              variant="contained"
+              startIcon={<BugReportIcon />}
+              onClick={() => window.open('https://forms.office.com/Pages/DesignPageV2.aspx?origin=NeoPortalPage&subpage=design&id=jMb-uS3JHkaalz0DoPGLggNy9r1fPYlKr5k30PYAjzFUMURDVkxBT1c3NE1MMzVQS0tFQkM4SzY4OS4u&analysis=false', '_blank')}
+              sx={{
+                background: cgiColors.gradient,
+                color: cgiColors.white,
+                textTransform: 'none',
+                fontWeight: 600,
+                borderRadius: '8px',
+                padding: '8px 16px',
+                fontSize: '14px',
+                boxShadow: '0 4px 15px rgba(82, 54, 171, 0.3)',
+                '&:hover': {
+                  background: cgiColors.gradient,
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 6px 20px rgba(82, 54, 171, 0.4)'
+                }
+              }}
+            >
+              Report bugs and issues
+            </Button>
           </Box>
         </Box>
       </Box>

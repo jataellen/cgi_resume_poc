@@ -165,6 +165,17 @@ const CGIToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
   }
 }));
 
+const SuccessIcon = styled(Box)(({ theme }) => ({
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  '& .material-symbols-outlined': {
+    fontSize: '72px',
+    color: cgiColors.success,
+    fontWeight: 600
+  }
+}));
+
 function AppWrapper() {
   const auth = useAuth();
   const { user, loading, isSupabaseConfigured } = auth;
@@ -239,9 +250,6 @@ function AppWrapper() {
           processedAt: new Date().toISOString(),
         };
         setProcessedFiles(prev => [...prev, newFile]);
-        
-        // Switch to Results tab
-        setSelectedMode('Results');
         
         if (statusIntervalRef.current) {
           clearInterval(statusIntervalRef.current);
@@ -379,9 +387,6 @@ function AppWrapper() {
       
       setIsCompleted(true);
       setIsUploading(false);
-      
-      // Switch to Results tab
-      setSelectedMode('Results');
       
     } catch (err) {
       console.error('Upload error:', err);
@@ -589,7 +594,7 @@ function AppWrapper() {
           </Fade>
         )}
 
-        {selectedMode !== 'Results' && (
+        {!isUploading && !isCompleted && selectedMode !== 'Results' && (
           <Fade in={true} timeout={1000}>
             <Box sx={{ 
               width: '100%', 
@@ -917,6 +922,41 @@ function AppWrapper() {
                         </Box>
                       );
                     })}
+                  </Box>
+                </CardContent>
+              </StyledCard>
+            </Box>
+          </Fade>
+        )}
+
+        {isCompleted && selectedMode !== 'Results' && (
+          <Fade in={true}>
+            <Box sx={{ 
+              maxWidth: 800, 
+              width: '100%'
+            }}>
+              <StyledCard sx={{ mb: 3 }}>
+                <CardContent sx={{ p: 4, textAlign: 'center' }}>
+                  <SuccessIcon sx={{ mb: 3 }}>
+                    <span className="material-symbols-outlined">check_circle</span>
+                  </SuccessIcon>
+                  <Typography variant="h4" sx={{ mb: 3, color: cgiColors.primary, fontWeight: 700 }}>
+                    Your resume is processed successfully!
+                  </Typography>
+                  <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
+                    <CGIButton
+                      variant="outlined"
+                      onClick={handleReset}
+                    >
+                      Upload a new file
+                    </CGIButton>
+                    <GradientButton
+                      onClick={() => setSelectedMode('Results')}
+                      sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+                    >
+                      <span className="material-symbols-outlined">folder_open</span>
+                      View Results
+                    </GradientButton>
                   </Box>
                 </CardContent>
               </StyledCard>
