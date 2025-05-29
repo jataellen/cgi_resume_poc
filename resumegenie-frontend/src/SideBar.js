@@ -7,12 +7,14 @@ import {
   ListItemIcon,
   Toolbar,
   Box,
-  Typography
+  Typography,
+  Button
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import HomeIcon from '@mui/icons-material/Home';
 import DescriptionIcon from '@mui/icons-material/Description';
 import TableChartIcon from '@mui/icons-material/TableChart';
+import BugReportIcon from '@mui/icons-material/BugReport';
 
 // CGI Theme Colors
 const cgiColors = {
@@ -179,17 +181,31 @@ function SideBar({ selectedMode, onModeChange }) {
             <Typography variant="body2" sx={{ 
               color: cgiColors.primary, 
               fontWeight: 600,
-              mb: 1 
+              mb: 2 
             }}>
-              Need Help?
+              Help us improve!
             </Typography>
-            <Typography variant="caption" sx={{ 
-              color: cgiColors.darkGray,
-              display: 'block',
-              lineHeight: 1.4
-            }}>
-              Contact support for assistance with resume processing
-            </Typography>
+            <Button
+              variant="outlined"
+              startIcon={<BugReportIcon />}
+              onClick={() => window.open('https://forms.office.com/Pages/DesignPageV2.aspx?origin=NeoPortalPage&subpage=design&id=jMb-uS3JHkaalz0DoPGLggNy9r1fPYlKr5k30PYAjzFUMURDVkxBT1c3NE1MMzVQS0tFQkM4SzY4OS4u&analysis=false', '_blank')}
+              sx={{
+                borderColor: cgiColors.primary,
+                color: cgiColors.primary,
+                textTransform: 'none',
+                fontWeight: 500,
+                borderRadius: '8px',
+                padding: '6px 14px',
+                fontSize: '13px',
+                '&:hover': {
+                  borderColor: cgiColors.primary,
+                  backgroundColor: `${cgiColors.primary}10`,
+                  transform: 'translateY(-1px)'
+                }
+              }}
+            >
+              Report bugs and issues
+            </Button>
           </Box>
         </Box>
       </Box>

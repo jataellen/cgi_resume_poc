@@ -3,7 +3,8 @@ import {
   CssBaseline, Box, Typography, Button, CircularProgress, LinearProgress,
   FormControl, InputLabel, Select, MenuItem, TextField, Checkbox,
   FormControlLabel, ToggleButtonGroup, ToggleButton, Card, CardContent,
-  Stepper, Step, StepLabel, Chip, Fade, Zoom
+  Stepper, Step, StepLabel, Chip, Fade, Zoom, Table, TableBody,
+  TableCell, TableContainer, TableHead, TableRow, Paper, IconButton
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import TopBar from './TopBar';
@@ -173,32 +174,48 @@ function AppWrapper() {
     setAuthInstance(auth);
   }, [auth]);
   
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [selectedFiles, setSelectedFiles] = useState([]);
-  const [isUploading, setIsUploading] = useState(false);
-  const [isCompleted, setIsCompleted] = useState(false);
-  const [logs, setLogs] = useState([]);
-  const [progress, setProgress] = useState(0);
-  const [sessionId, setSessionId] = useState(null);
-  const [error, setError] = useState(null);
   const [selectedMode, setSelectedMode] = useState('Simple Mode');
+  const [processedFiles, setProcessedFiles] = useState([]);
+  const [error, setError] = useState(null);
+  
+  // Simple mode states
+  const [simpleState, setSimpleState] = useState({
+    selectedFile: null,
+    isUploading: false,
+    isCompleted: false,
+    logs: [],
+    progress: 0,
+    sessionId: null
+  });
   
   // Advanced mode states
-  const [selectedFormat, setSelectedFormat] = useState('Developer');
-  const [customRoleTitle, setCustomRoleTitle] = useState('');
-  const [includeDefaultCgi, setIncludeDefaultCgi] = useState(false);
-  const [optimizationMethod, setOptimizationMethod] = useState('none');
-  const [jobDescription, setJobDescription] = useState('');
-  const [rfpFile, setRfpFile] = useState(null);
-  const [currentStep, setCurrentStep] = useState(0);
+  const [advancedState, setAdvancedState] = useState({
+    selectedFiles: [],
+    isUploading: false,
+    isCompleted: false,
+    logs: [],
+    progress: 0,
+    sessionIds: [],
+    selectedFormat: 'Developer',
+    customRoleTitle: '',
+    includeDefaultCgi: false,
+    optimizationMethod: 'none',
+    jobDescription: '',
+    rfpFile: null,
+    currentStep: 0
+  });
   
-  const statusIntervalRef = useRef(null);
+  const simpleStatusIntervalRef = useRef(null);
+  const advancedStatusIntervalRef = useRef(null);
 
   // ALL HOOKS MUST BE AT THE TOP - BEFORE ANY RETURNS
   useEffect(() => {
     return () => {
-      if (statusIntervalRef.current) {
-        clearInterval(statusIntervalRef.current);
+      if (simpleStatusIntervalRef.current) {
+        clearInterval(simpleStatusIntervalRef.current);
+      }
+      if (advancedStatusIntervalRef.current) {
+        clearInterval(advancedStatusIntervalRef.current);
       }
     };
   }, []);
@@ -212,43 +229,66 @@ function AppWrapper() {
     );
   }
 
-  // If Supabase is configured and user is not authenticated, show auth screen
-  if (isSupabaseConfigured && !user) {
+  // If user is not authenticated, show auth screen
+  if (!user) {
     return <Auth />;
   }
 
-  const pollStatus = async (sessionId) => {
+  const pollSimpleStatus = async (sessionId, fileName) => {
     try {
       const status = await apiService.getStatus(sessionId);
       
-      setLogs(status.logs);
-      setProgress(status.progress);
+      setSimpleState(prev => ({
+        ...prev,
+        logs: status.logs,
+        progress: status.progress
+      }));
       
       if (status.status === 'completed') {
-        setIsUploading(false);
-        setIsCompleted(true);
+        setSimpleState(prev => ({
+          ...prev,
+          isUploading: false,
+          isCompleted: true
+        }));
         
-        if (statusIntervalRef.current) {
-          clearInterval(statusIntervalRef.current);
-          statusIntervalRef.current = null;
+        // Add to processed files
+        const newFile = {
+          id: sessionId,
+          name: fileName || 'Unknown',
+          status: 'completed',
+          downloadUrl: status.downloadUrl,
+          processedAt: new Date().toISOString(),
+          uploadType: 'Simple'
+        };
+        setProcessedFiles(prev => [...prev, newFile]);
+        
+        if (simpleStatusIntervalRef.current) {
+          clearInterval(simpleStatusIntervalRef.current);
+          simpleStatusIntervalRef.current = null;
         }
       } else if (status.status === 'error') {
-        setIsUploading(false);
+        setSimpleState(prev => ({
+          ...prev,
+          isUploading: false
+        }));
         setError(status.error || 'An error occurred during processing');
         
-        if (statusIntervalRef.current) {
-          clearInterval(statusIntervalRef.current);
-          statusIntervalRef.current = null;
+        if (simpleStatusIntervalRef.current) {
+          clearInterval(simpleStatusIntervalRef.current);
+          simpleStatusIntervalRef.current = null;
         }
       }
     } catch (err) {
       console.error('Error polling status:', err);
       setError(err.message);
-      setIsUploading(false);
+      setSimpleState(prev => ({
+        ...prev,
+        isUploading: false
+      }));
       
-      if (statusIntervalRef.current) {
-        clearInterval(statusIntervalRef.current);
-        statusIntervalRef.current = null;
+      if (simpleStatusIntervalRef.current) {
+        clearInterval(simpleStatusIntervalRef.current);
+        simpleStatusIntervalRef.current = null;
       }
     }
   };
@@ -262,43 +302,58 @@ function AppWrapper() {
       return;
     }
 
-    setSelectedFile(file);
-    setIsUploading(true);
-    setIsCompleted(false);
+    setSimpleState(prev => ({
+      ...prev,
+      selectedFile: file,
+      isUploading: true,
+      isCompleted: false,
+      logs: [],
+      progress: 0
+    }));
     setError(null);
-    setLogs([]);
-    setProgress(0);
 
     try {
       const uploadResult = await apiService.uploadResume(file);
-      setSessionId(uploadResult.sessionId);
+      setSimpleState(prev => ({
+        ...prev,
+        sessionId: uploadResult.sessionId
+      }));
       
-      statusIntervalRef.current = setInterval(() => {
-        pollStatus(uploadResult.sessionId);
+      simpleStatusIntervalRef.current = setInterval(() => {
+        pollSimpleStatus(uploadResult.sessionId, file.name);
       }, 1000);
       
     } catch (err) {
       console.error('Upload error:', err);
       setError(err.message);
-      setIsUploading(false);
+      setSimpleState(prev => ({
+        ...prev,
+        isUploading: false
+      }));
     }
   };
 
   const handleAdvancedUpload = async () => {
-    if (selectedFiles.length === 0) return;
+    if (advancedState.selectedFiles.length === 0) return;
 
-    setIsUploading(true);
-    setIsCompleted(false);
+    setAdvancedState(prev => ({
+      ...prev,
+      isUploading: true,
+      isCompleted: false,
+      logs: [],
+      progress: 0
+    }));
     setError(null);
-    setLogs([]);
-    setProgress(0);
 
     try {
       const results = [];
       
-      for (let i = 0; i < selectedFiles.length; i++) {
-        const file = selectedFiles[i];
-        setLogs(prev => [...prev, `Processing file ${i + 1}/${selectedFiles.length}: ${file.name}`]);
+      for (let i = 0; i < advancedState.selectedFiles.length; i++) {
+        const file = advancedState.selectedFiles[i];
+        setAdvancedState(prev => ({
+          ...prev,
+          logs: [...prev.logs, `Processing file ${i + 1}/${advancedState.selectedFiles.length}: ${file.name}`]
+        }));
         
         try {
           const uploadResult = await apiService.uploadResume(file);
@@ -309,19 +364,25 @@ function AppWrapper() {
                 const status = await apiService.getStatus(uploadResult.sessionId);
                 
                 if (status.logs && status.logs.length > 0) {
-                  setLogs(prev => {
-                    const newLogs = [...prev];
+                  setAdvancedState(prev => {
+                    const newLogs = [...prev.logs];
                     status.logs.forEach(log => {
                       if (!newLogs.includes(log) && !log.includes(file.name)) {
                         newLogs.push(log);
                       }
                     });
-                    return newLogs;
+                    return {
+                      ...prev,
+                      logs: newLogs
+                    };
                   });
                 }
                 
-                const fileProgress = (i / selectedFiles.length) * 100 + (status.progress / selectedFiles.length);
-                setProgress(fileProgress);
+                const fileProgress = (i / advancedState.selectedFiles.length) * 100 + (status.progress / advancedState.selectedFiles.length);
+                setAdvancedState(prev => ({
+                  ...prev,
+                  progress: fileProgress
+                }));
                 
                 if (status.status === 'completed' || status.status === 'error') {
                   clearInterval(intervalId);
@@ -351,26 +412,44 @@ function AppWrapper() {
         }
       }
       
-      setIsCompleted(true);
-      setIsUploading(false);
+      // Add all processed files to the processedFiles list
+      const newProcessedFiles = results.map(result => ({
+        id: result.sessionId || Math.random().toString(36).substr(2, 9),
+        name: result.originalName,
+        status: result.status,
+        downloadUrl: result.downloadUrl,
+        error: result.error,
+        processedAt: new Date().toISOString(),
+        uploadType: 'Advanced'
+      }));
+      setProcessedFiles(prev => [...prev, ...newProcessedFiles]);
+      
+      setAdvancedState(prev => ({
+        ...prev,
+        isCompleted: true,
+        isUploading: false
+      }));
       
     } catch (err) {
       console.error('Upload error:', err);
       setError(err.message);
-      setIsUploading(false);
+      setAdvancedState(prev => ({
+        ...prev,
+        isUploading: false
+      }));
     }
   };
 
   const handleDownload = async () => {
-    if (!sessionId) return;
+    if (!simpleState.sessionId) return;
 
     try {
-      const blob = await apiService.downloadResume(sessionId);
+      const blob = await apiService.downloadResume(simpleState.sessionId);
       
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = selectedFile.name.replace(/\.(pdf|docx)$/i, '_updated.docx');
+      a.download = simpleState.selectedFile.name.replace(/\.(pdf|docx)$/i, '_updated.docx');
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -381,19 +460,42 @@ function AppWrapper() {
     }
   };
 
-  const handleReset = () => {
-    setIsCompleted(false);
-    setSelectedFile(null);
-    setSelectedFiles([]);
-    setLogs([]);
-    setSessionId(null);
-    setProgress(0);
+  const handleSimpleReset = () => {
+    setSimpleState({
+      selectedFile: null,
+      isUploading: false,
+      isCompleted: false,
+      logs: [],
+      progress: 0,
+      sessionId: null
+    });
     setError(null);
-    setIsUploading(false);
-    setCurrentStep(0);
     
     if (selectedMode === 'Results') {
       setSelectedMode('Simple Mode');
+    }
+  };
+  
+  const handleAdvancedReset = () => {
+    setAdvancedState({
+      selectedFiles: [],
+      isUploading: false,
+      isCompleted: false,
+      logs: [],
+      progress: 0,
+      sessionIds: [],
+      selectedFormat: 'Developer',
+      customRoleTitle: '',
+      includeDefaultCgi: false,
+      optimizationMethod: 'none',
+      jobDescription: '',
+      rfpFile: null,
+      currentStep: 0
+    });
+    setError(null);
+    
+    if (selectedMode === 'Results') {
+      setSelectedMode('Advanced Mode');
     }
   };
 
@@ -481,7 +583,135 @@ function AppWrapper() {
           </Zoom>
         )}
 
-        {!isUploading && !isCompleted && selectedMode !== 'Results' && (
+        {selectedMode === 'Results' && (
+          <Fade in={true} timeout={1000}>
+            <Box sx={{ 
+              width: '100%', 
+              maxWidth: '1200px'
+            }}>
+              <StyledCard>
+                <CardContent sx={{ p: 4 }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+                    <Typography variant="h5" sx={{ color: cgiColors.primary, fontWeight: 600 }}>
+                      Processed Files
+                    </Typography>
+                    {processedFiles.length > 0 && (
+                      <Button
+                        variant="contained"
+                        onClick={async () => {
+                          try {
+                            for (const file of processedFiles) {
+                              if (file.downloadUrl && file.status === 'completed') {
+                                const blob = await apiService.downloadResume(file.id);
+                                const url = URL.createObjectURL(blob);
+                                const a = document.createElement('a');
+                                a.href = url;
+                                a.download = file.name.replace(/\.(pdf|docx?)$/i, '_updated.docx');
+                                document.body.appendChild(a);
+                                a.click();
+                                document.body.removeChild(a);
+                                URL.revokeObjectURL(url);
+                                // Add delay between downloads
+                                await new Promise(resolve => setTimeout(resolve, 500));
+                              }
+                            }
+                          } catch (err) {
+                            setError('Failed to download files');
+                          }
+                        }}
+                        sx={{
+                          background: cgiColors.gradient,
+                          color: cgiColors.white,
+                          textTransform: 'none',
+                          fontWeight: 600,
+                          '&:hover': {
+                            background: cgiColors.gradient,
+                            transform: 'translateY(-1px)'
+                          }
+                        }}
+                      >
+                        Download All
+                      </Button>
+                    )}
+                  </Box>
+                  <TableContainer component={Paper} elevation={0}>
+                    <Table>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>File Name</TableCell>
+                          <TableCell>Upload Type</TableCell>
+                          <TableCell>Status</TableCell>
+                          <TableCell>Processed At</TableCell>
+                          <TableCell>Actions</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {processedFiles.length === 0 ? (
+                          <TableRow>
+                            <TableCell colSpan={5} align="center" sx={{ py: 4 }}>
+                              <Typography variant="body1" color="text.secondary">
+                                No files processed yet. Upload files in Simple or Advanced mode to see them here.
+                              </Typography>
+                            </TableCell>
+                          </TableRow>
+                        ) : (
+                          processedFiles.map((file) => (
+                            <TableRow key={file.id}>
+                              <TableCell>{file.name}</TableCell>
+                              <TableCell>
+                                <Chip 
+                                  label={file.uploadType || 'Simple'} 
+                                  color={file.uploadType === 'Advanced' ? 'primary' : 'default'}
+                                  size="small"
+                                  variant="outlined"
+                                />
+                              </TableCell>
+                              <TableCell>
+                                <Chip 
+                                  label={file.status} 
+                                  color={file.status === 'completed' ? 'success' : 'error'}
+                                  size="small"
+                                />
+                              </TableCell>
+                              <TableCell>{new Date(file.processedAt).toLocaleString()}</TableCell>
+                              <TableCell>
+                                {file.downloadUrl && (
+                                  <Button
+                                    variant="outlined"
+                                    size="small"
+                                    onClick={async () => {
+                                      try {
+                                        const blob = await apiService.downloadResume(file.id);
+                                        const url = URL.createObjectURL(blob);
+                                        const a = document.createElement('a');
+                                        a.href = url;
+                                        a.download = file.name.replace(/\.(pdf|docx?)$/i, '_updated.docx');
+                                        document.body.appendChild(a);
+                                        a.click();
+                                        document.body.removeChild(a);
+                                        URL.revokeObjectURL(url);
+                                      } catch (err) {
+                                        setError('Failed to download file');
+                                      }
+                                    }}
+                                  >
+                                    Download
+                                  </Button>
+                                )}
+                              </TableCell>
+                            </TableRow>
+                          ))
+                        )}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </CardContent>
+              </StyledCard>
+            </Box>
+          </Fade>
+        )}
+
+        {selectedMode === 'Simple Mode' && !simpleState.isUploading && !simpleState.isCompleted && (
           <Fade in={true} timeout={1000}>
             <Box sx={{ 
               width: '100%', 
@@ -510,18 +740,30 @@ function AppWrapper() {
                           accept=".pdf,.docx"
                         />
                       </GradientButton>
-                      {selectedFile && (
+                      {simpleState.selectedFile && (
                         <Typography variant="body2" sx={{ mt: 2, color: cgiColors.primary, fontWeight: 500 }}>
-                          Selected: {selectedFile.name}
+                          Selected: {simpleState.selectedFile.name}
                         </Typography>
                       )}
                     </UploadZone>
                   </CardContent>
                 </StyledCard>
-              ) : (
+              ) : null}
+            </Box>
+          </Fade>
+        )}
+
+        {selectedMode === 'Advanced Mode' && !advancedState.isUploading && !advancedState.isCompleted && (
+          <Fade in={true} timeout={1000}>
+            <Box sx={{ 
+              width: '100%', 
+              display: 'flex', 
+              justifyContent: 'center'
+            }}>
+              {selectedMode === 'Advanced Mode' ? (
                 <StyledCard sx={{ maxWidth: 1000, width: '100%' }}>
                   <CardContent sx={{ p: 4 }}>
-                    <StepperStyled activeStep={currentStep} sx={{ mb: 4 }}>
+                    <StepperStyled activeStep={advancedState.currentStep} sx={{ mb: 4 }}>
                       {steps.map((label) => (
                         <Step key={label}>
                           <StepLabel>{label}</StepLabel>
@@ -536,11 +778,13 @@ function AppWrapper() {
                       <FormControl fullWidth sx={{ mb: 2 }}>
                         <InputLabel>Select Format</InputLabel>
                         <Select
-                          value={selectedFormat}
+                          value={advancedState.selectedFormat}
                           onChange={(e) => {
-                            setSelectedFormat(e.target.value);
-                            // Stay on step 1 (format selection is step 0)
-                            if (currentStep < 0) setCurrentStep(0);
+                            setAdvancedState(prev => ({
+                              ...prev,
+                              selectedFormat: e.target.value,
+                              currentStep: prev.currentStep < 0 ? 0 : prev.currentStep
+                            }));
                           }}
                           label="Select Format"
                           sx={{
@@ -560,8 +804,8 @@ function AppWrapper() {
                       <TextField
                         fullWidth
                         label="Enter specific role title (optional)"
-                        value={customRoleTitle}
-                        onChange={(e) => setCustomRoleTitle(e.target.value)}
+                        value={advancedState.customRoleTitle}
+                        onChange={(e) => setAdvancedState(prev => ({ ...prev, customRoleTitle: e.target.value }))}
                         placeholder="e.g. Senior Full Stack Developer"
                         helperText="E.g., 'Senior Full Stack Developer', 'Data Scientist', 'Project Manager'"
                         sx={{ 
@@ -577,8 +821,8 @@ function AppWrapper() {
                       <FormControlLabel
                         control={
                           <Checkbox
-                            checked={includeDefaultCgi}
-                            onChange={(e) => setIncludeDefaultCgi(e.target.checked)}
+                            checked={advancedState.includeDefaultCgi}
+                            onChange={(e) => setAdvancedState(prev => ({ ...prev, includeDefaultCgi: e.target.checked }))}
                             sx={{ color: cgiColors.primary }}
                           />
                         }
@@ -594,13 +838,15 @@ function AppWrapper() {
                         Step 2: Choose Optimization Method
                       </Typography>
                       <CGIToggleButtonGroup
-                        value={optimizationMethod}
+                        value={advancedState.optimizationMethod}
                         exclusive
                         onChange={(e, newMethod) => {
                           if (newMethod) {
-                            setOptimizationMethod(newMethod);
-                            // Move to step 2 when optimization method is selected
-                            if (currentStep < 1) setCurrentStep(1);
+                            setAdvancedState(prev => ({
+                              ...prev,
+                              optimizationMethod: newMethod,
+                              currentStep: prev.currentStep < 1 ? 1 : prev.currentStep
+                            }));
                           }
                         }}
                         sx={{ mb: 2, display: 'flex', flexWrap: 'wrap', gap: 1 }}
@@ -616,18 +862,20 @@ function AppWrapper() {
                         </ToggleButton>
                       </CGIToggleButtonGroup>
                       
-                      {optimizationMethod === 'description' && (
+                      {advancedState.optimizationMethod === 'description' && (
                         <Fade in={true}>
                           <TextField
                             fullWidth
                             multiline
                             rows={4}
                             label="Job Description"
-                            value={jobDescription}
+                            value={advancedState.jobDescription}
                             onChange={(e) => {
-                              setJobDescription(e.target.value);
-                              // Move to step 2 when typing in job description
-                              if (currentStep < 1) setCurrentStep(1);
+                              setAdvancedState(prev => ({
+                                ...prev,
+                                jobDescription: e.target.value,
+                                currentStep: prev.currentStep < 1 ? 1 : prev.currentStep
+                              }));
                             }}
                             placeholder="Paste job description here..."
                             sx={{
@@ -641,7 +889,7 @@ function AppWrapper() {
                         </Fade>
                       )}
                       
-                      {optimizationMethod === 'rfp' && (
+                      {advancedState.optimizationMethod === 'rfp' && (
                         <Fade in={true}>
                           <UploadZone sx={{ mt: 2 }}>
                             <input
@@ -650,9 +898,11 @@ function AppWrapper() {
                               hidden
                               accept=".pdf,.docx,.doc"
                               onChange={(e) => {
-                                setRfpFile(e.target.files[0]);
-                                // Move to step 2 when RFP file is uploaded
-                                if (currentStep < 1) setCurrentStep(1);
+                                setAdvancedState(prev => ({
+                                  ...prev,
+                                  rfpFile: e.target.files[0],
+                                  currentStep: prev.currentStep < 1 ? 1 : prev.currentStep
+                                }));
                               }}
                             />
                             <label htmlFor="rfp-upload">
@@ -660,9 +910,9 @@ function AppWrapper() {
                                 Upload RFP Document
                               </CGIButton>
                             </label>
-                            {rfpFile && (
+                            {advancedState.rfpFile && (
                               <Typography variant="body2" sx={{ mt: 1, color: cgiColors.primary }}>
-                                Selected: {rfpFile.name}
+                                Selected: {advancedState.rfpFile.name}
                               </Typography>
                             )}
                           </UploadZone>
@@ -692,20 +942,22 @@ function AppWrapper() {
                             hidden
                             multiple
                             onChange={(e) => {
-                              setSelectedFiles(Array.from(e.target.files));
-                              // Move to step 3 when files are selected
-                              if (currentStep < 2) setCurrentStep(2);
+                              setAdvancedState(prev => ({
+                                ...prev,
+                                selectedFiles: Array.from(e.target.files),
+                                currentStep: prev.currentStep < 2 ? 2 : prev.currentStep
+                              }));
                             }}
                             accept=".pdf,.docx,.doc"
                           />
                         </GradientButton>
-                        {selectedFiles.length > 0 && (
+                        {advancedState.selectedFiles.length > 0 && (
                           <Box sx={{ mt: 3 }}>
                             <Typography variant="body1" sx={{ fontWeight: 600, mb: 2, color: cgiColors.primary }}>
-                              Selected {selectedFiles.length} file{selectedFiles.length > 1 ? 's' : ''}:
+                              Selected {advancedState.selectedFiles.length} file{advancedState.selectedFiles.length > 1 ? 's' : ''}:
                             </Typography>
                             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, justifyContent: 'center' }}>
-                              {selectedFiles.map((file, index) => (
+                              {advancedState.selectedFiles.map((file, index) => (
                                 <Chip
                                   key={index}
                                   label={file.name}
@@ -725,7 +977,7 @@ function AppWrapper() {
                         <GradientButton
                           size="large"
                           onClick={handleAdvancedUpload}
-                          disabled={selectedFiles.length === 0}
+                          disabled={advancedState.selectedFiles.length === 0}
                           sx={{ px: 4, py: 1.5, fontSize: '18px' }}
                         >
                           ✨ Generate Optimized Resume
@@ -734,12 +986,12 @@ function AppWrapper() {
                     </Box>
                   </CardContent>
                 </StyledCard>
-              )}
+              ) : null}
             </Box>
           </Fade>
         )}
 
-        {isUploading && (
+        {((selectedMode === 'Simple Mode' && simpleState.isUploading) || (selectedMode === 'Advanced Mode' && advancedState.isUploading)) && (
           <Fade in={true}>
             <Box sx={{ 
               maxWidth: 800, 
@@ -755,11 +1007,11 @@ function AppWrapper() {
                     }} 
                   />
                   <Typography variant="h5" sx={{ mb: 2, color: cgiColors.primary, fontWeight: 600 }}>
-                    Processing resume file… {progress}%
+                    Processing resume file… {selectedMode === 'Simple Mode' ? simpleState.progress : advancedState.progress}%
                   </Typography>
                   <LinearProgress 
                     variant="determinate" 
-                    value={progress} 
+                    value={selectedMode === 'Simple Mode' ? simpleState.progress : advancedState.progress} 
                     sx={{ 
                       width: '100%', 
                       height: 8,
@@ -773,7 +1025,13 @@ function AppWrapper() {
                   />
                   <CGIButton 
                     variant="outlined" 
-                    onClick={() => setIsUploading(false)}
+                    onClick={() => {
+                      if (selectedMode === 'Simple Mode') {
+                        setSimpleState(prev => ({ ...prev, isUploading: false }));
+                      } else {
+                        setAdvancedState(prev => ({ ...prev, isUploading: false }));
+                      }
+                    }}
                   >
                     Cancel
                   </CGIButton>
@@ -786,7 +1044,8 @@ function AppWrapper() {
                     Processing logs
                   </Typography>
                   <Box sx={{ maxHeight: 300, overflowY: 'auto' }}>
-                    {logs.map((log, idx) => {
+                    {(selectedMode === 'Simple Mode' ? simpleState.logs : advancedState.logs).map((log, idx) => {
+                      const logs = selectedMode === 'Simple Mode' ? simpleState.logs : advancedState.logs;
                       const isLastLog = idx === logs.length - 1;
                       const isCompleted = !isLastLog;
                       
@@ -816,7 +1075,7 @@ function AppWrapper() {
           </Fade>
         )}
 
-        {isCompleted && (
+        {((selectedMode === 'Simple Mode' && simpleState.isCompleted) || (selectedMode === 'Advanced Mode' && advancedState.isCompleted)) && (
           <Fade in={true}>
             <Box sx={{ 
               maxWidth: 800, 
@@ -833,16 +1092,16 @@ function AppWrapper() {
                   <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
                     <CGIButton
                       variant="outlined"
-                      onClick={handleReset}
+                      onClick={selectedMode === 'Simple Mode' ? handleSimpleReset : handleAdvancedReset}
                     >
                       Upload a new file
                     </CGIButton>
                     <GradientButton
-                      onClick={handleDownload}
+                      onClick={() => setSelectedMode('Results')}
                       sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
                     >
-                      <span className="material-symbols-outlined">download</span>
-                      Download crafted file
+                      <span className="material-symbols-outlined">folder_open</span>
+                      View Results
                     </GradientButton>
                   </Box>
                 </CardContent>
@@ -850,6 +1109,7 @@ function AppWrapper() {
             </Box>
           </Fade>
         )}
+
       </Box>
     </Box>
   );
