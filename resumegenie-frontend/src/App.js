@@ -212,8 +212,8 @@ function AppWrapper() {
     );
   }
 
-  // If Supabase is configured and user is not authenticated, show auth screen
-  if (isSupabaseConfigured && !user) {
+  // If user is not authenticated, show auth screen
+  if (!user) {
     return <Auth />;
   }
 
