@@ -8,7 +8,7 @@ import {
 import { styled } from '@mui/material/styles';
 import TopBar from './TopBar';
 import SideBar from './SideBar';
-import apiService from './services/apiService';
+import apiService, { setAuthInstance } from './services/apiService';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Auth from './components/Auth';
 
@@ -170,7 +170,7 @@ function AppWrapper() {
   
   // Set auth instance for API service
   useEffect(() => {
-    apiService.setAuthInstance(auth);
+    setAuthInstance(auth);
   }, [auth]);
   
   const [selectedFile, setSelectedFile] = useState(null);
