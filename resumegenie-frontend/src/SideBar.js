@@ -186,22 +186,21 @@ function SideBar({ selectedMode, onModeChange }) {
               Help us improve!
             </Typography>
             <Button
-              variant="contained"
+              variant="outlined"
               startIcon={<BugReportIcon />}
               onClick={() => window.open('https://forms.office.com/Pages/DesignPageV2.aspx?origin=NeoPortalPage&subpage=design&id=jMb-uS3JHkaalz0DoPGLggNy9r1fPYlKr5k30PYAjzFUMURDVkxBT1c3NE1MMzVQS0tFQkM4SzY4OS4u&analysis=false', '_blank')}
               sx={{
-                background: cgiColors.gradient,
-                color: cgiColors.white,
+                borderColor: cgiColors.primary,
+                color: cgiColors.primary,
                 textTransform: 'none',
-                fontWeight: 600,
+                fontWeight: 500,
                 borderRadius: '8px',
-                padding: '8px 16px',
-                fontSize: '14px',
-                boxShadow: '0 4px 15px rgba(82, 54, 171, 0.3)',
+                padding: '6px 14px',
+                fontSize: '13px',
                 '&:hover': {
-                  background: cgiColors.gradient,
-                  transform: 'translateY(-2px)',
-                  boxShadow: '0 6px 20px rgba(82, 54, 171, 0.4)'
+                  borderColor: cgiColors.primary,
+                  backgroundColor: `${cgiColors.primary}10`,
+                  transform: 'translateY(-1px)'
                 }
               }}
             >
