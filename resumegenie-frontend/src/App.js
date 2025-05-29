@@ -234,7 +234,7 @@ function AppWrapper() {
     return <Auth />;
   }
 
-  const pollSimpleStatus = async (sessionId) => {
+  const pollSimpleStatus = async (sessionId, fileName) => {
     try {
       const status = await apiService.getStatus(sessionId);
       
@@ -254,10 +254,11 @@ function AppWrapper() {
         // Add to processed files
         const newFile = {
           id: sessionId,
-          name: simpleState.selectedFile?.name || 'Unknown',
+          name: fileName || 'Unknown',
           status: 'completed',
           downloadUrl: status.downloadUrl,
           processedAt: new Date().toISOString(),
+          uploadType: 'Simple'
         };
         setProcessedFiles(prev => [...prev, newFile]);
         
@@ -319,7 +320,7 @@ function AppWrapper() {
       }));
       
       simpleStatusIntervalRef.current = setInterval(() => {
-        pollSimpleStatus(uploadResult.sessionId);
+        pollSimpleStatus(uploadResult.sessionId, file.name);
       }, 1000);
       
     } catch (err) {
@@ -419,6 +420,7 @@ function AppWrapper() {
         downloadUrl: result.downloadUrl,
         error: result.error,
         processedAt: new Date().toISOString(),
+        uploadType: 'Advanced'
       }));
       setProcessedFiles(prev => [...prev, ...newProcessedFiles]);
       
@@ -589,14 +591,55 @@ function AppWrapper() {
             }}>
               <StyledCard>
                 <CardContent sx={{ p: 4 }}>
-                  <Typography variant="h5" sx={{ mb: 3, color: cgiColors.primary, fontWeight: 600 }}>
-                    Processed Files
-                  </Typography>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+                    <Typography variant="h5" sx={{ color: cgiColors.primary, fontWeight: 600 }}>
+                      Processed Files
+                    </Typography>
+                    {processedFiles.length > 0 && (
+                      <Button
+                        variant="contained"
+                        onClick={async () => {
+                          try {
+                            for (const file of processedFiles) {
+                              if (file.downloadUrl && file.status === 'completed') {
+                                const blob = await apiService.downloadResume(file.id);
+                                const url = URL.createObjectURL(blob);
+                                const a = document.createElement('a');
+                                a.href = url;
+                                a.download = file.name.replace(/\.(pdf|docx?)$/i, '_updated.docx');
+                                document.body.appendChild(a);
+                                a.click();
+                                document.body.removeChild(a);
+                                URL.revokeObjectURL(url);
+                                // Add delay between downloads
+                                await new Promise(resolve => setTimeout(resolve, 500));
+                              }
+                            }
+                          } catch (err) {
+                            setError('Failed to download files');
+                          }
+                        }}
+                        sx={{
+                          background: cgiColors.gradient,
+                          color: cgiColors.white,
+                          textTransform: 'none',
+                          fontWeight: 600,
+                          '&:hover': {
+                            background: cgiColors.gradient,
+                            transform: 'translateY(-1px)'
+                          }
+                        }}
+                      >
+                        Download All
+                      </Button>
+                    )}
+                  </Box>
                   <TableContainer component={Paper} elevation={0}>
                     <Table>
                       <TableHead>
                         <TableRow>
                           <TableCell>File Name</TableCell>
+                          <TableCell>Upload Type</TableCell>
                           <TableCell>Status</TableCell>
                           <TableCell>Processed At</TableCell>
                           <TableCell>Actions</TableCell>
@@ -605,7 +648,7 @@ function AppWrapper() {
                       <TableBody>
                         {processedFiles.length === 0 ? (
                           <TableRow>
-                            <TableCell colSpan={4} align="center" sx={{ py: 4 }}>
+                            <TableCell colSpan={5} align="center" sx={{ py: 4 }}>
                               <Typography variant="body1" color="text.secondary">
                                 No files processed yet. Upload files in Simple or Advanced mode to see them here.
                               </Typography>
@@ -615,6 +658,14 @@ function AppWrapper() {
                           processedFiles.map((file) => (
                             <TableRow key={file.id}>
                               <TableCell>{file.name}</TableCell>
+                              <TableCell>
+                                <Chip 
+                                  label={file.uploadType || 'Simple'} 
+                                  color={file.uploadType === 'Advanced' ? 'primary' : 'default'}
+                                  size="small"
+                                  variant="outlined"
+                                />
+                              </TableCell>
                               <TableCell>
                                 <Chip 
                                   label={file.status} 
