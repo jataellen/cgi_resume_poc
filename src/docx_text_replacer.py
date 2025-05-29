@@ -1,6 +1,7 @@
 from docx.shared import RGBColor
 from docx.enum.text import WD_COLOR_INDEX
 from docx import Document
+from docx.enum.text import WD_ALIGN_PARAGRAPH
 
 def replace_text_in_docx(doc: Document, replacements: list):
     for key, value in replacements:
@@ -30,6 +31,7 @@ def replace_text_in_docx(doc: Document, replacements: list):
                             run.bold = True
                             run.font.color.rgb = RGBColor(255, 0, 0)
                             run.font.highlight_color = WD_COLOR_INDEX.YELLOW
+                            para.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
                             parent.insert(idx, para._element)
                         else:
                             # Insert bullet points
