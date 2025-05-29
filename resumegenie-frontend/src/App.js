@@ -165,17 +165,6 @@ const CGIToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
   }
 }));
 
-const SuccessIcon = styled(Box)(({ theme }) => ({
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  '& .material-symbols-outlined': {
-    fontSize: '72px',
-    color: cgiColors.success,
-    fontWeight: 600
-  }
-}));
-
 function AppWrapper() {
   const auth = useAuth();
   const { user, loading, isSupabaseConfigured } = auth;
