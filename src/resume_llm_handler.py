@@ -21,6 +21,7 @@ from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains import create_retrieval_chain
 import traceback
 from docx import Document
+import re
 
 def extract_resume_data_from_docx(file_path):
     """
@@ -154,12 +155,9 @@ def extract_resume_data_from_docx(file_path):
                     structured_data["contact"]["name"] = line
                     break
         
-        log(f"Successfully extracted data from DOCX: {file_path}")
         return structured_data
         
     except Exception as e:
-        log(f"Error extracting data from DOCX: {str(e)}")
-        traceback.print_exc()
         return None
 
 
@@ -175,8 +173,6 @@ def extract_resume_data_with_llm(file_path, llm):
         dict: Structured resume data
     """
     try:
-        log(f"Starting LLM-enhanced extraction from DOCX: {file_path}")
-        
         # First extract raw text
         doc = Document(file_path)
         full_text = []
@@ -243,20 +239,15 @@ def extract_resume_data_with_llm(file_path, llm):
             json_match = re.search(r'```json\n(.*?)\n```', response.content, re.DOTALL)
             if json_match:
                 result = json.loads(json_match.group(1))
-                log("Successfully parsed LLM response with JSON code block")
                 return result
             else:
                 # Try to parse the entire response as JSON
                 result = json.loads(response.content.strip())
-                log("Successfully parsed LLM response as direct JSON")
                 return result
         except Exception as parse_error:
-            log(f"Failed to parse LLM response as JSON: {str(parse_error)}")
-            log("Falling back to basic extraction")
             return extract_resume_data_from_docx(file_path)
             
     except Exception as e:
-        log(f"Error in LLM-based extraction: {str(e)}")
         return extract_resume_data_from_docx(file_path)
 
 
@@ -265,10 +256,6 @@ def generate_rag_job_description(llm, file_path, role_title):
     Uses RAG to analyze an RFP document and generate a comprehensive job description.
     """
     try:
-        log(
-            f"Generating job description from RFP file using RAG for role: {role_title}"
-        )
-
         # Load the PDF
         loader = PyPDFLoader(file_path)
         pages = loader.load()
@@ -284,7 +271,6 @@ def generate_rag_job_description(llm, file_path, role_title):
         ]
 
         if not documents:
-            log("Warning: No valid text extracted from the document")
             return ""
 
         # Create embeddings with proper deployment
@@ -293,9 +279,6 @@ def generate_rag_job_description(llm, file_path, role_title):
             azure_endpoint=os.environ["AZURE_OPENAI_EMBEDDINGS_ENDPOINT"],
             api_key=os.environ["AZURE_OPENAI_API_KEY"],
         )
-
-        # Log for debugging
-        log(f"Creating vector store with {len(documents)} document chunks")
 
         # Create vector store
         vector_store = FAISS.from_texts(documents, embeddings)
@@ -314,18 +297,12 @@ def generate_rag_job_description(llm, file_path, role_title):
         chain = create_retrieval_chain(retriever, question_answer_chain)
 
         # Invoke with the specific role
-        log(f"Executing RAG retrieval chain for {role_title}")
         response = chain.invoke({"input": role_title})
         job_description = response["answer"]
 
-        log(
-            f"Successfully generated job description from RFP ({len(job_description)} chars)"
-        )
         return job_description
 
     except Exception as e:
-        log(f"Error generating job description from RFP: {str(e)}")
-        log(traceback.format_exc())
         return ""
 
 
@@ -358,7 +335,6 @@ def generate_llm_content(
         else:
             return response.content.strip()
     except Exception as e:
-        log(f"Error generating content: {str(e)}")
         return f"Error generating content: {str(e)}"
 
 
@@ -375,8 +351,6 @@ def generate_cgi_experience(llm, format_type, custom_role_title=None):
         dict: A dictionary containing the CGI experience entry
     """
     try:
-        log(f"Generating default CGI experience for {format_type} role")
-
         # Create the prompt for the LLM
         prompt = generate_default_cgi_prompt(format_type, custom_role_title)
 
@@ -396,25 +370,20 @@ def generate_cgi_experience(llm, format_type, custom_role_title=None):
         try:
             # Try to parse the entire response as JSON
             cgi_experience = json.loads(content)
-            log("Successfully generated CGI experience entry")
             return cgi_experience
         except json.JSONDecodeError:
             # If that fails, try to extract JSON from text
-            log("Failed to parse response as JSON, attempting to extract JSON block")
             import re
 
             json_match = re.search(r"```json\n(.*?)\n```", content, re.DOTALL)
             if json_match:
                 try:
                     cgi_experience = json.loads(json_match.group(1))
-                    log("Successfully extracted JSON from markdown code block")
                     return cgi_experience
                 except:
-                    log("Failed to parse extracted JSON")
+                    pass
 
             # Last resort: Try to create a manual structure from the response
-            log("Creating fallback CGI experience entry")
-
             # Get current date for start date
             current_date = datetime.now()
             start_date = f"{current_date.month:02d}/{current_date.year}"
@@ -441,9 +410,6 @@ def generate_cgi_experience(llm, format_type, custom_role_title=None):
                 ],
             }
     except Exception as e:
-        log(f"Error generating CGI experience: {str(e)}")
-        log(traceback.format_exc())
-
         # Fallback to a simple default
         current_date = datetime.now()
         start_date = f"{current_date.month:02d}/{current_date.year}"
@@ -480,7 +446,7 @@ def resume_stream(
     custom_role_title="",
     job_description="",
     rfp_file_path=None,
-    include_default_cgi=False,  # New parameter
+    include_default_cgi=False,
 ):
     load_dotenv()
 
@@ -494,7 +460,6 @@ def resume_stream(
 
     # If RFP file is provided, generate a job description from it
     if rfp_file_path and os.path.exists(rfp_file_path):
-        log(f"RFP file detected: {rfp_file_path}")
         # Determine role title to use for the RAG job description generation
         role_for_rag = (
             custom_role_title.strip() if custom_role_title else selected_format
@@ -507,29 +472,22 @@ def resume_stream(
 
         # If successful and user didn't provide a job description, use the generated one
         if rfp_job_description and not (job_description and job_description.strip()):
-            log("Using RFP-generated job description")
             job_description = rfp_job_description
         # If user provided a job description, combine it with the RFP-generated one
         elif rfp_job_description and job_description and job_description.strip():
-            log(
-                "Combining user-provided job description with RFP-generated description"
-            )
             job_description = f"{job_description}\n\nAdditional requirements from RFP:\n{rfp_job_description}"
 
     # Update progress
     progress_bar.progress(base_progress + file_progress_weight * 0.1)
 
     loader = PyPDFLoader(file_path)
-    pages = []
-    # async for page in loader.alazy_load():
-    #     pages.append(page)
     pages = loader.load()
 
     pdf_text = "\n".join([doc.page_content for doc in pages])
 
     current_date = datetime.datetime.now().date()
 
-    with open("data/json_schema.json", "r") as file:  # Updated path
+    with open("data/json_schema.json", "r") as file:
         json_schema = json.load(file)
 
     # Generate structured data
@@ -545,7 +503,6 @@ def resume_stream(
         extract_function_call=True,
     )
 
-    log("Completed Structured Data")
     # Update progress - 20% complete for this file
     progress_bar.progress(base_progress + file_progress_weight * 0.2)
 
@@ -566,11 +523,8 @@ def resume_stream(
                 "custom_role_title_string": custom_role_title_string,
             },
         )
-        log(f"Generated role title: {role_title}")
-
     else:
         role_title = custom_role_title.strip()
-        log(f"Using provided role title: {role_title}")
 
     # Generate tailored profile based on job description if provided
     if job_description and job_description.strip():
@@ -585,7 +539,6 @@ def resume_stream(
             },
             functions=[json_schema],
         )
-        log(f"Generated tailored profile with job description for {role_title}")
     else:
         profile = generate_llm_content(
             llm=llm,
@@ -594,7 +547,6 @@ def resume_stream(
             format_args={"structured_data": structured_data},
             functions=[json_schema],
         )
-        log("Generated standard profile")
 
     # Generate years of experience
     years_exp = generate_llm_content(
@@ -651,20 +603,16 @@ def resume_stream(
 
     res_dict = dict()
 
-    log("Loading...")
     # Process experience with job description if available and not empty
     if job_description and job_description.strip():
         res_dict["experience"] = call_tailored_experience_chain(
             pdf_text, job_description, role_title, llm
         )
-        log(f"\t>> Completed key: experience (tailored for {role_title})")
     else:
         res_dict["experience"] = experience_chain(pdf_text, llm)
-        log(f"\t>> Completed key: experience")
 
     # If include_default_cgi is True, generate a default CGI experience entry
     if include_default_cgi:
-        log("Generating default CGI experience entry")
         default_cgi_exp = generate_cgi_experience(
             llm, selected_format, custom_role_title
         )
@@ -688,24 +636,16 @@ def resume_stream(
                 ):
                     # Replace the placeholder with our generated experience
                     res_dict["experience"]["cgi_experience"][0] = default_cgi_exp
-                    log("Replaced placeholder CGI experience with generated experience")
                 else:
                     # Insert at the beginning if there's already valid content
                     res_dict["experience"]["cgi_experience"].insert(0, default_cgi_exp)
-                    log(
-                        "Added generated CGI experience at the beginning of existing experiences"
-                    )
             else:
                 # If the array is empty or None, initialize it with our experience
                 res_dict["experience"]["cgi_experience"] = [default_cgi_exp]
-                log("Created new CGI experience entry")
-
-        log("Added default CGI experience entry")
 
     # Process other sections
     for key in all_schemas.keys():
         res_dict[key] = call_llm(all_schemas, key, pdf_text, job_description)
-        log(f"\t>> Completed key: {key}")
     progress_bar.progress(base_progress + file_progress_weight * 0.4)
 
     # For testing
@@ -718,8 +658,6 @@ def resume_stream(
     }
     with open("resume_data.json", "w") as json_file:
         json.dump(data, json_file, indent=4)
-
-    print("Data saved to resume_data.json")
 
     # Pass job description, role title, and format type to generate_resume
     generate_resume(
@@ -797,24 +735,28 @@ def call_tailored_experience_chain(pdf_text, job_description, role, llm):
 
     # Write the JSON data to the file
     with open(filename, "w") as file:
-        json.dump(
-            json_structured_data, file, indent=2
-        )  # Use json.dump to format the data and write to the file
+        json.dump(json_structured_data, file, indent=2)
 
     return json_structured_data
 
 
-def evaluate_resume(file_path, job_description=None, evaluation_criteria=None):
+def evaluate_resume(file_path, job_description=None, target_role=None, evaluation_criteria=None):
     """
-    Evaluate a resume and provide scoring/analysis
+    Enhanced resume evaluation with focus on specific issues like:
+    - Recent vs older role detail levels
+    - Project detail sufficiency  
+    - Employment gaps
+    - Role-specific alignment
+    - Grammar and formatting
     
     Args:
         file_path (str): Path to the resume file (PDF or DOCX)
         job_description (str, optional): Target job description for tailored evaluation
+        target_role (str, optional): Specific role type (e.g., 'Business Analyst', 'Developer', 'Director')
         evaluation_criteria (dict, optional): Custom evaluation criteria
         
     Returns:
-        dict: Evaluation results with scores and recommendations
+        dict: Enhanced evaluation results with specific issue identification
     """
     try:
         load_dotenv()
@@ -834,61 +776,35 @@ def evaluate_resume(file_path, job_description=None, evaluation_criteria=None):
             pages = loader.load()
             resume_text = "\n".join([doc.page_content for doc in pages])
         elif file_path.endswith('.docx'):
-            # Use your existing DOCX extraction
-            structured_data = extract_resume_data_with_llm(file_path, llm)
-            resume_text = json.dumps(structured_data, indent=2)
+            try:
+                structured_data = extract_resume_data_with_llm(file_path, llm)
+                resume_text = json.dumps(structured_data, indent=2)
+            except Exception as docx_error:
+                resume_text = extract_text_from_docx_simple(file_path)
         else:
             raise ValueError("Unsupported file format. Use PDF or DOCX.")
         
-        # Default evaluation criteria
-        default_criteria = {
-            "technical_skills": 0.25,
-            "experience_relevance": 0.30,
-            "education": 0.15,
-            "achievements": 0.20,
-            "presentation": 0.10
-        }
+        if not resume_text or len(resume_text.strip()) < 100:
+            raise ValueError(f"Insufficient text extracted from resume: {len(resume_text)} characters")
         
-        criteria = evaluation_criteria or default_criteria
+        # Prepare context for job description if provided
+        job_description_context = ""
+        if job_description:
+            job_description_context = f"\nTarget Job Description:\n{job_description}\n\nEvaluate how well this resume aligns with the target role requirements."
         
-        # Create evaluation prompt
-        evaluation_prompt = f"""
-        Evaluate the following resume based on these criteria:
-        {json.dumps(criteria, indent=2)}
+        # Import the enhanced prompts
+        from data.prompts import ENHANCED_EVALUATION_SP, ENHANCED_EVALUATION_HP, ROLE_SPECIFIC_EVALUATION_HP, QUICK_EVALUATION_SP, QUICK_EVALUATION_HP
         
-        Resume Content:
-        {resume_text}
-        
-        {"Job Description for Tailored Evaluation:" + job_description if job_description else ""}
-        
-        Provide a comprehensive evaluation including:
-        1. Overall score (0-100)
-        2. Individual scores for each criterion
-        3. Strengths identified
-        4. Areas for improvement
-        5. Specific recommendations
-        6. Missing elements (if job description provided)
-        
-        Return as JSON format with the structure:
-        {{
-            "overall_score": <score>,
-            "criterion_scores": {{
-                "technical_skills": <score>,
-                "experience_relevance": <score>,
-                "education": <score>,
-                "achievements": <score>,
-                "presentation": <score>
-            }},
-            "strengths": ["strength1", "strength2"],
-            "improvements": ["improvement1", "improvement2"],
-            "recommendations": ["rec1", "rec2"],
-            "missing_elements": ["element1", "element2"]
-        }}
-        """
+        # Always use general evaluation (no role-specific evaluation)
+        evaluation_prompt = ENHANCED_EVALUATION_HP.format(
+            resume_text=resume_text,
+            job_description_context=job_description_context
+        )
+        system_prompt = ENHANCED_EVALUATION_SP
         
         # Generate evaluation
         messages = [
-            SystemMessage(content="You are an expert resume evaluator and career advisor."),
+            SystemMessage(content=system_prompt),
             HumanMessage(content=evaluation_prompt)
         ]
         
@@ -896,40 +812,203 @@ def evaluate_resume(file_path, job_description=None, evaluation_criteria=None):
         
         # Parse JSON response
         try:
-            # Try to extract JSON from response
             import re
             json_match = re.search(r'```json\n(.*?)\n```', response.content, re.DOTALL)
             if json_match:
                 evaluation_result = json.loads(json_match.group(1))
             else:
                 evaluation_result = json.loads(response.content.strip())
+            
+            # Validate and fix scoring issues
+            evaluation_result = validate_and_fix_scores(evaluation_result)
+            
+            # Add metadata
+            evaluation_result["evaluation_metadata"] = {
+                "file_path": file_path,
+                "evaluation_date": datetime.datetime.now().isoformat(),
+                "target_role": target_role,
+                "has_job_description": bool(job_description),
+                "evaluation_version": "enhanced_v2"
+            }
                 
-            log(f"Successfully evaluated resume: {file_path}")
             return evaluation_result
             
-        except json.JSONDecodeError:
-            # Fallback result if JSON parsing fails
-            log("Failed to parse evaluation JSON, returning basic result")
-            return {
-                "overall_score": 75,
-                "criterion_scores": {
-                    "technical_skills": 70,
-                    "experience_relevance": 80,
-                    "education": 75,
-                    "achievements": 70,
-                    "presentation": 75
-                },
-                "strengths": ["Good experience background"],
-                "improvements": ["Could enhance technical skills section"],
-                "recommendations": ["Review and update resume format"],
-                "missing_elements": [],
-                "raw_response": response.content
-            }
+        except json.JSONDecodeError as e:
+            return run_quick_evaluation(llm, resume_text, file_path)
             
     except Exception as e:
-        log(f"Error evaluating resume: {str(e)}")
         return {
             "error": str(e),
             "overall_score": 0,
-            "message": "Evaluation failed"
+            "message": "Evaluation failed",
+            "evaluation_metadata": {
+                "file_path": file_path,
+                "evaluation_date": datetime.datetime.now().isoformat(),
+                "error": True
+            }
         }
+
+def extract_text_from_docx_simple(file_path):
+    """Simple text extraction from DOCX as fallback"""
+    try:
+        from docx import Document
+        doc = Document(file_path)
+        full_text = []
+        
+        for paragraph in doc.paragraphs:
+            if paragraph.text.strip():
+                full_text.append(paragraph.text.strip())
+        
+        for table in doc.tables:
+            for row in table.rows:
+                for cell in row.cells:
+                    for paragraph in cell.paragraphs:
+                        if paragraph.text.strip():
+                            full_text.append(paragraph.text.strip())
+        
+        return '\n'.join(full_text)
+    except Exception as e:
+        return "Error extracting text from document"
+
+def validate_and_fix_scores(evaluation_result):
+    """
+    Validate and fix common scoring issues in evaluation results
+    """
+    try:
+        # Fix overall score if it's out of range (like 68/10 instead of 6.8/10)
+        overall_score = evaluation_result.get('overall_score', 0)
+        
+        if overall_score > 10:
+            # Likely a percentage, convert to 1-10 scale
+            evaluation_result['overall_score'] = round(overall_score / 10, 1)
+        elif overall_score < 0:
+            evaluation_result['overall_score'] = 0
+        
+        # Fix individual section scores
+        if 'ratings_summary' in evaluation_result:
+            for section, score in evaluation_result['ratings_summary'].items():
+                if score > 10:
+                    evaluation_result['ratings_summary'][section] = round(score / 10, 1)
+                elif score < 0:
+                    evaluation_result['ratings_summary'][section] = 0
+        
+        # Recalculate overall score if needed
+        if 'ratings_summary' in evaluation_result and 'section_weights' in evaluation_result:
+            weights = evaluation_result['section_weights']
+            ratings = evaluation_result['ratings_summary']
+            
+            calculated_score = sum(
+                ratings.get(section, 0) * weight 
+                for section, weight in weights.items()
+            )
+            
+            # Only update if significantly different
+            if abs(calculated_score - evaluation_result['overall_score']) > 0.5:
+                evaluation_result['overall_score'] = round(calculated_score, 1)
+        
+        return evaluation_result
+        
+    except Exception as e:
+        return evaluation_result
+
+def run_quick_evaluation(llm, resume_text, file_path):
+    """
+    Fallback quick evaluation when main evaluation fails
+    """
+    try:
+        from data.prompts import QUICK_EVALUATION_SP, QUICK_EVALUATION_HP
+        
+        messages = [
+            SystemMessage(content=QUICK_EVALUATION_SP),
+            HumanMessage(content=QUICK_EVALUATION_HP.format(resume_text=resume_text))
+        ]
+        
+        response = llm.invoke(messages)
+        
+        # Try to parse the quick evaluation
+        import re
+        json_match = re.search(r'```json\n(.*?)\n```', response.content, re.DOTALL)
+        if json_match:
+            quick_result = json.loads(json_match.group(1))
+        else:
+            quick_result = json.loads(response.content.strip())
+        
+        # Convert quick evaluation to standard format
+        standard_result = {
+            "overall_score": quick_result.get('overall_score', 5.0),
+            "critical_issues_identified": quick_result.get('critical_issues', []),
+            "immediate_fixes": quick_result.get('immediate_fixes', []),
+            "role_assessment": quick_result.get('role_assessment', {}),
+            "experience_analysis": quick_result.get('experience_analysis', {}),
+            "evaluation_type": "quick_fallback",
+            "recommendations": quick_result.get('immediate_fixes', []),
+            "evaluation_metadata": {
+                "file_path": file_path,
+                "evaluation_date": datetime.datetime.now().isoformat(),
+                "fallback_used": True
+            }
+        }
+        
+        return standard_result
+        
+    except Exception as e:
+        return {
+            "overall_score": 0,
+            "error": "All evaluation methods failed",
+            "message": f"Evaluation error: {str(e)}",
+            "evaluation_metadata": {
+                "file_path": file_path,
+                "evaluation_date": datetime.datetime.now().isoformat(),
+                "complete_failure": True
+            }
+        }
+
+def run_resume_evaluation(file_path, file_id, resume_name="Resume", selected_format=None, custom_role_title=None, job_description=None):
+    """
+    Run the enhanced resume evaluation with comprehensive error handling
+    """
+    try:
+        # Verify file exists
+        if not os.path.exists(file_path):
+            raise FileNotFoundError(f"Resume file not found: {file_path}")
+        
+        # Don't pass target role to force general evaluation
+        target_role = None
+        
+        # Run enhanced evaluation
+        evaluation_results = evaluate_resume(
+            file_path=file_path,
+            job_description=job_description if job_description and job_description.strip() else None,
+            target_role=target_role
+        )
+        
+        # Always save JSON backup
+        eval_json_path = f"evaluation_{file_id}.json"
+        try:
+            with open(eval_json_path, 'w', encoding='utf-8') as f:
+                json.dump(evaluation_results, f, indent=2, ensure_ascii=False)
+        except Exception as json_error:
+            pass
+        
+        # Try to generate PDF
+        eval_pdf_path = f"evaluation_{file_id}.pdf"
+        try:
+            from src.pdf_evaluation_generator import generate_evaluation_pdf, REPORTLAB_AVAILABLE
+            
+            if REPORTLAB_AVAILABLE:
+                generate_evaluation_pdf(evaluation_results, eval_pdf_path, resume_name)
+                
+                if os.path.exists(eval_pdf_path):
+                    return eval_pdf_path, evaluation_results
+                else:
+                    return eval_json_path, evaluation_results
+            else:
+                return eval_json_path, evaluation_results
+                
+        except ImportError as import_error:
+            return eval_json_path, evaluation_results
+        except Exception as pdf_error:
+            return eval_json_path, evaluation_results
+            
+    except Exception as e:
+        return None, None

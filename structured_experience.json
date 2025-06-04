@@ -1,79 +1,73 @@
 {
-  "cgi_experience": [],
+  "cgi_experience": [
+    {
+      "cgi_client_or_sector": "IT Services",
+      "cgi_position_title": "Business Analyst & Project Coordinator",
+      "cgi_start_date": "07/24",
+      "cgi_end_date": "Present",
+      "cgi_responsibilities": [
+        "Documented current state business processes to identify and recommend operational efficiency opportunities.",
+        "Used advanced analytical skills to generate actionable insights, improving data-driven decision-making accuracy for project analysis.",
+        "Drafted future-state recommendations including streamlined processes, customer journey maps, organizational design, and operational improvements.",
+        "Created detailed reports with Excel and PowerPoint, enhancing stakeholder communication and supporting decision-making processes.",
+        "Designed future state blueprints and implementation plans with organizational structures, roles, effort estimates, and costs.",
+        "Coordinated tasks, schedules, and resources, ensuring successful project delivery within defined scopes."
+      ],
+      "cgi_technologies": [
+        "Excel",
+        "PowerPoint"
+      ]
+    }
+  ],
   "other_experience": [
     {
-      "company": "Amazon",
-      "position_title": "Language Engineer I",
-      "start_date": "11/25",
-      "end_date": "Present",
+      "company": "Canadian Tire, Truro, NS",
+      "position_title": "Cash Balancer",
+      "start_date": "11/23",
+      "end_date": "07/24",
       "responsibilities": [
-        "Collaborated with scientists and engineers to design APIs and scalable solutions for language data analysis.",
-        "Engineered generative AI prompts, automated workflows, and performed extensive data analysis using Python scripting.",
-        "Managed customer-facing machine learning models, resolved production issues, and deployed Alexa language updates."
-      ],
-      "technologies": [
-        "Python",
-        "Scripting"
-      ]
-    },
-    {
-      "company": "CGI TEKsystems at Meta",
-      "position_title": "Machine Learning Engineer",
-      "start_date": "02/24",
-      "end_date": "09/24",
-      "responsibilities": [
-        "Replaced features extensively in ads-based models to ensure data privacy compliance while maintaining metrics neutrality.",
-        "Designed innovative algorithms for feature replacement in models across various architectures within one feature space.",
-        "Conducted rigorous testing and offline experimentation and performed detailed online A/B testing analyses.",
-        "Worked closely with cross-functional teams to enable smooth transitions to privacy-compliant machine learning models."
+        "Verified financial documents to ensure accurate cash flow information, supporting establishment operations.",
+        "Applied finance course knowledge to interpret financial statements and enhance understanding of organizational financial health.",
+        "Allocated funds paid to the establishment, ensuring accurate bank deposit preparation and reconciliation."
       ],
       "technologies": []
     },
     {
-      "company": "CGI TEKsystems at Meta",
-      "position_title": "Prompt Engineering Team Lead",
-      "start_date": "07/23",
-      "end_date": "02/24",
-      "responsibilities": [
-        "Led a detailed evaluation of generative AI model conversational capabilities using novel assessment methods.",
-        "Created human evaluation processes that measured conversational aspects such as safety, accuracy, and engagement.",
-        "Developed prompt-based finetuning strategies using adversarial and red-teaming techniques to enhance model outputs.",
-        "Built backend systems in Python to streamline human evaluation processes for conversational effectiveness testing.",
-        "Evaluated and optimized team allocation strategies, reducing inefficiencies and improving overall project workflows."
-      ],
-      "technologies": [
-        "Python"
-      ]
-    },
-    {
-      "company": "Geering Up STEM Outreach UBC",
-      "position_title": "Quantum Computing Curriculum Developer",
-      "start_date": "05/23",
+      "company": "Government of Nova Scotia, Halifax, NS",
+      "position_title": "Operational & Service Excellence Intern",
+      "start_date": "01/23",
       "end_date": "08/23",
       "responsibilities": [
-        "Collaborated with experts to develop engaging quantum computing curriculum for workshops and training programs.",
-        "Presented curriculum materials, trained instructors, and guided their delivery of quantum learning experiences.",
-        "Analyzed participant feedback to refine curriculum content and improve teaching methods for high-school levels."
-      ],
-      "technologies": []
-    },
-    {
-      "company": "Infosys",
-      "position_title": "Network Systems Engineer",
-      "start_date": "07/21",
-      "end_date": "07/22",
-      "responsibilities": [
-        "Trained extensively in Unix, Networking, Network Automation, Agile, and Scrum development practices.",
-        "Designed documentation and managed EDGE DC projects as part of the Everest Project for Daimler Corporation."
+        "Created programs and delivered virtual services and training sessions for over 230 participants using MS Teams, Power Automate, Excel, and Outlook.",
+        "Facilitated team meetings to identify organizational barriers and improve periodic management processes.",
+        "Designed standard operating procedures for services and events to ensure consistent and reliable operations.",
+        "Oversaw business process improvement training, including Lean Six Sigma Green Belt, Kaizen Belt, and Yellow Belt certifications.",
+        "Developed Power BI dashboards to enhance data analytics and support team decision-making with visual insights.",
+        "Planned and coordinated major events for over 70 attendees, collaborating effectively with colleagues.",
+        "Implemented a 5S methodology organizational system, improving team efficiency and operational workflow."
       ],
       "technologies": [
-        "Networking",
-        "Unix",
-        "Routing",
-        "Switching",
-        "Network Automation",
-        "Ansible"
+        "MS Teams",
+        "Power Automate",
+        "Excel",
+        "Outlook",
+        "Power BI"
       ]
+    },
+    {
+      "company": "Canadian Tire, Truro, NS",
+      "position_title": "Customer Service Representative",
+      "start_date": "11/15",
+      "end_date": "06/22",
+      "responsibilities": [
+        "Resolved customer inquiries and complaints through effective communication and conflict resolution skills in a fast-paced retail environment.",
+        "Delivered exceptional customer service to meet diverse customer needs, building trust and loyalty.",
+        "Handled cash transactions responsibly, ensuring accurate register preparation for store openings.",
+        "Trained new employees on store policies, processes, and operational technologies, ensuring team readiness.",
+        "Organized staffing schedules, managing break times for up to eight cashiers per shift while addressing team needs.",
+        "Acquired problem-solving, organizational, and communication skills by performing duties across various departments."
+      ],
+      "technologies": []
     }
   ]
 }

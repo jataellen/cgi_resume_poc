@@ -12,8 +12,26 @@ from utils.document_utils import *
 import traceback
 
 from src.resume_llm_handler import evaluate_resume
+# Replace the import line with this try-except block
+try:
+    from src.pdf_evaluation_generator import generate_evaluation_pdf, convert_evaluation_to_pdf
+except ImportError as e:
+    print(f"Warning: Could not import PDF functions: {e}")
+    import json
+    # Create dummy functions as fallback
+    def generate_evaluation_pdf(evaluation_data, output_path, resume_name="Resume"):
+        # Fallback to JSON if PDF generation fails
+        json_path = output_path.replace('.pdf', '.json')
+        with open(json_path, 'w') as f:
+            json.dump(evaluation_data, f, indent=2)
+        return json_path
+    
+    def convert_evaluation_to_pdf(json_file_path, resume_name="Resume"):
+        return json_file_path  # Return the original JSON path
 
 # Streamlit app frontend
+
+
 
 # Set up the app configuration
 st.set_page_config(
@@ -103,16 +121,37 @@ def save_rfp_file(rfp_file):
     log(f"Saved RFP file: {temp_file_path}")
     return temp_file_path
 
-def run_resume_evaluation(file_path, file_id):
-    """Run the resume evaluation and save the results"""
+def run_resume_evaluation(file_path, file_id, resume_name="Resume", selected_format=None, custom_role_title=None, job_description=None):
+    """Run the enhanced resume evaluation with role-specific analysis"""
     try:
-        log(f"Starting evaluation for file: {file_path}")
-        evaluation_results = evaluate_resume(file_path)
-        eval_file_path = f"evaluation_{file_id}.json"
-        with open(eval_file_path, 'w') as f:
+        log(f"Starting enhanced evaluation for file: {file_path}")
+        
+        # Determine target role for evaluation
+        target_role = custom_role_title if custom_role_title and custom_role_title.strip() else selected_format
+        
+        # Run enhanced evaluation with additional parameters
+        evaluation_results = evaluate_resume(
+            file_path=file_path,
+            job_description=job_description if job_description and job_description.strip() else None,
+            target_role=target_role
+        )
+        
+        # Save JSON (for backup/debugging)
+        eval_json_path = f"evaluation_{file_id}.json"
+        with open(eval_json_path, 'w') as f:
             json.dump(evaluation_results, f, indent=2)
-        log(f"Evaluation completed and saved to: {eval_file_path}")
-        return eval_file_path, evaluation_results
+        log(f"Evaluation JSON saved to: {eval_json_path}")
+        
+        # Generate PDF
+        eval_pdf_path = f"evaluation_{file_id}.pdf"
+        try:
+            generate_evaluation_pdf(evaluation_results, eval_pdf_path, resume_name)
+            log(f"Evaluation PDF generated: {eval_pdf_path}")
+            return eval_pdf_path, evaluation_results
+        except Exception as pdf_error:
+            log(f"Failed to generate PDF, falling back to JSON: {str(pdf_error)}")
+            return eval_json_path, evaluation_results
+            
     except Exception as e:
         log(f"Error during resume evaluation: {str(e)}")
         return None, None
@@ -241,20 +280,26 @@ with st.form("my-form", clear_on_submit=True):
 log_box = st.empty()
 initialize_log_box(log_box)
 
+# The issue is in the variable scope. Here's the corrected section of app.py
+# Replace the section starting from line ~310 with this:
+
 if submitted and uploaded_files:
     progress_bar = st.progress(0)
     status_text = st.empty()
     total_files = len(uploaded_files)
     file_progress_weight = 0.95 / total_files
+    
     log(f"Selected resume format: {selected_format}")
     if custom_role_title and custom_role_title.strip():
         log(f"Specific role title: {custom_role_title}")
     else:
         log("No specific role title provided - will use role type")
+    
     if include_default_cgi:
         log("AI-generated CGI experience will be included")
     else:
         log("No AI-generated CGI experience requested")
+    
     if st.session_state.optimization_method == "Enter job description":
         log(f"Optimization method: Job description (manual entry)")
         if job_description and job_description.strip():
@@ -270,19 +315,26 @@ if submitted and uploaded_files:
             log("Warning: RFP option selected but no file uploaded")
     else:
         log("No optimization method selected - will use standard processing")
+    
+    # Process each uploaded file
     for i, uploaded_file in enumerate(uploaded_files):
         base_progress = i * file_progress_weight
         progress_bar.progress(base_progress)
         status_text.text(
             f"Processing {uploaded_file.name}... ({i+1}/{len(uploaded_files)})"
         )
+        
         file_id = str(uuid.uuid4())[:8]
         original_file_name = uploaded_file.name
         log(f"Processing file: {original_file_name}")
+        
         try:
+            # Convert file to PDF
             temp_file_path = convert_to_pdf(uploaded_file, file_id)
             log(f"Successfully converted {original_file_name} to PDF format")
+            
             try:
+                # Process the resume
                 resume_stream(
                     st,
                     progress_bar,
@@ -296,25 +348,52 @@ if submitted and uploaded_files:
                     include_default_cgi,
                 )
                 log(f"Processed PDF: {original_file_name}")
+                
+                # Rename the output file
                 new_file_name = (
                     os.path.splitext(original_file_name)[0] + f"_updated.docx"
                 )
                 if os.path.exists(new_file_name):
                     os.remove(new_file_name)
                     log(f"Deleted existing file: {new_file_name}")
+                
                 os.rename("updated_resume.docx", new_file_name)
                 log(f"Renamed updated resume to: {new_file_name}")
+                
+                # Run evaluation
                 eval_progress = base_progress + (file_progress_weight * 0.8)
                 progress_bar.progress(eval_progress)
                 status_text.text(f"Evaluating {original_file_name}...")
-                eval_file_path, eval_results = run_resume_evaluation(new_file_name, file_id)
+                
+                try:
+                    eval_file_path, eval_results = run_resume_evaluation(
+                        new_file_name, 
+                        file_id, 
+                        original_file_name,
+                        selected_format,
+                        custom_role_title,
+                        job_description if job_description and job_description.strip() else None
+                    )
+                    
+                    # Verify the file actually exists
+                    if eval_file_path and not os.path.exists(eval_file_path):
+                        log(f"Warning: Evaluation file path returned but file doesn't exist: {eval_file_path}")
+                        eval_file_path = None
+                        
+                except Exception as eval_error:
+                    log(f"Evaluation failed: {str(eval_error)}")
+                    eval_file_path = None
+                    eval_results = None
+                
                 final_progress = base_progress + file_progress_weight
                 progress_bar.progress(final_progress)
+                
+                # Create file record
                 file_record = {
                     "id": file_id,
                     "original_name": original_file_name,
                     "output_path": new_file_name,
-                    "eval_path": eval_file_path,
+                    "eval_path": eval_file_path if eval_file_path and os.path.exists(eval_file_path) else None,
                     "status": "Success",
                     "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                     "role_type": selected_format,
@@ -345,24 +424,34 @@ if submitted and uploaded_files:
                     ),
                     "cgi_experience_added": "Yes" if include_default_cgi else "No",
                 }
+                
+                # Add evaluation-specific fields
                 if eval_results:
                     file_record["overall_score"] = eval_results.get("overall_score", "N/A")
                     file_record["evaluation_available"] = True
+                    file_record["evaluation_error"] = None
                 else:
                     file_record["evaluation_available"] = False
+                    file_record["evaluation_error"] = "Evaluation failed"
+                
+                # Debug log the file record
+                log(f"File record created with eval_path: {file_record.get('eval_path')}")
+                
                 st.session_state.processed_files.append(file_record)
-            except Exception as e:
-                error_message = f"Error processing {original_file_name}: {str(e)}"
+                
+            except Exception as resume_error:
+                error_message = f"Error processing {original_file_name}: {str(resume_error)}"
                 log(error_message)
                 stack_trace = traceback.format_exc()
                 log(f"Stack trace:\n{stack_trace}")
+                
                 st.session_state.processed_files.append(
                     {
                         "id": file_id,
                         "original_name": original_file_name,
                         "output_path": None,
                         "eval_path": None,
-                        "status": f"Error: {str(e)}",
+                        "status": f"Error: {str(resume_error)}",
                         "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                         "role_type": selected_format,
                         "job_description_type": st.session_state.optimization_method,
@@ -389,21 +478,25 @@ if submitted and uploaded_files:
                         "evaluation_available": False,
                     }
                 )
-            if "temp_file_path" in locals() and os.path.exists(temp_file_path):
+            
+            # Clean up temporary PDF file
+            if os.path.exists(temp_file_path):
                 os.remove(temp_file_path)
                 log(f"Cleaned up temporary PDF file: {temp_file_path}")
-        except Exception as e:
-            error_message = f"Error converting {original_file_name} to PDF: {str(e)}"
+                
+        except Exception as conversion_error:
+            error_message = f"Error converting {original_file_name} to PDF: {str(conversion_error)}"
             log(error_message)
             stack_trace = traceback.format_exc()
             log(f"Stack trace:\n{stack_trace}")
+            
             st.session_state.processed_files.append(
                 {
                     "id": file_id,
                     "original_name": original_file_name,
                     "output_path": None,
                     "eval_path": None,
-                    "status": f"Conversion Error: {str(e)}",
+                    "status": f"Conversion Error: {str(conversion_error)}",
                     "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                     "role_type": selected_format,
                     "job_description_type": st.session_state.optimization_method,
@@ -429,9 +522,12 @@ if submitted and uploaded_files:
                     "cgi_experience_added": "Yes" if include_default_cgi else "No",
                 }
             )
-    if rfp_file_path and os.path.exists(rfp_file_path):
+    
+    # Clean up RFP file if it exists
+    if 'rfp_file_path' in locals() and rfp_file_path and os.path.exists(rfp_file_path):
         os.remove(rfp_file_path)
         log(f"Cleaned up temporary RFP file: {rfp_file_path}")
+    
     progress_bar.progress(1.0)
     status_text.text("Processing complete!")
     log("All files processed")
@@ -506,11 +602,19 @@ if st.session_state.processed_files:
             eval_path = file.get("eval_path")
             if eval_path and os.path.exists(eval_path):
                 with open(eval_path, "rb") as eval_file:
+                    # Determine MIME type and button label based on file extension
+                    if eval_path.endswith('.pdf'):
+                        mime_type = "application/pdf"
+                        button_label = "📊 Evaluation (PDF)"
+                    else:
+                        mime_type = "application/json"
+                        button_label = "📊 Evaluation (JSON)"
+                        
                     st.download_button(
-                        label="📊 Evaluation",
+                        label=button_label,
                         data=eval_file,
                         file_name=os.path.basename(eval_path),
-                        mime="application/json",
+                        mime=mime_type,
                         key=f"eval_{i}",
                     )
             else:
@@ -533,6 +637,7 @@ if st.session_state.processed_files:
                 )
                 eval_path = file.get("eval_path")
                 if eval_path and os.path.exists(eval_path):
+                    # Add evaluation files to evaluations folder in zip
                     zip_file.write(
                         eval_path, f"evaluations/{os.path.basename(eval_path)}"
                     )
@@ -568,6 +673,13 @@ if st.session_state.processed_files:
                             log(f"Deleted file: {file['output_path']}")
                         except Exception as e:
                             log(f"Error deleting file {file['output_path']}: {str(e)}")
+                    # Also clean up evaluation files
+                    if file.get("eval_path") and os.path.exists(file["eval_path"]):
+                        try:
+                            os.remove(file["eval_path"])
+                            log(f"Deleted evaluation file: {file['eval_path']}")
+                        except Exception as e:
+                            log(f"Error deleting evaluation file {file['eval_path']}: {str(e)}")
                 st.session_state.processed_files = []
                 initialize_log_box(log_box)
                 st.rerun()

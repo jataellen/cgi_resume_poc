@@ -381,3 +381,343 @@ Include specific technical requirements and domain knowledge relevant to the cli
 
 Context from RFP: {context}
 """
+
+
+
+# Add these to the END of your existing data/prompts.py file:
+
+# Enhanced evaluation prompts
+ENHANCED_EVALUATION_SP = """
+You are an expert resume evaluator and career advisor with extensive experience in hiring across various industries. 
+You specialize in identifying specific issues that commonly affect resume effectiveness and providing actionable feedback.
+"""
+
+ENHANCED_EVALUATION_HP = """
+Evaluate the following resume comprehensively, paying special attention to these critical areas:
+
+Resume Content:
+{resume_text}
+
+{job_description_context}
+
+EVALUATION CRITERIA:
+
+1. EXPERIENCE SECTION ANALYSIS:
+   - Check if the 3 most recent roles have detailed, substantial descriptions (3-4+ bullet points each)
+   - Verify older roles (4+ positions back) are appropriately condensed (1-2 bullet points)
+   - Identify any single-sentence job descriptions that need expansion
+   - Look for chronological gaps in employment and flag them
+   - For each role, assess if responsibilities demonstrate measurable impact and specific achievements
+
+2. ROLE-SPECIFIC RELEVANCE:
+   - If this appears to be a Business Analyst resume, evaluate how well BA-specific skills and experiences are highlighted
+   - If this appears to be a Developer resume, assess technical depth and project complexity
+   - If this appears to be a Director/Manager resume, evaluate leadership and strategic contributions
+   - Flag if the resume doesn't clearly align with the apparent target role
+
+3. PROJECTS SECTION QUALITY:
+   - Identify projects that lack sufficient detail (especially recent ones)
+   - Flag projects with vague descriptions or missing technical details
+   - Check if project outcomes and impact are clearly stated
+   - Verify if projects align with the candidate's apparent career trajectory
+
+4. CONTENT AND PRESENTATION ISSUES:
+   - Grammar, spelling, and formatting errors
+   - Inconsistent date formats or missing information
+   - Contact information completeness and professionalism
+   - Skills section organization and relevance
+
+5. OVERALL RESUME STRATEGY:
+   - Assess if the resume tells a coherent career story
+   - Evaluate if the most relevant experiences are properly emphasized
+   - Check for appropriate use of keywords for the target role
+
+For each major section, provide:
+- A rating from 1-10 (use decimals like 6.8, not whole numbers only)
+- 3 specific things done well
+- 3 specific areas for improvement
+- Flag sections scoring below 6 as needing immediate attention
+
+Return as JSON with this exact structure:
+{{
+    "overall_score": <decimal_score_1_to_10>,
+    "section_weights": {{
+        "Profile": 0.25,
+        "Skills": 0.2,
+        "Experience": 0.25,
+        "Education": 0.1,
+        "Projects": 0.1,
+        "Volunteer Experience": 0.05,
+        "Contact Information": 0.05
+    }},
+    "ratings_summary": {{
+        "Profile": <score>,
+        "Skills": <score>,
+        "Experience": <score>,
+        "Education": <score>,
+        "Projects": <score>,
+        "Volunteer Experience": <score>,
+        "Contact Information": <score>
+    }},
+    "Profile/Professional Summary": {{
+        "things_done_poorly": ["issue1", "issue2", "issue3"],
+        "things_done_well": ["strength1", "strength2", "strength3"],
+        "rating": <score>,
+        "flag": <true_if_under_6>
+    }},
+    "Skills": {{
+        "things_done_poorly": ["issue1", "issue2", "issue3"],
+        "things_done_well": ["strength1", "strength2", "strength3"],
+        "rating": <score>,
+        "flag": <true_if_under_6>
+    }},
+    "Experience": {{
+        "things_done_poorly": ["issue1", "issue2", "issue3"],
+        "things_done_well": ["strength1", "strength2", "strength3"],
+        "rating": <score>,
+        "flag": <true_if_under_6>,
+        "recent_roles_detail_level": "adequate|insufficient|missing",
+        "older_roles_appropriate": "yes|no",
+        "employment_gaps": ["list of identified gaps or empty array"],
+        "single_sentence_descriptions": ["list of roles with insufficient detail"]
+    }},
+    "Education": {{
+        "things_done_poorly": ["issue1", "issue2", "issue3"],
+        "things_done_well": ["strength1", "strength2", "strength3"],
+        "rating": <score>,
+        "flag": <true_if_under_6>
+    }},
+    "Projects": {{
+        "things_done_poorly": ["issue1", "issue2", "issue3"],
+        "things_done_well": ["strength1", "strength2", "strength3"],
+        "rating": <score>,
+        "flag": <true_if_under_6>,
+        "projects_needing_detail": ["list of project names/descriptions that need more detail"],
+        "recent_projects_adequate": "yes|no"
+    }},
+    "Volunteer Experience": {{
+        "things_done_poorly": ["issue1", "issue2", "issue3"],
+        "things_done_well": ["strength1", "strength2", "strength3"],
+        "rating": <score>,
+        "flag": <true_if_under_6>
+    }},
+    "Contact Information": {{
+        "things_done_poorly": ["issue1", "issue2", "issue3"],
+        "things_done_well": ["strength1", "strength2", "strength3"],
+        "rating": <score>,
+        "flag": <true_if_under_6>
+    }},
+    "grammar_and_formatting_issues": ["list of specific grammar/formatting errors found"],
+    "role_alignment_assessment": {{
+        "apparent_target_role": "detected role type",
+        "alignment_quality": "excellent|good|fair|poor",
+        "role_specific_recommendations": ["role-specific suggestions"]
+    }},
+    "recommendations": [
+        "Specific actionable recommendation 1",
+        "Specific actionable recommendation 2",
+        "Specific actionable recommendation 3",
+        "Additional recommendations as needed"
+    ],
+    "priority_fixes": [
+        "Most critical issue to address first",
+        "Second priority issue",
+        "Third priority issue"
+    ]
+}}
+
+IMPORTANT SCORING GUIDELINES:
+- Use decimal scores (e.g., 6.8, 7.3) not just whole numbers
+- Overall score should be weighted average of section scores
+- Be specific in feedback - avoid generic comments
+- Focus on actionable improvements
+- Flag critical issues that would immediately hurt job prospects
+"""
+
+ROLE_SPECIFIC_EVALUATION_HP = """
+Evaluate the following resume for a {target_role} position, with special focus on role-specific requirements:
+
+Resume Content:
+{resume_text}
+
+Target Role: {target_role}
+{job_description_context}
+
+ROLE-SPECIFIC EVALUATION FOCUS:
+
+For Business Analyst roles, emphasize:
+- Requirements gathering and documentation skills
+- Stakeholder management experience
+- Process improvement and analysis capabilities
+- Technical documentation and communication skills
+- Business process mapping and workflow optimization
+
+For Developer roles, emphasize:
+- Technical skills depth and currency
+- Project complexity and technical achievements
+- Code quality, architecture, and best practices
+- Problem-solving and innovation examples
+- Technology stack expertise and learning agility
+
+For Director/Manager roles, emphasize:
+- Leadership and team management experience
+- Strategic planning and execution
+- Budget and resource management
+- Cross-functional collaboration
+- Business impact and measurable results
+
+CRITICAL EVALUATION AREAS:
+1. Recent experience detail (last 3 roles should have 3-4+ bullet points)
+2. Older experience appropriately condensed (4+ roles back should be 1-2 bullets)
+3. Role-specific skill highlighting for {target_role}
+4. Project detail sufficiency (especially recent projects)
+5. Employment gap identification
+6. Grammar and formatting consistency
+7. Overall career narrative coherence
+
+For each major section, provide:
+- A rating from 1-10 (use decimals like 6.8, not whole numbers only)
+- 3 specific things done well
+- 3 specific areas for improvement
+- Flag sections scoring below 6 as needing immediate attention
+
+Return as JSON with this EXACT structure:
+{{
+    "overall_score": <decimal_score_1_to_10>,
+    "section_weights": {{
+        "Profile": 0.25,
+        "Skills": 0.2,
+        "Experience": 0.25,
+        "Education": 0.1,
+        "Projects": 0.1,
+        "Volunteer Experience": 0.05,
+        "Contact Information": 0.05
+    }},
+    "ratings_summary": {{
+        "Profile": <score>,
+        "Skills": <score>,
+        "Experience": <score>,
+        "Education": <score>,
+        "Projects": <score>,
+        "Volunteer Experience": <score>,
+        "Contact Information": <score>
+    }},
+    "Profile/Professional Summary": {{
+        "things_done_poorly": ["issue1", "issue2", "issue3"],
+        "things_done_well": ["strength1", "strength2", "strength3"],
+        "rating": <score>,
+        "flag": <true_if_under_6>
+    }},
+    "Skills": {{
+        "things_done_poorly": ["issue1", "issue2", "issue3"],
+        "things_done_well": ["strength1", "strength2", "strength3"],
+        "rating": <score>,
+        "flag": <true_if_under_6>
+    }},
+    "Experience": {{
+        "things_done_poorly": ["issue1", "issue2", "issue3"],
+        "things_done_well": ["strength1", "strength2", "strength3"],
+        "rating": <score>,
+        "flag": <true_if_under_6>,
+        "recent_roles_detail_level": "adequate|insufficient|missing",
+        "older_roles_appropriate": "yes|no",
+        "employment_gaps": ["list of identified gaps or empty array"],
+        "single_sentence_descriptions": ["list of roles with insufficient detail"]
+    }},
+    "Education": {{
+        "things_done_poorly": ["issue1", "issue2", "issue3"],
+        "things_done_well": ["strength1", "strength2", "strength3"],
+        "rating": <score>,
+        "flag": <true_if_under_6>
+    }},
+    "Projects": {{
+        "things_done_poorly": ["issue1", "issue2", "issue3"],
+        "things_done_well": ["strength1", "strength2", "strength3"],
+        "rating": <score>,
+        "flag": <true_if_under_6>,
+        "projects_needing_detail": ["list of project names/descriptions that need more detail"],
+        "recent_projects_adequate": "yes|no"
+    }},
+    "Volunteer Experience": {{
+        "things_done_poorly": ["issue1", "issue2", "issue3"],
+        "things_done_well": ["strength1", "strength2", "strength3"],
+        "rating": <score>,
+        "flag": <true_if_under_6>
+    }},
+    "Contact Information": {{
+        "things_done_poorly": ["issue1", "issue2", "issue3"],
+        "things_done_well": ["strength1", "strength2", "strength3"],
+        "rating": <score>,
+        "flag": <true_if_under_6>
+    }},
+    "grammar_and_formatting_issues": ["list of specific grammar/formatting errors found"],
+    "role_alignment_assessment": {{
+        "apparent_target_role": "detected role type",
+        "alignment_quality": "excellent|good|fair|poor",
+        "role_specific_recommendations": ["role-specific suggestions"]
+    }},
+    "recommendations": [
+        "Specific actionable recommendation 1",
+        "Specific actionable recommendation 2",
+        "Specific actionable recommendation 3",
+        "Additional recommendations as needed"
+    ],
+    "priority_fixes": [
+        "Most critical issue to address first",
+        "Second priority issue",
+        "Third priority issue"
+    ]
+}}
+
+IMPORTANT SCORING GUIDELINES:
+- Use decimal scores (e.g., 6.8, 7.3) not just whole numbers
+- Overall score should be weighted average of section scores
+- Be specific in feedback - avoid generic comments
+- Focus on actionable improvements
+- Flag critical issues that would immediately hurt job prospects
+- MUST return valid JSON in the exact format specified above
+"""
+
+QUICK_EVALUATION_SP = """
+You are a senior hiring manager conducting a rapid resume screening. Focus on the most critical resume issues that would immediately disqualify or advance a candidate.
+"""
+
+QUICK_EVALUATION_HP = """
+Conduct a rapid evaluation of this resume, focusing on critical issues:
+
+{resume_text}
+
+Identify the TOP 5 CRITICAL ISSUES that need immediate attention:
+
+1. Experience section problems (insufficient detail in recent roles, gaps, poor descriptions)
+2. Role relevance and alignment issues
+3. Grammar, formatting, or presentation errors
+4. Missing or inadequate project details
+5. Contact information or professional presentation issues
+
+Return concise, actionable feedback in this JSON format:
+{{
+    "overall_score": <score_1_to_10>,
+    "critical_issues": [
+        "Issue 1 description",
+        "Issue 2 description", 
+        "Issue 3 description",
+        "Issue 4 description",
+        "Issue 5 description"
+    ],
+    "immediate_fixes": [
+        "Quick fix 1",
+        "Quick fix 2",
+        "Quick fix 3"
+    ],
+    "role_assessment": {{
+        "apparent_role": "detected role type",
+        "role_clarity": "clear|unclear|mixed"
+    }},
+    "experience_analysis": {{
+        "recent_roles_detail": "sufficient|insufficient|missing",
+        "employment_gaps": ["list gaps or empty"],
+        "weak_descriptions": ["roles needing expansion"]
+    }}
+}}
+"""
