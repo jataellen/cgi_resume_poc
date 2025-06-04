@@ -2,86 +2,91 @@
   "cgi_experience": [],
   "other_experience": [
     {
-      "company": "Self-employed",
-      "position_title": "Independent Data Scientist",
-      "start_date": "12/2024",
+      "company": "Nova Scotia Community College",
+      "position_title": "Head of Offensive Security Club",
+      "start_date": "08/24",
       "end_date": "Present",
       "responsibilities": [
-        "Developed an application to make scanned Iranian historical newspapers searchable using Retrieval-Augmented Generation (RAG).",
-        "Converted scanned archives into machine-readable text to enhance research accessibility.",
-        "Implemented full-text and semantic search for intuitive document retrieval.",
-        "Created graph-based search to explore document relationships through visualizations.",
-        "Built a chatbot assistant for natural language queries to simplify archive exploration."
+        "Designed Capture The Flag challenges and labs using Virtual Machines to enhance students' offensive security skills effectively."
       ],
-      "technologies": [
-        "Retrieval-Augmented Generation (RAG)",
-        "Graph Visualizations",
-        "Chatbot Development",
-        "Semantic Search"
-      ]
+      "technologies": []
     },
     {
-      "company": "Nu Data",
-      "position_title": "Data Scientist",
-      "start_date": "04/2024",
-      "end_date": "11/2024",
+      "company": "Maritime Warfare Center",
+      "position_title": "Senior Staff Officer \u2013 Simulation and Modelling",
+      "start_date": "07/22",
+      "end_date": "08/23",
       "responsibilities": [
-        "Designed a custom Agentic Retrieval-Augmented Generation (RAG) solution for reliable data access via chatbot.",
-        "Fine-tuned Large Language Models to enhance semantic search, question answering, and function calling.",
-        "Automated large-scale data collection with web scraping tools across 50+ sources."
+        "Directed simulation and modelling efforts to support Royal Canadian Navy operations and training initiatives.",
+        "Spearheaded a $40 million classified network upgrade project, contributing to the modernization of naval capabilities."
       ],
-      "technologies": [
-        "Agentic RAG",
-        "Large Language Models",
-        "Semantic Search",
-        "Web Scraping"
-      ]
+      "technologies": []
     },
     {
-      "company": "XYON Health",
-      "position_title": "Data Scientist",
-      "start_date": "09/2023",
-      "end_date": "03/2024",
+      "company": "Naval Fleet School (Atlantic)",
+      "position_title": "Combat Systems Engineering Division Commander",
+      "start_date": "07/19",
+      "end_date": "07/22",
       "responsibilities": [
-        "Built a data warehouse reducing reporting time by 70% as sole data scientist.",
-        "Designed scalable ETL pipelines integrating data from over 11 sources.",
-        "Created dashboards delivering actionable insights for marketing, finance, and operations teams."
+        "Managed the training programs for Weapons Engineering Technicians and Combat Systems Engineering Officers in the East Coast fleet.",
+        "Supervised and mentored a team of 40 staff to achieve successful throughput of 120 students annually."
       ],
-      "technologies": [
-        "Data Warehousing",
-        "ETL Pipelines",
-        "Connected Dashboards"
-      ]
+      "technologies": []
     },
     {
-      "company": "BC Stats",
-      "position_title": "Data Scientist",
-      "start_date": "05/2023",
-      "end_date": "07/2023",
+      "company": "Fleet Maintenance Facility Cape Scott",
+      "position_title": "Executive Officer",
+      "start_date": "10/16",
+      "end_date": "07/19",
       "responsibilities": [
-        "Improved BC Data Catalogue search precision by 25% and recall by 40% with a new semantic search system.",
-        "Created topic modeling solutions with interactive visualizations enhancing user experience.",
-        "Earned two awards for project presentation and recognition on UBC's website."
+        "Oversaw HR, IT, and security operations for a 1,000-person unit specializing in ship repair and maintenance.",
+        "Led a team of 7 to successfully mitigate operational risks and ensure smooth ship maintenance activities."
       ],
-      "technologies": [
-        "Semantic Search",
-        "Topic Modeling",
-        "Interactive Visualizations"
-      ]
+      "technologies": []
     },
     {
-      "company": "BoldZee",
-      "position_title": "Data Analyst",
-      "start_date": "02/2019",
-      "end_date": "09/2021",
+      "company": "Naval Fleet School (Atlantic)",
+      "position_title": "Campus Support Division Commander",
+      "start_date": "01/14",
+      "end_date": "10/16",
       "responsibilities": [
-        "Automated data scraping pipelines to extract structured and unstructured data from over 40 sources.",
-        "Optimized ETL pipelines improving data processing efficiency by 20%."
+        "Supervised security, IT, and equipment maintenance to ensure uninterrupted training for approximately 600 students annually.",
+        "Managed 8 section heads and 60 personnel, implementing strategies to minimize training disruptions effectively."
       ],
-      "technologies": [
-        "Data Scraping",
-        "ETL Pipelines"
-      ]
+      "technologies": []
+    },
+    {
+      "company": "HMCS Ville de Quebec",
+      "position_title": "Combat Systems Engineering Officer",
+      "start_date": "07/12",
+      "end_date": "01/14",
+      "responsibilities": [
+        "Ensured mission readiness of all combat systems aboard HMCS Ville de Quebec while minimizing equipment downtime.",
+        "Directed a 60-person department, enabling a successful counter-drug operation in the Caribbean Basin."
+      ],
+      "technologies": []
+    },
+    {
+      "company": "Maritime Equipment Program Management",
+      "position_title": "Staff Officer (Minor Warships and Auxiliary Vessels)",
+      "start_date": "07/10",
+      "end_date": "07/12",
+      "responsibilities": [
+        "Led multi-million dollar upgrade projects, including satellite communication enhancements for KINGSTON class vessels.",
+        "Coordinated maintenance and equipment upgrade efforts for Minor War Vessels in the Royal Canadian Navy."
+      ],
+      "technologies": []
+    },
+    {
+      "company": "Royal Canadian Navy",
+      "position_title": "Engineering Officer under training",
+      "start_date": "08/04",
+      "end_date": "07/10",
+      "responsibilities": [
+        "Completed training as Head of Combat Systems Engineering for HALIFAX class Frigates, specializing in critical systems.",
+        "Certified in safety roles including Radiation Safety Officer and Ammunition Officer, accumulating 300 sea days in deployments."
+      ],
+      "technologies": []
     }
   ]
 }

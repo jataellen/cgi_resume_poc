@@ -184,6 +184,9 @@ function AppWrapper() {
   const [rfpFile, setRfpFile] = useState(null);
   const [currentStep, setCurrentStep] = useState(0);
   
+  // Add state to track processed files in advanced mode
+  const [processedFiles, setProcessedFiles] = useState([]);
+  
   const statusIntervalRef = useRef(null);
 
   // ALL HOOKS MUST BE AT THE TOP - BEFORE ANY RETURNS
@@ -276,6 +279,7 @@ function AppWrapper() {
     }
   };
 
+  // Updated handleAdvancedUpload function with proper sessionId tracking
   const handleAdvancedUpload = async () => {
     if (selectedFiles.length === 0) return;
 
@@ -284,6 +288,7 @@ function AppWrapper() {
     setError(null);
     setLogs([]);
     setProgress(0);
+    setProcessedFiles([]); // Reset processed files
 
     try {
       const results = [];
@@ -293,7 +298,23 @@ function AppWrapper() {
         setLogs(prev => [...prev, `Processing file ${i + 1}/${selectedFiles.length}: ${file.name}`]);
         
         try {
-          const uploadResult = await apiService.uploadResume(file);
+          // Create FormData for complex upload with all parameters
+          const formData = new FormData();
+          formData.append('file', file);
+          formData.append('selected_format', selectedFormat);
+          formData.append('custom_role_title', customRoleTitle || '');
+          formData.append('include_default_cgi', includeDefaultCgi);
+          formData.append('optimization_method', optimizationMethod);
+          formData.append('job_description', jobDescription || '');
+          
+          if (rfpFile) {
+            formData.append('rfp_file', rfpFile);
+          }
+
+          // Use the complex upload endpoint if it exists, otherwise use regular upload
+          const uploadResult = await apiService.uploadResumeComplex 
+            ? await apiService.uploadResumeComplex(formData)
+            : await apiService.uploadResume(file);
           
           const result = await new Promise((resolve) => {
             const intervalId = setInterval(async () => {
@@ -304,7 +325,7 @@ function AppWrapper() {
                   setLogs(prev => {
                     const newLogs = [...prev];
                     status.logs.forEach(log => {
-                      if (!newLogs.includes(log) && !log.includes(file.name)) {
+                      if (!newLogs.includes(log)) {
                         newLogs.push(log);
                       }
                     });
@@ -317,11 +338,20 @@ function AppWrapper() {
                 
                 if (status.status === 'completed' || status.status === 'error') {
                   clearInterval(intervalId);
-                  resolve(status);
+                  resolve({
+                    ...status,
+                    sessionId: uploadResult.sessionId,
+                    originalFileName: file.name
+                  });
                 }
               } catch (err) {
                 clearInterval(intervalId);
-                resolve({ status: 'error', error: err.message });
+                resolve({ 
+                  status: 'error', 
+                  error: err.message,
+                  sessionId: uploadResult.sessionId,
+                  originalFileName: file.name
+                });
               }
             }, 1000);
           });
@@ -331,20 +361,25 @@ function AppWrapper() {
             status: result.status,
             downloadUrl: result.downloadUrl,
             error: result.error,
-            sessionId: uploadResult.sessionId
+            sessionId: result.sessionId,
+            fileName: file.name.replace(/\.(pdf|docx)$/i, '_updated.docx')
           });
           
         } catch (err) {
           results.push({
             originalName: file.name,
             status: 'error',
-            error: err.message
+            error: err.message,
+            sessionId: null,
+            fileName: null
           });
         }
       }
       
+      setProcessedFiles(results);
       setIsCompleted(true);
       setIsUploading(false);
+      setProgress(100);
       
     } catch (err) {
       console.error('Upload error:', err);
@@ -373,10 +408,58 @@ function AppWrapper() {
     }
   };
 
+  // Add function to handle individual file downloads
+  const handleDownloadFile = async (sessionId, fileName) => {
+    if (!sessionId) return;
+
+    try {
+      const blob = await apiService.downloadResume(sessionId);
+      
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('Download error:', err);
+      setError(`Failed to download ${fileName}: ${err.message}`);
+    }
+  };
+
+  // Add function to handle downloading all files as a zip
+  const handleDownloadAll = async () => {
+    const successfulFiles = processedFiles.filter(file => 
+      file.status === 'completed' && file.sessionId
+    );
+    
+    if (successfulFiles.length === 0) {
+      setError('No files available for download');
+      return;
+    }
+
+    try {
+      // Simple approach: download files individually
+      // You can implement zip functionality later by installing jszip
+      for (const file of successfulFiles) {
+        await handleDownloadFile(file.sessionId, file.fileName);
+        // Add small delay between downloads to avoid overwhelming the browser
+        await new Promise(resolve => setTimeout(resolve, 500));
+      }
+    } catch (err) {
+      console.error('Download all error:', err);
+      setError(`Failed to download files: ${err.message}`);
+    }
+  };
+
+  // Updated handleReset function to clear processed files
   const handleReset = () => {
     setIsCompleted(false);
     setSelectedFile(null);
     setSelectedFiles([]);
+    setProcessedFiles([]); // Add this line
     setLogs([]);
     setSessionId(null);
     setProgress(0);
@@ -793,7 +876,7 @@ function AppWrapper() {
         {isCompleted && (
           <Fade in={true}>
             <Box sx={{ 
-              maxWidth: 800, 
+              maxWidth: 1000, 
               width: '100%'
             }}>
               <StyledCard sx={{ mb: 3 }}>
@@ -802,22 +885,80 @@ function AppWrapper() {
                     <span className="material-symbols-outlined">check_circle</span>
                   </SuccessIcon>
                   <Typography variant="h4" sx={{ mb: 3, color: cgiColors.primary, fontWeight: 700 }}>
-                    Your resume is processed successfully!
+                    Processing Complete!
                   </Typography>
+                  
+                  {/* Show results for advanced mode */}
+                  {selectedMode === 'Advanced Mode' && processedFiles.length > 0 && (
+                    <Box sx={{ mb: 4 }}>
+                      <Typography variant="h6" sx={{ mb: 2, color: cgiColors.primary }}>
+                        Processed Files:
+                      </Typography>
+                      
+                      {processedFiles.map((file, index) => (
+                        <Box key={index} sx={{ 
+                          display: 'flex', 
+                          justifyContent: 'space-between', 
+                          alignItems: 'center',
+                          p: 2, 
+                          mb: 1,
+                          backgroundColor: file.status === 'completed' ? '#f0f9ff' : '#fef2f2',
+                          borderRadius: '8px',
+                          border: `1px solid ${file.status === 'completed' ? cgiColors.success : cgiColors.error}20`
+                        }}>
+                          <Box sx={{ textAlign: 'left' }}>
+                            <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                              {file.originalName}
+                            </Typography>
+                            <Typography variant="body2" sx={{ 
+                              color: file.status === 'completed' ? cgiColors.success : cgiColors.error 
+                            }}>
+                              {file.status === 'completed' ? 'Successfully processed' : `Error: ${file.error}`}
+                            </Typography>
+                          </Box>
+                          
+                          {file.status === 'completed' && file.sessionId && (
+                            <CGIButton
+                              variant="contained"
+                              size="small"
+                              onClick={() => handleDownloadFile(file.sessionId, file.fileName)}
+                              sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+                            >
+                              <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>download</span>
+                              Download
+                            </CGIButton>
+                          )}
+                        </Box>
+                      ))}
+                    </Box>
+                  )}
+                  
                   <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
                     <CGIButton
                       variant="outlined"
                       onClick={handleReset}
                     >
-                      Upload a new file
+                      {selectedMode === 'Advanced Mode' ? 'Process More Files' : 'Upload a new file'}
                     </CGIButton>
-                    <GradientButton
-                      onClick={handleDownload}
-                      sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
-                    >
-                      <span className="material-symbols-outlined">download</span>
-                      Download crafted file
-                    </GradientButton>
+                    
+                    {/* Show appropriate download button based on mode */}
+                    {selectedMode === 'Simple Mode' && sessionId ? (
+                      <GradientButton
+                        onClick={handleDownload}
+                        sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+                      >
+                        <span className="material-symbols-outlined">download</span>
+                        Download Resume
+                      </GradientButton>
+                    ) : selectedMode === 'Advanced Mode' && processedFiles.some(f => f.status === 'completed') && (
+                      <GradientButton
+                        onClick={handleDownloadAll}
+                        sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+                      >
+                        <span className="material-symbols-outlined">download</span>
+                        Download All ({processedFiles.filter(f => f.status === 'completed').length} files)
+                      </GradientButton>
+                    )}
                   </Box>
                 </CardContent>
               </StyledCard>
