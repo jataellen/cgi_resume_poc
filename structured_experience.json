@@ -1,73 +1,88 @@
 {
-  "cgi_experience": [
-    {
-      "cgi_client_or_sector": "IT Services",
-      "cgi_position_title": "Business Analyst & Project Coordinator",
-      "cgi_start_date": "07/24",
-      "cgi_end_date": "Present",
-      "cgi_responsibilities": [
-        "Documented current state business processes to identify and recommend operational efficiency opportunities.",
-        "Used advanced analytical skills to generate actionable insights, improving data-driven decision-making accuracy for project analysis.",
-        "Drafted future-state recommendations including streamlined processes, customer journey maps, organizational design, and operational improvements.",
-        "Created detailed reports with Excel and PowerPoint, enhancing stakeholder communication and supporting decision-making processes.",
-        "Designed future state blueprints and implementation plans with organizational structures, roles, effort estimates, and costs.",
-        "Coordinated tasks, schedules, and resources, ensuring successful project delivery within defined scopes."
-      ],
-      "cgi_technologies": [
-        "Excel",
-        "PowerPoint"
-      ]
-    }
-  ],
+  "cgi_experience": [],
   "other_experience": [
     {
-      "company": "Canadian Tire, Truro, NS",
-      "position_title": "Cash Balancer",
-      "start_date": "11/23",
-      "end_date": "07/24",
+      "company": "Amazon",
+      "position_title": "Language Engineer I",
+      "start_date": "11/25",
+      "end_date": "Present",
       "responsibilities": [
-        "Verified financial documents to ensure accurate cash flow information, supporting establishment operations.",
-        "Applied finance course knowledge to interpret financial statements and enhance understanding of organizational financial health.",
-        "Allocated funds paid to the establishment, ensuring accurate bank deposit preparation and reconciliation."
-      ],
-      "technologies": []
-    },
-    {
-      "company": "Government of Nova Scotia, Halifax, NS",
-      "position_title": "Operational & Service Excellence Intern",
-      "start_date": "01/23",
-      "end_date": "08/23",
-      "responsibilities": [
-        "Created programs and delivered virtual services and training sessions for over 230 participants using MS Teams, Power Automate, Excel, and Outlook.",
-        "Facilitated team meetings to identify organizational barriers and improve periodic management processes.",
-        "Designed standard operating procedures for services and events to ensure consistent and reliable operations.",
-        "Oversaw business process improvement training, including Lean Six Sigma Green Belt, Kaizen Belt, and Yellow Belt certifications.",
-        "Developed Power BI dashboards to enhance data analytics and support team decision-making with visual insights.",
-        "Planned and coordinated major events for over 70 attendees, collaborating effectively with colleagues.",
-        "Implemented a 5S methodology organizational system, improving team efficiency and operational workflow."
+        "Collaborated with scientists and engineers to design APIs and scalable solutions for analyzing language data.",
+        "Engineered prompts for generative AI, automated workflows, and analyzed data using Python and scripting tools.",
+        "Managed customer-facing machine learning models, resolved production issues, and deployed Alexa language updates.",
+        "Tested new features and updates for language models using advanced modeling tools."
       ],
       "technologies": [
-        "MS Teams",
-        "Power Automate",
-        "Excel",
-        "Outlook",
-        "Power BI"
+        "Python",
+        "Scripting tools"
       ]
     },
     {
-      "company": "Canadian Tire, Truro, NS",
-      "position_title": "Customer Service Representative",
-      "start_date": "11/15",
-      "end_date": "06/22",
+      "company": "TEKsystems at Meta",
+      "position_title": "Machine Learning Engineer",
+      "start_date": "02/24",
+      "end_date": "09/24",
       "responsibilities": [
-        "Resolved customer inquiries and complaints through effective communication and conflict resolution skills in a fast-paced retail environment.",
-        "Delivered exceptional customer service to meet diverse customer needs, building trust and loyalty.",
-        "Handled cash transactions responsibly, ensuring accurate register preparation for store openings.",
-        "Trained new employees on store policies, processes, and operational technologies, ensuring team readiness.",
-        "Organized staffing schedules, managing break times for up to eight cashiers per shift while addressing team needs.",
-        "Acquired problem-solving, organizational, and communication skills by performing duties across various departments."
+        "Performed extensive feature replacement for ads-based models to ensure privacy compliance and metric neutrality.",
+        "Implemented innovative feature-replacement algorithms on models with varying architectures in a consolidated feature space.",
+        "Conducted in-depth offline experimentation and online A/B testing to evaluate model effectiveness.",
+        "Collaborated with cross-functional teams to ensure a smooth transition to privacy-compliant models."
       ],
-      "technologies": []
+      "technologies": [
+        "Feature-replacement algorithms",
+        "A/B testing"
+      ]
+    },
+    {
+      "company": "TEKsystems at Meta",
+      "position_title": "Prompt Engineering Team Lead",
+      "start_date": "07/23",
+      "end_date": "02/24",
+      "responsibilities": [
+        "Conducted a comprehensive evaluation of conversational abilities in generative AI models.",
+        "Established a new human evaluation process to assess safety, accuracy, and engagement of AI responses.",
+        "Developed prompt-based finetuning strategies and performed adversarial testing to improve AI performance.",
+        "Created a backend Python system to support human evaluation and optimize workflow efficiency.",
+        "Evaluated team capabilities to allocate tasks, improving efficiency and resource optimization."
+      ],
+      "technologies": [
+        "Python",
+        "Prompt-based finetuning"
+      ]
+    },
+    {
+      "company": "Geering Up STEM Outreach UBC",
+      "position_title": "Quantum Computing Curriculum Developer",
+      "start_date": "05/23",
+      "end_date": "08/23",
+      "responsibilities": [
+        "Worked with industry experts to design engaging quantum computing curriculum for high school workshops and camps.",
+        "Trained instructors on curriculum delivery, ensuring effective teaching of quantum computing concepts.",
+        "Analyzed participant feedback to improve curriculum content and enhance the learning experience."
+      ],
+      "technologies": [
+        "Curriculum development"
+      ]
+    },
+    {
+      "company": "Infosys",
+      "position_title": "Network Systems Engineer",
+      "start_date": "07/21",
+      "end_date": "07/22",
+      "responsibilities": [
+        "Trained in networking, Unix, routing, switching, and network automation using Ansible.",
+        "Designed and managed EDGE data center projects for Daimler as part of the Everest Project."
+      ],
+      "technologies": [
+        "Networking",
+        "Unix",
+        "Routing",
+        "Switching",
+        "Network Automation",
+        "Ansible",
+        "Agile",
+        "Scrum"
+      ]
     }
   ]
 }

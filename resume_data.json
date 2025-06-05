@@ -1,337 +1,438 @@
 {
     "structured_data": {
         "contact": {
-            "name": "Veronica Hawkes",
-            "email": "vhawkes@dal.ca",
-            "phone": "902-324-1548",
-            "location": "Hilden, NS",
-            "linkedin": "linkedin.com/in/veronicahawkes"
+            "name": "ANANYA APPARAJU",
+            "email": "ananya.apparaju@gmail.com",
+            "phone": "",
+            "location": "",
+            "linkedin": "",
+            "website": ""
         },
-        "professional_summary": "A highly driven and focused individual with more than 10,000 engagements over 9 years working in client-facing roles. Strong analytical and problem-solving capabilities developed through university-level courses, research, and retail experience. Excellent leadership, communication, and interpersonal skills developed through supporting client projects within CGI and the Government of Nova Scotia and leading teams in both competitive sport and retail environments. Exceptional team player with financial and technical knowledge who can adapt and function in fast-paced environments.",
+        "professional_summary": "Passionate about solving complex problems in natural language processing and information retrieval. Skilled in machine learning and deep learning techniques. Experienced in Python, Java, and C++. Committed to continuous learning and driving innovation in language technology.",
         "education": [
             {
-                "degree": "Master of Business Administration",
-                "field_of_study": "Enterprise Analytics",
-                "institution": "Dalhousie University",
-                "location": "Halifax, NS",
-                "graduation_year": "2024"
+                "degree": "Master of Data Science",
+                "field_of_study": "Computational Linguistics",
+                "institution": "University of British Columbia",
+                "location": "Vancouver, BC",
+                "graduation_year": "2023"
             },
             {
-                "degree": "Bachelor of Science",
-                "field_of_study": "Human Kinetics",
-                "institution": "St. Francis Xavier University",
-                "location": "Antigonish, NS",
-                "graduation_year": "2022"
+                "degree": "Bachelor of Technology",
+                "field_of_study": "Electronics and Communications Engineering",
+                "institution": "Jawaharlal Nehru Technological University",
+                "location": "Hyderabad, Telangana, India",
+                "graduation_year": "2020"
             }
         ],
         "experience": [
             {
-                "job_title": "Business Analyst & Project Coordinator",
-                "company": "CGI",
-                "location": "Halifax, NS",
-                "start_date": "Jul. 2024",
+                "job_title": "Language Engineer I",
+                "company": "Amazon",
+                "location": "Chennai, India",
+                "start_date": "2025-11",
                 "end_date": "Present",
-                "responsibilities": "\u2022 Documented current state business processes to define operational efficiency opportunities. \u2022 Utilized advanced analytical skills to derive actionable insights, enhancing data-driven decision-making accuracy for project analysis. \u2022 Drafted future-state recommendations including streamlined processes, customer journey maps, organizational design, and operational improvements. \u2022 Produced comprehensive reports using Excel and PowerPoint, improving stakeholder communication and aiding decision-making process. \u2022 Created future state blueprints and implementation plan with organizational structure, roles, effort, and cost for implementation. \u2022 Coordinated tasks, schedules, and resources, ensuring project success within defined scopes."
+                "responsibilities": "Collaborated with scientists and engineers to design APIs, evaluate LLM performance, and develop scalable solutions for language data production and analysis. Engineered prompts for generative AI, automated workflows, and performed data analysis using Python and scripting tools. Managed customer-facing ML and deterministic models, resolved production issues, deployed Alexa language updates, and tested new features with modeling tools."
             },
             {
-                "job_title": "Cash Balancer",
-                "company": "Canadian Tire",
-                "location": "Truro, NS",
-                "start_date": "Nov. 2023",
-                "end_date": "Jul. 2024",
-                "responsibilities": "\u2022 Ensured financial documents obtained accurate cash flow information from the establishment. \u2022 Leveraged knowledge gained from finance and financial statement courses to understand and interpret documents. \u2022 Responsible for allocating all funds paid to the establishment to develop a bank deposit."
+                "job_title": "Machine Learning Engineer",
+                "company": "TEKsystems at Meta",
+                "location": "Vancouver, BC",
+                "start_date": "2024-02",
+                "end_date": "2024-09",
+                "responsibilities": "Performed extensive feature replacement for ads-based models to ensure privacy compliance while retaining neutral metrics. Implemented innovative feature-replacement algorithms on models of varying architectures in a consolidated feature space. Conducted thorough testing and analysis through offline experimentation and online A/B testing. Collaborated closely with cross-functional teams to facilitate a seamless transition to privacy-compliant models."
             },
             {
-                "job_title": "Operational & Service Excellence Intern",
-                "company": "Government of Nova Scotia",
-                "location": "Halifax, NS",
-                "start_date": "Jan. 2023",
-                "end_date": "Aug. 2023",
-                "responsibilities": "\u2022 Produced programs, services, and trainings virtually for more than 230 participants across the Provincial Government leveraging MS Teams, Power Automate, Excel, and Outlook. \u2022 Facilitated and led team meetings using periodic management to identify organizational barriers. \u2022 Created standard operating procedures for services and events to ensure uniform operations. \u2022 Acquired comprehensive understanding of business process improvement by overseeing proper functioning of the Foundations of Business Process Improvement Training, the Lean Six Sigma Green Belt Program, the Business Process Owner Training, and the Lean Six Sigma Kaizen Belt Training. \u2022 Utilized Power BI to improve data analytics within the team by creating visual dashboards. \u2022 Supported individuals across Government achieve their Lean Six Sigma Yellow Belt Certification by completing Quick Wins in their business areas. \u2022 Collaborated with several colleagues to plan and coordinate a major event for more than 70 people. \u2022 Developed an organizational system using 5S methodology, a Lean Six Sigma approach improving overall team efficiency."
+                "job_title": "Prompt Engineering Team Lead",
+                "company": "TEKsystems at Meta",
+                "location": "Vancouver, BC",
+                "start_date": "2023-07",
+                "end_date": "2024-02",
+                "responsibilities": "Led a comprehensive assessment of conversational abilities of generative AI models. Established a novel human evaluation process to measure specific conversational criteria- developed metrics for safety, accuracy, naturalness, and engagement levels of AI responses. Constructed effective prompt-based finetuning strategies, improved thorough adversarial and red-teaming experimentation. Developed a backend Pythonic system to augment human evaluation. Conducted strategic evaluations of team capabilities to allocate daily tasks which improved efficiency, reduced learning curves, and optimized resource allocation."
             },
             {
-                "job_title": "Customer Service Representative",
-                "company": "Canadian Tire",
-                "location": "Truro, NS",
-                "start_date": "Nov. 2015",
-                "end_date": "Jun. 2022",
-                "responsibilities": "\u2022 Exceptional communication, conflict resolution, and organizational skills developed through triaging customer inquiries and complaints. \u2022 Provided exceptional customer service to diverse customer needs in a fast-paced environment. \u2022 Demonstrated responsibility and reliability handling cash and preparing registers for store open. \u2022 Trained incoming employees on store policies, processes, and store specific technology. \u2022 Organized staffing allocation by determining break times for up to 8 cashiers per shift; managing time to ensure associates needs were met. \u2022 Developed extensive problem-solving, organizational, and communication skills working in various departments."
+                "job_title": "Quantum Computing Curriculum Developer",
+                "company": "Geering Up STEM Outreach UBC",
+                "location": "Vancouver, BC",
+                "start_date": "2023-05",
+                "end_date": "2023-08",
+                "responsibilities": "Collaborated with industry professionals and graduate students to develop age-appropriate curriculum materials for high school workshops, camps, and teacher training programs, created engaging and interactive learning experiences. Presented curriculum to instructors, provided training sessions, and guided them in the delivery of quantum computing workshops and camps. Collected and analyzed participant feedback to continuously improve curriculum content and instructional methods, aiming to enhance the educational experience."
+            },
+            {
+                "job_title": "Network Systems Engineer",
+                "company": "Infosys",
+                "location": "Hyderabad, Telangana, India",
+                "start_date": "2021-07",
+                "end_date": "2022-07",
+                "responsibilities": "Trained in Networking, Unix, Routing, Switching, Network Automation with Ansible and Agile and Scrum practices. Implemented design, documentation, and project management in EDGE DCs for Daimler, as a part of the Everest Project."
             }
         ],
         "skills": [
-            "Tableau",
-            "SAP",
-            "MS Teams",
-            "Power Automate",
-            "Excel",
-            "Analytical skills",
-            "Problem-solving",
-            "Leadership",
-            "Communication",
-            "Interpersonal skills",
-            "Teamwork",
-            "Adaptability",
-            "Financial knowledge",
-            "Technical knowledge"
+            "Python",
+            "SQL/NoSQL",
+            "Java",
+            "C/C++",
+            "Git",
+            "Unix/Ansible",
+            "HTML/CSS",
+            "React",
+            "Data Manipulation",
+            "Descriptive Statistics and Probability",
+            "Algorithms and Data Structures",
+            "Data Visualization",
+            "Statistical Inference",
+            "Supervised Learning",
+            "Regression",
+            "Computational Parsing",
+            "Computational Semantics",
+            "Unsupervised Learning",
+            "Computational Morphology",
+            "Machine Translation",
+            "Sentiment Analysis",
+            "NLP for Low Resource Languages",
+            "Prompt Engineering",
+            "Analog and Digital Networks",
+            "Switching and Logic Theory",
+            "Digital Signal and Image Processing"
         ],
-        "certifications": [
+        "volunteer_experience": [
             {
-                "name": "Lean Six Sigma Green Belt",
-                "issuing_organization": "Six Sigma Global Institute",
-                "issue_date": "Dec. 2024"
-            },
-            {
-                "name": "Certified SAFe 6 Practitioner",
-                "issuing_organization": "Scaled Agile Inc.",
-                "issue_date": "Aug. 2024"
-            },
-            {
-                "name": "SAP Student Recognition Award",
-                "issuing_organization": "SAP University Alliances, Dalhousie University",
-                "issue_date": "Jun. 2024"
-            },
-            {
-                "name": "Lean Six Sigma Yellow Belt",
-                "issuing_organization": "Government of Nova Scotia",
-                "issue_date": "Jan. 2023"
+                "organization": "Stanford University",
+                "role": "Section Leader for Code in Place",
+                "location": "",
+                "start_date": "",
+                "end_date": "",
+                "description": "Facilitated weekly discussion sessions for 8-10 students as a volunteer section leader to supplement professors' lectures in the 6-week introductory Python programming course. Collaborated with a diverse group of 700 volunteer teachers and 9000 students from around the world to deliver a quality educational experience."
             }
-        ]
+        ],
+        "certifications": [],
+        "projects": [
+            {
+                "title": "NLP-Based Analysis of Ontario Housing Legislation and Judicial Relevance Factors in Decisions on Eviction (Capstone Project)",
+                "description": "Conducted text mining and comprehensive analysis of 44,228 Ontario Housing cases using NLP principles. Developed a validated model to determine recurring factors that judges consider when ordering or delaying evictions. Designed and built an API/dashboard to provide quasi-real-time outcomes by applying the model to any Residential Tenancy Board (RTB) decisions.",
+                "technologies": [],
+                "link": ""
+            },
+            {
+                "title": "SIGMORPHON Shared Task on Interlinear Glossing",
+                "description": "Published a paper that was accepted into ACL titled 'Glossy Bytes- Neural Glossing using Subword Encoding.' Researched ways to automate the creation of interlinear glossed text, a key annotated data type in linguistic fieldwork and often the sole form of annotated data accessible for NLP work in low-resource languages. Developed a transformer-based deep learning model that produces grammatical descriptions at the morpheme level based on input sentences adhering to the Leipzig glossing conventions.",
+                "technologies": [],
+                "link": ""
+            },
+            {
+                "title": "Brainy: The Mental Health Screening Chatbot",
+                "description": "Finetuned an LLM using cutting edge prompt engineering techniques to administer psychological screening surveys in a conversational manner. Developed a web app interface for the screening tests.",
+                "technologies": [],
+                "link": ""
+            },
+            {
+                "title": "The Bookdel Test: Examining Female Participation in Jane Austen Novels",
+                "description": "Adapted the Bechdel Test for classic literature using advanced corpus linguistics techniques using Jane Austen novels as a baseline. Annotated a collection of Jane Austen\u2019s bibliography to assess gender representation. Developed a searchable web app for the entire annotated corpora. Featured on the UBC website's \u2018Data Science in Action\u2019 tab.",
+                "technologies": [],
+                "link": ""
+            }
+        ],
+        "languages": [],
+        "awards": []
     },
-    "years_exp": "9 years of experience in Client-Facing Roles and Business Analysis",
-    "profile": "Veronica Hawkes is a highly driven and accomplished professional with over 9 years of experience excelling in client-facing roles across diverse industries. With a Master of Business Administration in Enterprise Analytics from Dalhousie University (2024) and a Bachelor of Science in Human Kinetics from St. Francis Xavier University (2022), she combines advanced technical knowledge with a strong foundation in problem-solving and organizational leadership. Veronica\u2019s expertise shines in her roles at CGI and the Government of Nova Scotia, where she enhanced operational efficiencies, implemented data-driven solutions, and coordinated complex projects leveraging tools like Tableau, SAP, Power BI, and Power Automate.\n\nIn her current role as a Business Analyst and Project Coordinator at CGI, Veronica has demonstrated exceptional analytical and strategic planning capabilities. She has streamlined business processes, improved stakeholder communication, and developed actionable insights that drive decision-making. Previously, during her internship with the Government of Nova Scotia, she facilitated Lean Six Sigma training programs, created standard operating procedures, and significantly improved team efficiency through innovative organizational systems. Her certifications, including Lean Six Sigma Green Belt and Certified SAFe 6 Practitioner, further highlight her commitment to professional growth and operational excellence.\n\nBeyond her technical expertise, Veronica is a natural leader and team player with outstanding communication and interpersonal skills. She has consistently delivered results in fast-paced environments, whether managing customer service teams at Canadian Tire or leading major events for over 70 participants. With a unique blend of financial acumen, technical skills, and a passion for process improvement, Veronica is well-equipped to make a lasting impact in any organization she joins.",
+    "years_exp": "5 years of experience in Natural Language Processing and Machine Learning",
+    "profile": "Ananya Apparaju is a skilled and driven computational linguist and machine learning engineer with a strong foundation in natural language processing (NLP) and information retrieval. With a Master\u2019s degree in Data Science specializing in Computational Linguistics from the University of British Columbia (2023) and a Bachelor\u2019s in Electronics and Communications Engineering from Jawaharlal Nehru Technological University (2020), she bridges technical expertise with a passion for solving complex language-related challenges. Her proficiency spans Python, Java, C++, and advanced NLP techniques, making her an invaluable asset in developing innovative, scalable solutions.\n\nCurrently a Language Engineer at Amazon, Ananya collaborates with cross-functional teams to design APIs, evaluate large language models (LLMs), and automate workflows for language data analysis. Her previous roles include leading prompt engineering teams at Meta, where she developed human evaluation processes and fine-tuning strategies for conversational AI, and implementing privacy-compliant machine learning solutions for ad models. She also has experience as a Network Systems Engineer at Infosys and as a curriculum developer, showcasing her versatility in both technical and educational domains.\n\nAnanya\u2019s portfolio includes impactful projects such as a comprehensive NLP analysis of Ontario housing legislation and the development of a mental health chatbot leveraging advanced LLM techniques. Her research on interlinear glossing for low-resource languages, published in ACL, demonstrates her commitment to advancing linguistic technology. With expertise in supervised and unsupervised learning, computational semantics, and data visualization, she combines technical mastery with a dedication to innovation, positioning herself as a leader in the field of NLP and machine learning.",
     "res_dict": {
         "experience": {
-            "cgi_experience": [
-                {
-                    "cgi_client_or_sector": "IT Services",
-                    "cgi_position_title": "Business Analyst & Project Coordinator",
-                    "cgi_start_date": "07/24",
-                    "cgi_end_date": "Present",
-                    "cgi_responsibilities": [
-                        "Documented current state business processes to identify and recommend operational efficiency opportunities.",
-                        "Used advanced analytical skills to generate actionable insights, improving data-driven decision-making accuracy for project analysis.",
-                        "Drafted future-state recommendations including streamlined processes, customer journey maps, organizational design, and operational improvements.",
-                        "Created detailed reports with Excel and PowerPoint, enhancing stakeholder communication and supporting decision-making processes.",
-                        "Designed future state blueprints and implementation plans with organizational structures, roles, effort estimates, and costs.",
-                        "Coordinated tasks, schedules, and resources, ensuring successful project delivery within defined scopes."
-                    ],
-                    "cgi_technologies": [
-                        "Excel",
-                        "PowerPoint"
-                    ]
-                }
-            ],
+            "cgi_experience": [],
             "other_experience": [
                 {
-                    "company": "Canadian Tire, Truro, NS",
-                    "position_title": "Cash Balancer",
-                    "start_date": "11/23",
-                    "end_date": "07/24",
+                    "company": "Amazon",
+                    "position_title": "Language Engineer I",
+                    "start_date": "11/25",
+                    "end_date": "Present",
                     "responsibilities": [
-                        "Verified financial documents to ensure accurate cash flow information, supporting establishment operations.",
-                        "Applied finance course knowledge to interpret financial statements and enhance understanding of organizational financial health.",
-                        "Allocated funds paid to the establishment, ensuring accurate bank deposit preparation and reconciliation."
-                    ],
-                    "technologies": []
-                },
-                {
-                    "company": "Government of Nova Scotia, Halifax, NS",
-                    "position_title": "Operational & Service Excellence Intern",
-                    "start_date": "01/23",
-                    "end_date": "08/23",
-                    "responsibilities": [
-                        "Created programs and delivered virtual services and training sessions for over 230 participants using MS Teams, Power Automate, Excel, and Outlook.",
-                        "Facilitated team meetings to identify organizational barriers and improve periodic management processes.",
-                        "Designed standard operating procedures for services and events to ensure consistent and reliable operations.",
-                        "Oversaw business process improvement training, including Lean Six Sigma Green Belt, Kaizen Belt, and Yellow Belt certifications.",
-                        "Developed Power BI dashboards to enhance data analytics and support team decision-making with visual insights.",
-                        "Planned and coordinated major events for over 70 attendees, collaborating effectively with colleagues.",
-                        "Implemented a 5S methodology organizational system, improving team efficiency and operational workflow."
+                        "Collaborated with scientists and engineers to design APIs and scalable solutions for analyzing language data.",
+                        "Engineered prompts for generative AI, automated workflows, and analyzed data using Python and scripting tools.",
+                        "Managed customer-facing machine learning models, resolved production issues, and deployed Alexa language updates.",
+                        "Tested new features and updates for language models using advanced modeling tools."
                     ],
                     "technologies": [
-                        "MS Teams",
-                        "Power Automate",
-                        "Excel",
-                        "Outlook",
-                        "Power BI"
+                        "Python",
+                        "Scripting tools"
                     ]
                 },
                 {
-                    "company": "Canadian Tire, Truro, NS",
-                    "position_title": "Customer Service Representative",
-                    "start_date": "11/15",
-                    "end_date": "06/22",
+                    "company": "TEKsystems at Meta",
+                    "position_title": "Machine Learning Engineer",
+                    "start_date": "02/24",
+                    "end_date": "09/24",
                     "responsibilities": [
-                        "Resolved customer inquiries and complaints through effective communication and conflict resolution skills in a fast-paced retail environment.",
-                        "Delivered exceptional customer service to meet diverse customer needs, building trust and loyalty.",
-                        "Handled cash transactions responsibly, ensuring accurate register preparation for store openings.",
-                        "Trained new employees on store policies, processes, and operational technologies, ensuring team readiness.",
-                        "Organized staffing schedules, managing break times for up to eight cashiers per shift while addressing team needs.",
-                        "Acquired problem-solving, organizational, and communication skills by performing duties across various departments."
+                        "Performed extensive feature replacement for ads-based models to ensure privacy compliance and metric neutrality.",
+                        "Implemented innovative feature-replacement algorithms on models with varying architectures in a consolidated feature space.",
+                        "Conducted in-depth offline experimentation and online A/B testing to evaluate model effectiveness.",
+                        "Collaborated with cross-functional teams to ensure a smooth transition to privacy-compliant models."
                     ],
-                    "technologies": []
+                    "technologies": [
+                        "Feature-replacement algorithms",
+                        "A/B testing"
+                    ]
+                },
+                {
+                    "company": "TEKsystems at Meta",
+                    "position_title": "Prompt Engineering Team Lead",
+                    "start_date": "07/23",
+                    "end_date": "02/24",
+                    "responsibilities": [
+                        "Conducted a comprehensive evaluation of conversational abilities in generative AI models.",
+                        "Established a new human evaluation process to assess safety, accuracy, and engagement of AI responses.",
+                        "Developed prompt-based finetuning strategies and performed adversarial testing to improve AI performance.",
+                        "Created a backend Python system to support human evaluation and optimize workflow efficiency.",
+                        "Evaluated team capabilities to allocate tasks, improving efficiency and resource optimization."
+                    ],
+                    "technologies": [
+                        "Python",
+                        "Prompt-based finetuning"
+                    ]
+                },
+                {
+                    "company": "Geering Up STEM Outreach UBC",
+                    "position_title": "Quantum Computing Curriculum Developer",
+                    "start_date": "05/23",
+                    "end_date": "08/23",
+                    "responsibilities": [
+                        "Worked with industry experts to design engaging quantum computing curriculum for high school workshops and camps.",
+                        "Trained instructors on curriculum delivery, ensuring effective teaching of quantum computing concepts.",
+                        "Analyzed participant feedback to improve curriculum content and enhance the learning experience."
+                    ],
+                    "technologies": [
+                        "Curriculum development"
+                    ]
+                },
+                {
+                    "company": "Infosys",
+                    "position_title": "Network Systems Engineer",
+                    "start_date": "07/21",
+                    "end_date": "07/22",
+                    "responsibilities": [
+                        "Trained in networking, Unix, routing, switching, and network automation using Ansible.",
+                        "Designed and managed EDGE data center projects for Daimler as part of the Everest Project."
+                    ],
+                    "technologies": [
+                        "Networking",
+                        "Unix",
+                        "Routing",
+                        "Switching",
+                        "Network Automation",
+                        "Ansible",
+                        "Agile",
+                        "Scrum"
+                    ]
                 }
             ]
         },
         "volunteer": {
-            "volunteer_experience": []
+            "volunteer_experience": [
+                {
+                    "role": "Section Leader",
+                    "organization": "Code in Place, Stanford University",
+                    "location": "Online",
+                    "start_date": "N/A",
+                    "end_date": "N/A",
+                    "responsibilities": [
+                        "Facilitated weekly discussion sessions for 8-10 students to supplement professors' lectures in a 6-week introductory Python programming course.",
+                        "Collaborated with 700 volunteer teachers and 9000 students worldwide to deliver a quality educational experience."
+                    ]
+                }
+            ]
         },
         "other_sections": {
             "industry_experience": [
-                "IT Consulting (CGI)",
-                "Government (Nova Scotia)",
-                "Retail (Canadian Tire)"
+                "E-commerce and Technology (Amazon)",
+                "Social Media and Advertising (Meta)",
+                "STEM Education and Outreach (Geering Up STEM Outreach UBC)",
+                "IT Services and Networking (Infosys)"
             ],
             "technical_specializations": [
-                "Business Process Improvement",
-                "Lean Six Sigma methodologies",
-                "Data Analytics",
-                "Project Coordination"
+                "Natural Language Processing (NLP)",
+                "Machine Learning",
+                "Deep Learning",
+                "Prompt Engineering",
+                "Data Analysis",
+                "Feature Replacement Algorithms"
             ],
             "areas_of_expertise": [
-                "Leadership and Team Management",
-                "Client Engagement",
-                "Financial Document Analysis",
-                "Customer Service"
+                "Computational Linguistics",
+                "Data Science",
+                "Supervised and Unsupervised Learning",
+                "Statistical Inference",
+                "Sentiment Analysis",
+                "Machine Translation",
+                "Low-Resource Language NLP",
+                "Digital Signal and Image Processing"
             ],
             "languages": [
                 "English"
             ],
             "environments": [
-                "Fast-paced environments",
-                "Client-facing roles",
-                "Virtual training and collaboration platforms"
+                "Unix",
+                "Agile and Scrum Practices"
             ],
             "tools_and_software": [
-                "Tableau",
-                "SAP",
-                "MS Teams",
-                "Power Automate",
-                "Excel",
-                "Power BI",
-                "Outlook",
-                "PowerPoint"
+                "Python",
+                "SQL/NoSQL",
+                "Java",
+                "C/C++",
+                "Git",
+                "Unix/Ansible",
+                "HTML/CSS",
+                "React"
             ]
         },
         "skills_summary": {
             "technical_skills": [
                 {
-                    "skill": "Tableau",
-                    "years_of_experience": 1,
-                    "skill_level": 2
+                    "skill": "Python",
+                    "years_of_experience": 4,
+                    "skill_level": 4
                 },
                 {
-                    "skill": "Power BI",
-                    "years_of_experience": 1,
-                    "skill_level": 2
-                },
-                {
-                    "skill": "Excel",
-                    "years_of_experience": 2,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Power Automate",
-                    "years_of_experience": 1,
-                    "skill_level": 2
-                },
-                {
-                    "skill": "SAP",
-                    "years_of_experience": 1,
-                    "skill_level": 2
-                }
-            ],
-            "application_knowledge": [
-                {
-                    "skill": "Microsoft Teams",
-                    "years_of_experience": 2,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Outlook",
-                    "years_of_experience": 2,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Data Analytics",
-                    "years_of_experience": 2,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Business Process Improvement",
+                    "skill": "Java",
                     "years_of_experience": 3,
                     "skill_level": 3
                 },
                 {
-                    "skill": "Customer Journey Mapping",
-                    "years_of_experience": 1,
+                    "skill": "C++",
+                    "years_of_experience": 3,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "SQL/NoSQL",
+                    "years_of_experience": 3,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "React",
+                    "years_of_experience": 2,
                     "skill_level": 2
+                },
+                {
+                    "skill": "Unix/Ansible",
+                    "years_of_experience": 2,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Git",
+                    "years_of_experience": 3,
+                    "skill_level": 3
                 }
             ],
-            "it_disciplines": [
+            "application_knowledge": [
                 {
-                    "skill": "Lean Six Sigma",
+                    "skill": "Prompt Engineering",
+                    "years_of_experience": 2,
+                    "skill_level": 4
+                },
+                {
+                    "skill": "Data Manipulation",
+                    "years_of_experience": 3,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "NLP for Low Resource Languages",
+                    "years_of_experience": 2,
+                    "skill_level": 4
+                },
+                {
+                    "skill": "Machine Translation",
+                    "years_of_experience": 2,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Sentiment Analysis",
                     "years_of_experience": 2,
                     "skill_level": 3
                 },
                 {
                     "skill": "Data Visualization",
+                    "years_of_experience": 3,
+                    "skill_level": 3
+                }
+            ],
+            "it_disciplines": [
+                {
+                    "skill": "Networking",
+                    "years_of_experience": 1,
+                    "skill_level": 2
+                },
+                {
+                    "skill": "Routing and Switching",
+                    "years_of_experience": 1,
+                    "skill_level": 2
+                },
+                {
+                    "skill": "Agile and Scrum Practices",
                     "years_of_experience": 2,
                     "skill_level": 3
                 },
                 {
-                    "skill": "Organizational Systems Development",
-                    "years_of_experience": 2,
-                    "skill_level": 3
+                    "skill": "Network Automation",
+                    "years_of_experience": 1,
+                    "skill_level": 2
                 },
                 {
-                    "skill": "Operational Efficiency Analysis",
+                    "skill": "API Development",
                     "years_of_experience": 2,
                     "skill_level": 3
                 }
             ],
             "industry_knowledge": [
                 {
-                    "skill": "Retail",
-                    "years_of_experience": 7,
+                    "skill": "Natural Language Processing",
+                    "years_of_experience": 4,
                     "skill_level": 4
                 },
                 {
-                    "skill": "Government Operations",
-                    "years_of_experience": 1,
-                    "skill_level": 2
+                    "skill": "Deep Learning Techniques",
+                    "years_of_experience": 3,
+                    "skill_level": 3
                 },
                 {
-                    "skill": "Enterprise Analytics",
+                    "skill": "Information Retrieval",
+                    "years_of_experience": 3,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Computational Linguistics",
+                    "years_of_experience": 2,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Quantum Computing",
                     "years_of_experience": 1,
                     "skill_level": 2
                 }
             ],
             "other_relevant_skills": [
                 {
-                    "skill": "Leadership",
-                    "years_of_experience": 5,
-                    "skill_level": 4
+                    "skill": "Feature Replacement Algorithms",
+                    "years_of_experience": 1,
+                    "skill_level": 3
                 },
                 {
-                    "skill": "Communication Skills",
-                    "years_of_experience": 5,
-                    "skill_level": 4
+                    "skill": "Human Evaluation Processes",
+                    "years_of_experience": 1,
+                    "skill_level": 3
                 },
                 {
-                    "skill": "Problem Solving",
-                    "years_of_experience": 5,
-                    "skill_level": 4
+                    "skill": "Text Mining",
+                    "years_of_experience": 1,
+                    "skill_level": 3
                 },
                 {
-                    "skill": "Team Coordination",
-                    "years_of_experience": 5,
-                    "skill_level": 4
+                    "skill": "Adversarial Experimentation",
+                    "years_of_experience": 1,
+                    "skill_level": 3
                 },
                 {
-                    "skill": "Conflict Resolution",
-                    "years_of_experience": 5,
-                    "skill_level": 4
+                    "skill": "Educational Curriculum Development",
+                    "years_of_experience": 1,
+                    "skill_level": 3
                 }
             ]
         }
