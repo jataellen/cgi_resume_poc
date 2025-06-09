@@ -9,6 +9,7 @@ import os
 import json
 import datetime
 from dotenv import load_dotenv
+from utils.document_utils import *
 from data.prompts import *
 from src.cgi_experience_generator import generate_default_cgi_prompt
 
@@ -20,16 +21,15 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains import create_retrieval_chain
 import traceback
-
+from docx import Document
+import re
 
 def generate_rag_job_description(llm, file_path, role_title):
     """
     Uses RAG to analyze an RFP document and generate a comprehensive job description.
     """
     try:
-        log(
-            f"Generating job description from RFP file using RAG for role: {role_title}"
-        )
+        log(f"Generating job description from RFP file using RAG for role: {role_title}")
 
         # Load the PDF
         loader = PyPDFLoader(file_path)
@@ -64,12 +64,10 @@ def generate_rag_job_description(llm, file_path, role_title):
         retriever = vector_store.as_retriever()
 
         # Create prompt
-        prompt = ChatPromptTemplate.from_messages(
-            [
-                ("system", RFP_SP),
-                ("human", RFP_HP),
-            ]
-        )
+        prompt = ChatPromptTemplate.from_messages([
+            ("system", RFP_SP),
+            ("human", RFP_HP),
+        ])
 
         # Create and execute retrieval chain
         question_answer_chain = create_stuff_documents_chain(llm, prompt)
@@ -80,16 +78,240 @@ def generate_rag_job_description(llm, file_path, role_title):
         response = chain.invoke({"input": role_title})
         job_description = response["answer"]
 
-        log(
-            f"Successfully generated job description from RFP ({len(job_description)} chars)"
-        )
+        log(f"Successfully generated job description from RFP ({len(job_description)} chars)")
         return job_description
 
     except Exception as e:
         log(f"Error generating job description from RFP: {str(e)}")
         log(traceback.format_exc())
         return ""
+    
+def extract_resume_data_from_docx(file_path):
+    """
+    Extract resume data from a DOCX file and return structured JSON
+    
+    Args:
+        file_path (str): Path to the DOCX file
+        
+    Returns:
+        dict: Structured resume data
+    """
+    try:
+        doc = Document(file_path)
+        
+        # Extract all text from the document
+        full_text = []
+        
+        # Extract from paragraphs
+        for paragraph in doc.paragraphs:
+            if paragraph.text.strip():
+                full_text.append(paragraph.text.strip())
+        
+        # Extract from tables
+        for table in doc.tables:
+            for row in table.rows:
+                for cell in row.cells:
+                    for paragraph in cell.paragraphs:
+                        if paragraph.text.strip():
+                            full_text.append(paragraph.text.strip())
+        
+        resume_text = '\n'.join(full_text)
+        
+        # Basic structure
+        structured_data = {
+            "contact": {
+                "name": "",
+                "email": "",
+                "phone": "",
+                "location": ""
+            },
+            "profile": "",
+            "skills": [],
+            "experience": [],
+            "education": [],
+            "projects": [],
+            "volunteer_experience": [],
+            "certifications": []
+        }
+        
+        # Enhanced text-based parsing
+        lines = [line.strip() for line in resume_text.split('\n') if line.strip()]
+        current_section = None
+        current_entry = {}
+        
+        for i, line in enumerate(lines):
+            line_lower = line.lower()
+            
+            # Detect contact information (usually at the top)
+            if '@' in line and not structured_data["contact"]["email"]:
+                structured_data["contact"]["email"] = line
+            elif any(char in line for char in ['(', ')', '-']) and len([c for c in line if c.isdigit()]) >= 7:
+                if not structured_data["contact"]["phone"]:
+                    structured_data["contact"]["phone"] = line
+            
+            # Detect sections
+            if any(keyword in line_lower for keyword in ['summary', 'profile', 'objective']):
+                current_section = 'profile'
+                continue
+            elif any(keyword in line_lower for keyword in ['skills', 'technical skills', 'competencies']):
+                current_section = 'skills'
+                continue
+            elif any(keyword in line_lower for keyword in ['experience', 'work experience', 'employment']):
+                current_section = 'experience'
+                continue
+            elif any(keyword in line_lower for keyword in ['education', 'academic']):
+                current_section = 'education'
+                continue
+            elif any(keyword in line_lower for keyword in ['projects', 'project experience']):
+                current_section = 'projects'
+                continue
+            elif any(keyword in line_lower for keyword in ['volunteer', 'community']):
+                current_section = 'volunteer_experience'
+                continue
+            elif any(keyword in line_lower for keyword in ['certification', 'certificates']):
+                current_section = 'certifications'
+                continue
+            
+            # Process content based on current section
+            if current_section == 'profile':
+                if structured_data["profile"]:
+                    structured_data["profile"] += " " + line
+                else:
+                    structured_data["profile"] = line
+            
+            elif current_section == 'skills':
+                # Try to parse skills (common formats: comma-separated, bullet points)
+                if ',' in line:
+                    skills = [skill.strip() for skill in line.split(',')]
+                    structured_data["skills"].extend(skills)
+                elif line.startswith('•') or line.startswith('-'):
+                    structured_data["skills"].append(line.lstrip('•-').strip())
+                else:
+                    structured_data["skills"].append(line)
+            
+            elif current_section in ['experience', 'projects', 'volunteer_experience']:
+                # Simple approach: treat each line as either a new entry or continuation
+                if any(keyword in line_lower for keyword in ['company', 'position', 'title', 'role']):
+                    if current_entry:
+                        structured_data[current_section].append(current_entry)
+                    current_entry = {"description": line, "details": []}
+                else:
+                    if current_entry:
+                        current_entry["details"].append(line)
+                    else:
+                        current_entry = {"description": line, "details": []}
+            
+            elif current_section == 'education':
+                structured_data["education"].append(line)
+            
+            elif current_section == 'certifications':
+                structured_data["certifications"].append(line)
+        
+        # Add any remaining entry
+        if current_entry and current_section in ['experience', 'projects', 'volunteer_experience']:
+            structured_data[current_section].append(current_entry)
+        
+        # Try to extract name from the first few lines if not found
+        if not structured_data["contact"]["name"]:
+            for line in lines[:5]:
+                if not any(char in line for char in ['@', '(', ')', '-']) and len(line.split()) <= 4:
+                    structured_data["contact"]["name"] = line
+                    break
+        
+        return structured_data
+        
+    except Exception as e:
+        log(f"Error extracting resume data from DOCX: {str(e)}")
+        return None
 
+def extract_resume_data_with_llm(file_path, llm):
+    """
+    Extract resume data from DOCX using LLM for better parsing
+    
+    Args:
+        file_path (str): Path to the DOCX file
+        llm: Language model instance
+        
+    Returns:
+        dict: Structured resume data
+    """
+    try:
+        # First extract raw text
+        doc = Document(file_path)
+        full_text = []
+        
+        for paragraph in doc.paragraphs:
+            if paragraph.text.strip():
+                full_text.append(paragraph.text.strip())
+        
+        for table in doc.tables:
+            for row in table.rows:
+                for cell in row.cells:
+                    for paragraph in cell.paragraphs:
+                        if paragraph.text.strip():
+                            full_text.append(paragraph.text.strip())
+        
+        resume_text = '\n'.join(full_text)
+        
+        # Use LLM to structure the data
+        system_prompt = """
+        You are an expert resume parser. Extract structured information from the given resume text.
+        Return the data in the following JSON format:
+        {
+            "contact": {
+                "name": "Full Name",
+                "email": "email@example.com",
+                "phone": "phone number",
+                "location": "city, state"
+            },
+            "profile": "Professional summary or objective",
+            "skills": ["skill1", "skill2", "skill3"],
+            "experience": [
+                {
+                    "title": "Job Title",
+                    "company": "Company Name",
+                    "duration": "Start Date - End Date",
+                    "responsibilities": ["responsibility1", "responsibility2"]
+                }
+            ],
+            "education": [
+                {
+                    "degree": "Degree Type",
+                    "field": "Field of Study",
+                    "institution": "Institution Name",
+                    "year": "Graduation Year"
+                }
+            ],
+            "certifications": ["certification1", "certification2"]
+        }
+        
+        Extract all available information. If a field is not present, use an empty string or empty array as appropriate.
+        """
+        
+        human_prompt = f"Parse the following resume text and return structured JSON data:\n\n{resume_text}"
+        
+        messages = [
+            SystemMessage(content=system_prompt),
+            HumanMessage(content=human_prompt)
+        ]
+        
+        response = llm.invoke(messages)
+        
+        try:
+            # Try to parse JSON from response
+            json_match = re.search(r'```json\n(.*?)\n```', response.content, re.DOTALL)
+            if json_match:
+                result = json.loads(json_match.group(1))
+                return result
+            else:
+                # Try to parse the entire response as JSON
+                result = json.loads(response.content.strip())
+                return result
+        except Exception as parse_error:
+            return extract_resume_data_from_docx(file_path)
+            
+    except Exception as e:
+        return extract_resume_data_from_docx(file_path)
 
 def generate_llm_content(
     llm,
@@ -122,7 +344,6 @@ def generate_llm_content(
     except Exception as e:
         log(f"Error generating content: {str(e)}")
         return f"Error generating content: {str(e)}"
-
 
 def generate_cgi_experience(llm, format_type, custom_role_title=None):
     """
@@ -163,8 +384,7 @@ def generate_cgi_experience(llm, format_type, custom_role_title=None):
         except json.JSONDecodeError:
             # If that fails, try to extract JSON from text
             log("Failed to parse response as JSON, attempting to extract JSON block")
-            import re
-
+            
             json_match = re.search(r"```json\n(.*?)\n```", content, re.DOTALL)
             if json_match:
                 try:
@@ -178,7 +398,7 @@ def generate_cgi_experience(llm, format_type, custom_role_title=None):
             log("Creating fallback CGI experience entry")
 
             # Get current date for start date
-            current_date = datetime.now()
+            current_date = datetime.datetime.now()
             start_date = f"{current_date.month:02d}/{current_date.year}"
 
             return {
@@ -207,7 +427,7 @@ def generate_cgi_experience(llm, format_type, custom_role_title=None):
         log(traceback.format_exc())
 
         # Fallback to a simple default
-        current_date = datetime.now()
+        current_date = datetime.datetime.now()
         start_date = f"{current_date.month:02d}/{current_date.year}"
 
         return {
@@ -230,7 +450,6 @@ def generate_cgi_experience(llm, format_type, custom_role_title=None):
                 "Data Management",
             ],
         }
-
 
 def resume_stream(
     st,
@@ -278,9 +497,7 @@ def resume_stream(
             job_description = rfp_job_description
         # If user provided a job description, combine it with the RFP-generated one
         elif rfp_job_description and job_description and job_description.strip():
-            log(
-                "Combining user-provided job description with RFP-generated description"
-            )
+            log("Combining user-provided job description with RFP-generated description")
             job_description = f"{job_description}\n\nAdditional requirements from RFP:\n{rfp_job_description}"
 
     # Update progress
@@ -302,7 +519,6 @@ def resume_stream(
     except FileNotFoundError:
         raise FileNotFoundError(f"JSON schema file not found at {JSON_SCHEMA_PATH}")
    
-
     # Generate structured data
     structured_data = generate_llm_content(
         llm=llm,
@@ -338,7 +554,6 @@ def resume_stream(
             },
         )
         log(f"Generated role title: {role_title}")
-
     else:
         role_title = custom_role_title.strip()
         log(f"Using provided role title: {role_title}")
@@ -466,9 +681,7 @@ def resume_stream(
                 else:
                     # Insert at the beginning if there's already valid content
                     res_dict["experience"]["cgi_experience"].insert(0, default_cgi_exp)
-                    log(
-                        "Added generated CGI experience at the beginning of existing experiences"
-                    )
+                    log("Added generated CGI experience at the beginning of existing experiences")
             else:
                 # If the array is empty or None, initialize it with our experience
                 res_dict["experience"]["cgi_experience"] = [default_cgi_exp]
@@ -505,7 +718,6 @@ def resume_stream(
         role_title,
         selected_format,
     )
-
 
 def call_tailored_experience_chain(pdf_text, job_description, role, llm):
     """Modified experience chain that incorporates job description"""
@@ -579,8 +791,281 @@ def call_tailored_experience_chain(pdf_text, job_description, role, llm):
 
     # Write the JSON data to the file
     with open(filename, "w") as file:
-        json.dump(
-            json_structured_data, file, indent=2
-        )  # Use json.dump to format the data and write to the file
+        json.dump(json_structured_data, file, indent=2)  # Use json.dump to format the data and write to the file
 
     return json_structured_data
+
+
+
+def extract_text_from_docx_simple(file_path):
+    """Simple text extraction from DOCX as fallback"""
+    try:
+        doc = Document(file_path)
+        full_text = []
+        
+        for paragraph in doc.paragraphs:
+            if paragraph.text.strip():
+                full_text.append(paragraph.text.strip())
+        
+        for table in doc.tables:
+            for row in table.rows:
+                for cell in row.cells:
+                    for paragraph in cell.paragraphs:
+                        if paragraph.text.strip():
+                            full_text.append(paragraph.text.strip())
+        
+        return '\n'.join(full_text)
+    except Exception as e:
+        return "Error extracting text from document"
+
+def validate_and_fix_scores(evaluation_result):
+    """
+    Validate and fix common scoring issues in evaluation results
+    """
+    try:
+        # Fix overall score if it's out of range (like 68/10 instead of 6.8/10)
+        overall_score = evaluation_result.get('overall_score', 0)
+        
+        if overall_score > 10:
+            # Likely a percentage, convert to 1-10 scale
+            evaluation_result['overall_score'] = round(overall_score / 10, 1)
+        elif overall_score < 0:
+            evaluation_result['overall_score'] = 0
+        
+        # Fix individual section scores
+        if 'ratings_summary' in evaluation_result:
+            for section, score in evaluation_result['ratings_summary'].items():
+                if score > 10:
+                    evaluation_result['ratings_summary'][section] = round(score / 10, 1)
+                elif score < 0:
+                    evaluation_result['ratings_summary'][section] = 0
+        
+        # Recalculate overall score if needed
+        if 'ratings_summary' in evaluation_result and 'section_weights' in evaluation_result:
+            weights = evaluation_result['section_weights']
+            ratings = evaluation_result['ratings_summary']
+            
+            calculated_score = sum(
+                ratings.get(section, 0) * weight 
+                for section, weight in weights.items()
+            )
+            
+            # Only update if significantly different
+            if abs(calculated_score - evaluation_result['overall_score']) > 0.5:
+                evaluation_result['overall_score'] = round(calculated_score, 1)
+        
+        return evaluation_result
+        
+    except Exception as e:
+        log(f"Error validating scores: {str(e)}")
+        return evaluation_result
+
+def run_quick_evaluation(llm, resume_text, file_path):
+    """
+    Fallback quick evaluation when main evaluation fails
+    """
+    try:
+        from data.prompts import QUICK_EVALUATION_SP, QUICK_EVALUATION_HP
+        
+        messages = [
+            SystemMessage(content=QUICK_EVALUATION_SP),
+            HumanMessage(content=QUICK_EVALUATION_HP.format(resume_text=resume_text))
+        ]
+        
+        response = llm.invoke(messages)
+        
+        # Try to parse the quick evaluation
+        json_match = re.search(r'```json\n(.*?)\n```', response.content, re.DOTALL)
+        if json_match:
+            quick_result = json.loads(json_match.group(1))
+        else:
+            quick_result = json.loads(response.content.strip())
+        
+        
+        standard_result = {
+            "overall_score": quick_result.get('overall_score', 5.0),
+            "critical_issues_identified": quick_result.get('critical_issues', []),
+            "immediate_fixes": quick_result.get('immediate_fixes', []),
+            "role_assessment": quick_result.get('role_assessment', {}),
+            "experience_analysis": quick_result.get('experience_analysis', {}),
+            "evaluation_type": "quick_fallback",
+            "recommendations": quick_result.get('immediate_fixes', []),
+            "evaluation_metadata": {
+                "file_path": file_path,
+                "evaluation_date": datetime.datetime.now().isoformat(),
+                "fallback_used": True
+            }
+        }
+        
+        return standard_result
+        
+    except Exception as e:
+        return {
+            "overall_score": 0,
+            "error": "All evaluation methods failed",
+            "message": f"Evaluation error: {str(e)}",
+            "evaluation_metadata": {
+                "file_path": file_path,
+                "evaluation_date": datetime.datetime.now().isoformat(),
+                "complete_failure": True
+            }
+        }
+
+def evaluate_resume(file_path, job_description=None, target_role=None, evaluation_criteria=None):
+    """
+    Enhanced resume evaluation with focus on specific issues like:
+    - Recent vs older role detail levels
+    - Project detail sufficiency  
+    - Employment gaps
+    - Role-specific alignment
+    - Grammar and formatting
+    
+    Args:
+        file_path (str): Path to the resume file (PDF or DOCX)
+        job_description (str, optional): Target job description for tailored evaluation
+        target_role (str, optional): Specific role type (e.g., 'Business Analyst', 'Developer', 'Director')
+        evaluation_criteria (dict, optional): Custom evaluation criteria
+        
+    Returns:
+        dict: Enhanced evaluation results with specific issue identification
+    """
+    try:
+        load_dotenv()
+        
+        # Initialize LLM
+        llm = AzureChatOpenAI(
+            azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
+            api_key=os.environ["AZURE_OPENAI_API_KEY"],
+            api_version="2024-12-01-preview",
+            deployment_name="gpt-4o",
+            model="gpt-4o",
+        )
+        
+        # Extract resume data
+        if file_path.endswith('.pdf'):
+            loader = PyPDFLoader(file_path)
+            pages = loader.load()
+            resume_text = "\n".join([doc.page_content for doc in pages])
+        elif file_path.endswith('.docx'):
+            try:
+                structured_data = extract_resume_data_with_llm(file_path, llm)
+                resume_text = json.dumps(structured_data, indent=2)
+            except Exception as docx_error:
+                resume_text = extract_text_from_docx_simple(file_path)
+        else:
+            raise ValueError("Unsupported file format. Use PDF or DOCX.")
+        
+        if not resume_text or len(resume_text.strip()) < 100:
+            raise ValueError(f"Insufficient text extracted from resume: {len(resume_text)} characters")
+        
+        # Prepare context for job description if provided
+        job_description_context = ""
+        if job_description:
+            job_description_context = f"\nTarget Job Description:\n{job_description}\n\nEvaluate how well this resume aligns with the target role requirements."
+        
+        # Import the enhanced prompts
+        from data.prompts import ENHANCED_EVALUATION_SP, ENHANCED_EVALUATION_HP, QUICK_EVALUATION_SP, QUICK_EVALUATION_HP
+        
+        
+        evaluation_prompt = ENHANCED_EVALUATION_HP.format(
+            resume_text=resume_text,
+            job_description_context=job_description_context
+        )
+        system_prompt = ENHANCED_EVALUATION_SP
+        
+        # Generate evaluation
+        messages = [
+            SystemMessage(content=system_prompt),
+            HumanMessage(content=evaluation_prompt)
+        ]
+        
+        response = llm.invoke(messages)
+        
+        # Parse JSON response
+        try:
+            json_match = re.search(r'```json\n(.*?)\n```', response.content, re.DOTALL)
+            if json_match:
+                evaluation_result = json.loads(json_match.group(1))
+            else:
+                evaluation_result = json.loads(response.content.strip())
+            
+            # Validate and fix scoring issues
+            evaluation_result = validate_and_fix_scores(evaluation_result)
+            
+            
+            evaluation_result["evaluation_metadata"] = {
+                "file_path": file_path,
+                "evaluation_date": datetime.datetime.now().isoformat(),
+                "target_role": target_role,
+                "has_job_description": bool(job_description),
+                "evaluation_version": "enhanced_v2"
+            }
+                
+            return evaluation_result
+            
+        except json.JSONDecodeError as e:
+            log(f"JSON decode error, falling back to quick evaluation: {str(e)}")
+            return run_quick_evaluation(llm, resume_text, file_path)
+            
+    except Exception as e:
+        log(f"Evaluation error: {str(e)}")
+        return {
+            "error": str(e),
+            "overall_score": 0,
+            "message": "Evaluation failed",
+            "evaluation_metadata": {
+                "file_path": file_path,
+                "evaluation_date": datetime.datetime.now().isoformat(),
+                "error": True
+            }
+        }
+
+def run_resume_evaluation(file_path, file_id, resume_name="Resume", selected_format=None, custom_role_title=None, job_description=None):
+    """
+    Run the enhanced resume evaluation with comprehensive error handling
+    """
+    try:
+        # Verify file exists
+        if not os.path.exists(file_path):
+            raise FileNotFoundError(f"Resume file not found: {file_path}")
+        
+        
+        target_role = None
+        
+        # Run enhanced evaluation
+        evaluation_results = evaluate_resume(
+            file_path=file_path,
+            job_description=job_description if job_description and job_description.strip() else None,
+            target_role=target_role
+        )
+        
+        # Always save JSON backup
+        eval_json_path = f"evaluation_{file_id}.json"
+        try:
+            with open(eval_json_path, 'w', encoding='utf-8') as f:
+                json.dump(evaluation_results, f, indent=2, ensure_ascii=False)
+        except Exception as json_error:
+            pass
+        
+        # Try to generate PDF
+        eval_pdf_path = f"evaluation_{file_id}.pdf"
+        try:
+            from src.pdf_evaluation_generator import generate_evaluation_pdf, REPORTLAB_AVAILABLE
+            
+            if REPORTLAB_AVAILABLE:
+                generate_evaluation_pdf(evaluation_results, eval_pdf_path, resume_name)
+                
+                if os.path.exists(eval_pdf_path):
+                    return eval_pdf_path, evaluation_results
+                else:
+                    return eval_json_path, evaluation_results
+            else:
+                return eval_json_path, evaluation_results
+                
+        except ImportError as import_error:
+            return eval_json_path, evaluation_results
+        except Exception as pdf_error:
+            return eval_json_path, evaluation_results
+            
+    except Exception as e:
+        return None, None

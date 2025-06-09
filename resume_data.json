@@ -1,433 +1,344 @@
 {
     "structured_data": {
         "contact": {
-            "name": "Philippe Nault",
-            "email": "p_nault@hotmail.com",
-            "phone": "(902)430-2630",
-            "location": "Halifax, NS",
-            "linkedin": "www.linkedin.com/in/phil-nault-99a7542aa"
+            "name": "Veronica Hawkes",
+            "email": "vhawkes@dal.ca",
+            "phone": "902-324-1548",
+            "location": "Hilden, NS",
+            "linkedin": "linkedin.com/in/veronicahawkes"
         },
-        "professional_summary": "Cybersecurity professional with experience in penetration testing, vulnerability assessment and risk management. Strong military background provides a unique perspective on layered defense and how to get around them. Proven track record in leading technical projects, troubleshooting complex issues, and communicating technical issues.",
+        "professional_summary": "A highly driven and focused individual with more than 10,000 engagements over 9 years working in client-facing roles. Strong analytical and problem-solving capabilities developed through university-level courses, research, and retail experience. Excellent leadership, communication, and interpersonal skills developed through supporting client projects within CGI and the Government of Nova Scotia and leading teams in both competitive sport and retail environments. Exceptional team player with financial and technical knowledge who can adapt and function in fast-paced environments.",
         "education": [
             {
-                "degree": "Cyber Security Diploma",
-                "institution": "Nova Scotia Community College",
-                "graduation_year": "2025"
+                "degree": "Master of Business Administration",
+                "field_of_study": "Enterprise Analytics",
+                "institution": "Dalhousie University",
+                "location": "Halifax, NS",
+                "graduation_year": "2024"
             },
             {
-                "degree": "B.Eng.",
-                "field_of_study": "Chemical & Materials Engineering",
-                "institution": "Royal Military College of Canada",
-                "graduation_year": "2001"
+                "degree": "Bachelor of Science in Human Kinetics",
+                "field_of_study": "Human Kinetics",
+                "institution": "St. Francis Xavier University",
+                "location": "Antigonish, NS",
+                "graduation_year": "2022"
             }
         ],
         "experience": [
             {
-                "job_title": "Head of Offensive Security Club",
-                "company": "Nova Scotia Community College",
-                "start_date": "August 2024",
+                "job_title": "Business Analyst & Project Coordinator",
+                "company": "CGI",
+                "location": "Halifax, NS",
+                "start_date": "Jul. 2024",
                 "end_date": "Present",
-                "responsibilities": "Volunteer position where I created CTFs and labs using Virtual Machines to help my fellow Cyber Security students hone their Offensive Security skills"
+                "responsibilities": "Documented current state business processes to define operational efficiency opportunities. Utilized advanced analytical skills to derive actionable insights, enhancing data-driven decision-making accuracy for project analysis. Drafted future-state recommendations including streamlined processes, customer journey maps, organizational design, and operational improvements. Produced comprehensive reports using Excel and PowerPoint, improving stakeholder communication and aiding decision-making processes. Created future state blueprints and implementation plans with organizational structure, roles, effort, and cost for implementation. Coordinated tasks, schedules, and resources, ensuring project success within defined scopes."
             },
             {
-                "job_title": "Senior Staff Officer \u2013 Simulation and Modelling",
-                "company": "Maritime Warfare Center",
-                "start_date": "July 2022",
-                "end_date": "August 2023",
-                "responsibilities": "Responsible for Simulation & Modelling for the Royal Canadian Navy (RCN). Managed the upgrade project of a classified network worth $40 million, resulting in net progress towards modernizing the RCN."
+                "job_title": "Cash Balancer",
+                "company": "Canadian Tire",
+                "location": "Truro, NS",
+                "start_date": "Nov. 2023",
+                "end_date": "Jul. 2024",
+                "responsibilities": "Ensured financial documents obtained accurate cash flow information from the establishment. Leveraged knowledge gained from finance and financial statement courses to understand and interpret documents. Responsible for allocating all funds paid to the establishment to develop a bank deposit."
             },
             {
-                "job_title": "Combat Systems Engineering Division Commander",
-                "company": "Naval Fleet School (Atlantic)",
-                "start_date": "July 2019",
-                "end_date": "July 2022",
-                "responsibilities": "Provided oversight for the trades training of all Weapons Engineering Technician and Combat Systems Engineering Officers of the East Coast fleet. Provided mentoring, supervision and coaching of 40 staff, leading to a successful throughput of approximately 120 students per year."
+                "job_title": "Operational & Service Excellence Intern",
+                "company": "Government of Nova Scotia",
+                "location": "Halifax, NS",
+                "start_date": "Jan. 2023",
+                "end_date": "Aug. 2023",
+                "responsibilities": "Produced programs, services, and trainings virtually for more than 230 participants across the Provincial Government leveraging MS Teams, Power Automate, Excel, and Outlook. Facilitated and led team meetings using periodic management to identify organizational barriers. Created standard operating procedures for services and events to ensure uniform operations. Acquired comprehensive understanding of business process improvement by overseeing proper functioning of the Foundations of Business Process Improvement Training, the Lean Six Sigma Green Belt Program, the Business Process Owner Training, and the Lean Six Sigma Kaizen Belt Training. Utilized Power BI to improve data analytics within the team by creating visual dashboards. Supported individuals across Government achieve their Lean Six Sigma Yellow Belt Certification by completing Quick Wins in their business areas. Collaborated with several colleagues to plan and coordinate a major event for more than 70 people. Developed an organizational system using 5S methodology, a Lean Six Sigma approach improving overall team efficiency."
             },
             {
-                "job_title": "Executive Officer",
-                "company": "Fleet Maintenance Facility Cape Scott",
-                "start_date": "October 2016",
-                "end_date": "July 2019",
-                "responsibilities": "Responsible for military HR, IT, and security of a 1000 person unit focused on ship repair and maintenance. Managed a team of 7 personnel (military and civilian), ensuring that operational risks were managed adequately and maintenance of the ships proceeded smoothly."
-            },
-            {
-                "job_title": "Campus Support Division Commander",
-                "company": "Naval Fleet School (Atlantic)",
-                "start_date": "January 2014",
-                "end_date": "October 2016",
-                "responsibilities": "Responsible for the Security, IT, Scheduling, Purchasing, Safety & Environment, and Equipment Maintenance of the school. Supervised 8 section heads and managed 60 personnel to ensure that training was continuous for approximately 600 students per year going through trades training. Risk managed any potential disruption to training to keep down-time to a minimum."
-            },
-            {
-                "job_title": "Combat Systems Engineering Officer",
-                "company": "HMCS Ville de Quebec",
-                "start_date": "July 2012",
-                "end_date": "January 2014",
-                "responsibilities": "Responsible for the maintenance and mission readiness of all Combat Systems aboard HMCS Ville de Quebec. Managed a department of 60 technicians to ensure that all required systems were maintained and managed risk to minimize equipment down-time, resulting in a successful counter-drug patrol in the Caribbean Basin."
-            },
-            {
-                "job_title": "Staff Officer (Minor Warships and Auxiliary Vessels)",
-                "company": "Maritime Equipment Program Management",
-                "start_date": "July 2010",
-                "end_date": "July 2012",
-                "responsibilities": "Responsible for equipment upgrade projects and maintenance pertaining to Minor War Vessels of the RCN. Managed multi-million dollar upgrade projects, resulting in a satellite communication upgrade for the KINGSTON class Maritime Coastal Defense Vessels."
-            },
-            {
-                "job_title": "Engineering Officer under training",
-                "company": "Royal Canadian Navy",
-                "start_date": "August 2004",
-                "end_date": "July 2010",
-                "responsibilities": "Trained to act as Head of Combat Systems Engineering Department aboard HALIFAX class Frigates, Unit Radiation Safety Officer, Unit General Safety Officer, Unit Demolitions Officer, Unit Ammunition Officer and Unit Laser Safety Officer. Accumulated 300 sea days deploying to the Gulf of Aden and the Arctic Ocean."
+                "job_title": "Customer Service Representative",
+                "company": "Canadian Tire",
+                "location": "Truro, NS",
+                "start_date": "Nov. 2015",
+                "end_date": "Jun. 2022",
+                "responsibilities": "Exceptional communication, conflict resolution, and organizational skills developed through triaging customer inquiries and complaints. Provided exceptional customer service to diverse customer needs in a fast-paced environment. Demonstrated responsibility and reliability handling cash and preparing registers for store open. Trained incoming employees on store policies, processes, and store-specific technology. Organized staffing allocation by determining break times for up to 8 cashiers per shift; managing time to ensure associates' needs were met. Developed extensive problem-solving, organizational, and communication skills working in various departments."
             }
         ],
         "skills": [
-            "Kali Linux",
-            "Nmap",
-            "Metasploit",
-            "BurpSuite",
-            "Gobuster",
-            "Nikto",
-            "CrackMapExec",
-            "Impacket suite",
-            "Nessus",
-            "Bloodhound",
-            "Hydra",
-            "Hashcat",
-            "John the Ripper",
-            "Python",
-            "Bash Scripting",
-            "JavaScript",
-            "SQL",
-            "Vulnerability Scanning",
-            "Vulnerability Exploitation",
-            "Privilege Escalation",
-            "Web application exploitation",
-            "Client-side attacks",
-            "Network pivoting",
-            "Active Directory exploitation"
+            "Tableau",
+            "SAP",
+            "MS Teams",
+            "Power Automate",
+            "Excel"
         ],
         "certifications": [
             {
-                "name": "OffSec Certified Professional (OSCP)"
+                "name": "Lean Six Sigma Green Belt",
+                "issuing_organization": "Six Sigma Global Institute",
+                "issue_date": "Dec. 2024"
+            },
+            {
+                "name": "Certified SAFe 6 Practitioner",
+                "issuing_organization": "Scaled Agile Inc.",
+                "issue_date": "Aug. 2024"
+            },
+            {
+                "name": "SAP Student Recognition Award",
+                "issuing_organization": "SAP University Alliances, Dalhousie University",
+                "issue_date": "Jun. 2024"
+            },
+            {
+                "name": "Lean Six Sigma Yellow Belt",
+                "issuing_organization": "Government of Nova Scotia",
+                "issue_date": "Jan. 2023"
             }
-        ],
-        "languages": [
-            "French",
-            "English"
         ]
     },
-    "years_exp": "22+ years of experience in Engineering, Cybersecurity, and Project Management",
-    "profile": "Philippe Nault is a seasoned cybersecurity professional with a robust background in penetration testing, vulnerability assessment, and risk management. With a unique perspective shaped by his extensive military career, he excels at understanding layered defense systems and identifying vulnerabilities. Philippe is committed to fostering skill development, demonstrated by his leadership role as Head of Offensive Security Club at Nova Scotia Community College, where he designs Capture-the-Flag challenges and labs to sharpen students\u2019 offensive security abilities. He is set to graduate with a Cyber Security Diploma from NSCC in 2025, complementing his Bachelor\u2019s degree in Chemical & Materials Engineering from the Royal Military College of Canada.\n\nOver two decades, Philippe has held high-impact roles within the Royal Canadian Navy and associated organizations, consistently delivering results in complex, technical environments. Notably, he managed a $40 million classified network upgrade project at the Maritime Warfare Center, modernizing critical infrastructure. His leadership as Combat Systems Engineering Division Commander at Naval Fleet School ensured the training and mentorship of over 120 students annually. Philippe\u2019s expertise extends beyond military operations; he has successfully led multi-million dollar equipment upgrade projects, such as enhancing satellite communications for defense vessels, showcasing his ability to manage large-scale initiatives with precision and accountability.\n\nEquipped with advanced technical skills, Philippe is proficient in tools like Kali Linux, Metasploit, Nessus, and Bloodhound, alongside programming languages such as Python, Bash scripting, and SQL. He holds the esteemed OffSec Certified Professional (OSCP) credential, affirming his capability in vulnerability exploitation, privilege escalation, and Active Directory exploitation. Bilingual in French and English, Philippe combines technical excellence with strong communication skills, making him an invaluable asset to any team aiming to fortify its cybersecurity framework or lead cutting-edge offensive security initiatives.",
+    "years_exp": "10 years of experience in Business Analysis and Project Coordination",
+    "profile": "Veronica Hawkes is a dynamic business professional with over nine years of experience in client-facing roles, known for her exceptional leadership, analytical acumen, and adaptability in fast-paced environments. She brings a unique blend of financial expertise, technical proficiency, and interpersonal skills, honed through her work with organizations such as CGI, the Government of Nova Scotia, and Canadian Tire. Veronica is currently advancing her impact as a Business Analyst and Project Coordinator at CGI, where she develops future-state business blueprints, streamlines operational processes, and drives data-informed decision-making through comprehensive reporting and analysis.\n\nVeronica's academic foundation is equally impressive, holding a Bachelor of Science in Human Kinetics from St. Francis Xavier University and a Master of Business Administration in Enterprise Analytics from Dalhousie University, which she will complete by 2024. She is certified in Lean Six Sigma Green Belt and SAFe 6 Practitioner, showcasing her commitment to continuous professional development. Her technical toolkit includes expertise in Tableau, SAP, Power Automate, and Power BI, which she has adeptly utilized to improve operational efficiency and data visualization in roles such as her internship with the Government of Nova Scotia, where she supported over 230 participants and enhanced team productivity through innovative solutions.\n\nThroughout her career, Veronica has consistently demonstrated her ability to lead and drive results. Whether coordinating major events, training new employees, or implementing Lean Six Sigma methodologies to optimize workflows, she is a proven problem solver and team player. With her strong foundation in analytics, operational excellence, and client service, Veronica is well-positioned to deliver impactful solutions and contribute to organizational success.",
     "res_dict": {
         "experience": {
-            "cgi_experience": [],
+            "cgi_experience": [
+                {
+                    "cgi_client_or_sector": null,
+                    "cgi_position_title": "Business Analyst & Project Coordinator",
+                    "cgi_start_date": "07/24",
+                    "cgi_end_date": "Present",
+                    "cgi_responsibilities": [
+                        "Documented and analyzed current state business processes to identify and define operational efficiency opportunities.",
+                        "Applied advanced analytical skills to derive actionable insights, improving data-driven decision-making for project analysis.",
+                        "Drafted detailed future-state recommendations including streamlined processes, customer journey maps, and organizational design.",
+                        "Created implementation plans with future state blueprints, organizational structure, roles, effort estimation, and cost analysis.",
+                        "Developed comprehensive reports using Excel and PowerPoint to enhance stakeholder communication and aid decision-making.",
+                        "Coordinated tasks, schedules, and resources, ensuring successful project delivery within defined scopes."
+                    ],
+                    "cgi_technologies": [
+                        "Excel",
+                        "PowerPoint"
+                    ]
+                }
+            ],
             "other_experience": [
                 {
-                    "company": "Nova Scotia Community College",
-                    "position_title": "Head of Offensive Security Club",
-                    "start_date": "08/24",
-                    "end_date": "Present",
+                    "company": "Canadian Tire",
+                    "position_title": "Cash Balancer",
+                    "start_date": "11/23",
+                    "end_date": "07/24",
                     "responsibilities": [
-                        "Created capture-the-flag challenges and labs using virtual machines to enhance offensive security skills of students."
+                        "Maintained accurate financial records by gathering and verifying cash flow information from financial documents.",
+                        "Utilized finance knowledge from coursework to understand and interpret financial documents for accuracy and reporting.",
+                        "Allocated funds paid to the establishment to prepare accurate bank deposits, ensuring financial compliance."
                     ],
-                    "technologies": [
-                        "Virtual Machines",
-                        "CTFs"
-                    ]
+                    "technologies": []
                 },
                 {
-                    "company": "Maritime Warfare Center",
-                    "position_title": "Senior Staff Officer \u2013 Simulation and Modelling",
-                    "start_date": "07/22",
+                    "company": "Government of Nova Scotia",
+                    "position_title": "Operational & Service Excellence Intern",
+                    "start_date": "01/23",
                     "end_date": "08/23",
                     "responsibilities": [
-                        "Directed simulation and modeling operations for the Royal Canadian Navy, ensuring accurate and effective mission planning.",
-                        "Oversaw a $40 million classified network upgrade project to modernize military operational capabilities."
+                        "Produced virtual programs, services, and training sessions for over 230 participants across the Provincial Government.",
+                        "Facilitated and led team meetings using periodic management techniques to identify and address organizational barriers.",
+                        "Developed standard operating procedures to ensure consistent operations for services and events.",
+                        "Managed business process improvement programs, including Lean Six Sigma training and certifications for government staff.",
+                        "Created Power BI dashboards to visualize data analytics and support informed decision-making within the team.",
+                        "Collaborated with colleagues to plan and coordinate major events, including a 70-person gathering.",
+                        "Implemented the 5S methodology to develop organizational systems that improved team efficiency and productivity."
                     ],
                     "technologies": [
-                        "Classified Network Systems"
+                        "MS Teams",
+                        "Power Automate",
+                        "Excel",
+                        "Outlook",
+                        "Power BI"
                     ]
                 },
                 {
-                    "company": "Naval Fleet School (Atlantic)",
-                    "position_title": "Combat Systems Engineering Division Commander",
-                    "start_date": "07/19",
-                    "end_date": "07/22",
+                    "company": "Canadian Tire",
+                    "position_title": "Customer Service Representative",
+                    "start_date": "11/15",
+                    "end_date": "06/22",
                     "responsibilities": [
-                        "Supervised the training of Weapons Engineering Technicians and Combat Systems Engineering Officers for East Coast fleet.",
-                        "Mentored, supervised, and coached 40 staff, ensuring high standards and professional growth.",
-                        "Achieved a throughput of approximately 120 students annually through effective oversight of training programs."
+                        "Responded to customer inquiries and complaints, developing exceptional communication and conflict resolution skills.",
+                        "Delivered personalized customer service for diverse needs in a high-paced retail setting.",
+                        "Handled cash transactions responsibly and prepared registers for store opening, ensuring operational readiness.",
+                        "Trained new employees on store policies, processes, and technology to facilitate smooth onboarding.",
+                        "Organized staffing allocation by managing break schedules for up to 8 cashiers, ensuring efficiency and morale.",
+                        "Worked across various departments, honing problem-solving, organizational, and communication skills."
                     ],
-                    "technologies": [
-                        "Training Systems"
-                    ]
-                },
-                {
-                    "company": "Fleet Maintenance Facility Cape Scott",
-                    "position_title": "Executive Officer",
-                    "start_date": "10/16",
-                    "end_date": "07/19",
-                    "responsibilities": [
-                        "Managed human resources, IT, and security for a 1000-person ship repair and maintenance unit.",
-                        "Led a team of 7 personnel, ensuring smooth operations and effective team collaboration.",
-                        "Mitigated operational risks to ensure uninterrupted maintenance and repair of naval ships."
-                    ],
-                    "technologies": [
-                        "HR Systems",
-                        "IT Systems",
-                        "Security Systems"
-                    ]
-                },
-                {
-                    "company": "Naval Fleet School (Atlantic)",
-                    "position_title": "Campus Support Division Commander",
-                    "start_date": "01/14",
-                    "end_date": "10/16",
-                    "responsibilities": [
-                        "Oversaw security, IT, scheduling, purchasing, safety, and equipment maintenance for the training school.",
-                        "Supervised 8 section heads and managed a team of 60 personnel to ensure operational efficiency.",
-                        "Ensured the training of approximately 600 students annually, minimizing disruptions and downtime.",
-                        "Effectively risk-managed potential issues to maintain the smooth flow of training schedules."
-                    ],
-                    "technologies": [
-                        "Security Systems",
-                        "IT Systems",
-                        "Scheduling Tools"
-                    ]
-                },
-                {
-                    "company": "HMCS Ville de Quebec",
-                    "position_title": "Combat Systems Engineering Officer",
-                    "start_date": "07/12",
-                    "end_date": "01/14",
-                    "responsibilities": [
-                        "Directed the maintenance and mission readiness of all combat systems aboard the naval vessel HMCS Ville de Quebec.",
-                        "Led a department of 60 technicians, ensuring operational readiness and minimal equipment downtime.",
-                        "Contributed to a successful counter-drug patrol mission in the Caribbean Basin by ensuring system reliability."
-                    ],
-                    "technologies": [
-                        "Combat Systems",
-                        "Caribbean Basin Navigation"
-                    ]
-                },
-                {
-                    "company": "Maritime Equipment Program Management",
-                    "position_title": "Staff Officer (Minor Warships and Auxiliary Vessels)",
-                    "start_date": "07/10",
-                    "end_date": "07/12",
-                    "responsibilities": [
-                        "Managed equipment upgrade projects and maintenance for minor war vessels of the Royal Canadian Navy.",
-                        "Oversaw multi-million dollar upgrade projects, ensuring timely and efficient execution.",
-                        "Delivered a satellite communication upgrade for KINGSTON class Maritime Coastal Defense Vessels."
-                    ],
-                    "technologies": [
-                        "Satellite Communication Systems"
-                    ]
-                },
-                {
-                    "company": "Royal Canadian Navy",
-                    "position_title": "Engineering Officer under training",
-                    "start_date": "08/04",
-                    "end_date": "07/10",
-                    "responsibilities": [
-                        "Completed training as Head of Combat Systems Engineering for HALIFAX class frigates, ensuring readiness.",
-                        "Served as Unit Radiation Safety Officer, General Safety Officer, Demolitions Officer, and Ammunition Officer.",
-                        "Accumulated 300 sea days, with deployments to the Gulf of Aden and Arctic Ocean, ensuring mission success."
-                    ],
-                    "technologies": [
-                        "HALIFAX class Frigates",
-                        "Safety Systems"
-                    ]
+                    "technologies": []
                 }
             ]
         },
         "volunteer": {
-            "volunteer_experience": [
-                {
-                    "role": "Head of Offensive Security Club",
-                    "organization": "Nova Scotia Community College",
-                    "location": "Nova Scotia, Canada",
-                    "start_date": "08/24",
-                    "end_date": "Present",
-                    "responsibilities": [
-                        "Created Capture The Flag (CTF) challenges and virtual labs.",
-                        "Facilitated skill development in offensive security among Cyber Security students.",
-                        "Utilized virtual machines for hands-on learning experiences."
-                    ]
-                }
-            ]
+            "volunteer_experience": []
         },
         "other_sections": {
             "industry_experience": [
-                "Cybersecurity",
-                "Military",
-                "Naval Engineering",
-                "Ship Maintenance",
-                "Defense Technology"
+                "Information Technology (CGI)",
+                "Retail (Canadian Tire)",
+                "Government (Government of Nova Scotia)"
             ],
             "technical_specializations": [
-                "Penetration Testing",
-                "Vulnerability Assessment",
-                "Risk Management",
-                "Simulation and Modelling",
-                "Combat Systems Engineering"
+                "Business process improvement",
+                "Data analytics",
+                "Lean Six Sigma methodologies",
+                "Periodic management"
             ],
             "areas_of_expertise": [
-                "Vulnerability Scanning",
-                "Vulnerability Exploitation",
-                "Privilege Escalation",
-                "Web Application Exploitation",
-                "Client-side Attacks",
-                "Network Pivoting",
-                "Active Directory Exploitation",
-                "Technical Project Leadership",
-                "Troubleshooting Complex Issues"
+                "Leadership",
+                "Analytical problem-solving",
+                "Interpersonal communication",
+                "Customer service",
+                "Operational excellence",
+                "Team coordination"
             ],
             "languages": [
-                "English",
-                "French"
+                "English"
             ],
             "environments": [
-                "Royal Canadian Navy Vessels",
-                "Naval Fleet School",
-                "Fleet Maintenance Facility",
-                "Classified Networks",
-                "Offensive Security Virtual Labs"
+                "Client-facing roles",
+                "Fast-paced environments",
+                "Virtual program facilitation"
             ],
             "tools_and_software": [
-                "Kali Linux",
-                "Nmap",
-                "Metasploit",
-                "BurpSuite",
-                "Gobuster",
-                "Nikto",
-                "CrackMapExec",
-                "Impacket Suite",
-                "Nessus",
-                "Bloodhound",
-                "Hydra",
-                "Hashcat",
-                "John the Ripper"
+                "Tableau",
+                "SAP",
+                "MS Teams",
+                "Power Automate",
+                "Excel",
+                "Power BI",
+                "Outlook"
             ]
         },
         "skills_summary": {
             "technical_skills": [
                 {
-                    "skill": "Python",
+                    "skill": "Tableau",
                     "years_of_experience": 2,
                     "skill_level": 3
                 },
                 {
-                    "skill": "Bash Scripting",
-                    "years_of_experience": 2,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "SQL",
-                    "years_of_experience": 2,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Network pivoting",
+                    "skill": "Power BI",
                     "years_of_experience": 1,
-                    "skill_level": 2
+                    "skill_level": 3
                 },
                 {
-                    "skill": "Active Directory exploitation",
-                    "years_of_experience": 1,
-                    "skill_level": 2
+                    "skill": "Excel",
+                    "years_of_experience": 4,
+                    "skill_level": 4
+                },
+                {
+                    "skill": "Power Automate",
+                    "years_of_experience": 2,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "MS Teams",
+                    "years_of_experience": 2,
+                    "skill_level": 3
                 }
             ],
             "application_knowledge": [
                 {
-                    "skill": "Kali Linux",
+                    "skill": "SAP",
+                    "years_of_experience": 1,
+                    "skill_level": 2
+                },
+                {
+                    "skill": "Customer Journey Mapping",
+                    "years_of_experience": 1,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Business Process Improvement",
+                    "years_of_experience": 1,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Data Analytics",
                     "years_of_experience": 2,
                     "skill_level": 3
                 },
                 {
-                    "skill": "Nmap",
-                    "years_of_experience": 2,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Metasploit",
-                    "years_of_experience": 2,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "BurpSuite",
-                    "years_of_experience": 2,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Nessus",
-                    "years_of_experience": 2,
+                    "skill": "Organizational Design",
+                    "years_of_experience": 1,
                     "skill_level": 3
                 }
             ],
             "it_disciplines": [
                 {
-                    "skill": "Penetration Testing",
+                    "skill": "Business Analysis",
                     "years_of_experience": 2,
                     "skill_level": 3
                 },
                 {
-                    "skill": "Vulnerability Assessment",
+                    "skill": "Project Coordination",
                     "years_of_experience": 2,
                     "skill_level": 3
                 },
                 {
-                    "skill": "Risk Management",
-                    "years_of_experience": 4,
-                    "skill_level": 4
+                    "skill": "Lean Six Sigma Methodologies",
+                    "years_of_experience": 2,
+                    "skill_level": 3
                 },
                 {
-                    "skill": "IT Security",
-                    "years_of_experience": 4,
-                    "skill_level": 4
+                    "skill": "Process Optimization",
+                    "years_of_experience": 2,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Standard Operating Procedure Creation",
+                    "years_of_experience": 2,
+                    "skill_level": 3
                 }
             ],
             "industry_knowledge": [
                 {
-                    "skill": "Military Cybersecurity Operations",
-                    "years_of_experience": 10,
-                    "skill_level": 4
+                    "skill": "Government Operations",
+                    "years_of_experience": 2,
+                    "skill_level": 3
                 },
                 {
-                    "skill": "Naval Systems Engineering",
-                    "years_of_experience": 10,
-                    "skill_level": 4
-                },
-                {
-                    "skill": "Ship Repair and Maintenance",
+                    "skill": "Retail Management",
                     "years_of_experience": 7,
                     "skill_level": 4
+                },
+                {
+                    "skill": "Operational Excellence",
+                    "years_of_experience": 2,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Finance & Cash Handling",
+                    "years_of_experience": 2,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Event Coordination",
+                    "years_of_experience": 1,
+                    "skill_level": 3
                 }
             ],
             "other_relevant_skills": [
                 {
-                    "skill": "Fluency in French and English",
-                    "years_of_experience": 20,
+                    "skill": "Leadership",
+                    "years_of_experience": 4,
                     "skill_level": 4
                 },
                 {
-                    "skill": "Team Leadership",
-                    "years_of_experience": 8,
+                    "skill": "Communication",
+                    "years_of_experience": 5,
                     "skill_level": 4
                 },
                 {
-                    "skill": "Project Management",
-                    "years_of_experience": 7,
+                    "skill": "Problem-Solving",
+                    "years_of_experience": 4,
                     "skill_level": 4
                 },
                 {
-                    "skill": "Training and Mentoring",
-                    "years_of_experience": 10,
+                    "skill": "Team Collaboration",
+                    "years_of_experience": 4,
                     "skill_level": 4
                 },
                 {
-                    "skill": "CTF/Virtual Lab Creation",
-                    "years_of_experience": 1,
-                    "skill_level": 2
+                    "skill": "Training & Development",
+                    "years_of_experience": 3,
+                    "skill_level": 3
                 }
             ]
         }
