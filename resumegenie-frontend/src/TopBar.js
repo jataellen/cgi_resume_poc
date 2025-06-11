@@ -94,24 +94,11 @@ function TopBar() {
 }
 
 function UserMenu() {
-  const { user, signOut, isSupabaseConfigured } = useAuth();
+  const { user, signOut } = useAuth();
   
-  // If no user is authenticated, show Developer Mode
+  // If no user is authenticated, return null (will be handled by App.js)
   if (!user) {
-    return (
-      <Typography 
-        variant="body2" 
-        sx={{ 
-          color: cgiColors.primary,
-          fontWeight: 500,
-          padding: '6px 12px',
-          backgroundColor: cgiColors.lightGray,
-          borderRadius: '6px'
-        }}
-      >
-        Developer Mode
-      </Typography>
-    );
+    return null;
   }
   
   // If user is authenticated, show user email and sign out button

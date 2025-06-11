@@ -93,9 +93,19 @@ PORT = int(os.getenv("PORT", "8000"))
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_SERVICE_KEY) if SUPABASE_URL and SUPABASE_SERVICE_KEY else None
 
 # Configure CORS for React frontend
+allowed_origins = [
+    FRONTEND_URL,
+    "http://localhost:3000",
+    "https://cgi-resumegenie-staging.netlify.app",
+    "https://cgi-resumegenie.netlify.app"  # Production URL
+]
+
+# Filter out None/empty values
+allowed_origins = [origin for origin in allowed_origins if origin]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[FRONTEND_URL, "http://localhost:3000"],  # Allow both local and production
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -111,8 +121,7 @@ upload_sessions = {}
 async def get_current_user(authorization: Optional[str] = Header(None)):
     """Verify JWT token from Supabase"""
     if not supabase:
-        # If Supabase is not configured, allow all requests (development mode)
-        return {"id": "dev-user", "email": "dev@example.com"}
+        raise HTTPException(status_code=503, detail="Authentication service unavailable")
     
     if not authorization:
         raise HTTPException(status_code=401, detail="Authorization header missing")

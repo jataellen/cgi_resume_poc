@@ -1,208 +1,170 @@
 {
     "structured_data": {
         "contact": {
-            "name": "Behrooz Qiassi",
-            "email": "qiassibehrooz@gmail.com",
-            "phone": "+1 604 906 1015",
-            "location": "Vancouver",
-            "linkedin": "LinkedIn"
+
+            "name": "Veronica Hawkes",
+            "email": "vhawkes@dal.ca",
+            "phone": "902-324-1548",
+            "location": "Hilden, NS",
+            "linkedin": "linkedin.com/in/veronicahawkes"
         },
-        "professional_summary": "Data Scientist with 3 years of experience and a Master\u2019s degree in Data Science - Computational Linguistics from The University of British Columbia. Skilled in developing data applications using machine learning and Large Language Models. Proven ability to lead end-to-end projects, from conceptualization to deployment. Expertise in designing and implementing ETL pipelines and building data warehouse infrastructure. Experienced in developing Retrieval-Augmented Generation (RAG) solutions and fine-tuning Large Language Models. Strong background in fast-paced startup environments.",
+        "professional_summary": "A highly driven and focused individual with more than 10,000 engagements over 9 years working in client-facing roles. Strong analytical and problem-solving capabilities developed through university-level courses, research, and retail experience. Excellent leadership, communication, and interpersonal skills developed through supporting client projects within CGI and the Government of Nova Scotia and leading teams in both competitive sport and retail environments. Exceptional team player with financial and technical knowledge who can adapt and function in fast-paced environments.",
         "education": [
             {
-                "degree": "Master of Data Science",
-                "field_of_study": "Computational Linguistics",
-                "institution": "University of British Columbia",
-                "graduation_year": "2023"
+                "degree": "Master of Business Administration",
+                "field_of_study": "Enterprise Analytics",
+                "institution": "Dalhousie University",
+                "location": "Halifax, NS",
+                "graduation_year": "2024"
+            },
+            {
+                "degree": "Bachelor of Science in Human Kinetics",
+                "field_of_study": "Human Kinetics",
+                "institution": "St. Francis Xavier University",
+                "location": "Antigonish, NS",
+                "graduation_year": "2022"
             }
         ],
         "experience": [
             {
-                "job_title": "Independent Data Scientist",
-                "company": "Self-employed",
-                "location": "Vancouver",
-                "start_date": "Dec 2024",
+
+                "job_title": "Business Analyst & Project Coordinator",
+                "company": "CGI",
+                "location": "Halifax, NS",
+                "start_date": "Jul. 2024",
                 "end_date": "Present",
-                "responsibilities": "Developed Iranian Newspaper Research Assistant, an application that makes previously non-searchable scanned historical newspaper and document archives searchable through Retrieval-Augmented Generation (RAG). Collected and converted scanned archives into machine-readable text, improving accessibility for researchers and historians. Implemented full-text and semantic search, enabling intuitive document retrieval. Developed graph-based search, allowing users to explore relationships between documents through graph visualizations. Built a chatbot-style assistant for intuitive natural language queries, allowing easy exploration of the archives."
+                "responsibilities": "Documented current state business processes to define operational efficiency opportunities. Utilized advanced analytical skills to derive actionable insights, enhancing data-driven decision-making accuracy for project analysis. Drafted future-state recommendations including streamlined processes, customer journey maps, organizational design, and operational improvements. Produced comprehensive reports using Excel and PowerPoint, improving stakeholder communication and aiding decision-making processes. Created future state blueprints and implementation plans with organizational structure, roles, effort, and cost for implementation. Coordinated tasks, schedules, and resources, ensuring project success within defined scopes."
             },
             {
-                "job_title": "Data Scientist",
-                "company": "Nu Data",
-                "location": "Vancouver",
-                "start_date": "Apr 2024",
-                "end_date": "Nov 2024",
-                "responsibilities": "Developed a custom Agentic Retrieval Augmented Generation (RAG) solution from scratch, providing users with reliable and vetted data, advanced analytics, and visualizations via an intuitive chatbot interface. Fine-tuned Large Language Models to improve performance in semantic search, question answering, and function calling. Built web scraping tools, automating large-scale data collection from 50+ sources."
+                "job_title": "Cash Balancer",
+                "company": "Canadian Tire",
+                "location": "Truro, NS",
+                "start_date": "Nov. 2023",
+                "end_date": "Jul. 2024",
+                "responsibilities": "Ensured financial documents obtained accurate cash flow information from the establishment. Leveraged knowledge gained from finance and financial statement courses to understand and interpret documents. Responsible for allocating all funds paid to the establishment to develop a bank deposit."
             },
             {
-                "job_title": "Data Scientist",
-                "company": "XYON Health",
-                "location": "Vancouver",
-                "start_date": "Sep 2023",
-                "end_date": "Mar 2024",
-                "responsibilities": "Sole data scientist responsible for designing and building a data warehouse, reducing reporting time by 70%. Designed and orchestrated scalable ETL pipelines integrating data from 11+ sources. Delivered actionable insights through connected dashboards for marketing, finance, and operations teams."
+                "job_title": "Operational & Service Excellence Intern",
+                "company": "Government of Nova Scotia",
+                "location": "Halifax, NS",
+                "start_date": "Jan. 2023",
+                "end_date": "Aug. 2023",
+                "responsibilities": "Produced programs, services, and trainings virtually for more than 230 participants across the Provincial Government leveraging MS Teams, Power Automate, Excel, and Outlook. Facilitated and led team meetings using periodic management to identify organizational barriers. Created standard operating procedures for services and events to ensure uniform operations. Acquired comprehensive understanding of business process improvement by overseeing proper functioning of the Foundations of Business Process Improvement Training, the Lean Six Sigma Green Belt Program, the Business Process Owner Training, and the Lean Six Sigma Kaizen Belt Training. Utilized Power BI to improve data analytics within the team by creating visual dashboards. Supported individuals across Government achieve their Lean Six Sigma Yellow Belt Certification by completing Quick Wins in their business areas. Collaborated with several colleagues to plan and coordinate a major event for more than 70 people. Developed an organizational system using 5S methodology, a Lean Six Sigma approach improving overall team efficiency."
             },
             {
-                "job_title": "Data Scientist",
-                "company": "BC Stats - Capstone Project",
-                "location": "Vancouver",
-                "start_date": "May 2023",
-                "end_date": "Jul 2023",
-                "responsibilities": "Developed a new semantic search system for BC Data Catalogue, improving search precision by 25% and recall by 40%. Developed topic modeling solution, providing users with interactive visualizations, improving BC Data Catalogue\u2019s user experience. Received two awards for project presentation and was featured on the UBC website."
-            },
-            {
-                "job_title": "Data Analyst",
-                "company": "BoldZee",
-                "location": "Tehran",
-                "start_date": "Feb 2019",
-                "end_date": "Sep 2021",
-                "responsibilities": "Automated data scraping pipelines to extract structured and unstructured data from 40+ sources. Developed and optimized ETL pipelines, improving data processing efficiency by 20%."
+                "job_title": "Customer Service Representative",
+                "company": "Canadian Tire",
+                "location": "Truro, NS",
+                "start_date": "Nov. 2015",
+                "end_date": "Jun. 2022",
+                "responsibilities": "Exceptional communication, conflict resolution, and organizational skills developed through triaging customer inquiries and complaints. Provided exceptional customer service to diverse customer needs in a fast-paced environment. Demonstrated responsibility and reliability handling cash and preparing registers for store open. Trained incoming employees on store policies, processes, and store-specific technology. Organized staffing allocation by determining break times for up to 8 cashiers per shift; managing time to ensure associates' needs were met. Developed extensive problem-solving, organizational, and communication skills working in various departments."
             }
         ],
         "skills": [
-            "Python",
-            "R",
-            "SQL",
-            "JavaScript",
-            "Bash Scripting",
-            "HTML",
-            "CSS",
-            "PostgreSQL",
-            "MongoDB",
-            "Pgvector",
-            "Solr",
-            "Elasticsearch",
-            "Redshift",
-            "AWS (EC2, ECS, S3, Lambda)",
-            "Data Orchestration (Prefect, Airflow)",
-            "Github Actions",
-            "Docker",
-            "scikit-learn",
-            "Pytorch",
-            "Large Language Models",
-            "XGBoost",
-            "LangChain",
-            "Llamaindex",
-            "Power BI",
-            "Matplotlib",
-            "Seaborn",
-            "Plotly",
-            "Flask",
-            "FastAPI",
-            "Streamlit"
+            "Tableau",
+            "SAP",
+            "MS Teams",
+            "Power Automate",
+            "Excel"
         ],
-        "projects": [
+        "certifications": [
             {
-                "title": "Iranian Newspaper Research Assistant",
-                "description": "An application that makes previously non-searchable scanned historical newspaper and document archives searchable through Retrieval-Augmented Generation (RAG).",
-                "technologies": [
-                    "RAG",
-                    "Machine Learning",
-                    "Graph-based search",
-                    "Chatbot"
-                ],
-                "link": ""
-            }
-        ],
-        "awards": [
-            {
-                "title": "Project Presentation Award",
-                "organization": "University of British Columbia",
-                "year": "2023"
+                "name": "Lean Six Sigma Green Belt",
+                "issuing_organization": "Six Sigma Global Institute",
+                "issue_date": "Dec. 2024"
             },
             {
-                "title": "Featured on UBC Website",
-                "organization": "University of British Columbia",
-                "year": "2023"
+                "name": "Certified SAFe 6 Practitioner",
+                "issuing_organization": "Scaled Agile Inc.",
+                "issue_date": "Aug. 2024"
+            },
+            {
+                "name": "SAP Student Recognition Award",
+                "issuing_organization": "SAP University Alliances, Dalhousie University",
+                "issue_date": "Jun. 2024"
+            },
+            {
+                "name": "Lean Six Sigma Yellow Belt",
+                "issuing_organization": "Government of Nova Scotia",
+                "issue_date": "Jan. 2023"
             }
         ]
     },
-    "years_exp": "3 years of experience in Data Science",
-    "profile": "Behrooz Qiassi is an accomplished Data Scientist with over three years of experience and a Master\u2019s degree in Data Science with a focus on Computational Linguistics from the University of British Columbia. He specializes in designing and deploying advanced data applications powered by machine learning and Large Language Models (LLMs). Behrooz has a proven track record of leading end-to-end projects, including the development of Retrieval-Augmented Generation (RAG) solutions and fine-tuning LLMs for enhanced semantic search and question-answering capabilities. His work has been recognized with multiple awards, including a Project Presentation Award and a feature on UBC\u2019s website for his innovative contributions.\n\nIn his career, Behrooz has demonstrated a strong ability to deliver impactful solutions in fast-paced environments. As an independent consultant, he developed the Iranian Newspaper Research Assistant, a groundbreaking tool that transforms scanned historical archives into searchable, graphically visualized data, enhancing accessibility for researchers. At XYON Health, he built a scalable data warehouse and integrated data from over 11 sources, reducing reporting time by 70%. Additionally, during his tenure at Nu Data, he developed a custom Agentic RAG solution and fine-tuned LLMs to improve performance, showcasing his expertise in building scalable, intelligent systems for real-world applications.\n\nBehrooz is highly skilled in a range of technologies, including Python, SQL, AWS, Docker, and advanced tools like LangChain and PyTorch. His technical acumen is complemented by a deep understanding of data orchestration, ETL pipelines, and data visualization, utilizing tools like Power BI and Plotly. Supported by a rich portfolio of impactful projects and a solid academic foundation, Behrooz continues to push the boundaries of data science and artificial intelligence, making him a valuable asset in any data-driven organization.",
+    "years_exp": "10 years of experience in Business Analysis and Project Coordination",
+    "profile": "Veronica Hawkes is a dynamic business professional with over nine years of experience in client-facing roles, known for her exceptional leadership, analytical acumen, and adaptability in fast-paced environments. She brings a unique blend of financial expertise, technical proficiency, and interpersonal skills, honed through her work with organizations such as CGI, the Government of Nova Scotia, and Canadian Tire. Veronica is currently advancing her impact as a Business Analyst and Project Coordinator at CGI, where she develops future-state business blueprints, streamlines operational processes, and drives data-informed decision-making through comprehensive reporting and analysis.\n\nVeronica's academic foundation is equally impressive, holding a Bachelor of Science in Human Kinetics from St. Francis Xavier University and a Master of Business Administration in Enterprise Analytics from Dalhousie University, which she will complete by 2024. She is certified in Lean Six Sigma Green Belt and SAFe 6 Practitioner, showcasing her commitment to continuous professional development. Her technical toolkit includes expertise in Tableau, SAP, Power Automate, and Power BI, which she has adeptly utilized to improve operational efficiency and data visualization in roles such as her internship with the Government of Nova Scotia, where she supported over 230 participants and enhanced team productivity through innovative solutions.\n\nThroughout her career, Veronica has consistently demonstrated her ability to lead and drive results. Whether coordinating major events, training new employees, or implementing Lean Six Sigma methodologies to optimize workflows, she is a proven problem solver and team player. With her strong foundation in analytics, operational excellence, and client service, Veronica is well-positioned to deliver impactful solutions and contribute to organizational success.",
     "res_dict": {
         "experience": {
-            "cgi_experience": [],
+            "cgi_experience": [
+                {
+
+                    "cgi_client_or_sector": null,
+                    "cgi_position_title": "Business Analyst & Project Coordinator",
+                    "cgi_start_date": "07/24",
+                    "cgi_end_date": "Present",
+                    "cgi_responsibilities": [
+                        "Documented and analyzed current state business processes to identify and define operational efficiency opportunities.",
+                        "Applied advanced analytical skills to derive actionable insights, improving data-driven decision-making for project analysis.",
+                        "Drafted detailed future-state recommendations including streamlined processes, customer journey maps, and organizational design.",
+                        "Created implementation plans with future state blueprints, organizational structure, roles, effort estimation, and cost analysis.",
+                        "Developed comprehensive reports using Excel and PowerPoint to enhance stakeholder communication and aid decision-making.",
+                        "Coordinated tasks, schedules, and resources, ensuring successful project delivery within defined scopes."
+                    ],
+                    "cgi_technologies": [
+                        "Excel",
+                        "PowerPoint"
+                    ]
+                }
+            ],
             "other_experience": [
                 {
-                    "company": "Self-employed",
-                    "position_title": "Independent Data Scientist",
-                    "start_date": "12/2024",
-                    "end_date": "Present",
+                    "company": "Canadian Tire",
+                    "position_title": "Cash Balancer",
+                    "start_date": "11/23",
+                    "end_date": "07/24",
                     "responsibilities": [
-                        "Developed an application to make scanned Iranian historical newspapers searchable using Retrieval-Augmented Generation (RAG).",
-                        "Converted scanned archives into machine-readable text to enhance research accessibility.",
-                        "Implemented full-text and semantic search for intuitive document retrieval.",
-                        "Created graph-based search to explore document relationships through visualizations.",
-                        "Built a chatbot assistant for natural language queries to simplify archive exploration."
+                        "Maintained accurate financial records by gathering and verifying cash flow information from financial documents.",
+                        "Utilized finance knowledge from coursework to understand and interpret financial documents for accuracy and reporting.",
+                        "Allocated funds paid to the establishment to prepare accurate bank deposits, ensuring financial compliance."
+                    ],
+                    "technologies": []
+                },
+                {
+                    "company": "Government of Nova Scotia",
+                    "position_title": "Operational & Service Excellence Intern",
+                    "start_date": "01/23",
+                    "end_date": "08/23",
+                    "responsibilities": [
+                        "Produced virtual programs, services, and training sessions for over 230 participants across the Provincial Government.",
+                        "Facilitated and led team meetings using periodic management techniques to identify and address organizational barriers.",
+                        "Developed standard operating procedures to ensure consistent operations for services and events.",
+                        "Managed business process improvement programs, including Lean Six Sigma training and certifications for government staff.",
+                        "Created Power BI dashboards to visualize data analytics and support informed decision-making within the team.",
+                        "Collaborated with colleagues to plan and coordinate major events, including a 70-person gathering.",
+                        "Implemented the 5S methodology to develop organizational systems that improved team efficiency and productivity."
                     ],
                     "technologies": [
-                        "Retrieval-Augmented Generation (RAG)",
-                        "Graph Visualizations",
-                        "Chatbot Development",
-                        "Semantic Search"
+                        "MS Teams",
+                        "Power Automate",
+                        "Excel",
+                        "Outlook",
+                        "Power BI"
                     ]
                 },
                 {
-                    "company": "Nu Data",
-                    "position_title": "Data Scientist",
-                    "start_date": "04/2024",
-                    "end_date": "11/2024",
+                    "company": "Canadian Tire",
+                    "position_title": "Customer Service Representative",
+                    "start_date": "11/15",
+                    "end_date": "06/22",
                     "responsibilities": [
-                        "Designed a custom Agentic Retrieval-Augmented Generation (RAG) solution for reliable data access via chatbot.",
-                        "Fine-tuned Large Language Models to enhance semantic search, question answering, and function calling.",
-                        "Automated large-scale data collection with web scraping tools across 50+ sources."
+                        "Responded to customer inquiries and complaints, developing exceptional communication and conflict resolution skills.",
+                        "Delivered personalized customer service for diverse needs in a high-paced retail setting.",
+                        "Handled cash transactions responsibly and prepared registers for store opening, ensuring operational readiness.",
+                        "Trained new employees on store policies, processes, and technology to facilitate smooth onboarding.",
+                        "Organized staffing allocation by managing break schedules for up to 8 cashiers, ensuring efficiency and morale.",
+                        "Worked across various departments, honing problem-solving, organizational, and communication skills."
                     ],
-                    "technologies": [
-                        "Agentic RAG",
-                        "Large Language Models",
-                        "Semantic Search",
-                        "Web Scraping"
-                    ]
-                },
-                {
-                    "company": "XYON Health",
-                    "position_title": "Data Scientist",
-                    "start_date": "09/2023",
-                    "end_date": "03/2024",
-                    "responsibilities": [
-                        "Built a data warehouse reducing reporting time by 70% as sole data scientist.",
-                        "Designed scalable ETL pipelines integrating data from over 11 sources.",
-                        "Created dashboards delivering actionable insights for marketing, finance, and operations teams."
-                    ],
-                    "technologies": [
-                        "Data Warehousing",
-                        "ETL Pipelines",
-                        "Connected Dashboards"
-                    ]
-                },
-                {
-                    "company": "BC Stats",
-                    "position_title": "Data Scientist",
-                    "start_date": "05/2023",
-                    "end_date": "07/2023",
-                    "responsibilities": [
-                        "Improved BC Data Catalogue search precision by 25% and recall by 40% with a new semantic search system.",
-                        "Created topic modeling solutions with interactive visualizations enhancing user experience.",
-                        "Earned two awards for project presentation and recognition on UBC's website."
-                    ],
-                    "technologies": [
-                        "Semantic Search",
-                        "Topic Modeling",
-                        "Interactive Visualizations"
-                    ]
-                },
-                {
-                    "company": "BoldZee",
-                    "position_title": "Data Analyst",
-                    "start_date": "02/2019",
-                    "end_date": "09/2021",
-                    "responsibilities": [
-                        "Automated data scraping pipelines to extract structured and unstructured data from over 40 sources.",
-                        "Optimized ETL pipelines improving data processing efficiency by 20%."
-                    ],
-                    "technologies": [
-                        "Data Scraping",
-                        "ETL Pipelines"
-                    ]
+                    "technologies": []
+
                 }
             ]
         },
@@ -211,214 +173,167 @@
         },
         "other_sections": {
             "industry_experience": [
-                "Data Science",
-                "Sustainability and AI",
-                "Pharmaceutical Manufacturing",
-                "Government Statistics",
-                "IT Services and Consulting"
-            ],
-            "technical_specializations": [
-                "Machine Learning",
-                "Semantic Search",
-                "ETL Pipelines",
-                "Data Warehousing",
-                "Retrieval-Augmented Generation (RAG)",
-                "Large Language Models",
-                "Data Visualization",
-                "Web Scraping"
-            ],
-            "areas_of_expertise": [
-                "Designing and implementing ETL pipelines",
-                "Building data warehouse infrastructure",
-                "Developing Retrieval-Augmented Generation (RAG) solutions",
-                "Fine-tuning Large Language Models",
-                "Developing semantic search systems",
-                "Building chatbot-style assistants",
-                "Creating interactive data visualizations",
-                "Automating large-scale data scraping"
-            ],
-            "languages": [
-                "English"
-            ],
-            "environments": [
-                "Fast-paced startup environments",
-                "Research-focused environments"
+
+                "Client-facing roles",
+                "Fast-paced environments",
+                "Virtual program facilitation"
             ],
             "tools_and_software": [
-                "Python",
-                "R",
-                "SQL",
-                "JavaScript",
-                "Bash Scripting",
-                "HTML",
-                "CSS",
-                "PostgreSQL",
-                "MongoDB",
-                "Pgvector",
-                "Solr",
-                "Elasticsearch",
-                "Redshift",
-                "AWS (EC2, ECS, S3, Lambda)",
-                "Prefect",
-                "Airflow",
-                "Github Actions",
-                "Docker",
-                "scikit-learn",
-                "Pytorch",
-                "LangChain",
-                "Llamaindex",
+                "Tableau",
+                "SAP",
+                "MS Teams",
+                "Power Automate",
+                "Excel",
                 "Power BI",
-                "Matplotlib",
-                "Seaborn",
-                "Plotly",
-                "Flask",
-                "FastAPI",
-                "Streamlit"
+                "Outlook"
+
             ]
         },
         "skills_summary": {
             "technical_skills": [
                 {
-                    "skill": "Python",
-                    "years_of_experience": 5,
-                    "skill_level": 4
-                },
-                {
-                    "skill": "SQL",
-                    "years_of_experience": 5,
-                    "skill_level": 4
-                },
-                {
-                    "skill": "R",
-                    "years_of_experience": 3,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "scikit-learn",
-                    "years_of_experience": 3,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Pytorch",
+
+                    "skill": "Tableau",
                     "years_of_experience": 2,
                     "skill_level": 3
                 },
                 {
-                    "skill": "Docker",
-                    "years_of_experience": 3,
+                    "skill": "Power BI",
+                    "years_of_experience": 1,
                     "skill_level": 3
                 },
                 {
-                    "skill": "AWS (EC2, ECS, S3, Lambda)",
-                    "years_of_experience": 3,
+                    "skill": "Excel",
+                    "years_of_experience": 4,
+                    "skill_level": 4
+                },
+                {
+                    "skill": "Power Automate",
+                    "years_of_experience": 2,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "MS Teams",
+                    "years_of_experience": 2,
+
                     "skill_level": 3
                 }
             ],
             "application_knowledge": [
                 {
-                    "skill": "Flask",
-                    "years_of_experience": 2,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "FastAPI",
-                    "years_of_experience": 2,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Streamlit",
-                    "years_of_experience": 2,
-                    "skill_level": 2
-                },
-                {
-                    "skill": "Power BI",
-                    "years_of_experience": 2,
-                    "skill_level": 2
-                },
-                {
-                    "skill": "LangChain",
+
+                    "skill": "SAP",
                     "years_of_experience": 1,
                     "skill_level": 2
+                },
+                {
+                    "skill": "Customer Journey Mapping",
+                    "years_of_experience": 1,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Business Process Improvement",
+                    "years_of_experience": 1,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Data Analytics",
+
+                    "years_of_experience": 2,
+                    "skill_level": 2
+                },
+                {
+
+                    "skill": "Organizational Design",
+                    "years_of_experience": 1,
+                    "skill_level": 3
                 }
             ],
             "it_disciplines": [
                 {
-                    "skill": "ETL Pipelines",
-                    "years_of_experience": 4,
-                    "skill_level": 4
-                },
-                {
-                    "skill": "Data Warehousing",
-                    "years_of_experience": 3,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Data Orchestration (Prefect, Airflow)",
+
+                    "skill": "Business Analysis",
                     "years_of_experience": 2,
                     "skill_level": 3
                 },
                 {
-                    "skill": "Semantic Search",
+                    "skill": "Project Coordination",
                     "years_of_experience": 2,
                     "skill_level": 3
                 },
                 {
-                    "skill": "Visualization Dashboards",
-                    "years_of_experience": 3,
+
+                    "skill": "Lean Six Sigma Methodologies",
+                    "years_of_experience": 2,
+                    "skill_level": 3
+                },
+                {
+
+                    "skill": "Process Optimization",
+                    "years_of_experience": 2,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Standard Operating Procedure Creation",
+                    "years_of_experience": 2,
                     "skill_level": 3
                 }
             ],
             "industry_knowledge": [
                 {
-                    "skill": "Pharmaceutical Manufacturing",
-                    "years_of_experience": 1,
-                    "skill_level": 2
-                },
-                {
-                    "skill": "Sustainability & AI",
-                    "years_of_experience": 1,
-                    "skill_level": 2
-                },
-                {
-                    "skill": "Government Data Analysis",
-                    "years_of_experience": 1,
-                    "skill_level": 2
-                },
-                {
-                    "skill": "IT Services & Consulting",
+
+                    "skill": "Government Operations",
                     "years_of_experience": 2,
                     "skill_level": 3
                 },
                 {
-                    "skill": "Historical Document Research",
+                    "skill": "Retail Management",
+                    "years_of_experience": 7,
+                    "skill_level": 4
+                },
+                {
+                    "skill": "Operational Excellence",
+                    "years_of_experience": 2,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Finance & Cash Handling",
+                    "years_of_experience": 2,
+                    "skill_level": 3
+                },
+                {
+
+                    "skill": "Event Coordination",
                     "years_of_experience": 1,
-                    "skill_level": 2
+                    "skill_level": 3
                 }
             ],
             "other_relevant_skills": [
                 {
-                    "skill": "Machine Learning (General)",
+
+                    "skill": "Leadership",
+                    "years_of_experience": 4,
+                    "skill_level": 4
+                },
+                {
+                    "skill": "Communication",
+                    "years_of_experience": 5,
+                    "skill_level": 4
+                },
+                {
+                    "skill": "Problem-Solving",
+                    "years_of_experience": 4,
+                    "skill_level": 4
+                },
+                {
+                    "skill": "Team Collaboration",
+                    "years_of_experience": 4,
+                    "skill_level": 4
+                },
+                {
+                    "skill": "Training & Development",
                     "years_of_experience": 3,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Retrieval-Augmented Generation (RAG)",
-                    "years_of_experience": 2,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Topic Modeling",
-                    "years_of_experience": 1,
-                    "skill_level": 2
-                },
-                {
-                    "skill": "Web Scraping",
-                    "years_of_experience": 2,
-                    "skill_level": 3
-                },
-                {
-                    "skill": "Chatbot Development",
-                    "years_of_experience": 2,
+
                     "skill_level": 3
                 }
             ]

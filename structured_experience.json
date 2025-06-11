@@ -1,4 +1,5 @@
 {
+
   "cgi_experience": [],
   "other_experience": [
     {
@@ -82,6 +83,76 @@
         "Data Scraping",
         "ETL Pipelines"
       ]
+=======
+  "cgi_experience": [
+    {
+      "cgi_client_or_sector": null,
+      "cgi_position_title": "Business Analyst & Project Coordinator",
+      "cgi_start_date": "07/24",
+      "cgi_end_date": "Present",
+      "cgi_responsibilities": [
+        "Documented and analyzed current state business processes to identify and define operational efficiency opportunities.",
+        "Applied advanced analytical skills to derive actionable insights, improving data-driven decision-making for project analysis.",
+        "Drafted detailed future-state recommendations including streamlined processes, customer journey maps, and organizational design.",
+        "Created implementation plans with future state blueprints, organizational structure, roles, effort estimation, and cost analysis.",
+        "Developed comprehensive reports using Excel and PowerPoint to enhance stakeholder communication and aid decision-making.",
+        "Coordinated tasks, schedules, and resources, ensuring successful project delivery within defined scopes."
+      ],
+      "cgi_technologies": [
+        "Excel",
+        "PowerPoint"
+      ]
+    }
+  ],
+  "other_experience": [
+    {
+      "company": "Canadian Tire",
+      "position_title": "Cash Balancer",
+      "start_date": "11/23",
+      "end_date": "07/24",
+      "responsibilities": [
+        "Maintained accurate financial records by gathering and verifying cash flow information from financial documents.",
+        "Utilized finance knowledge from coursework to understand and interpret financial documents for accuracy and reporting.",
+        "Allocated funds paid to the establishment to prepare accurate bank deposits, ensuring financial compliance."
+      ],
+      "technologies": []
+    },
+    {
+      "company": "Government of Nova Scotia",
+      "position_title": "Operational & Service Excellence Intern",
+      "start_date": "01/23",
+      "end_date": "08/23",
+      "responsibilities": [
+        "Produced virtual programs, services, and training sessions for over 230 participants across the Provincial Government.",
+        "Facilitated and led team meetings using periodic management techniques to identify and address organizational barriers.",
+        "Developed standard operating procedures to ensure consistent operations for services and events.",
+        "Managed business process improvement programs, including Lean Six Sigma training and certifications for government staff.",
+        "Created Power BI dashboards to visualize data analytics and support informed decision-making within the team.",
+        "Collaborated with colleagues to plan and coordinate major events, including a 70-person gathering.",
+        "Implemented the 5S methodology to develop organizational systems that improved team efficiency and productivity."
+      ],
+      "technologies": [
+        "MS Teams",
+        "Power Automate",
+        "Excel",
+        "Outlook",
+        "Power BI"
+      ]
+    },
+    {
+      "company": "Canadian Tire",
+      "position_title": "Customer Service Representative",
+      "start_date": "11/15",
+      "end_date": "06/22",
+      "responsibilities": [
+        "Responded to customer inquiries and complaints, developing exceptional communication and conflict resolution skills.",
+        "Delivered personalized customer service for diverse needs in a high-paced retail setting.",
+        "Handled cash transactions responsibly and prepared registers for store opening, ensuring operational readiness.",
+        "Trained new employees on store policies, processes, and technology to facilitate smooth onboarding.",
+        "Organized staffing allocation by managing break schedules for up to 8 cashiers, ensuring efficiency and morale.",
+        "Worked across various departments, honing problem-solving, organizational, and communication skills."
+      ],
+      "technologies": []
     }
   ]
 }
