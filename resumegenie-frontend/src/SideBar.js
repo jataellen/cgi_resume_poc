@@ -37,7 +37,8 @@ const StyledDrawer = styled(Drawer)(({ theme }) => ({
     boxSizing: 'border-box',
     backgroundColor: cgiColors.white,
     borderRight: `1px solid ${cgiColors.lightGray}`,
-    boxShadow: '2px 0 10px rgba(82, 54, 171, 0.08)'
+    boxShadow: '2px 0 10px rgba(82, 54, 171, 0.08)',
+    overflow: 'hidden' 
   }
 }));
 
@@ -132,49 +133,60 @@ function SideBar({ selectedMode, onModeChange }) {
     >
       <Toolbar />
       
-      <Box sx={{ overflow: 'auto', pt: 2 }}>
-        <SectionHeader>
-          Processing Modes
-        </SectionHeader>
-        
-        <List>
-          {navItems.map((item) => (
-            <StyledListItem
-              key={item.text}
-              onClick={() => {
-                setSelectedItem(item.text);
-                onModeChange(item.text);
-              }}
-              selected={selectedItem === item.text}
-            >
-              <StyledListItemIcon>
-                {item.icon}
-              </StyledListItemIcon>
-              
-              <Box sx={{ flex: 1 }}>
-                <StyledListItemText
-                  primary={item.text}
-                  secondary={item.description}
-                  sx={{
-                    '& .MuiListItemText-primary': {
-                      color: selectedItem === item.text ? cgiColors.white : 'inherit',
-                      fontWeight: selectedItem === item.text ? 600 : 500
-                    },
-                    '& .MuiListItemText-secondary': {
-                      color: selectedItem === item.text ? 'rgba(255,255,255,0.8)' : 'inherit'
-                    }
-                  }}
-                />
-              </Box>
-            </StyledListItem>
-          ))}
-        </List>
+      <Box sx={{ 
+        overflow: 'hidden',
+        pt: 2,
+        height: 'calc(100vh - 64px)', 
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between' 
+      }}>
+        {/* Top Section - Navigation */}
+        <Box>
+          <SectionHeader>
+            Processing Modes
+          </SectionHeader>
+          
+          <List sx={{ pt: 0 }}>
+            {navItems.map((item) => (
+              <StyledListItem
+                key={item.text}
+                onClick={() => {
+                  setSelectedItem(item.text);
+                  onModeChange(item.text);
+                }}
+                selected={selectedItem === item.text}
+              >
+                <StyledListItemIcon>
+                  {item.icon}
+                </StyledListItemIcon>
+                
+                <Box sx={{ flex: 1 }}>
+                  <StyledListItemText
+                    primary={item.text}
+                    secondary={item.description}
+                    sx={{
+                      '& .MuiListItemText-primary': {
+                        color: selectedItem === item.text ? cgiColors.white : 'inherit',
+                        fontWeight: selectedItem === item.text ? 600 : 500
+                      },
+                      '& .MuiListItemText-secondary': {
+                        color: selectedItem === item.text ? 'rgba(255,255,255,0.8)' : 'inherit'
+                      }
+                    }}
+                  />
+                </Box>
+              </StyledListItem>
+            ))}
+          </List>
+        </Box>
 
-        <Box sx={{ mt: 4, mx: 2 }}>
+        {/* Bottom Section - Help */}
+        <Box sx={{ mx: 2, mb: 3 }}>
           <Box sx={{
             background: cgiColors.lightGray,
             borderRadius: '12px',
-            padding: '20px',
+            padding: '16px', // Reduced padding slightly
             textAlign: 'center',
             border: `1px solid ${cgiColors.primary}20`
           }}>

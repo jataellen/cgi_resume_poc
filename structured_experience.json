@@ -1,4 +1,89 @@
 {
+
+  "cgi_experience": [],
+  "other_experience": [
+    {
+      "company": "Self-employed",
+      "position_title": "Independent Data Scientist",
+      "start_date": "12/2024",
+      "end_date": "Present",
+      "responsibilities": [
+        "Developed an application to make scanned Iranian historical newspapers searchable using Retrieval-Augmented Generation (RAG).",
+        "Converted scanned archives into machine-readable text to enhance research accessibility.",
+        "Implemented full-text and semantic search for intuitive document retrieval.",
+        "Created graph-based search to explore document relationships through visualizations.",
+        "Built a chatbot assistant for natural language queries to simplify archive exploration."
+      ],
+      "technologies": [
+        "Retrieval-Augmented Generation (RAG)",
+        "Graph Visualizations",
+        "Chatbot Development",
+        "Semantic Search"
+      ]
+    },
+    {
+      "company": "Nu Data",
+      "position_title": "Data Scientist",
+      "start_date": "04/2024",
+      "end_date": "11/2024",
+      "responsibilities": [
+        "Designed a custom Agentic Retrieval-Augmented Generation (RAG) solution for reliable data access via chatbot.",
+        "Fine-tuned Large Language Models to enhance semantic search, question answering, and function calling.",
+        "Automated large-scale data collection with web scraping tools across 50+ sources."
+      ],
+      "technologies": [
+        "Agentic RAG",
+        "Large Language Models",
+        "Semantic Search",
+        "Web Scraping"
+      ]
+    },
+    {
+      "company": "XYON Health",
+      "position_title": "Data Scientist",
+      "start_date": "09/2023",
+      "end_date": "03/2024",
+      "responsibilities": [
+        "Built a data warehouse reducing reporting time by 70% as sole data scientist.",
+        "Designed scalable ETL pipelines integrating data from over 11 sources.",
+        "Created dashboards delivering actionable insights for marketing, finance, and operations teams."
+      ],
+      "technologies": [
+        "Data Warehousing",
+        "ETL Pipelines",
+        "Connected Dashboards"
+      ]
+    },
+    {
+      "company": "BC Stats",
+      "position_title": "Data Scientist",
+      "start_date": "05/2023",
+      "end_date": "07/2023",
+      "responsibilities": [
+        "Improved BC Data Catalogue search precision by 25% and recall by 40% with a new semantic search system.",
+        "Created topic modeling solutions with interactive visualizations enhancing user experience.",
+        "Earned two awards for project presentation and recognition on UBC's website."
+      ],
+      "technologies": [
+        "Semantic Search",
+        "Topic Modeling",
+        "Interactive Visualizations"
+      ]
+    },
+    {
+      "company": "BoldZee",
+      "position_title": "Data Analyst",
+      "start_date": "02/2019",
+      "end_date": "09/2021",
+      "responsibilities": [
+        "Automated data scraping pipelines to extract structured and unstructured data from over 40 sources.",
+        "Optimized ETL pipelines improving data processing efficiency by 20%."
+      ],
+      "technologies": [
+        "Data Scraping",
+        "ETL Pipelines"
+      ]
+=======
   "cgi_experience": [
     {
       "cgi_client_or_sector": null,

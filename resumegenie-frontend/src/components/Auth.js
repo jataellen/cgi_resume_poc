@@ -82,10 +82,10 @@ function Auth() {
     >
       <StyledCard sx={{ maxWidth: 450, width: '100%' }}>
         <GradientHeader>
-          <Typography variant="h3" sx={{ fontWeight: 700, mb: 1 }}>
+          <Typography variant="h3" sx={{ fontWeight: 700, mb: 1,color: cgiColors.white }}>
             ResumeGenie
           </Typography>
-          <Typography variant="h6" sx={{ opacity: 0.9, fontWeight: 400 }}>
+          <Typography variant="h6" sx={{ opacity: 0.9, fontWeight: 400, color: cgiColors.white }}>
             Transform your resume with AI
           </Typography>
         </GradientHeader>

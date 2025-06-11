@@ -1,6 +1,7 @@
 {
     "structured_data": {
         "contact": {
+
             "name": "Veronica Hawkes",
             "email": "vhawkes@dal.ca",
             "phone": "902-324-1548",
@@ -26,6 +27,7 @@
         ],
         "experience": [
             {
+
                 "job_title": "Business Analyst & Project Coordinator",
                 "company": "CGI",
                 "location": "Halifax, NS",
@@ -94,6 +96,7 @@
         "experience": {
             "cgi_experience": [
                 {
+
                     "cgi_client_or_sector": null,
                     "cgi_position_title": "Business Analyst & Project Coordinator",
                     "cgi_start_date": "07/24",
@@ -161,6 +164,7 @@
                         "Worked across various departments, honing problem-solving, organizational, and communication skills."
                     ],
                     "technologies": []
+
                 }
             ]
         },
@@ -169,28 +173,7 @@
         },
         "other_sections": {
             "industry_experience": [
-                "Information Technology (CGI)",
-                "Retail (Canadian Tire)",
-                "Government (Government of Nova Scotia)"
-            ],
-            "technical_specializations": [
-                "Business process improvement",
-                "Data analytics",
-                "Lean Six Sigma methodologies",
-                "Periodic management"
-            ],
-            "areas_of_expertise": [
-                "Leadership",
-                "Analytical problem-solving",
-                "Interpersonal communication",
-                "Customer service",
-                "Operational excellence",
-                "Team coordination"
-            ],
-            "languages": [
-                "English"
-            ],
-            "environments": [
+
                 "Client-facing roles",
                 "Fast-paced environments",
                 "Virtual program facilitation"
@@ -203,11 +186,13 @@
                 "Excel",
                 "Power BI",
                 "Outlook"
+
             ]
         },
         "skills_summary": {
             "technical_skills": [
                 {
+
                     "skill": "Tableau",
                     "years_of_experience": 2,
                     "skill_level": 3
@@ -230,11 +215,13 @@
                 {
                     "skill": "MS Teams",
                     "years_of_experience": 2,
+
                     "skill_level": 3
                 }
             ],
             "application_knowledge": [
                 {
+
                     "skill": "SAP",
                     "years_of_experience": 1,
                     "skill_level": 2
@@ -251,10 +238,12 @@
                 },
                 {
                     "skill": "Data Analytics",
+
                     "years_of_experience": 2,
-                    "skill_level": 3
+                    "skill_level": 2
                 },
                 {
+
                     "skill": "Organizational Design",
                     "years_of_experience": 1,
                     "skill_level": 3
@@ -262,6 +251,7 @@
             ],
             "it_disciplines": [
                 {
+
                     "skill": "Business Analysis",
                     "years_of_experience": 2,
                     "skill_level": 3
@@ -272,11 +262,13 @@
                     "skill_level": 3
                 },
                 {
+
                     "skill": "Lean Six Sigma Methodologies",
                     "years_of_experience": 2,
                     "skill_level": 3
                 },
                 {
+
                     "skill": "Process Optimization",
                     "years_of_experience": 2,
                     "skill_level": 3
@@ -289,6 +281,7 @@
             ],
             "industry_knowledge": [
                 {
+
                     "skill": "Government Operations",
                     "years_of_experience": 2,
                     "skill_level": 3
@@ -309,6 +302,7 @@
                     "skill_level": 3
                 },
                 {
+
                     "skill": "Event Coordination",
                     "years_of_experience": 1,
                     "skill_level": 3
@@ -316,6 +310,7 @@
             ],
             "other_relevant_skills": [
                 {
+
                     "skill": "Leadership",
                     "years_of_experience": 4,
                     "skill_level": 4
@@ -338,6 +333,7 @@
                 {
                     "skill": "Training & Development",
                     "years_of_experience": 3,
+
                     "skill_level": 3
                 }
             ]
