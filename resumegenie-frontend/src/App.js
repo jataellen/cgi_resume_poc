@@ -167,7 +167,7 @@ const CGIToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
 
 function AppWrapper() {
   const auth = useAuth();
-  const { user, loading, isSupabaseConfigured } = auth;
+  const { user, loading, isSupabaseConfigured, authMode } = auth;
   
   // Set auth instance for API service
   useEffect(() => {
@@ -220,16 +220,19 @@ function AppWrapper() {
     };
   }, []);
 
-  // NOW WE CAN DO CONDITIONAL RETURNS
+  // Loading state
   if (loading) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh', gap: 2 }}>
         <CircularProgress sx={{ color: cgiColors.primary }} />
+        <Typography sx={{ color: cgiColors.gray }}>
+          {authMode === 'checking' ? 'Initializing authentication...' : 'Loading ResumeGenie...'}
+        </Typography>
       </Box>
     );
   }
 
-  // If user is not authenticated, show auth screen
+  // Show auth screen if no user (works for both Supabase and mock modes)
   if (!user) {
     return <Auth />;
   }
@@ -563,6 +566,19 @@ function AppWrapper() {
                 : <>View and download your processed resume files.</>
               }
             </Typography>
+            
+            {/* Show auth mode indicator for development */}
+            {authMode === 'mock' && (
+              <Typography variant="caption" sx={{ 
+                color: cgiColors.secondary, 
+                backgroundColor: cgiColors.lightGray,
+                padding: '4px 8px',
+                borderRadius: '4px',
+                fontSize: '12px'
+              }}>
+                Running in {authMode} mode
+              </Typography>
+            )}
           </Box>
         </Fade>
 
@@ -718,37 +734,35 @@ function AppWrapper() {
               display: 'flex', 
               justifyContent: 'center'
             }}>
-              {selectedMode === 'Simple Mode' ? (
-                <StyledCard sx={{ maxWidth: 600, width: '100%' }}>
-                  <CardContent sx={{ p: 4 }}>
-                    <UploadZone>
-                      <UploadIcon>
-                        <span className="material-symbols-outlined">file_upload</span>
-                      </UploadIcon>
-                      <Typography variant="h5" sx={{ mb: 2, color: cgiColors.primary, fontWeight: 600 }}>
-                        Upload Resume File
+              <StyledCard sx={{ maxWidth: 600, width: '100%' }}>
+                <CardContent sx={{ p: 4 }}>
+                  <UploadZone>
+                    <UploadIcon>
+                      <span className="material-symbols-outlined">file_upload</span>
+                    </UploadIcon>
+                    <Typography variant="h5" sx={{ mb: 2, color: cgiColors.primary, fontWeight: 600 }}>
+                      Upload Resume File
+                    </Typography>
+                    <Typography variant="body1" sx={{ mb: 3, color: cgiColors.gray }}>
+                      Upload a <strong>PDF</strong> or <strong>DOCX</strong> resume file
+                    </Typography>
+                    <GradientButton component="label">
+                      Choose File
+                      <input 
+                        type="file" 
+                        hidden 
+                        onChange={handleUpload} 
+                        accept=".pdf,.docx"
+                      />
+                    </GradientButton>
+                    {simpleState.selectedFile && (
+                      <Typography variant="body2" sx={{ mt: 2, color: cgiColors.primary, fontWeight: 500 }}>
+                        Selected: {simpleState.selectedFile.name}
                       </Typography>
-                      <Typography variant="body1" sx={{ mb: 3, color: cgiColors.gray }}>
-                        Upload a <strong>PDF</strong> or <strong>DOCX</strong> resume file
-                      </Typography>
-                      <GradientButton component="label">
-                        Choose File
-                        <input 
-                          type="file" 
-                          hidden 
-                          onChange={handleUpload} 
-                          accept=".pdf,.docx"
-                        />
-                      </GradientButton>
-                      {simpleState.selectedFile && (
-                        <Typography variant="body2" sx={{ mt: 2, color: cgiColors.primary, fontWeight: 500 }}>
-                          Selected: {simpleState.selectedFile.name}
-                        </Typography>
-                      )}
-                    </UploadZone>
-                  </CardContent>
-                </StyledCard>
-              ) : null}
+                    )}
+                  </UploadZone>
+                </CardContent>
+              </StyledCard>
             </Box>
           </Fade>
         )}
@@ -760,33 +774,123 @@ function AppWrapper() {
               display: 'flex', 
               justifyContent: 'center'
             }}>
-              {selectedMode === 'Advanced Mode' ? (
-                <StyledCard sx={{ maxWidth: 1000, width: '100%' }}>
-                  <CardContent sx={{ p: 4 }}>
-                    <StepperStyled activeStep={advancedState.currentStep} sx={{ mb: 4 }}>
-                      {steps.map((label) => (
-                        <Step key={label}>
-                          <StepLabel>{label}</StepLabel>
-                        </Step>
-                      ))}
-                    </StepperStyled>
+              <StyledCard sx={{ maxWidth: 1000, width: '100%' }}>
+                <CardContent sx={{ p: 4 }}>
+                  <StepperStyled activeStep={advancedState.currentStep} sx={{ mb: 4 }}>
+                    {steps.map((label) => (
+                      <Step key={label}>
+                        <StepLabel>{label}</StepLabel>
+                      </Step>
+                    ))}
+                  </StepperStyled>
 
-                    <Box sx={{ mb: 4 }}>
-                      <Typography variant="h5" sx={{ mb: 3, color: cgiColors.primary, fontWeight: 600 }}>
-                        Step 1: Choose Resume Format
-                      </Typography>
-                      <FormControl fullWidth sx={{ mb: 2 }}>
-                        <InputLabel>Select Format</InputLabel>
-                        <Select
-                          value={advancedState.selectedFormat}
+                  <Box sx={{ mb: 4 }}>
+                    <Typography variant="h5" sx={{ mb: 3, color: cgiColors.primary, fontWeight: 600 }}>
+                      Step 1: Choose Resume Format
+                    </Typography>
+                    <FormControl fullWidth sx={{ mb: 2 }}>
+                      <InputLabel>Select Format</InputLabel>
+                      <Select
+                        value={advancedState.selectedFormat}
+                        onChange={(e) => {
+                          setAdvancedState(prev => ({
+                            ...prev,
+                            selectedFormat: e.target.value,
+                            currentStep: prev.currentStep < 0 ? 0 : prev.currentStep
+                          }));
+                        }}
+                        label="Select Format"
+                        sx={{
+                          '& .MuiOutlinedInput-root': {
+                            '&.Mui-focused fieldset': {
+                              borderColor: cgiColors.primary
+                            }
+                          }
+                        }}
+                      >
+                        <MenuItem value="Developer">Developer</MenuItem>
+                        <MenuItem value="Business Analyst">Business Analyst</MenuItem>
+                        <MenuItem value="Director">Director</MenuItem>
+                      </Select>
+                    </FormControl>
+                    
+                    <TextField
+                      fullWidth
+                      label="Enter specific role title (optional)"
+                      value={advancedState.customRoleTitle}
+                      onChange={(e) => setAdvancedState(prev => ({ ...prev, customRoleTitle: e.target.value }))}
+                      placeholder="e.g. Senior Full Stack Developer"
+                      helperText="E.g., 'Senior Full Stack Developer', 'Data Scientist', 'Project Manager'"
+                      sx={{ 
+                        mb: 2,
+                        '& .MuiOutlinedInput-root': {
+                          '&.Mui-focused fieldset': {
+                            borderColor: cgiColors.primary
+                          }
+                        }
+                      }}
+                    />
+                    
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={advancedState.includeDefaultCgi}
+                          onChange={(e) => setAdvancedState(prev => ({ ...prev, includeDefaultCgi: e.target.checked }))}
+                          sx={{ color: cgiColors.primary }}
+                        />
+                      }
+                      label="Include AI-generated CGI experience entry"
+                    />
+                    <Typography variant="caption" display="block" sx={{ ml: 4, mb: 2, color: cgiColors.gray }}>
+                      Adds a customized CGI consulting role with relevant experience to your resume.
+                    </Typography>
+                  </Box>
+                  
+                  <Box sx={{ mb: 4 }}>
+                    <Typography variant="h5" sx={{ mb: 3, color: cgiColors.primary, fontWeight: 600 }}>
+                      Step 2: Choose Optimization Method
+                    </Typography>
+                    <CGIToggleButtonGroup
+                      value={advancedState.optimizationMethod}
+                      exclusive
+                      onChange={(e, newMethod) => {
+                        if (newMethod) {
+                          setAdvancedState(prev => ({
+                            ...prev,
+                            optimizationMethod: newMethod,
+                            currentStep: prev.currentStep < 1 ? 1 : prev.currentStep
+                          }));
+                        }
+                      }}
+                      sx={{ mb: 2, display: 'flex', flexWrap: 'wrap', gap: 1 }}
+                    >
+                      <ToggleButton value="none" sx={{ flex: '1 1 200px' }}>
+                        📄 No optimization
+                      </ToggleButton>
+                      <ToggleButton value="description" sx={{ flex: '1 1 200px' }}>
+                        ✏️ Enter job description
+                      </ToggleButton>
+                      <ToggleButton value="rfp" sx={{ flex: '1 1 200px' }}>
+                        📎 Upload RFP document
+                      </ToggleButton>
+                    </CGIToggleButtonGroup>
+                    
+                    {advancedState.optimizationMethod === 'description' && (
+                      <Fade in={true}>
+                        <TextField
+                          fullWidth
+                          multiline
+                          rows={4}
+                          label="Job Description"
+                          value={advancedState.jobDescription}
                           onChange={(e) => {
                             setAdvancedState(prev => ({
                               ...prev,
-                              selectedFormat: e.target.value,
-                              currentStep: prev.currentStep < 0 ? 0 : prev.currentStep
+                              jobDescription: e.target.value,
+                              currentStep: prev.currentStep < 1 ? 1 : prev.currentStep
                             }));
                           }}
-                          label="Select Format"
+                          placeholder="Paste job description here..."
                           sx={{
                             '& .MuiOutlinedInput-root': {
                               '&.Mui-focused fieldset': {
@@ -794,199 +898,107 @@ function AppWrapper() {
                               }
                             }
                           }}
-                        >
-                          <MenuItem value="Developer">Developer</MenuItem>
-                          <MenuItem value="Business Analyst">Business Analyst</MenuItem>
-                          <MenuItem value="Director">Director</MenuItem>
-                        </Select>
-                      </FormControl>
-                      
-                      <TextField
-                        fullWidth
-                        label="Enter specific role title (optional)"
-                        value={advancedState.customRoleTitle}
-                        onChange={(e) => setAdvancedState(prev => ({ ...prev, customRoleTitle: e.target.value }))}
-                        placeholder="e.g. Senior Full Stack Developer"
-                        helperText="E.g., 'Senior Full Stack Developer', 'Data Scientist', 'Project Manager'"
-                        sx={{ 
-                          mb: 2,
-                          '& .MuiOutlinedInput-root': {
-                            '&.Mui-focused fieldset': {
-                              borderColor: cgiColors.primary
-                            }
-                          }
-                        }}
-                      />
-                      
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={advancedState.includeDefaultCgi}
-                            onChange={(e) => setAdvancedState(prev => ({ ...prev, includeDefaultCgi: e.target.checked }))}
-                            sx={{ color: cgiColors.primary }}
-                          />
-                        }
-                        label="Include AI-generated CGI experience entry"
-                      />
-                      <Typography variant="caption" display="block" sx={{ ml: 4, mb: 2, color: cgiColors.gray }}>
-                        Adds a customized CGI consulting role with relevant experience to your resume.
-                      </Typography>
-                    </Box>
+                        />
+                      </Fade>
+                    )}
                     
-                    <Box sx={{ mb: 4 }}>
-                      <Typography variant="h5" sx={{ mb: 3, color: cgiColors.primary, fontWeight: 600 }}>
-                        Step 2: Choose Optimization Method
-                      </Typography>
-                      <CGIToggleButtonGroup
-                        value={advancedState.optimizationMethod}
-                        exclusive
-                        onChange={(e, newMethod) => {
-                          if (newMethod) {
-                            setAdvancedState(prev => ({
-                              ...prev,
-                              optimizationMethod: newMethod,
-                              currentStep: prev.currentStep < 1 ? 1 : prev.currentStep
-                            }));
-                          }
-                        }}
-                        sx={{ mb: 2, display: 'flex', flexWrap: 'wrap', gap: 1 }}
-                      >
-                        <ToggleButton value="none" sx={{ flex: '1 1 200px' }}>
-                          📄 No optimization
-                        </ToggleButton>
-                        <ToggleButton value="description" sx={{ flex: '1 1 200px' }}>
-                          ✏️ Enter job description
-                        </ToggleButton>
-                        <ToggleButton value="rfp" sx={{ flex: '1 1 200px' }}>
-                          📎 Upload RFP document
-                        </ToggleButton>
-                      </CGIToggleButtonGroup>
-                      
-                      {advancedState.optimizationMethod === 'description' && (
-                        <Fade in={true}>
-                          <TextField
-                            fullWidth
-                            multiline
-                            rows={4}
-                            label="Job Description"
-                            value={advancedState.jobDescription}
+                    {advancedState.optimizationMethod === 'rfp' && (
+                      <Fade in={true}>
+                        <UploadZone sx={{ mt: 2 }}>
+                          <input
+                            type="file"
+                            id="rfp-upload"
+                            hidden
+                            accept=".pdf,.docx,.doc"
                             onChange={(e) => {
                               setAdvancedState(prev => ({
                                 ...prev,
-                                jobDescription: e.target.value,
+                                rfpFile: e.target.files[0],
                                 currentStep: prev.currentStep < 1 ? 1 : prev.currentStep
                               }));
                             }}
-                            placeholder="Paste job description here..."
-                            sx={{
-                              '& .MuiOutlinedInput-root': {
-                                '&.Mui-focused fieldset': {
-                                  borderColor: cgiColors.primary
-                                }
-                              }
-                            }}
                           />
-                        </Fade>
-                      )}
-                      
-                      {advancedState.optimizationMethod === 'rfp' && (
-                        <Fade in={true}>
-                          <UploadZone sx={{ mt: 2 }}>
-                            <input
-                              type="file"
-                              id="rfp-upload"
-                              hidden
-                              accept=".pdf,.docx,.doc"
-                              onChange={(e) => {
-                                setAdvancedState(prev => ({
-                                  ...prev,
-                                  rfpFile: e.target.files[0],
-                                  currentStep: prev.currentStep < 1 ? 1 : prev.currentStep
-                                }));
-                              }}
-                            />
-                            <label htmlFor="rfp-upload">
-                              <CGIButton component="span" variant="outlined">
-                                Upload RFP Document
-                              </CGIButton>
-                            </label>
-                            {advancedState.rfpFile && (
-                              <Typography variant="body2" sx={{ mt: 1, color: cgiColors.primary }}>
-                                Selected: {advancedState.rfpFile.name}
-                              </Typography>
-                            )}
-                          </UploadZone>
-                        </Fade>
-                      )}
-                    </Box>
-                    
-                    <Box>
-                      <Typography variant="h5" sx={{ mb: 3, color: cgiColors.primary, fontWeight: 600 }}>
-                        Step 3: Upload Your Resumes
-                      </Typography>
-                      <Typography variant="body2" sx={{ mb: 2, color: cgiColors.gray }}>
-                        You can select multiple resume files to process at once
-                      </Typography>
-                      
-                      <UploadZone>
-                        <UploadIcon>
-                          <span className="material-symbols-outlined">file_upload</span>
-                        </UploadIcon>
-                        <Typography variant="h6" sx={{ mb: 2, color: cgiColors.primary, fontWeight: 600 }}>
-                          Select Resume Files
-                        </Typography>
-                        <GradientButton component="label">
-                          Choose Files
-                          <input
-                            type="file"
-                            hidden
-                            multiple
-                            onChange={(e) => {
-                              setAdvancedState(prev => ({
-                                ...prev,
-                                selectedFiles: Array.from(e.target.files),
-                                currentStep: prev.currentStep < 2 ? 2 : prev.currentStep
-                              }));
-                            }}
-                            accept=".pdf,.docx,.doc"
-                          />
-                        </GradientButton>
-                        {advancedState.selectedFiles.length > 0 && (
-                          <Box sx={{ mt: 3 }}>
-                            <Typography variant="body1" sx={{ fontWeight: 600, mb: 2, color: cgiColors.primary }}>
-                              Selected {advancedState.selectedFiles.length} file{advancedState.selectedFiles.length > 1 ? 's' : ''}:
+                          <label htmlFor="rfp-upload">
+                            <CGIButton component="span" variant="outlined">
+                              Upload RFP Document
+                            </CGIButton>
+                          </label>
+                          {advancedState.rfpFile && (
+                            <Typography variant="body2" sx={{ mt: 1, color: cgiColors.primary }}>
+                              Selected: {advancedState.rfpFile.name}
                             </Typography>
-                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, justifyContent: 'center' }}>
-                              {advancedState.selectedFiles.map((file, index) => (
-                                <Chip
-                                  key={index}
-                                  label={file.name}
-                                  sx={{
-                                    backgroundColor: cgiColors.lightGray,
-                                    color: cgiColors.primary,
-                                    fontWeight: 500
-                                  }}
-                                />
-                              ))}
-                            </Box>
+                          )}
+                        </UploadZone>
+                      </Fade>
+                    )}
+                  </Box>
+                  
+                  <Box>
+                    <Typography variant="h5" sx={{ mb: 3, color: cgiColors.primary, fontWeight: 600 }}>
+                      Step 3: Upload Your Resumes
+                    </Typography>
+                    <Typography variant="body2" sx={{ mb: 2, color: cgiColors.gray }}>
+                      You can select multiple resume files to process at once
+                    </Typography>
+                    
+                    <UploadZone>
+                      <UploadIcon>
+                        <span className="material-symbols-outlined">file_upload</span>
+                      </UploadIcon>
+                      <Typography variant="h6" sx={{ mb: 2, color: cgiColors.primary, fontWeight: 600 }}>
+                        Select Resume Files
+                      </Typography>
+                      <GradientButton component="label">
+                        Choose Files
+                        <input
+                          type="file"
+                          hidden
+                          multiple
+                          onChange={(e) => {
+                            setAdvancedState(prev => ({
+                              ...prev,
+                              selectedFiles: Array.from(e.target.files),
+                              currentStep: prev.currentStep < 2 ? 2 : prev.currentStep
+                            }));
+                          }}
+                          accept=".pdf,.docx,.doc"
+                        />
+                      </GradientButton>
+                      {advancedState.selectedFiles.length > 0 && (
+                        <Box sx={{ mt: 3 }}>
+                          <Typography variant="body1" sx={{ fontWeight: 600, mb: 2, color: cgiColors.primary }}>
+                            Selected {advancedState.selectedFiles.length} file{advancedState.selectedFiles.length > 1 ? 's' : ''}:
+                          </Typography>
+                          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, justifyContent: 'center' }}>
+                            {advancedState.selectedFiles.map((file, index) => (
+                              <Chip
+                                key={index}
+                                label={file.name}
+                                sx={{
+                                  backgroundColor: cgiColors.lightGray,
+                                  color: cgiColors.primary,
+                                  fontWeight: 500
+                                }}
+                              />
+                            ))}
                           </Box>
-                        )}
-                      </UploadZone>
-                      
-                      <Box sx={{ textAlign: 'center', mt: 4 }}>
-                        <GradientButton
-                          size="large"
-                          onClick={handleAdvancedUpload}
-                          disabled={advancedState.selectedFiles.length === 0}
-                          sx={{ px: 4, py: 1.5, fontSize: '18px' }}
-                        >
-                          ✨ Generate Optimized Resume
-                        </GradientButton>
-                      </Box>
+                        </Box>
+                      )}
+                    </UploadZone>
+                    
+                    <Box sx={{ textAlign: 'center', mt: 4 }}>
+                      <GradientButton
+                        size="large"
+                        onClick={handleAdvancedUpload}
+                        disabled={advancedState.selectedFiles.length === 0}
+                        sx={{ px: 4, py: 1.5, fontSize: '18px' }}
+                      >
+                        ✨ Generate Optimized Resume
+                      </GradientButton>
                     </Box>
-                  </CardContent>
-                </StyledCard>
-              ) : null}
+                  </Box>
+                </CardContent>
+              </StyledCard>
             </Box>
           </Fade>
         )}
