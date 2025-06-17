@@ -92,6 +92,8 @@ PORT = int(os.getenv("PORT", "8000"))
 # Initialize Supabase client
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_SERVICE_KEY) if SUPABASE_URL and SUPABASE_SERVICE_KEY else None
 
+# Supabase service client is used for token verification
+
 # Configure CORS for React frontend
 allowed_origins = [
     FRONTEND_URL,
@@ -120,41 +122,46 @@ upload_sessions = {}
 # Auth dependency
 
 async def get_current_user(authorization: Optional[str] = Header(None)):
-    """Verify JWT token from Supabase with graceful fallback"""
+    """Verify JWT token from Supabase"""
+    
+    # Require Supabase configuration
+    if not SUPABASE_URL or not supabase:
+        raise HTTPException(status_code=500, detail="Authentication service not configured")
+    
+    # Require authorization header
+    if not authorization:
+        raise HTTPException(status_code=401, detail="Authorization header missing")
     
     # Extract token from authorization header
-    token = None
-    if authorization:
-        token = authorization.split(" ")[1] if " " in authorization else authorization
+    if not authorization.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Invalid authorization header format")
     
-    if token == "mock-token":
-        return {"id": "dev-user", "email": "dev@example.com", "mode": "mock"}
+    token = authorization.split(" ")[1]
     
-    # Try Supabase authentication first
-    if SUPABASE_URL and SUPABASE_SERVICE_KEY and supabase and token:
-        try:
-            user = supabase.auth.get_user(token)
-            if user and user.user:
-                return {**user.user, "mode": "supabase"}
-        except Exception as e:
-            print(f"Supabase auth failed: {e}")
-            # Continue to fallback below
-    
-    # If no authorization header
-    if not authorization:
-        # If Supabase is configured but no auth header, require authentication
-        if SUPABASE_URL and SUPABASE_SERVICE_KEY and supabase:
-            raise HTTPException(status_code=401, detail="Authorization header missing")
-        else:
-            # Supabase not configured, allow development access
-            return {"id": "dev-user", "email": "dev@example.com", "mode": "development"}
-    
-    # If we get here, authentication failed
-    if SUPABASE_URL and SUPABASE_SERVICE_KEY and supabase:
-        raise HTTPException(status_code=401, detail="Invalid authentication token")
-    else:
-        # Fallback for development
-        return {"id": "dev-user", "email": "dev@example.com", "mode": "fallback"}
+    try:
+        # Use Supabase client to verify the token and get user
+        from supabase import Client
+        
+        # Create a new client with the user's token
+        auth_client = create_client(SUPABASE_URL, SUPABASE_SERVICE_KEY)
+        
+        # Get user from token
+        user_response = auth_client.auth.get_user(token)
+        
+        if not user_response or not user_response.user:
+            raise HTTPException(status_code=401, detail="Invalid authentication token")
+            
+        user = user_response.user
+        return {
+            "id": user.id, 
+            "email": user.email, 
+            "mode": "supabase", 
+            "user_data": user
+        }
+        
+    except Exception as e:
+        print(f"Supabase auth failed: {e}")
+        raise HTTPException(status_code=401, detail="Authentication failed")
 
 # Pydantic models for request/response
 class UploadResponse(BaseModel):
