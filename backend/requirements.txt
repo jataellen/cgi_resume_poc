@@ -1,0 +1,8 @@
+python-docx
+PyJWT
+pydantic>=2.0
+python-dotenv
+supabase
+fastapi
+uvicorn
+python-multipart

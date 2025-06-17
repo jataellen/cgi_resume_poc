@@ -6,7 +6,13 @@
       "Bash(chmod:*)",
       "Bash(find:*)",
       "Bash(grep:*)",
-      "Bash(sed:*)"
+      "Bash(sed:*)",
+      "Bash(/Users/jata/.npm-global/lib/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/arm64-darwin/rg \"document_utils\" backend/api.py)",
+      "Bash(mkdir:*)",
+      "Bash(cp:*)",
+      "Bash(mv:*)",
+      "Bash(python3:*)",
+      "Bash(rm:*)"
     ],
     "deny": []
   }

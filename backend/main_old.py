@@ -1,6 +1,7 @@
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# Add current directory to path for local imports
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from fastapi import FastAPI, File, UploadFile, HTTPException, Depends, Header, Form
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -23,37 +24,10 @@ from functools import wraps
 # Load environment variables
 load_dotenv()
 
-# Add current directory to Python path
-sys.path.append('.')
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-
-# Set working directory to the script's directory
+# Set working directory to the script's directory for proper file paths
 script_dir = os.path.dirname(os.path.abspath(__file__))
-print(f"Script directory: {script_dir}")
-print(f"Current working directory before change: {os.getcwd()}")
-
-# Change to script directory
 os.chdir(script_dir)
-print(f"Current working directory after change: {os.getcwd()}")
-
-# Check if data directory exists from this location
-data_path = os.path.join(script_dir, "data")
-if not os.path.exists(data_path):
-    # Try parent directory
-    parent_dir = os.path.dirname(script_dir)
-    data_path = os.path.join(parent_dir, "data")
-    if os.path.exists(data_path):
-        os.chdir(parent_dir)
-        print(f"Found data directory in parent, changed to: {os.getcwd()}")
-    else:
-        print(f"Data directory not found in {script_dir} or {parent_dir}")
-        print("Available directories:")
-        try:
-            for item in os.listdir(script_dir):
-                if os.path.isdir(item):
-                    print(f"  - {item}")
-        except:
-            pass
+print(f"Working directory set to: {os.getcwd()}")
 
 # Verify required files exist
 required_files = [
@@ -76,7 +50,7 @@ if missing_files:
     print("and that all data files are present.")
     sys.exit(1)
 
-# Import your existing modules after path setup
+# Import modules
 from src.logs_manager import log, initialize_log_box, log_messages
 from src.resume_llm_handler import resume_stream
 
@@ -180,38 +154,16 @@ class ProcessStatus(BaseModel):
 os.makedirs("uploads", exist_ok=True)
 os.makedirs("outputs", exist_ok=True)
 
-# Mock classes for Streamlit compatibility
-class MockProgressBar:
-    def __init__(self, session_id):
-        self.session_id = session_id
-        self.current_progress = 0
-    
-    def progress(self, value):
-        # Convert 0-1 range to 0-100
-        if value <= 1:
-            self.current_progress = int(value * 100)
+# Progress tracking helper
+def update_session_progress(session_id, progress):
+    """Update progress for a session"""
+    if session_id in upload_sessions:
+        # Convert 0-1 range to 0-100 if needed
+        if progress <= 1:
+            progress_percent = int(progress * 100)
         else:
-            self.current_progress = int(value)
-        
-        if self.session_id in upload_sessions:
-            upload_sessions[self.session_id]["progress"] = min(self.current_progress, 100)
-
-class MockStreamlit:
-    def __init__(self):
-        pass
-    
-    def write(self, *args, **kwargs):
-        pass
-    
-    def empty(self):
-        return self
-    
-    def text_area(self, *args, **kwargs):
-        pass
-
-class MockLogBox:
-    def text_area(self, *args, **kwargs):
-        pass
+            progress_percent = int(progress)
+        upload_sessions[session_id]["progress"] = min(progress_percent, 100)
 
 def save_rfp_file(rfp_file, file_id):
     """Save the uploaded RFP file to disk and return the path"""
@@ -229,8 +181,7 @@ def save_rfp_file(rfp_file, file_id):
     log_messages.append(f"Saved RFP file: {temp_file_path}")
     return temp_file_path
 
-# Import the proper convert_to_pdf function from utils
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# Import document utils
 from utils.document_utils import convert_to_pdf as convert_to_pdf_utils
 
 def convert_to_pdf(uploaded_file, file_id):
@@ -298,7 +249,12 @@ def convert_to_pdf(uploaded_file, file_id):
 
 @app.get("/")
 async def root():
-    return {"message": "ResumeGenie API is running", "working_directory": os.getcwd()}
+    return {
+        "message": "ResumeGenie API is running", 
+        "version": "1.0.0",
+        "status": "healthy",
+        "working_directory": os.getcwd()
+    }
 
 @app.post("/api/upload", response_model=UploadResponse)
 async def upload_resume(file: UploadFile = File(...), current_user=Depends(get_current_user)):
