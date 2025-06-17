@@ -263,7 +263,14 @@ async def root():
     }
 
 @app.post("/api/upload", response_model=UploadResponse)
-async def upload_resume(file: UploadFile = File(...), current_user=Depends(get_current_user)):
+async def upload_resume(
+    file: UploadFile = File(...),
+    selectedFormat: str = Form("Developer"),
+    customRoleTitle: Optional[str] = Form(""),
+    jobDescription: Optional[str] = Form(""),
+    rfpFile: Optional[UploadFile] = File(None),
+    current_user=Depends(get_current_user)
+):
     """
     Upload a resume file (PDF or DOCX) for processing
     """
@@ -399,12 +406,16 @@ async def process_resume_async(session_id: str):
         # Create progress tracker (replaces Streamlit progress bar)
         progress_tracker = ProgressTracker(session_id)
         
-        # Hardcoded parameters for simple upload
-        selected_format = "Developer"
-        custom_role_title = ""
-        job_description = ""
-        rfp_file_path = None
+        # Use parameters from form data
+        selected_format = selectedFormat
+        custom_role_title = customRoleTitle or ""
+        job_description = jobDescription or ""
         include_default_cgi = False
+        
+        # Handle RFP file if provided
+        rfp_file_path = None
+        if rfpFile and rfpFile.filename:
+            rfp_file_path = save_rfp_file(rfpFile, session_id[:8])
         
         # Convert file to appropriate format
         file_id = session_id[:8]

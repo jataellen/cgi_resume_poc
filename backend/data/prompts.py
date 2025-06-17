@@ -37,6 +37,7 @@ Using the following structured resume data in JSON format:
 {structured_data}
 
 Write a well-crafted, two-to-three paragraph professional profile of the applicant in the third person. 
+IMPORTANT: Use the same pronouns (she/her, he/him) that appear in the original resume text, or infer from the name if pronouns aren't explicit. Do NOT default to they/them unless the original resume specifically uses those pronouns.
 Each paragraph should be 3-4 sentences, but not too long. Avoid run-on sentences
 The length should reflect their experience level, if they have under 10 years exp, consider shortening it
 Keep a good balance of detailed and concise. Do not use AI-isms, use human-like language, do not be stuffy
@@ -58,6 +59,7 @@ And this job description for a {role} position:
 {job_description}
 
 Write a well-crafted, two-to-three paragraph professional profile of the applicant in the third person that is specifically tailored to match the job requirements. 
+IMPORTANT: Use the same pronouns (she/her, he/him) that appear in the original resume text, or infer from the name if pronouns aren't explicit. Do NOT default to they/them unless the original resume specifically uses those pronouns.
 Each paragraph should be 3-4 sentences, but not too long. Avoid run-on sentences.
 The length should reflect their experience level, if they have under 10 years exp, consider shortening it.
 Keep a good balance of detailed and concise. Do not use AI-isms, use human-like language, do not be stuffy.
