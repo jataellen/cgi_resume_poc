@@ -289,6 +289,11 @@ async def upload_resume(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to save file: {str(e)}")
     
+    # Handle RFP file if provided
+    rfp_file_path = None
+    if rfpFile and rfpFile.filename:
+        rfp_file_path = save_rfp_file(rfpFile, session_id[:8])
+    
     # Initialize session
     upload_sessions[session_id] = {
         "status": "uploaded",
@@ -299,7 +304,12 @@ async def upload_resume(
         "progress": 10,
         "created_at": datetime.now(),
         "error": None,
-        "user_id": current_user.get("id", "unknown")
+        "user_id": current_user.get("id", "unknown"),
+        "selected_format": selectedFormat,
+        "custom_role_title": customRoleTitle or "",
+        "job_description": jobDescription or "",
+        "rfp_file_path": rfp_file_path,
+        "include_default_cgi": False
     }
     
     # Start processing in background
@@ -406,16 +416,12 @@ async def process_resume_async(session_id: str):
         # Create progress tracker (replaces Streamlit progress bar)
         progress_tracker = ProgressTracker(session_id)
         
-        # Use parameters from form data
-        selected_format = selectedFormat
-        custom_role_title = customRoleTitle or ""
-        job_description = jobDescription or ""
-        include_default_cgi = False
-        
-        # Handle RFP file if provided
-        rfp_file_path = None
-        if rfpFile and rfpFile.filename:
-            rfp_file_path = save_rfp_file(rfpFile, session_id[:8])
+        # Get parameters from session data
+        selected_format = session["selected_format"]
+        custom_role_title = session["custom_role_title"]
+        job_description = session["job_description"]
+        rfp_file_path = session["rfp_file_path"]
+        include_default_cgi = session["include_default_cgi"]
         
         # Convert file to appropriate format
         file_id = session_id[:8]

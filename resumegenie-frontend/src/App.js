@@ -1,4 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
+
+// Suppress Supabase console warnings
+const originalWarn = console.warn;
+console.warn = (...args) => {
+  if (typeof args[0] === 'string' && args[0].includes('@supabase/gotrue-js')) {
+    return;
+  }
+  originalWarn.apply(console, args);
+};
 import {
   CssBaseline, Box, Typography, Button, CircularProgress, LinearProgress,
   FormControl, InputLabel, Select, MenuItem, TextField, Checkbox,
