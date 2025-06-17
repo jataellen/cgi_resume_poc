@@ -180,9 +180,6 @@ function AppWrapper() {
   
   // Set auth instance for API service
   useEffect(() => {
-    console.log('Setting auth instance:', auth);
-    console.log('Auth has getAuthToken:', !!auth?.getAuthToken);
-    console.log('Current token:', auth?.getAuthToken ? auth.getAuthToken() : 'no method');
     setAuthInstance(auth);
   }, [auth]);
   

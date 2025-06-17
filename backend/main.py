@@ -268,31 +268,35 @@ async def upload_resume(
     selectedFormat: str = Form("Developer"),
     customRoleTitle: Optional[str] = Form(""),
     jobDescription: Optional[str] = Form(""),
-    rfpFile: Optional[UploadFile] = File(None),
     current_user=Depends(get_current_user)
 ):
     """
     Upload a resume file (PDF or DOCX) for processing
     """
-    # Validate file type
-    if not file.filename.endswith(('.pdf', '.docx', '.doc')):
-        raise HTTPException(status_code=400, detail="Only PDF, DOCX, and DOC files are allowed")
-    
-    # Generate unique session ID
-    session_id = str(uuid.uuid4())
-    
-    # Save uploaded file
-    upload_path = f"uploads/{session_id}_{file.filename}"
     try:
-        with open(upload_path, "wb") as buffer:
-            shutil.copyfileobj(file.file, buffer)
+        # Validate file type
+        if not file.filename.endswith(('.pdf', '.docx', '.doc')):
+            raise HTTPException(status_code=400, detail="Only PDF, DOCX, and DOC files are allowed")
+        
+        # Generate unique session ID
+        session_id = str(uuid.uuid4())
+        
+        # Save uploaded file
+        upload_path = f"uploads/{session_id}_{file.filename}"
+        try:
+            with open(upload_path, "wb") as buffer:
+                shutil.copyfileobj(file.file, buffer)
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Failed to save file: {str(e)}")
+        
+        # Simple upload doesn't support RFP files
+        rfp_file_path = None
+                
+    except HTTPException:
+        raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to save file: {str(e)}")
-    
-    # Handle RFP file if provided
-    rfp_file_path = None
-    if rfpFile and rfpFile.filename:
-        rfp_file_path = save_rfp_file(rfpFile, session_id[:8])
+        print(f"Upload error: {e}")
+        raise HTTPException(status_code=500, detail=f"Upload failed: {str(e)}")
     
     # Initialize session
     upload_sessions[session_id] = {
