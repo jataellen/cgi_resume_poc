@@ -92,7 +92,7 @@ upload_sessions = {}
 
 # Auth dependency
 async def get_current_user(authorization: Optional[str] = Header(None)):
-    \"\"\"Verify JWT token from Supabase\"\"\"
+    """Verify JWT token from Supabase"""
     
     # Require Supabase configuration
     if not SUPABASE_URL or not supabase:
@@ -172,7 +172,7 @@ class NullLogger:
         pass
 
 def save_rfp_file(rfp_file, file_id):
-    \"\"\"Save the uploaded RFP file to disk and return the path\"\"\"
+    """Save the uploaded RFP file to disk and return the path"""
     if rfp_file is None:
         return None
     
@@ -191,10 +191,10 @@ def save_rfp_file(rfp_file, file_id):
 from utils.document_utils import convert_to_pdf as convert_to_pdf_utils
 
 def convert_to_pdf(uploaded_file, file_id):
-    \"\"\"
+    """
     Convert uploaded file to PDF using the utils function
     Handles PDF, DOCX, and DOC files
-    \"\"\"
+    """
     # Create a file-like object that matches what the utils function expects
     class FileWrapper:
         def __init__(self, file_obj, filename):
@@ -264,9 +264,9 @@ async def root():
 
 @app.post("/api/upload", response_model=UploadResponse)
 async def upload_resume(file: UploadFile = File(...), current_user=Depends(get_current_user)):
-    \"\"\"
+    """
     Upload a resume file (PDF or DOCX) for processing
-    \"\"\"
+    """
     # Validate file type
     if not file.filename.endswith(('.pdf', '.docx', '.doc')):
         raise HTTPException(status_code=400, detail="Only PDF, DOCX, and DOC files are allowed")
@@ -315,9 +315,9 @@ async def upload_resume_complex(
     rfpFile: Optional[UploadFile] = File(None),
     current_user=Depends(get_current_user)
 ):
-    \"\"\"
+    """
     Upload a resume file with complex processing options
-    \"\"\"
+    """
     # Validate file type
     if not file.filename.endswith(('.pdf', '.docx', '.doc')):
         raise HTTPException(status_code=400, detail="Only PDF, DOCX, and DOC files are allowed")
@@ -375,9 +375,9 @@ async def upload_resume_complex(
     )
 
 async def process_resume_async(session_id: str):
-    \"\"\"
+    """
     Process resume asynchronously
-    \"\"\"
+    """
     session = upload_sessions[session_id]
     
     try:
@@ -491,9 +491,9 @@ async def process_resume_async(session_id: str):
         session["logs"].append(f"Error details: {str(e)}")
 
 async def process_resume_async_complex(session_id: str):
-    \"\"\"
+    """
     Process resume asynchronously with complex parameters
-    \"\"\"
+    """
     session = upload_sessions[session_id]
     
     try:
@@ -620,9 +620,9 @@ async def process_resume_async_complex(session_id: str):
 
 @app.get("/api/status/{session_id}", response_model=ProcessStatus)
 async def get_process_status(session_id: str, current_user=Depends(get_current_user)):
-    \"\"\"
+    """
     Get the current status of resume processing
-    \"\"\"
+    """
     if session_id not in upload_sessions:
         raise HTTPException(status_code=404, detail="Session not found")
     
@@ -648,9 +648,9 @@ async def get_process_status(session_id: str, current_user=Depends(get_current_u
 
 @app.get("/api/download/{session_id}")
 async def download_resume(session_id: str, current_user=Depends(get_current_user)):
-    \"\"\"
+    """
     Download the processed resume
-    \"\"\"
+    """
     if session_id not in upload_sessions:
         raise HTTPException(status_code=404, detail="Session not found")
     
@@ -680,9 +680,9 @@ async def download_resume(session_id: str, current_user=Depends(get_current_user
 
 @app.delete("/api/session/{session_id}")
 async def cleanup_session(session_id: str, current_user=Depends(get_current_user)):
-    \"\"\"
+    """
     Clean up session data and files
-    \"\"\"
+    """
     if session_id not in upload_sessions:
         raise HTTPException(status_code=404, detail="Session not found")
     
@@ -707,9 +707,9 @@ async def cleanup_session(session_id: str, current_user=Depends(get_current_user
 
 @app.get("/api/health")
 async def health_check():
-    \"\"\"
+    """
     Health check endpoint
-    \"\"\"
+    """
     return {
         "status": "healthy",
         "timestamp": datetime.now().isoformat(),
@@ -725,9 +725,9 @@ async def health_check():
 
 # Cleanup old sessions periodically
 async def cleanup_old_sessions():
-    \"\"\"
+    """
     Clean up sessions older than 1 hour
-    \"\"\"
+    """
     while True:
         current_time = datetime.now()
         sessions_to_remove = []
