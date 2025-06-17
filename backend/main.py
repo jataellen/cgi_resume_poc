@@ -187,14 +187,18 @@ def save_rfp_file(rfp_file, file_id):
     log_messages.append(f"Saved RFP file: {temp_file_path}")
     return temp_file_path
 
-# Import document utils
-from utils.document_utils import convert_to_pdf as convert_to_pdf_utils
+# Import document utils - DISABLED due to Spire.Doc issues in production
+# from utils.document_utils import convert_to_pdf as convert_to_pdf_utils
 
 def convert_to_pdf(uploaded_file, file_id):
     """
     Convert uploaded file to PDF using the utils function
     Handles PDF, DOCX, and DOC files
+    TEMPORARILY DISABLED: Returns original file path to avoid Spire.Doc crashes
     """
+    # Return original file path since Spire.Doc causes production issues
+    return uploaded_file.path
+    
     # Create a file-like object that matches what the utils function expects
     class FileWrapper:
         def __init__(self, file_obj, filename):
