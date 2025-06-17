@@ -30,6 +30,9 @@ class ApiService {
     try {
       const formData = new FormData();
       formData.append('file', file);
+      formData.append('selectedFormat', 'Developer');
+      formData.append('customRoleTitle', '');
+      formData.append('jobDescription', '');
 
       const response = await fetch(`${API_BASE_URL}/api/upload`, {
         method: 'POST',
