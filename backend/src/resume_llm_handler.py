@@ -24,6 +24,9 @@ import traceback
 from docx import Document
 import re
 
+# Import missing functions needed for resume_stream
+from src.cgi_experience_generator import generate_cgi_experience
+
 def generate_rag_job_description(llm, file_path, role_title):
     """
     Uses RAG to analyze an RFP document and generate a comprehensive job description.
@@ -719,6 +722,38 @@ def resume_stream(
         selected_format,
     )
 
+def generate_llm_content(
+    llm,
+    system_prompt,
+    human_prompt_template,
+    format_args=None,
+    functions=None,
+    extract_function_call=False,
+):
+    try:
+        format_args = format_args or {}
+        current_date = datetime.datetime.now().date()
+        human_content = (
+            human_prompt_template.format(**format_args)
+            + f"\n\nCurrent Date: {current_date}"
+        )
+
+        messages = [
+            SystemMessage(content=system_prompt),
+            HumanMessage(content=human_content),
+        ]
+
+        response = llm.invoke(messages, functions=functions if functions else None)
+
+        if extract_function_call and "function_call" in response.additional_kwargs:
+            function_args = response.additional_kwargs["function_call"]["arguments"]
+            return json.loads(function_args)
+        else:
+            return response.content.strip()
+    except Exception as e:
+        log(f"Error generating content: {str(e)}")
+        return f"Error generating content: {str(e)}"
+
 def call_tailored_experience_chain(pdf_text, job_description, role, llm):
     """Modified experience chain that incorporates job description"""
 
@@ -1020,27 +1055,277 @@ def evaluate_resume(file_path, job_description=None, target_role=None, evaluatio
             }
         }
 
-def resume_stream(streamlit_obj, progress_tracker, base_progress, file_progress_weight, 
-                 file_path, selected_format, custom_role_title, job_description, 
-                 rfp_file_path, include_default_cgi):
-    """
-    Main resume processing function (placeholder)
-    TODO: Implement the actual resume processing logic
-    """
+def resume_stream(
+    st,  # Not used - for compatibility
+    progress_bar,  # ProgressTracker object
+    base_progress,
+    file_progress_weight,
+    file_path,
+    selected_format,
+    custom_role_title="",
+    job_description="",
+    rfp_file_path=None,
+    include_default_cgi=False,
+):
+    """Main resume processing function - adapted from Streamlit version"""
+    load_dotenv()
+
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    JSON_SCHEMA_PATH = os.path.join(BASE_DIR, "data", "json_schema.json")
+    ALL_SCHEMAS_PATH = os.path.join(BASE_DIR, "data", "all_schemas.json")
+    EXPERIENCE_SCHEMA_PATH = os.path.join(BASE_DIR, "data", "experience_schema.json")
+
+    llm = AzureChatOpenAI(
+        azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
+        api_key=os.environ["AZURE_OPENAI_API_KEY"],
+        api_version="2024-12-01-preview",
+        deployment_name="gpt-4o",
+        model="gpt-4o",
+    )
+
+    # If RFP file is provided, generate a job description from it
+    if rfp_file_path and os.path.exists(rfp_file_path):
+        log(f"RFP file detected: {rfp_file_path}")
+        # Determine role title to use for the RAG job description generation
+        role_for_rag = (
+            custom_role_title.strip() if custom_role_title else selected_format
+        )
+
+        # Generate job description from RFP
+        rfp_job_description = generate_rag_job_description(
+            llm, rfp_file_path, role_for_rag
+        )
+
+        # If successful and user didn't provide a job description, use the generated one
+        if rfp_job_description and not (job_description and job_description.strip()):
+            log("Using RFP-generated job description")
+            job_description = rfp_job_description
+        # If user provided a job description, combine it with the RFP-generated one
+        elif rfp_job_description and job_description and job_description.strip():
+            log("Combining user-provided job description with RFP-generated description")
+            job_description = f"{job_description}\n\nAdditional requirements from RFP:\n{rfp_job_description}"
+
+    # Update progress
+    progress_bar.progress(base_progress + file_progress_weight * 0.1)
+
+    # Handle both PDF and DOCX files
+    if file_path.lower().endswith('.pdf'):
+        loader = PyPDFLoader(file_path)
+        pages = loader.load()
+        pdf_text = "\n".join([doc.page_content for doc in pages])
+    elif file_path.lower().endswith(('.docx', '.doc')):
+        # Use the extract_text_from_docx function
+        pdf_text = extract_text_from_docx(file_path)
+    else:
+        raise ValueError(f"Unsupported file format: {file_path}")
+
+    current_date = datetime.datetime.now().date()
+
     try:
-        log("Starting resume processing...")
-        
-        # Update progress
-        progress_tracker.progress(0.5)
-        
-        log("Resume processing completed successfully!")
-        progress_tracker.progress(1.0)
-        
-        return True
-        
-    except Exception as e:
-        log(f"Error in resume processing: {str(e)}")
-        raise e
+        with open(JSON_SCHEMA_PATH, "r") as file:
+            json_schema = json.load(file)
+    except FileNotFoundError:
+        raise FileNotFoundError(f"JSON schema file not found at {JSON_SCHEMA_PATH}")
+   
+    # Generate structured data
+    structured_data = generate_llm_content(
+        llm=llm,
+        system_prompt=STRUCTURED_DATA_SP,
+        human_prompt_template=STRUCTURED_DATA_HP,
+        format_args={
+            "pdf_text": pdf_text,
+            "json_input": json.dumps(json_schema, indent=2),
+        },
+        functions=[json_schema],
+        extract_function_call=True,
+    )
+
+    log("Completed Structured Data")
+    # Update progress - 20% complete for this file
+    progress_bar.progress(base_progress + file_progress_weight * 0.2)
+
+    custom_role_title_string = (
+        f"\nAnd considering the target role type of {custom_role_title}, aligning with the general role type, while being more general:\n"
+        if custom_role_title
+        else ""
+    )
+
+    # Generate an appropriate role title if not provided by user
+    if not custom_role_title or not custom_role_title.strip():
+        role_title = generate_llm_content(
+            llm=llm,
+            system_prompt=ROLE_TITLE_GEN_SP,
+            human_prompt_template=ROLE_TITLE_GEN_HP,
+            format_args={
+                "structured_data": json.dumps(structured_data, indent=2),
+                "custom_role_title_string": custom_role_title_string,
+            },
+        )
+        log(f"Generated role title: {role_title}")
+    else:
+        role_title = custom_role_title.strip()
+        log(f"Using provided role title: {role_title}")
+
+    # Generate tailored profile based on job description if provided
+    if job_description and job_description.strip():
+        profile = generate_llm_content(
+            llm=llm,
+            system_prompt=TAILORED_SUMMARY_SP,
+            human_prompt_template=TAILORED_SUMMARY_HP,
+            format_args={
+                "structured_data": structured_data,
+                "job_description": job_description,
+                "role": role_title,
+            },
+            functions=[json_schema],
+        )
+        log(f"Generated tailored profile with job description for {role_title}")
+    else:
+        profile = generate_llm_content(
+            llm=llm,
+            system_prompt=SUMMARY_SP,
+            human_prompt_template=SUMMARY_HP,
+            format_args={"structured_data": structured_data},
+            functions=[json_schema],
+        )
+        log("Generated standard profile")
+
+    # Generate years of experience
+    years_exp = generate_llm_content(
+        llm=llm,
+        system_prompt=PROFILE_SP,
+        human_prompt_template=PROFILE_HP,
+        format_args={"profile": profile},
+    )
+
+    # Define function to call LLM with appropriate schema
+    def call_llm(all_schemas, section, text_input=pdf_text, job_desc=""):
+        sp_var = f"{section.upper()}_SP"
+        hp_var = f"{section.upper()}_HP"
+
+        # Only use tailored prompts if job description is provided and not empty
+        if (
+            job_desc
+            and job_desc.strip()
+            and f"TAILORED_{section.upper()}_SP" in globals()
+        ):
+            sp_var = f"TAILORED_{section.upper()}_SP"
+            hp_var = f"TAILORED_{section.upper()}_HP"
+
+        sp = eval(sp_var)
+        hp = eval(hp_var)
+
+        # Add job description to format args if available and needed
+        format_args = {
+            "text_input": text_input,
+            "json_dump": json.dumps(all_schemas[section]["json_schema"], indent=2),
+        }
+
+        if (
+            job_desc
+            and job_desc.strip()
+            and f"TAILORED_{section.upper()}_HP" in globals()
+        ):
+            format_args["job_description"] = job_desc
+            format_args["role"] = role_title
+
+        messages = [
+            SystemMessage(content=sp),
+            HumanMessage(content=hp.format(**format_args)),
+        ]
+
+        response = llm.invoke(messages, functions=[all_schemas[section]["json_schema"]])
+        structured_data = response.additional_kwargs["function_call"]["arguments"]
+        json_structured_data = json.loads(structured_data)
+
+        return json_structured_data
+
+    try:
+        with open(ALL_SCHEMAS_PATH, "r") as file:
+            all_schemas = json.load(file)
+    except FileNotFoundError:
+        raise FileNotFoundError(f"All schemas file not found at {ALL_SCHEMAS_PATH}")
+
+    res_dict = dict()
+
+    log("Loading...")
+    # Process experience with job description if available and not empty
+    if job_description and job_description.strip():
+        res_dict["experience"] = call_tailored_experience_chain(
+            pdf_text, job_description, role_title, llm
+        )
+        log(f"\t>> Completed key: experience (tailored for {role_title})")
+    else:
+        res_dict["experience"] = experience_chain(pdf_text, llm)
+        log(f"\t>> Completed key: experience")
+
+    # If include_default_cgi is True, generate a default CGI experience entry
+    if include_default_cgi:
+        log("Generating default CGI experience entry")
+        default_cgi_exp = generate_cgi_experience(
+            llm, selected_format, custom_role_title
+        )
+
+        # Add the default entry to the beginning of the CGI experience array
+        if "cgi_experience" in res_dict["experience"]:
+            # Check if there's already a non-empty cgi_experience
+            if (
+                res_dict["experience"]["cgi_experience"]
+                and len(res_dict["experience"]["cgi_experience"]) > 0
+            ):
+                # Check if the first entry is a placeholder (client descriptor not provided)
+                if res_dict["experience"]["cgi_experience"][0].get(
+                    "cgi_client_or_sector"
+                ) == "client descriptor not provided" or not res_dict["experience"][
+                    "cgi_experience"
+                ][
+                    0
+                ].get(
+                    "cgi_responsibilities"
+                ):
+                    # Replace the placeholder with our generated experience
+                    res_dict["experience"]["cgi_experience"][0] = default_cgi_exp
+                    log("Replaced placeholder CGI experience with generated experience")
+                else:
+                    # Insert at the beginning if there's already valid content
+                    res_dict["experience"]["cgi_experience"].insert(0, default_cgi_exp)
+                    log("Added generated CGI experience at the beginning of existing experiences")
+            else:
+                # If the array is empty or None, initialize it with our experience
+                res_dict["experience"]["cgi_experience"] = [default_cgi_exp]
+                log("Created new CGI experience entry")
+
+        log("Added default CGI experience entry")
+
+    # Process other sections
+    for key in all_schemas.keys():
+        res_dict[key] = call_llm(all_schemas, key, pdf_text, job_description)
+        log(f"\t>> Completed key: {key}")
+    progress_bar.progress(base_progress + file_progress_weight * 0.4)
+
+    # For testing
+    data = {
+        "structured_data": structured_data,
+        "years_exp": years_exp,
+        "profile": profile,
+        "res_dict": res_dict,
+        "job_description": job_description if job_description else "None provided",
+    }
+    with open("resume_data.json", "w") as json_file:
+        json.dump(data, json_file, indent=4)
+
+    print("Data saved to resume_data.json")
+
+    # Pass job description, role title, and format type to generate_resume
+    generate_resume(
+        structured_data,
+        years_exp,
+        profile,
+        res_dict,
+        job_description,
+        role_title,
+        selected_format,
+    )
 
 def run_resume_evaluation(file_path, file_id, resume_name="Resume", selected_format=None, custom_role_title=None, job_description=None):
     """
