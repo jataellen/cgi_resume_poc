@@ -895,28 +895,6 @@ def call_tailored_experience_chain(pdf_text, job_description, role, llm):
     return json_structured_data
 
 
-def extract_text_from_docx_simple(file_path):
-    """Simple text extraction from DOCX as fallback"""
-    try:
-        doc = Document(file_path)
-        full_text = []
-
-        for paragraph in doc.paragraphs:
-            if paragraph.text.strip():
-                full_text.append(paragraph.text.strip())
-
-        for table in doc.tables:
-            for row in table.rows:
-                for cell in row.cells:
-                    for paragraph in cell.paragraphs:
-                        if paragraph.text.strip():
-                            full_text.append(paragraph.text.strip())
-
-        return "\n".join(full_text)
-    except Exception as e:
-        return "Error extracting text from document"
-
-
 def validate_and_fix_scores(evaluation_result):
     """
     Validate and fix common scoring issues in evaluation results
@@ -1055,7 +1033,7 @@ def evaluate_resume(
                 structured_data = extract_resume_data_with_llm(file_path, llm)
                 resume_text = json.dumps(structured_data, indent=2)
             except Exception as docx_error:
-                resume_text = extract_text_from_docx_simple(file_path)
+                resume_text = extract_text_from_docx(file_path)
         else:
             raise ValueError("Unsupported file format. Use PDF or DOCX.")
 
@@ -1185,16 +1163,13 @@ def resume_stream(
     # Update progress
     progress_bar.progress(base_progress + file_progress_weight * 0.1)
 
-    # Handle both PDF and DOCX files
-    if file_path.lower().endswith(".pdf"):
-        loader = PyPDFLoader(file_path)
-        pages = loader.load()
-        pdf_text = "\n".join([doc.page_content for doc in pages])
-    elif file_path.lower().endswith((".docx", ".doc")):
-        # Use the extract_text_from_docx function
-        pdf_text = extract_text_from_docx(file_path)
-    else:
-        raise ValueError(f"Unsupported file format: {file_path}")
+    # Load PDF file (DOCX files are converted to PDF in main.py)
+    if not file_path.lower().endswith(".pdf"):
+        raise ValueError(f"Expected PDF file, got: {file_path}")
+    
+    loader = PyPDFLoader(file_path)
+    pages = loader.load()
+    pdf_text = "\n".join([doc.page_content for doc in pages])
 
     current_date = datetime.datetime.now().date()
 

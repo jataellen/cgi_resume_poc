@@ -450,6 +450,20 @@ async def process_resume_async(session_id: str):
             def __init__(self, path, filename):
                 self.name = filename
                 self.path = path
+                # Determine file type based on extension
+                if filename.lower().endswith('.docx'):
+                    self.type = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                elif filename.lower().endswith('.pdf'):
+                    self.type = "application/pdf"
+                else:
+                    self.type = "unknown"
+            
+            def read(self):
+                with open(self.path, 'rb') as f:
+                    return f.read()
+            
+            def getbuffer(self):
+                return self.read()
         
         temp_file = TempFile(upload_path, original_filename)
         
@@ -457,11 +471,17 @@ async def process_resume_async(session_id: str):
         session["progress"] = 30
         
         try:
-            temp_file_path = convert_to_pdf(temp_file, file_id)
-            session["logs"].append("File prepared successfully")
+            if original_filename.lower().endswith(('.docx', '.doc')):
+                # Convert DOCX to PDF using document_utils
+                temp_file_path = convert_to_pdf(temp_file, file_id)
+                session["logs"].append("DOCX converted to PDF successfully")
+            else:
+                # Already a PDF, just use the original path
+                temp_file_path = upload_path
+                session["logs"].append("Using PDF file directly")
             session["progress"] = 40
         except Exception as e:
-            session["logs"].append(f"Using original file format: {str(e)}")
+            session["logs"].append(f"Document conversion failed, using original file: {str(e)}")
             temp_file_path = upload_path
             session["progress"] = 40
         
@@ -577,6 +597,20 @@ async def process_resume_async_complex(session_id: str):
             def __init__(self, path, filename):
                 self.name = filename
                 self.path = path
+                # Determine file type based on extension
+                if filename.lower().endswith('.docx'):
+                    self.type = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                elif filename.lower().endswith('.pdf'):
+                    self.type = "application/pdf"
+                else:
+                    self.type = "unknown"
+            
+            def read(self):
+                with open(self.path, 'rb') as f:
+                    return f.read()
+            
+            def getbuffer(self):
+                return self.read()
         
         temp_file = TempFile(upload_path, original_filename)
         
@@ -584,11 +618,17 @@ async def process_resume_async_complex(session_id: str):
         session["progress"] = 30
         
         try:
-            temp_file_path = convert_to_pdf(temp_file, file_id)
-            session["logs"].append("File prepared successfully")
+            if original_filename.lower().endswith(('.docx', '.doc')):
+                # Convert DOCX to PDF using document_utils
+                temp_file_path = convert_to_pdf(temp_file, file_id)
+                session["logs"].append("DOCX converted to PDF successfully")
+            else:
+                # Already a PDF, just use the original path
+                temp_file_path = upload_path
+                session["logs"].append("Using PDF file directly")
             session["progress"] = 40
         except Exception as e:
-            session["logs"].append(f"Using original file format: {str(e)}")
+            session["logs"].append(f"Document conversion failed, using original file: {str(e)}")
             temp_file_path = upload_path
             session["progress"] = 40
         
