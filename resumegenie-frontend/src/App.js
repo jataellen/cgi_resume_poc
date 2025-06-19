@@ -13,15 +13,6 @@ import apiService, { setAuthInstance } from './services/apiService';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Auth from './components/Auth';
 
-// Suppress Supabase console warnings
-const originalWarn = console.warn;
-console.warn = (...args) => {
-  if (typeof args[0] === 'string' && args[0].includes('@supabase/gotrue-js')) {
-    return;
-  }
-  originalWarn.apply(console, args);
-};
-
 // CGI Theme Colors
 const cgiColors = {
   primary: '#5236AB',
@@ -211,7 +202,8 @@ function AppWrapper() {
     optimizationMethod: 'none',
     jobDescription: '',
     rfpFile: null,
-    currentStep: 0
+    currentStep: 0,
+    customExperiences: []
   });
   
   const simpleStatusIntervalRef = useRef(null);
@@ -368,7 +360,23 @@ function AppWrapper() {
         }));
         
         try {
-          const uploadResult = await apiService.uploadResume(file);
+          // Create FormData with all advanced parameters
+          const formData = new FormData();
+          formData.append('file', file);
+          formData.append('selectedFormat', advancedState.selectedFormat);
+          formData.append('customRoleTitle', advancedState.customRoleTitle);
+          formData.append('includeDefaultCgi', advancedState.includeDefaultCgi);
+          formData.append('optimizationMethod', advancedState.optimizationMethod);
+          formData.append('jobDescription', advancedState.jobDescription);
+          if (advancedState.rfpFile) {
+            formData.append('rfpFile', advancedState.rfpFile);
+          }
+          // Add custom experiences as JSON
+          if (advancedState.customExperiences.length > 0) {
+            formData.append('customExperiences', JSON.stringify(advancedState.customExperiences));
+          }
+          
+          const uploadResult = await apiService.uploadResumeComplex(formData);
           
           const result = await new Promise((resolve) => {
             const intervalId = setInterval(async () => {
@@ -502,7 +510,8 @@ function AppWrapper() {
       optimizationMethod: 'none',
       jobDescription: '',
       rfpFile: null,
-      currentStep: 0
+      currentStep: 0,
+      customExperiences: []
     });
     setError(null);
     
@@ -511,7 +520,7 @@ function AppWrapper() {
     }
   };
 
-  const steps = ['Choose Format', 'Optimization', 'Upload Files'];
+  const steps = ['Choose Format', 'Optimization', 'Add Experience', 'Upload Files'];
 
   return (
     <Box sx={{ 
@@ -942,9 +951,165 @@ function AppWrapper() {
                     )}
                   </Box>
                   
+                  <Box sx={{ mb: 4 }}>
+                    <Typography variant="h5" sx={{ mb: 3, color: cgiColors.primary, fontWeight: 600 }}>
+                      Step 3: Add Custom Experience (Optional)
+                    </Typography>
+                    <Typography variant="body2" sx={{ mb: 3, color: cgiColors.gray }}>
+                      Add additional experience entries to be included in your resume
+                    </Typography>
+                    
+                    {advancedState.customExperiences.map((exp, index) => (
+                      <StyledCard key={index} sx={{ mb: 2, p: 2, backgroundColor: cgiColors.lightGray }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                          <Box sx={{ flex: 1 }}>
+                            <Typography variant="subtitle1" sx={{ fontWeight: 600, color: cgiColors.primary }}>
+                              {exp.position_title || 'Position Title'}
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: cgiColors.gray }}>
+                              {exp.company || 'Company'} | {exp.start_date || 'Start'} - {exp.end_date || 'End'}
+                            </Typography>
+                            <Typography variant="body2" sx={{ mt: 1 }}>
+                              {exp.description || 'Description'}
+                            </Typography>
+                          </Box>
+                          <IconButton
+                            size="small"
+                            onClick={() => {
+                              setAdvancedState(prev => ({
+                                ...prev,
+                                customExperiences: prev.customExperiences.filter((_, i) => i !== index)
+                              }));
+                            }}
+                            sx={{ color: cgiColors.error }}
+                          >
+                            <span className="material-symbols-outlined">delete</span>
+                          </IconButton>
+                        </Box>
+                      </StyledCard>
+                    ))}
+                    
+                    <StyledCard sx={{ p: 3, border: `2px dashed ${cgiColors.primary}`, backgroundColor: 'transparent' }}>
+                      <Typography variant="subtitle1" sx={{ mb: 2, fontWeight: 600, color: cgiColors.primary }}>
+                        Add New Experience Entry
+                      </Typography>
+                      <Box sx={{ display: 'grid', gap: 2 }}>
+                        <TextField
+                          id="new-company"
+                          label="Company/Client"
+                          placeholder="e.g., ABC Corporation"
+                          variant="outlined"
+                          fullWidth
+                          sx={{
+                            '& .MuiOutlinedInput-root': {
+                              '&.Mui-focused fieldset': {
+                                borderColor: cgiColors.primary
+                              }
+                            }
+                          }}
+                        />
+                        <TextField
+                          id="new-position"
+                          label="Position Title"
+                          placeholder="e.g., Senior Software Engineer"
+                          variant="outlined"
+                          fullWidth
+                          sx={{
+                            '& .MuiOutlinedInput-root': {
+                              '&.Mui-focused fieldset': {
+                                borderColor: cgiColors.primary
+                              }
+                            }
+                          }}
+                        />
+                        <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
+                          <TextField
+                            id="new-start-date"
+                            label="Start Date"
+                            placeholder="MM/YY"
+                            variant="outlined"
+                            sx={{
+                              '& .MuiOutlinedInput-root': {
+                                '&.Mui-focused fieldset': {
+                                  borderColor: cgiColors.primary
+                                }
+                              }
+                            }}
+                          />
+                          <TextField
+                            id="new-end-date"
+                            label="End Date"
+                            placeholder="MM/YY or Present"
+                            variant="outlined"
+                            sx={{
+                              '& .MuiOutlinedInput-root': {
+                                '&.Mui-focused fieldset': {
+                                  borderColor: cgiColors.primary
+                                }
+                              }
+                            }}
+                          />
+                        </Box>
+                        <TextField
+                          id="new-description"
+                          label="Description/Responsibilities"
+                          placeholder="Describe your key responsibilities and achievements..."
+                          multiline
+                          rows={4}
+                          variant="outlined"
+                          fullWidth
+                          sx={{
+                            '& .MuiOutlinedInput-root': {
+                              '&.Mui-focused fieldset': {
+                                borderColor: cgiColors.primary
+                              }
+                            }
+                          }}
+                        />
+                        <CGIButton
+                          variant="contained"
+                          onClick={() => {
+                            const company = document.getElementById('new-company').value;
+                            const position = document.getElementById('new-position').value;
+                            const startDate = document.getElementById('new-start-date').value;
+                            const endDate = document.getElementById('new-end-date').value;
+                            const description = document.getElementById('new-description').value;
+                            
+                            if (company && position && startDate && endDate && description) {
+                              setAdvancedState(prev => ({
+                                ...prev,
+                                customExperiences: [...prev.customExperiences, {
+                                  company: company,
+                                  position_title: position,
+                                  start_date: startDate,
+                                  end_date: endDate,
+                                  description: description
+                                }],
+                                currentStep: prev.currentStep < 2 ? 2 : prev.currentStep
+                              }));
+                              
+                              // Clear form
+                              document.getElementById('new-company').value = '';
+                              document.getElementById('new-position').value = '';
+                              document.getElementById('new-start-date').value = '';
+                              document.getElementById('new-end-date').value = '';
+                              document.getElementById('new-description').value = '';
+                            } else {
+                              setError('Please fill in all experience fields');
+                            }
+                          }}
+                          sx={{ alignSelf: 'flex-start' }}
+                        >
+                          <span className="material-symbols-outlined" style={{ marginRight: '8px', fontSize: '20px' }}>add</span>
+                          Add Experience
+                        </CGIButton>
+                      </Box>
+                    </StyledCard>
+                  </Box>
+                  
                   <Box>
                     <Typography variant="h5" sx={{ mb: 3, color: cgiColors.primary, fontWeight: 600 }}>
-                      Step 3: Upload Your Resumes
+                      Step 4: Upload Your Resumes
                     </Typography>
                     <Typography variant="body2" sx={{ mb: 2, color: cgiColors.gray }}>
                       You can select multiple resume files to process at once
@@ -967,7 +1132,7 @@ function AppWrapper() {
                             setAdvancedState(prev => ({
                               ...prev,
                               selectedFiles: Array.from(e.target.files),
-                              currentStep: prev.currentStep < 2 ? 2 : prev.currentStep
+                              currentStep: prev.currentStep < 3 ? 3 : prev.currentStep
                             }));
                           }}
                           accept=".pdf,.docx,.doc"
