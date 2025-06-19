@@ -465,6 +465,7 @@ def resume_stream(
     job_description="",
     rfp_file_path=None,
     include_default_cgi=False,  # New parameter
+    custom_experiences=None,  # New parameter for custom experience entries
 ):
     load_dotenv()
 
@@ -536,6 +537,29 @@ def resume_stream(
     )
 
     log("Completed Structured Data")
+    
+    # If custom_experiences is provided, add them to the structured_data experience array
+    if custom_experiences and len(custom_experiences) > 0:
+        log(f"Adding {len(custom_experiences)} custom experience entries to structured data")
+        
+        # Ensure experience array exists
+        if "experience" not in structured_data:
+            structured_data["experience"] = []
+        
+        # Add custom experiences to the experience array
+        for exp in custom_experiences:
+            experience_entry = {
+                "company": exp.get("company", ""),
+                "position_title": exp.get("position_title", ""),
+                "start_date": exp.get("start_date", ""),
+                "end_date": exp.get("end_date", ""),
+                "responsibilities": [exp.get("description", "")],
+                "technologies": []  # Could be extracted from description if needed
+            }
+            structured_data["experience"].append(experience_entry)
+        
+        log(f"Added {len(custom_experiences)} custom experiences to structured data")
+    
     # Update progress - 20% complete for this file
     progress_bar.progress(base_progress + file_progress_weight * 0.2)
 
@@ -1141,6 +1165,29 @@ def resume_stream(
     )
 
     log("Completed Structured Data")
+    
+    # If custom_experiences is provided, add them to the structured_data experience array
+    if custom_experiences and len(custom_experiences) > 0:
+        log(f"Adding {len(custom_experiences)} custom experience entries to structured data")
+        
+        # Ensure experience array exists
+        if "experience" not in structured_data:
+            structured_data["experience"] = []
+        
+        # Add custom experiences to the experience array
+        for exp in custom_experiences:
+            experience_entry = {
+                "company": exp.get("company", ""),
+                "position_title": exp.get("position_title", ""),
+                "start_date": exp.get("start_date", ""),
+                "end_date": exp.get("end_date", ""),
+                "responsibilities": [exp.get("description", "")],
+                "technologies": []  # Could be extracted from description if needed
+            }
+            structured_data["experience"].append(experience_entry)
+        
+        log(f"Added {len(custom_experiences)} custom experiences to structured data")
+    
     # Update progress - 20% complete for this file
     progress_bar.progress(base_progress + file_progress_weight * 0.2)
 

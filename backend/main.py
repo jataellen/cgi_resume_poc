@@ -337,6 +337,7 @@ async def upload_resume_complex(
     includeDefaultCgi: bool = Form(False),
     optimizationMethod: str = Form("none"),
     jobDescription: Optional[str] = Form(None),
+    customExperiences: Optional[str] = Form(None),
     rfpFile: Optional[UploadFile] = File(None),
     current_user=Depends(get_current_user)
 ):
@@ -370,6 +371,16 @@ async def upload_resume_complex(
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Failed to save RFP file: {str(e)}")
     
+    # Parse custom experiences if provided
+    custom_experiences_list = []
+    if customExperiences:
+        try:
+            import json
+            custom_experiences_list = json.loads(customExperiences)
+            session_logs = [f"Added {len(custom_experiences_list)} custom experience entries"]
+        except Exception as e:
+            print(f"Error parsing custom experiences: {e}")
+    
     # Initialize session with complex parameters
     upload_sessions[session_id] = {
         "status": "uploaded",
@@ -387,7 +398,8 @@ async def upload_resume_complex(
         "include_default_cgi": includeDefaultCgi,
         "optimization_method": optimizationMethod,
         "job_description": jobDescription if optimizationMethod == "description" else "",
-        "rfp_file_path": rfp_path
+        "rfp_file_path": rfp_path,
+        "custom_experiences": custom_experiences_list
     }
     
     # Start processing in background
@@ -475,7 +487,8 @@ async def process_resume_async(session_id: str):
             custom_role_title,
             job_description,
             rfp_file_path,
-            include_default_cgi
+            include_default_cgi,
+            None  # custom_experiences - not used in simple mode
         )
         
         # Copy logs from global log_messages to session
@@ -530,6 +543,8 @@ async def process_resume_async_complex(session_id: str):
             session["logs"].append("Applying job description optimization...")
         elif session['optimization_method'] == 'rfp':
             session["logs"].append("Analyzing RFP requirements...")
+        if custom_experiences:
+            session["logs"].append(f"Including {len(custom_experiences)} custom experience entries...")
         session["progress"] = 20
         
         # Clear previous log messages
@@ -551,6 +566,7 @@ async def process_resume_async_complex(session_id: str):
         job_description = session["job_description"]
         rfp_file_path = session["rfp_file_path"]
         include_default_cgi = session["include_default_cgi"]
+        custom_experiences = session.get("custom_experiences", [])
         
         # Convert file to appropriate format
         file_id = session_id[:8]
@@ -596,7 +612,8 @@ async def process_resume_async_complex(session_id: str):
             custom_role_title,
             job_description,
             rfp_file_path,
-            include_default_cgi
+            include_default_cgi,
+            custom_experiences
         )
         
         # Copy logs from global log_messages to session
