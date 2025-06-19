@@ -535,6 +535,9 @@ async def process_resume_async_complex(session_id: str):
     session = upload_sessions[session_id]
     
     try:
+        # Extract parameters from session first
+        custom_experiences = session.get("custom_experiences", [])
+        
         # Update status
         session["status"] = "processing"
         session["logs"].append("Initializing advanced document processing...")
@@ -560,13 +563,12 @@ async def process_resume_async_complex(session_id: str):
         # Create progress tracker (replaces Streamlit progress bar)
         progress_tracker = ProgressTracker(session_id)
         
-        # Extract parameters from session
+        # Extract remaining parameters from session
         selected_format = session["selected_format"]
         custom_role_title = session["custom_role_title"]
         job_description = session["job_description"]
         rfp_file_path = session["rfp_file_path"]
         include_default_cgi = session["include_default_cgi"]
-        custom_experiences = session.get("custom_experiences", [])
         
         # Convert file to appropriate format
         file_id = session_id[:8]
