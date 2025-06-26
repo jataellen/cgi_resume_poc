@@ -29,7 +29,12 @@ python -m venv rg-venv
 
 pip install -r requirements.txt
 
-# Run frontend on streamlit
-streamlit run app.py 
+# Set .env in resumegenie-frontend
+cd resumegenie-frontend
+npm install
+npm start
 
-# Pushing to main deploys to streamlit
+# Set .env in backend
+cd backend
+uvicorn main:app --host localhost --port 8000 --reload
+
