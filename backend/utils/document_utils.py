@@ -1,6 +1,6 @@
-from spire.doc import *
-from spire.doc.common import *
-from docx import Document as DocxDocument
+# from spire.doc import *
+# from spire.doc.common import *
+# from docx import Document as DocxDocument
 import io
 import os
 import traceback
@@ -9,6 +9,7 @@ from src.logs_manager import log
 
 # Function to convert a single DOCX file to PDF using Spire.Doc
 def convert_docx_to_pdf(uploaded_file, temp_file_path, pdf_file_path):
+    return
     try:
         # Save the uploaded DOCX file temporarily
         with open(temp_file_path, "wb") as f:
@@ -38,6 +39,7 @@ def convert_docx_to_pdf(uploaded_file, temp_file_path, pdf_file_path):
 
 
 def change_all_fonts(uploaded_file):
+    return
     try:
         # Create a BytesIO object from the uploaded file's buffer
         file_buffer = io.BytesIO(uploaded_file.getbuffer())
@@ -108,6 +110,7 @@ def convert_to_pdf(uploaded_file, file_id):
     Raises:
         Exception: If conversion fails
     """
+    return
     # Define file paths
     base_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     temp_file_path = os.path.join(base_path, f"temp_{file_id}.docx")

@@ -94,6 +94,18 @@ upload_sessions = {}
 async def get_current_user(authorization: Optional[str] = Header(None)):
     """Verify JWT token from Supabase"""
     
+    # Check if running in local development mode
+    is_local = os.getenv("ENVIRONMENT", "production").lower() == "local"
+    
+    if is_local:
+        # Return mock user for local development
+        return {
+            "id": "local-dev-user", 
+            "email": "developer@local.dev", 
+            "mode": "local", 
+            "user_data": {"id": "local-dev-user", "email": "developer@local.dev"}
+        }
+    
     # Require Supabase configuration
     if not SUPABASE_URL or not supabase:
         raise HTTPException(status_code=500, detail="Authentication service not configured")
