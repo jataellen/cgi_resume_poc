@@ -1,0 +1,320 @@
+{
+    "structured_data": {
+        "contact": {
+            "name": "Veronica Hawkes",
+            "email": "",
+            "phone": "",
+            "location": "",
+            "linkedin": "",
+            "website": ""
+        },
+        "professional_summary": "Veronica Hawkes is a dynamic and results-driven professional with over nine years of experience in client-facing roles, demonstrating exceptional leadership, analytical, and problem-solving capabilities. Her academic foundation includes a Master of Business Administration specializing in Enterprise Analytics from Dalhousie University (graduating May 2024) and a Bachelor of Science in Human Kinetics from St. Francis Xavier University. Veronica combines her deep financial and technical knowledge with a proven ability to thrive in fast-paced environments, making her a valuable asset in both corporate and government settings. Her certifications, including the Lean Six Sigma Green Belt and Certified SAFe 6 Practitioner, underscore her commitment to continuous improvement and operational excellence.",
+        "education": [
+            {
+                "degree": "Master of Business Administration",
+                "field_of_study": "Enterprise Analytics",
+                "institution": "Dalhousie University",
+                "graduation_year": "2024"
+            },
+            {
+                "degree": "Bachelor of Science",
+                "field_of_study": "Human Kinetics",
+                "institution": "St. Francis Xavier University"
+            }
+        ],
+        "experience": [
+            {
+                "job_title": "Business Analyst & Project Coordinator",
+                "company": "CGI",
+                "start_date": "07/24",
+                "end_date": "Present",
+                "responsibilities": "Documented current state business processes to identify operational inefficiencies. Derived actionable insights through advanced analytics, improving data-driven decision-making. Created future-state recommendations including streamlined processes and customer journey maps. Developed reports using Excel and PowerPoint to enhance stakeholder communication and decision-making. Designed implementation plans with organizational structures, roles, effort metrics, and costs. Coordinated tasks, schedules, and resources to ensure project success within defined scopes."
+            },
+            {
+                "job_title": "Cash Balancer",
+                "company": "Canadian Tire",
+                "start_date": "11/23",
+                "end_date": "07/24",
+                "responsibilities": "Ensured financial records accurately reflected cash flow information. Interpreted financial documents using knowledge from finance courses. Managed fund allocation and developed bank deposits."
+            },
+            {
+                "job_title": "Operational & Service Excellence Intern",
+                "company": "Government of Nova Scotia",
+                "start_date": "01/23",
+                "end_date": "08/23",
+                "responsibilities": "Organized virtual programs, services, and trainings for over 230 participants using MS Teams. Facilitated team meetings to identify and resolve organizational barriers. Developed standard operating procedures ensuring consistent operations. Oversaw Lean Six Sigma training programs to improve business processes. Created visual dashboards using Power BI for enhanced data analytics. Supported team members in obtaining Lean Six Sigma Yellow Belt certifications. Planned and coordinated a major event for over 70 attendees. Implemented 5S methodology to enhance team efficiency."
+            },
+            {
+                "job_title": "Customer Service Representative",
+                "company": "Canadian Tire",
+                "start_date": "11/15",
+                "end_date": "06/22",
+                "responsibilities": "Provided excellent customer service in a fast-paced environment. Resolved customer inquiries and complaints effectively. Handled cash transactions and prepared registers for store opening. Trained new employees on store policies and technologies. Managed staffing allocation and break schedules for up to eight cashiers. Developed organizational and communication skills across various departments."
+            }
+        ],
+        "skills": [
+            "Lean Six Sigma methodologies",
+            "Project coordination",
+            "Financial analysis",
+            "Data analytics",
+            "Business process improvement",
+            "Client-facing roles",
+            "Customer service",
+            "Interpersonal communication",
+            "Organizational design",
+            "Analytical and problem-solving",
+            "Leadership",
+            "Tableau",
+            "PowerPoint",
+            "Outlook",
+            "Power BI",
+            "Excel",
+            "Power Automate",
+            "MS Teams",
+            "SAP"
+        ],
+        "certifications": [
+            {
+                "name": "Lean Six Sigma Green Belt",
+                "issuing_organization": "Six Sigma Global Institute"
+            },
+            {
+                "name": "Certified SAFe 6 Practitioner",
+                "issuing_organization": "Scaled Agile Inc."
+            },
+            {
+                "name": "SAP Student Recognition Award",
+                "issuing_organization": "SAP University Alliances, Dalhousie University"
+            },
+            {
+                "name": "Lean Six Sigma Yellow Belt",
+                "issuing_organization": "Government of Nova Scotia"
+            }
+        ],
+        "languages": [
+            "English"
+        ],
+        "awards": [
+            {
+                "title": "SAP Student Recognition Award",
+                "organization": "SAP University Alliances"
+            }
+        ]
+    },
+    "years_exp": "10 years of experience in Business Analysis and Project Coordination",
+    "profile": "Veronica Hawkes is a results-oriented professional with over nine years of experience excelling in client-facing roles across corporate and government settings. Equipped with a Master of Business Administration specializing in Enterprise Analytics from Dalhousie University (2024) and a Bachelor of Science in Human Kinetics from St. Francis Xavier University, she blends a strong academic foundation with real-world expertise. Veronica's certifications, including the Lean Six Sigma Green Belt and Certified SAFe 6 Practitioner, highlight her dedication to operational excellence and continuous improvement.\n\nIn her current role as a Business Analyst & Project Coordinator at CGI, Veronica drives efficiency by documenting business processes, deriving actionable insights through advanced analytics, and crafting strategic implementation plans. Her ability to design stakeholder-focused reports and customer journey maps reflects her expertise in data-driven decision-making. Previous roles, such as her internship with the Government of Nova Scotia, demonstrate her ability to lead impactful initiatives, such as organizing Lean Six Sigma training programs and creating dashboards with Power BI to enhance data analytics.\n\nVeronica's technical proficiency spans tools like Tableau, Power BI, Power Automate, and SAP, enabling her to excel in financial analysis, business process improvement, and project coordination. Her interpersonal communication and leadership skills have been honed through customer service roles and team mentoring, as seen during her tenure at Canadian Tire. With a proven track record of delivering measurable results and a commitment to innovation, Veronica is a dynamic professional ready to make a meaningful impact.",
+    "res_dict": {
+        "experience": {
+            "cgi_experience": [
+                {
+                    "cgi_client_or_sector": "Consulting",
+                    "cgi_position_title": "Business Analyst & Project Coordinator",
+                    "cgi_start_date": "07/24",
+                    "cgi_end_date": "Present",
+                    "cgi_responsibilities": [
+                        "Documented current state business processes to identify operational inefficiencies, contributing to improved workflows.",
+                        "Derived actionable insights through advanced analytics, improving organizational data-driven decision-making capabilities.",
+                        "Created future-state recommendations, including streamlined processes and detailed customer journey maps.",
+                        "Developed comprehensive reports using Excel and PowerPoint to enhance stakeholder communication and facilitate decision-making.",
+                        "Designed detailed implementation plans featuring organizational structures, defined roles, effort metrics, and cost estimates.",
+                        "Coordinated project tasks, schedules, and resources to ensure successful delivery within defined scopes."
+                    ],
+                    "cgi_technologies": [
+                        "Excel",
+                        "PowerPoint"
+                    ]
+                }
+            ],
+            "other_experience": [
+                {
+                    "company": "Canadian Tire",
+                    "position_title": "Cash Balancer",
+                    "start_date": "11/23",
+                    "end_date": "07/24",
+                    "responsibilities": [
+                        "Ensured financial records accurately reflected cash flow information, reducing discrepancies and errors.",
+                        "Interpreted financial documents by applying knowledge gained from finance courses to improve analysis quality.",
+                        "Managed fund allocation processes and developed accurate bank deposits to ensure timely transactions."
+                    ],
+                    "technologies": []
+                },
+                {
+                    "company": "Government of Nova Scotia",
+                    "position_title": "Operational & Service Excellence Intern",
+                    "start_date": "01/23",
+                    "end_date": "08/23",
+                    "responsibilities": [
+                        "Organized virtual programs, services, and training sessions for over 230 participants using MS Teams.",
+                        "Facilitated team meetings to identify and resolve organizational barriers, improving operational efficiency.",
+                        "Developed standard operating procedures to ensure consistent and reliable operations across teams.",
+                        "Oversaw Lean Six Sigma training programs to improve business processes and operational performance.",
+                        "Created visual dashboards using Power BI to enhance data analytics and reporting capabilities.",
+                        "Supported team members in obtaining Lean Six Sigma Yellow Belt certifications, fostering professional development.",
+                        "Planned and coordinated a major event with over 70 attendees, ensuring its success through careful preparation.",
+                        "Implemented 5S methodology to enhance team efficiency and improve workplace organization."
+                    ],
+                    "technologies": [
+                        "MS Teams",
+                        "Power BI"
+                    ]
+                },
+                {
+                    "company": "Canadian Tire",
+                    "position_title": "Customer Service Representative",
+                    "start_date": "11/15",
+                    "end_date": "06/22",
+                    "responsibilities": [
+                        "Provided excellent customer service in a fast-paced retail environment, addressing inquiries and complaints effectively.",
+                        "Resolved customer issues with professionalism, ensuring satisfaction and positive experiences.",
+                        "Handled cash transactions and prepared registers for store opening to ensure smooth daily operations.",
+                        "Trained new employees on store policies and technologies to maintain high service standards.",
+                        "Managed staffing allocation and break schedules for up to eight cashiers to optimize workflow.",
+                        "Developed organizational and communication skills while collaborating across various departments."
+                    ],
+                    "technologies": []
+                }
+            ]
+        },
+        "volunteer": {
+            "volunteer_experience": []
+        },
+        "other_sections": {
+            "industry_experience": [
+                "Government",
+                "Consulting",
+                "Retail"
+            ],
+            "technical_specializations": [
+                "Lean Six Sigma methodologies",
+                "Project coordination",
+                "Financial analysis",
+                "Data analytics",
+                "Business process improvement"
+            ],
+            "areas_of_expertise": [
+                "Client-facing roles",
+                "Customer service",
+                "Interpersonal communication",
+                "Organizational design",
+                "Analytical and problem-solving",
+                "Leadership"
+            ],
+            "languages": [
+                "English"
+            ],
+            "environments": [
+                "Fast-paced environments",
+                "Virtual training environments",
+                "Team-oriented environments"
+            ],
+            "tools_and_software": [
+                "Tableau",
+                "PowerPoint",
+                "Outlook",
+                "Power BI",
+                "Excel",
+                "Power Automate",
+                "MS Teams",
+                "SAP"
+            ]
+        },
+        "skills_summary": {
+            "technical_skills": [
+                {
+                    "skill": "Tableau",
+                    "years_of_experience": 1,
+                    "skill_level": 2
+                },
+                {
+                    "skill": "SAP",
+                    "years_of_experience": 1,
+                    "skill_level": 2
+                },
+                {
+                    "skill": "Power BI",
+                    "years_of_experience": 1,
+                    "skill_level": 2
+                },
+                {
+                    "skill": "Power Automate",
+                    "years_of_experience": 1,
+                    "skill_level": 2
+                },
+                {
+                    "skill": "Excel",
+                    "years_of_experience": 4,
+                    "skill_level": 3
+                }
+            ],
+            "application_knowledge": [
+                {
+                    "skill": "MS Teams",
+                    "years_of_experience": 2,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Outlook",
+                    "years_of_experience": 1,
+                    "skill_level": 2
+                },
+                {
+                    "skill": "Lean Six Sigma",
+                    "years_of_experience": 1,
+                    "skill_level": 3
+                }
+            ],
+            "it_disciplines": [
+                {
+                    "skill": "Business Process Improvement",
+                    "years_of_experience": 1,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Data Analytics",
+                    "years_of_experience": 1,
+                    "skill_level": 3
+                },
+                {
+                    "skill": "Organizational Systems Development",
+                    "years_of_experience": 1,
+                    "skill_level": 3
+                }
+            ],
+            "industry_knowledge": [
+                {
+                    "skill": "Retail",
+                    "years_of_experience": 7,
+                    "skill_level": 4
+                },
+                {
+                    "skill": "Government",
+                    "years_of_experience": 1,
+                    "skill_level": 2
+                }
+            ],
+            "other_relevant_skills": [
+                {
+                    "skill": "Leadership",
+                    "years_of_experience": 9,
+                    "skill_level": 4
+                },
+                {
+                    "skill": "Communication",
+                    "years_of_experience": 9,
+                    "skill_level": 4
+                },
+                {
+                    "skill": "Problem-Solving",
+                    "years_of_experience": 9,
+                    "skill_level": 4
+                },
+                {
+                    "skill": "Team Coordination",
+                    "years_of_experience": 9,
+                    "skill_level": 4
+                }
+            ]
+        }
+    },
+    "job_description": "None provided"
+}
