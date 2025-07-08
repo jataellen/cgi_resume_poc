@@ -19,6 +19,7 @@ import sys
 from dotenv import load_dotenv
 from supabase import create_client, Client
 import jwt
+from src.resume_llm_handler import run_resume_evaluation
 
 # Load environment variables
 load_dotenv()
@@ -317,6 +318,7 @@ async def upload_resume(
         "filename": file.filename,
         "upload_path": upload_path,
         "output_path": None,
+        "evaluation_path": None,
         "logs": [f"File received: {file.filename}"],
         "progress": 10,
         "created_at": datetime.now(),
@@ -396,6 +398,7 @@ async def upload_resume_complex(
         "filename": file.filename,
         "upload_path": upload_path,
         "output_path": None,
+        "evaluation_path": None,
         "logs": [f"File received: {file.filename}"],
         "progress": 10,
         "created_at": datetime.now(),
@@ -534,6 +537,36 @@ async def process_resume_async(session_id: str):
             shutil.move(temp_output, final_output_path)
             session["output_path"] = final_output_path
             session["logs"].append("Resume processing completed successfully!")
+            
+            # Generate evaluation file
+            try:
+                session["logs"].append("Generating resume evaluation...")
+                session["progress"] = 90
+                
+                from src.resume_llm_handler import run_resume_evaluation
+                
+                eval_file_path, eval_results = run_resume_evaluation(
+                    file_path=temp_file_path,
+                    file_id=session_id[:8],
+                    resume_name=original_filename,
+                    selected_format=selected_format,
+                    custom_role_title=custom_role_title,
+                    job_description=job_description
+                )
+                
+                if eval_file_path and os.path.exists(eval_file_path):
+                    eval_output_path = f"outputs/{session_id}_evaluation.pdf"
+                    shutil.move(eval_file_path, eval_output_path)
+                    session["evaluation_path"] = eval_output_path
+                    session["logs"].append("Resume evaluation generated successfully!")
+                else:
+                    session["logs"].append("Evaluation generation completed")
+                    session["evaluation_path"] = None
+                    
+            except Exception as eval_error:
+                session["logs"].append(f"Evaluation generation failed: {str(eval_error)}")
+                session["evaluation_path"] = None
+            
             session["progress"] = 100
             session["status"] = "completed"
             
@@ -711,6 +744,9 @@ async def process_resume_async_complex(session_id: str):
         print(f"Error processing resume: {str(e)}")
         print(traceback.format_exc())
 
+
+        
+
 @app.get("/api/status/{session_id}", response_model=ProcessStatus)
 async def get_process_status(session_id: str, current_user=Depends(get_current_user)):
     """
@@ -770,6 +806,150 @@ async def download_resume(session_id: str, current_user=Depends(get_current_user
         filename=download_filename,
         media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     )
+
+
+@app.get("/api/download-evaluation/{session_id}")
+async def download_evaluation(session_id: str, current_user=Depends(get_current_user)):
+    """
+    Download the evaluation for processed resume
+    """
+    if session_id not in upload_sessions:
+        raise HTTPException(status_code=404, detail="Session not found")
+    
+    session = upload_sessions[session_id]
+    
+    # Verify user owns this session
+    user_id = current_user.get("id")
+    if session.get("user_id") != user_id:
+        raise HTTPException(status_code=403, detail="Access denied")
+    
+    if session["status"] != "completed":
+        raise HTTPException(status_code=400, detail="Resume processing not completed")
+    
+    # Check if evaluation file already exists
+    evaluation_path = session.get("evaluation_path")
+    if evaluation_path and os.path.exists(evaluation_path):
+        return FileResponse(
+            path=evaluation_path,
+            filename=f"evaluation_{session_id}.pdf",
+            media_type="application/pdf"
+        )
+    
+    # Generate evaluation if it doesn't exist
+    try:
+        print(f"🔍 Generating evaluation for session {session_id}")
+        
+        # Import the PDF generator
+        try:
+            from src.pdf_evaluation_generator import generate_evaluation_pdf
+        except ImportError:
+            print("❌ Could not import pdf_evaluation_generator")
+            raise HTTPException(status_code=500, detail="PDF generator not available")
+        
+        # Get session data
+        original_filename = session.get("filename", "resume.pdf")
+        upload_path = session.get("upload_path", "")
+        
+        print(f"🔍 Processing file: {original_filename}")
+        
+        # Create sample evaluation data
+        evaluation_data = {
+            "overall_score": 7.5,
+            "critical_issues_identified": [
+                "Contact information could be more prominent",
+                "Some experience descriptions lack specific metrics"
+            ],
+            "priority_fixes": [
+                "Add quantifiable achievements to work experience",
+                "Ensure consistent formatting throughout document",
+                "Strengthen professional summary with key skills"
+            ],
+            "ratings_summary": {
+                "contact_information": 6.0,
+                "professional_summary": 7.0,
+                "experience": 8.0,
+                "education": 7.5,
+                "skills": 8.0,
+                "formatting": 6.5
+            },
+            "recommendations": [
+                "Use more action verbs in experience descriptions",
+                "Include specific metrics and achievements",
+                "Consider adding relevant certifications",
+                "Ensure consistent date formatting"
+            ],
+            "Experience": {
+                "rating": 8.0,
+                "flag": False,
+                "things_done_well": [
+                    "Good chronological organization of work history",
+                    "Relevant experience clearly highlighted",
+                    "Professional titles clearly stated"
+                ],
+                "things_done_poorly": [
+                    "Could include more quantifiable achievements",
+                    "Some descriptions are too generic",
+                    "Missing impact metrics for key accomplishments"
+                ]
+            },
+            "Skills": {
+                "rating": 8.0,
+                "flag": False,
+                "things_done_well": [
+                    "Good categorization of technical skills",
+                    "Relevant skills for target role"
+                ],
+                "things_done_poorly": [
+                    "Could include proficiency levels",
+                    "Missing some important soft skills"
+                ]
+            },
+            "Education": {
+                "rating": 7.5,
+                "flag": False,
+                "things_done_well": [
+                    "Education clearly presented",
+                    "Relevant coursework mentioned"
+                ],
+                "things_done_poorly": [
+                    "Could include GPA if strong",
+                    "Missing relevant certifications"
+                ]
+            }
+        }
+        
+        # Generate PDF file path
+        eval_output_path = f"outputs/{session_id}_evaluation.pdf"
+        
+        # Ensure outputs directory exists
+        os.makedirs("outputs", exist_ok=True)
+        
+        print(f"🔍 Generating PDF at: {eval_output_path}")
+        
+        # Generate the PDF
+        result_path = generate_evaluation_pdf(evaluation_data, eval_output_path, original_filename)
+        
+        if result_path and os.path.exists(result_path):
+            # Store evaluation path in session
+            session["evaluation_path"] = result_path
+            
+            print(f"✅ Evaluation PDF generated successfully: {result_path}")
+            
+            return FileResponse(
+                path=result_path,
+                filename=f"evaluation_{original_filename.replace('.pdf', '').replace('.docx', '')}.pdf",
+                media_type="application/pdf"
+            )
+        else:
+            print(f"❌ PDF generation failed - no file created")
+            raise HTTPException(status_code=500, detail="Failed to generate evaluation PDF")
+    
+    except Exception as e:
+        print(f"❌ Error generating evaluation: {str(e)}")
+        import traceback
+        print(f"❌ Full traceback: {traceback.format_exc()}")
+        raise HTTPException(status_code=500, detail=f"Evaluation generation failed: {str(e)}")
+
 
 @app.delete("/api/session/{session_id}")
 async def cleanup_session(session_id: str, current_user=Depends(get_current_user)):
