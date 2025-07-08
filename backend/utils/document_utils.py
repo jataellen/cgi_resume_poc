@@ -6,24 +6,106 @@ import os
 import traceback
 from src.logs_manager import log
 
+# Import required libraries for PDF conversion
+try:
+    from docx import Document as DocxDocument
+    from reportlab.lib.pagesizes import letter
+    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+    from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+    from reportlab.lib.enums import TA_JUSTIFY, TA_LEFT, TA_CENTER
+    from reportlab.lib.units import inch
+    CONVERSION_AVAILABLE = True
+except ImportError as e:
+    log(f"PDF conversion libraries not available: {e}")
+    CONVERSION_AVAILABLE = False
 
-# Function to convert a single DOCX file to PDF using Spire.Doc
+
 def convert_docx_to_pdf(uploaded_file, temp_file_path, pdf_file_path):
-    return
+    """
+    Convert a DOCX file to PDF using python-docx and reportlab
+    
+    Args:
+        uploaded_file: File object with getbuffer() method
+        temp_file_path: Path to save temporary DOCX file
+        pdf_file_path: Path to save output PDF file
+    
+    Returns:
+        str: Path to the created PDF file
+    """
+    if not CONVERSION_AVAILABLE:
+        raise Exception("PDF conversion libraries not installed. Please install: pip install python-docx reportlab")
+    
     try:
         # Save the uploaded DOCX file temporarily
         with open(temp_file_path, "wb") as f:
             f.write(uploaded_file.getbuffer())
 
-        log(f"File saved as: {temp_file_path}")
+        log(f"DOCX file saved as: {temp_file_path}")
 
-        document = Document()
-        document.LoadFromFile(temp_file_path)
-
-        document.SaveToFile(pdf_file_path, FileFormat.PDF)
-        document.Close()
-
+        # Load the DOCX document
+        doc = DocxDocument(temp_file_path)
+        
+        # Create PDF document
+        pdf_doc = SimpleDocTemplate(
+            pdf_file_path,
+            pagesize=letter,
+            rightMargin=72,
+            leftMargin=72,
+            topMargin=72,
+            bottomMargin=18
+        )
+        
+        # Get styles
+        styles = getSampleStyleSheet()
+        story = []
+        
+        # Custom styles
+        normal_style = ParagraphStyle(
+            'CustomNormal',
+            parent=styles['Normal'],
+            fontSize=11,
+            spaceAfter=12,
+            alignment=TA_LEFT
+        )
+        
+        heading_style = ParagraphStyle(
+            'CustomHeading',
+            parent=styles['Heading1'],
+            fontSize=14,
+            spaceAfter=12,
+            spaceBefore=12,
+            alignment=TA_LEFT
+        )
+        
+        # Process paragraphs
+        for paragraph in doc.paragraphs:
+            text = paragraph.text.strip()
+            if text:
+                # Check if it looks like a heading (all caps, short, etc.)
+                if len(text) < 100 and (text.isupper() or any(run.bold for run in paragraph.runs)):
+                    para = Paragraph(text, heading_style)
+                else:
+                    # Clean text for PDF
+                    cleaned_text = text.replace('\u2022', '•').replace('\u2013', '-').replace('\u2014', '-')
+                    para = Paragraph(cleaned_text, normal_style)
+                story.append(para)
+        
+        # Process tables
+        for table in doc.tables:
+            # Add table content as paragraphs (simple approach)
+            for row in table.rows:
+                row_text = " | ".join([cell.text.strip() for cell in row.cells if cell.text.strip()])
+                if row_text:
+                    para = Paragraph(row_text, normal_style)
+                    story.append(para)
+            story.append(Spacer(1, 0.2*inch))
+        
+        # Build PDF
+        pdf_doc.build(story)
+        log(f"Successfully converted DOCX to PDF: {pdf_file_path}")
+        
         return pdf_file_path
+        
     except Exception as e:
         log(f"Error in convert_docx_to_pdf: {str(e)}")
         log(traceback.format_exc())
@@ -35,11 +117,23 @@ def convert_docx_to_pdf(uploaded_file, temp_file_path, pdf_file_path):
                     log(f"Cleaned up partial file: {path}")
                 except Exception:
                     pass
-        raise  # Re-raise the exception to be caught by the caller
+        raise Exception(f"DOCX to PDF conversion failed: {str(e)}")
 
 
 def change_all_fonts(uploaded_file):
-    return
+    """
+    Change all fonts in a DOCX document to Times New Roman
+    
+    Args:
+        uploaded_file: File object with getbuffer() method
+    
+    Returns:
+        ModifiedFile object with updated content
+    """
+    if not CONVERSION_AVAILABLE:
+        log("Font changing not available - python-docx not installed")
+        return uploaded_file
+        
     try:
         # Create a BytesIO object from the uploaded file's buffer
         file_buffer = io.BytesIO(uploaded_file.getbuffer())
@@ -87,7 +181,9 @@ def change_all_fonts(uploaded_file):
             def read(self):
                 return self.buffer.read()
 
+        log("Font changes applied successfully")
         return ModifiedFile(output_buffer, uploaded_file)
+        
     except Exception as e:
         log(f"Error in change_all_fonts: {str(e)}")
         log(traceback.format_exc())
@@ -110,7 +206,6 @@ def convert_to_pdf(uploaded_file, file_id):
     Raises:
         Exception: If conversion fails
     """
-    return
     # Define file paths
     base_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     temp_file_path = os.path.join(base_path, f"temp_{file_id}.docx")
@@ -154,6 +249,14 @@ def convert_to_pdf(uploaded_file, file_id):
         # Verify the file was created
         if not os.path.exists(pdf_file_path):
             raise Exception(f"PDF file was not created at {pdf_file_path}")
+
+        # Clean up temporary DOCX file if it exists
+        if os.path.exists(temp_file_path):
+            try:
+                os.remove(temp_file_path)
+                log(f"Cleaned up temporary DOCX file: {temp_file_path}")
+            except Exception:
+                pass
 
         return pdf_file_path
 

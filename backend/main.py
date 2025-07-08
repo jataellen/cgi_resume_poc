@@ -200,17 +200,13 @@ def save_rfp_file(rfp_file, file_id):
     return temp_file_path
 
 # Import document utils - DISABLED due to Spire.Doc issues in production
-# from utils.document_utils import convert_to_pdf as convert_to_pdf_utils
+from utils.document_utils import convert_to_pdf as convert_to_pdf_utils
 
 def convert_to_pdf(uploaded_file, file_id):
     """
     Convert uploaded file to PDF using the utils function
     Handles PDF, DOCX, and DOC files
-    TEMPORARILY DISABLED: Returns original file path to avoid Spire.Doc crashes
     """
-    # Return original file path since Spire.Doc causes production issues
-    return uploaded_file.path
-    
     # Create a file-like object that matches what the utils function expects
     class FileWrapper:
         def __init__(self, file_obj, filename):
@@ -234,9 +230,12 @@ def convert_to_pdf(uploaded_file, file_id):
                 with open(self.file_obj.path, 'rb') as f:
                     return f.read()
             elif hasattr(self.file_obj, 'read'):
+                # Reset file pointer if possible
+                if hasattr(self.file_obj, 'seek'):
+                    self.file_obj.seek(0)
                 content = self.file_obj.read()
                 if hasattr(self.file_obj, 'seek'):
-                    self.file_obj.seek(0)  # Reset file pointer
+                    self.file_obj.seek(0)  # Reset file pointer again
                 return content
             else:
                 # It's a file path
@@ -263,11 +262,9 @@ def convert_to_pdf(uploaded_file, file_id):
         return pdf_path
     except Exception as e:
         log_messages.append(f"Error converting file: {str(e)}")
-        # Fallback to simple save for now
-        temp_file_path = f"temp_{file_id}{os.path.splitext(filename)[1]}"
-        with open(temp_file_path, 'wb') as f:
-            f.write(file_wrapper.getbuffer())
-        return temp_file_path
+        # For debugging, you can try fallback to original file
+        # but this should work with the new conversion system
+        raise Exception(f"PDF conversion failed: {str(e)}")
 
 @app.get("/")
 async def root():
