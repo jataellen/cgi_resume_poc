@@ -234,7 +234,7 @@ function AppWrapper() {
   }
 
   // Show auth screen if no user (works for both Supabase and mock modes)
-  if (!user) {
+   if (!user) {
     return <Auth />;
   }
 
@@ -255,7 +255,7 @@ function AppWrapper() {
           isCompleted: true
         }));
         
-        // Add to processed files
+        // Add to processed files - FIXED TO PREVENT DUPLICATES
         const newFile = {
           id: sessionId,
           name: fileName || 'Unknown',
@@ -264,7 +264,7 @@ function AppWrapper() {
           processedAt: new Date().toISOString(),
           uploadType: 'Simple'
         };
-        setProcessedFiles(prev => [...prev, newFile]);
+        setProcessedFiles(prev => prev.some(f => f.id === sessionId) ? prev : [...prev, newFile]);
         
         if (simpleStatusIntervalRef.current) {
           clearInterval(simpleStatusIntervalRef.current);
@@ -432,7 +432,7 @@ function AppWrapper() {
         }
       }
       
-      // Add all processed files to the processedFiles list
+      // Add all processed files to the processedFiles list - PREVENT DUPLICATES
       const newProcessedFiles = results.map(result => ({
         id: result.sessionId || Math.random().toString(36).substr(2, 9),
         name: result.originalName,
@@ -442,7 +442,13 @@ function AppWrapper() {
         processedAt: new Date().toISOString(),
         uploadType: 'Advanced'
       }));
-      setProcessedFiles(prev => [...prev, ...newProcessedFiles]);
+      
+      // Filter out duplicates
+      setProcessedFiles(prev => {
+        const existingIds = new Set(prev.map(file => file.id));
+        const uniqueNewFiles = newProcessedFiles.filter(file => !existingIds.has(file.id));
+        return [...prev, ...uniqueNewFiles];
+      });
       
       setAdvancedState(prev => ({
         ...prev,
@@ -629,44 +635,89 @@ function AppWrapper() {
                     <Typography variant="h5" sx={{ color: cgiColors.primary, fontWeight: 600 }}>
                       Processed Files
                     </Typography>
-                    {processedFiles.length > 0 && (
-                      <Button
-                        variant="contained"
-                        onClick={async () => {
-                          try {
-                            for (const file of processedFiles) {
-                              if (file.downloadUrl && file.status === 'completed') {
-                                const blob = await apiService.downloadResume(file.id);
-                                const url = URL.createObjectURL(blob);
-                                const a = document.createElement('a');
-                                a.href = url;
-                                a.download = file.name.replace(/\.(pdf|docx?)$/i, '_updated.docx');
-                                document.body.appendChild(a);
-                                a.click();
-                                document.body.removeChild(a);
-                                URL.revokeObjectURL(url);
-                                // Add delay between downloads
-                                await new Promise(resolve => setTimeout(resolve, 500));
+                    <Box sx={{ display: 'flex', gap: 1 }}>
+                      {processedFiles.length > 0 && (
+                        <>
+                          <Button
+                            variant="contained"
+                            onClick={async () => {
+                              try {
+                                for (const file of processedFiles) {
+                                  if (file.downloadUrl && file.status === 'completed') {
+                                    const blob = await apiService.downloadResume(file.id);
+                                    const url = URL.createObjectURL(blob);
+                                    const a = document.createElement('a');
+                                    a.href = url;
+                                    a.download = file.name.replace(/\.(pdf|docx?)$/i, '_updated.docx');
+                                    document.body.appendChild(a);
+                                    a.click();
+                                    document.body.removeChild(a);
+                                    URL.revokeObjectURL(url);
+                                    // Add delay between downloads
+                                    await new Promise(resolve => setTimeout(resolve, 500));
+                                  }
+                                }
+                              } catch (err) {
+                                setError('Failed to download files');
                               }
-                            }
-                          } catch (err) {
-                            setError('Failed to download files');
-                          }
-                        }}
-                        sx={{
-                          background: cgiColors.gradient,
-                          color: cgiColors.white,
-                          textTransform: 'none',
-                          fontWeight: 600,
-                          '&:hover': {
-                            background: cgiColors.gradient,
-                            transform: 'translateY(-1px)'
-                          }
-                        }}
-                      >
-                        Download All
-                      </Button>
-                    )}
+                            }}
+                            sx={{
+                              background: cgiColors.gradient,
+                              color: cgiColors.white,
+                              textTransform: 'none',
+                              fontWeight: 600,
+                              '&:hover': {
+                                background: cgiColors.gradient,
+                                transform: 'translateY(-1px)'
+                              }
+                            }}
+                          >
+                            Download All Resumes
+                          </Button>
+                          <Button
+                            variant="outlined"
+                            onClick={async () => {
+                              try {
+                                for (const file of processedFiles) {
+                                  if (file.status === 'completed') {
+                                    try {
+                                      const blob = await apiService.downloadEvaluation(file.id);
+                                      const url = URL.createObjectURL(blob);
+                                      const a = document.createElement('a');
+                                      a.href = url;
+                                      a.download = file.name.replace(/\.(pdf|docx?)$/i, '_evaluation.pdf');
+                                      document.body.appendChild(a);
+                                      a.click();
+                                      document.body.removeChild(a);
+                                      URL.revokeObjectURL(url);
+                                      // Add delay between downloads
+                                      await new Promise(resolve => setTimeout(resolve, 500));
+                                    } catch (err) {
+                                      console.warn(`Failed to download evaluation for ${file.name}:`, err);
+                                    }
+                                  }
+                                }
+                              } catch (err) {
+                                setError('Failed to download evaluations');
+                              }
+                            }}
+                            sx={{
+                              borderColor: cgiColors.secondary,
+                              color: cgiColors.secondary,
+                              textTransform: 'none',
+                              fontWeight: 600,
+                              '&:hover': {
+                                backgroundColor: cgiColors.lightGray,
+                                borderColor: cgiColors.secondary
+                              }
+                            }}
+                            startIcon={<span className="material-symbols-outlined" style={{ fontSize: '18px' }}>assessment</span>}
+                          >
+                            Download All Evaluations
+                          </Button>
+                        </>
+                      )}
+                    </Box>
                   </Box>
                   <TableContainer component={Paper} elevation={0}>
                     <Table>
@@ -677,12 +728,13 @@ function AppWrapper() {
                           <TableCell>Status</TableCell>
                           <TableCell>Processed At</TableCell>
                           <TableCell>Actions</TableCell>
+                          <TableCell>Evaluation</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
                         {processedFiles.length === 0 ? (
                           <TableRow>
-                            <TableCell colSpan={5} align="center" sx={{ py: 4 }}>
+                            <TableCell colSpan={6} align="center" sx={{ py: 4 }}>
                               <Typography variant="body1" color="text.secondary">
                                 No files processed yet. Upload files in Simple or Advanced mode to see them here.
                               </Typography>
@@ -690,7 +742,7 @@ function AppWrapper() {
                           </TableRow>
                         ) : (
                           processedFiles.map((file) => (
-                            <TableRow key={file.id}>
+                            <TableRow key={`${file.id}-${file.processedAt}`}>
                               <TableCell>{file.name}</TableCell>
                               <TableCell>
                                 <Chip 
@@ -728,8 +780,36 @@ function AppWrapper() {
                                         setError('Failed to download file');
                                       }
                                     }}
+                                    sx={{ mr: 1 }}
                                   >
                                     Download
+                                  </Button>
+                                )}
+                              </TableCell>
+                              <TableCell>
+                                {file.status === 'completed' && (
+                                  <Button
+                                    variant="outlined"
+                                    size="small"
+                                    color="secondary"
+                                    onClick={async () => {
+                                      try {
+                                        const blob = await apiService.downloadEvaluation(file.id);
+                                        const url = URL.createObjectURL(blob);
+                                        const a = document.createElement('a');
+                                        a.href = url;
+                                        a.download = file.name.replace(/\.(pdf|docx?)$/i, '_evaluation.pdf');
+                                        document.body.appendChild(a);
+                                        a.click();
+                                        document.body.removeChild(a);
+                                        URL.revokeObjectURL(url);
+                                      } catch (err) {
+                                        setError('Failed to download evaluation');
+                                      }
+                                    }}
+                                    startIcon={<span className="material-symbols-outlined" style={{ fontSize: '16px' }}>assessment</span>}
+                                  >
+                                    Evaluation
                                   </Button>
                                 )}
                               </TableCell>

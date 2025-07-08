@@ -156,6 +156,28 @@ class ApiService {
     }
   }
 
+   async downloadEvaluation(sessionId) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/download-evaluation/${sessionId}`, {
+        headers: {
+          ...getAuthHeaders(),
+        },
+      });
+
+      if (!response.ok) {
+        const error = await response.json().catch(() => ({ detail: 'Download evaluation failed' }));
+        throw new Error(error.detail || `Download evaluation failed with status ${response.status}`);
+      }
+
+      return response.blob();
+    } catch (error) {
+      if (error.name === 'TypeError' && error.message.includes('fetch')) {
+        throw new Error('Unable to connect to server. Please check your connection.');
+      }
+      throw error;
+    }
+  }
+
   /**
    * Clean up session
    * @param {string} sessionId - The session ID
