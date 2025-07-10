@@ -9,6 +9,7 @@ import json
 from src.logs_manager import log, initialize_log_box
 from src.resume_llm_handler import resume_stream, evaluate_resume
 from utils.document_utils import *
+from backend.logic_app_trigger import trigger_logic_app
 import traceback
 
 # Enhanced import handling for PDF evaluation generator
